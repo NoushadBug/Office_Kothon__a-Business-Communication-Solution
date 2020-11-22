@@ -4,7 +4,7 @@
 /**
  * General configs
  */
-* {
+ * {
     box-sizing: border-box;
 }
 
@@ -294,7 +294,7 @@ input::placeholder {
 .user_options-forms .forms_field-input {
     width: 100%;
     border-bottom: 1px solid #ccc;
-    padding: 6px 20px 6px 6px;
+    /* padding: 6px 20px 6px 6px; */
     font-family: "Montserrat", sans-serif;
     font-size: 1.5rem;
     font-weight: 600;
@@ -357,7 +357,7 @@ input::placeholder {
 .user_options-forms .user_forms-signup,
 .user_options-forms .user_forms-login {
     position: absolute;
-    top: 70px;
+    top: 45px;
     left: 40px;
     width: calc(100% - 80px);
     opacity: 0;
