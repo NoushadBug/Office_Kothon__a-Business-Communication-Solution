@@ -223,7 +223,7 @@ input::placeholder {
 
 .user_unregistered-text,
 .user_registered-text {
-    font-size: 0.836rem;
+    font-size: 1em;
     line-height: 1.4em;
 }
 
@@ -322,9 +322,11 @@ input::placeholder {
     font-family: "Montserrat", sans-serif;
     letter-spacing: 0.1rem;
     color: black;
-    text-decoration: underline;
     -webkit-transition: color 0.2s ease-in-out;
     transition: color 0.2s ease-in-out;
+    -moz-transition: color 0.2s ease-in-out;
+    -ms-transition: color 0.2s ease-in-out;
+    -o-transition: color 0.2s ease-in-out;
 }
 
 .user_options-forms .forms_buttons-forgot:hover {
