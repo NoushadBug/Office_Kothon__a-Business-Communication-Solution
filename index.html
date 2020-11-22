@@ -1,96 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Office Kothon</title>
-    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300, 400, 500" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Office Kothon</title>
+  <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300, 400, 500" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/main.css">
 </head>
+
 <body>
-    <!--
+  <!--
   This was created based on the Dribble shot by Deepak Yadav that you can find at https://goo.gl/XRALsw
   I'm @hk95 on GitHub. Feel free to message me anytime.
 -->
-<span style="
-    font-family: 'Kaushan Script', cursive;
-    position: absolute;
-    font-size: 4em;
-    top: 10.61vh;
-    left: 38.5vw;
-    color: #b3b7b9;
-">Office Kothon</span>
-<section class="user">
-    <div class="user_options-container ">
-      <div class="user_options-text shadow-lg">
-        <div class="user_options-unregistered">
-          <h1 class="h1 user_unregistered-title">Don't have an account?</h1>
-          <p class="user_unregistered-text">Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap.</>
-            <br><br>
-            <button class="user_unregistered-signup" id="signup-button">Sign up</button>
+
+  <div class="container">
+    <span class="kausa">Office Kothon</span>
+    <section class="user">
+      <div class="user_options-container ">
+        <div class="user_options-text shadow-lg">
+          <div class="user_options-unregistered">
+            <h1 class="h1 user_unregistered-title">Don't have an account?</h1>
+            <p class="user_unregistered-text">Banjo tote bag bicycle rights, High Life sartorial cray craft beer
+              whatever
+              street art fap.</>
+              <br><br>
+              <button class="user_unregistered-signup" id="signup-button">Sign up</button>
+          </div>
+          <div class="user_options-registered">
+            <h1 class="user_registered-title">Have an account?</h1>
+            <p class="user_registered-text">If you are a already registered one then .</>
+              <br><br>
+              <button class="user_registered-login" id="login-button">Login</button>
+          </div>
         </div>
-        <div class="user_options-registered">
-          <h1 class="user_registered-title">Have an account?</h1>
-          <p class="user_registered-text">If you are a already registered one then .</>
-            <br><br>
-            <button class="user_registered-login" id="login-button">Login</button>
-        </div>
-      </div>
-      <div class="user_options-forms" id="user_options-forms">
-        <div class="user_forms-login">
-          <img src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px" >
-          <h2 class="forms_title">Login</h2>
-          <form class="forms_form">
-            <fieldset class="forms_fieldset">
-              <div class="forms_field">
+        <div class="user_options-forms" id="user_options-forms">
+          <div class="user_forms-login">
+            <img src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px">
+            <h2 class="forms_title">Login</h2>
+            <form class="forms_form">
+              <fieldset class="forms_fieldset">
+                <div class="forms_field">
                   <label for="email">Email</label>
-                <input type="email" class="forms_field-input" required autofocus />
+                  <input type="email" class="forms_field-input" required autofocus />
+                </div>
+                <div class="forms_field">
+                  <label for="password">Password</label>
+                  <input type="password" class="forms_field-input" required />
+                </div>
+              </fieldset>
+              <div class="forms_buttons">
+                <button type="button" class="forms_buttons-forgot">Forgot password?</button>
+                <input type="submit" value="Log In" class="forms_buttons-action">
               </div>
-              <div class="forms_field">
-                <label for="password">Password</label>
-                <input type="password" class="forms_field-input" required />
-              </div>
-            </fieldset>
-            <div class="forms_buttons">
-              <button type="button" class="forms_buttons-forgot">Forgot password?</button>
-              <input type="submit" value="Log In" class="forms_buttons-action">
-            </div>
-          </form>
-        </div>
-        <div class="user_forms-signup">
-        <img src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px" >
-          <h2 class="forms_title">Sign Up</h2>
-          <form class="forms_form">
-            <fieldset class="forms_fieldset">
-              <div class="forms_field">
+            </form>
+          </div>
+          <div class="user_forms-signup">
+            <img src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px">
+            <h2 class="forms_title">Sign Up</h2>
+            <form class="forms_form">
+              <fieldset class="forms_fieldset">
+                <div class="forms_field">
                   <label for="name">Full Name</label>
-                <input type="text"  name="name" class="forms_field-input" required />
-              </div>
-              <div class="forms_field">
+                  <input type="text" name="name" class="forms_field-input" required />
+                </div>
+                <div class="forms_field">
                   <label for="email">Email</label>
-                <input type="email" class="forms_field-input" required />
-              </div>
-              <div class="forms_field">
+                  <input type="email" class="forms_field-input" required />
+                </div>
+                <div class="forms_field">
                   <label for="Password">Password</label>
-                <input type="password" class="forms_field-input" required />
+                  <input type="password" class="forms_field-input" required />
+                </div>
+              </fieldset>
+              <div class="forms_buttons">
+                <input type="submit" value="Sign up" class="forms_buttons-action">
               </div>
-            </fieldset>
-            <div class="forms_buttons">
-              <input type="submit" value="Sign up" class="forms_buttons-action">
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
+
+
 </body>
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="./js/main.js"></script>
+
 </html>
