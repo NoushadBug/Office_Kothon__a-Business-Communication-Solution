@@ -31,6 +31,8 @@ function resizeTrigger(){
     
     $('.user').hide();
     $('.form-modal').show();
+   
+    
   }
   else
   {
