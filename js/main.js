@@ -28,7 +28,10 @@ loginButton.addEventListener('click', () => {
 
 function resizeTrigger(){
   if(window.innerWidth < 697){
-    
+    var elem_position = $('.form-modal').offset().top;
+    var window_height = $(window).height();
+    var y = elem_position - window_height/2;
+    window.scrollTo(0,100);
     $('.user').hide();
     $('.form-modal').show();
    
