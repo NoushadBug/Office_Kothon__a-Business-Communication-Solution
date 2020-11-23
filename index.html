@@ -19,6 +19,35 @@
 </div>
   <div class="container">
     <span class="kausa">Office Kothon</span>
+    <div class="form-modal">
+    
+      <div class="form-toggle">
+          <button id="login-toggle" onclick="toggleLogin()">log in</button>
+          <button id="signup-toggle" onclick="toggleSignup()">sign up</button>
+      </div>
+  
+      <div id="login-form">
+          <form>
+              <input type="text" placeholder="Enter email or username"/>
+              <input type="password" placeholder="Enter password"/>
+              <button type="button" class="btn login">login</button>
+              <p><a href="javascript:void(0)">Forgot password</a> </p>
+            <p><a href="javascript:void(0)" onclick="toggleSignup()">Register Account</a> </p>
+          </form>
+      </div>
+
+      <div id="signup-form">
+          <form>
+              <input type="email" placeholder="Enter your email"/>
+              <input type="text" placeholder="Choose username"/>
+              <input type="password" placeholder="Create password"/>
+              <button type="button" class="btn signup"><i class="fa fa-spinner fa-pulse"></i> create account
+            </button> 
+              
+          </form>
+      </div>
+
+    </div>
     <div class="user">
       <div class="user_options-container ">
         <div class="user_options-text shadow-lg">
