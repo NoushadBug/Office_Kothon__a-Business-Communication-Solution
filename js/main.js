@@ -1,6 +1,10 @@
 /**
  * Variables
  */
+var w = window.outerWidth;
+var h = window.outerHeight;
+resizeTrigger();
+
 const signupButton = document.getElementById('signup-button'),
     loginButton = document.getElementById('login-button'),
     userForms = document.getElementById('user_options-forms')
@@ -20,3 +24,13 @@ loginButton.addEventListener('click', () => {
   userForms.classList.remove('bounceLeft')
   userForms.classList.add('bounceRight')
 }, false)
+
+function resizeTrigger(){
+  if(window.innerWidth < 501){
+    $('.user').children().hide();
+  }
+  else
+  {
+    $('.user').children().show();
+  }
+}
