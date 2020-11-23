@@ -4,7 +4,7 @@
 /**
  * General configs
  */
-* {
+ * {
   box-sizing: border-box;
 }
 
@@ -107,7 +107,7 @@ input::placeholder {
 
 .neon{
   color: #fff;
-  text-shadow: 0 0 20px rgba(0,255,255,.5), 0 0 15px rgb(0,255,255), 0 0 10px rgb(0,255,255),0 0 5px rgb(0,255,255);
+  text-shadow: 0 0 20px rgba(0,255,255,0.01), 0 0 15px rgba(0,255,255,0.3), 0 0 10px rgb(0,255,255), 0 0 5px rgb(0 0 0), 0 0 15px rgba(0,0,0,0.6);
 }
 
 span {
