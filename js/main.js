@@ -26,7 +26,7 @@ loginButton.addEventListener('click', () => {
 }, false)
 
 function resizeTrigger(){
-  if(window.innerWidth < 501){
+  if(window.innerWidth < 697){
     $('.user').children().hide();
   }
   else
