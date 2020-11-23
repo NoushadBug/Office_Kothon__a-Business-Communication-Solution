@@ -28,17 +28,23 @@ loginButton.addEventListener('click', () => {
 
 function resizeTrigger(){
   if(window.innerWidth < 697){
+    $(".kausa").css("display","content");
     var elem_position = $('.form-modal').offset().top;
     var window_height = $(window).height();
     var y = elem_position - window_height/2;
-    window.scrollTo(0,100);
+    window.scrollTo(0,y+150);
     $('.user').hide();
     $('.form-modal').show();
-   
-    
+  }
+  else if(window.innerWidth < 835 && window.innerWidth > 699){
+    $(".kausa").css("display","block");
+    $('.user').show();
+    $('.form-modal').hide();
   }
   else
   {
+    $(".kausa").css("display","");
+    $(".kausa").css("display","content");
     $('.user').show();
     $('.form-modal').hide();
   }
@@ -52,18 +58,18 @@ $(window).on('load', function() {
 
 
 function toggleSignup(){
-   document.getElementById("login-toggle").style.backgroundColor="#fff";
+   document.getElementById("login-toggle").style.backgroundColor="rgb(219, 253, 251)";
    document.getElementById("login-toggle").style.color="#222";
-   document.getElementById("signup-toggle").style.backgroundColor="#57b846";
-   document.getElementById("signup-toggle").style.color="#fff";
+   document.getElementById("signup-toggle").style.backgroundColor="#7615b6";
+   document.getElementById("signup-toggle").style.color="rgb(219, 253, 251)";
    $('#login-form').hide('slow');
    $('#signup-form').show('slow');
 }
 
 function toggleLogin(){
-  document.getElementById("login-toggle").style.backgroundColor="#57B846";
-  document.getElementById("login-toggle").style.color="#fff";
-  document.getElementById("signup-toggle").style.backgroundColor="#fff";
+  document.getElementById("login-toggle").style.backgroundColor="#7615b6";
+  document.getElementById("login-toggle").style.color="rgb(219, 253, 251)";
+  document.getElementById("signup-toggle").style.backgroundColor="rgb(219, 253, 251)";
   document.getElementById("signup-toggle").style.color="#222";
   $('#signup-form').hide('slow');
   $('#login-form').show('slow');

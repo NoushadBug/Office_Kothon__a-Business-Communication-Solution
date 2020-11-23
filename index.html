@@ -19,7 +19,7 @@
   </div>
   <div class="container">
     <div class="form-modal">
-      <span class="kausa-sm">Office Kothon</span>
+      <!-- <span class="kausa-sm">Office Kothon</span> -->
       <div class="form-toggle">
         <button id="login-toggle" onclick="toggleLogin()">log in</button>
         <button id="signup-toggle" onclick="toggleSignup()">sign up</button>
@@ -27,22 +27,44 @@
 
       <div id="login-form">
         <form>
-          <input type="text" placeholder="Enter email or username" />
-          <input type="password" placeholder="Enter password" />
-          <button type="button" class="btn login">login</button>
-          <p><a href="javascript:void(0)">Forgot password</a> </p>
-          <p><a href="javascript:void(0)" onclick="toggleSignup()">Register Account</a> </p>
-        </form>
+          <div class="forms_field">
+                  <label for="email">Email</label>
+                  <input type="email" class="forms_field-input" required autofocus />
+                </div>
+                <div class="forms_field">
+                  <label for="password">Password</label>
+                  <input type="password" class="forms_field-input" required />
+                </div>
+              </fieldset>
+              <div class="forms_buttons">
+                <button type="button" class="forms_buttons-forgot">Forgot password?</button>
+                <input type="submit" class="btn login" value="Log In" class="forms_buttons-action">
+              </div>
+            <div style="display: flex; justify-content: space-between;">
+              <p><a href="javascript:void(0)">Forgot password</a> </p>
+              <p><a href="javascript:void(0)" onclick="toggleSignup()">Register Account</a> </p>
+    
+            </div>
+         </form>
       </div>
 
       <div id="signup-form">
         <form>
-          <input type="email" placeholder="Enter your email" />
-          <input type="text" placeholder="Choose username" />
-          <input type="password" placeholder="Create password" />
-          <button type="button" class="btn signup"><i class="fa fa-spinner fa-pulse"></i> create account
-          </button>
-
+            <div class="forms_field">
+              <label for="name">Full Name</label>
+              <input type="text" name="name" class="forms_field-input" required />
+            </div>
+            <div class="forms_field">
+              <label for="email">Email</label>
+              <input type="email" class="forms_field-input" required />
+            </div>
+            <div class="forms_field">
+              <label for="Password">Password</label>
+              <input type="password" class="forms_field-input" required />
+            </div>
+          <div class="forms_buttons">
+            <input type="submit" class="btn signup" value="Sign up" class="forms_buttons-action">
+          </div>
         </form>
       </div>
 

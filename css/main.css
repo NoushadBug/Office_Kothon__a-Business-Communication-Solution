@@ -488,7 +488,7 @@ input::placeholder {
   margin-top: 24em;
   left: 50%;
   transform: translateX(-50%);
-  background: #fff;
+  background:rgb(219, 253, 251);
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -502,7 +502,7 @@ input::placeholder {
   font-size: 1em;
   z-index: 2;
   outline: none;
-  background: #fff;
+  background: rgb(219, 253, 251);
   transition: 0.2s;
 }
 
@@ -513,14 +513,14 @@ input::placeholder {
   font-size: 1.2em;
   padding: 0.8em 1em 0.8em 1em !important;
   transition: 0.5s;
-  border: 1px solid #ebebeb;
+  border: 1px solid rgb(219, 253, 251);
   margin-bottom: 0.5em;
   margin-top: 0.5em;
 }
 
 .form-modal .login,
 .form-modal .signup {
-  background: #57b846;
+  background: #7615b6;
   color: #fff;
 }
 
@@ -557,8 +557,8 @@ input::placeholder {
 }
 
 #login-toggle {
-  background: #57b846;
-  color: #ffff;
+  background: #7615b6;
+  color: rgb(219, 253, 251);
 }
 
 .form-modal form {
@@ -595,9 +595,10 @@ input::placeholder {
   padding: 1.2em 1.7em 1.2em 1.7em;
   margin-top: 0.6em;
   margin-bottom: 0.6em;
-  border-radius: 5px;
   border: none;
-  background: #ebebeb;
+  line-height: -5em;
+  border-bottom: 1px solid  #ccc;
+  background:rgb(219, 253, 251);
   outline: none;
   font-weight: bold;
   transition: 0.4s;
@@ -618,7 +619,7 @@ input::placeholder {
 }
 
 .form-modal p a {
-  color: #57b846;
+  color: #7615b6;
   text-decoration: none;
   transition: 0.2s;
 }
