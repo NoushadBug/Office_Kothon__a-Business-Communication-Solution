@@ -34,3 +34,8 @@ function resizeTrigger(){
     $('.user').children().show();
   }
 }
+
+$(window).on('load', function() {
+  // initialization of header
+  $('.loader').fadeOut('slow');
+});
