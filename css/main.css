@@ -752,3 +752,16 @@ span {
     padding: 50px 45px;
   }
 }
+
+.image-sm{
+  position: absolute;
+  top: -9.7vh;
+  left: 14vw;
+}
+
+@media only screen and (max-width: 587px) {
+  .headerElements{
+    left: 3em;
+    position: relative;
+  }
+}
