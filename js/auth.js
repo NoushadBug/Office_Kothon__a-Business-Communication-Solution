@@ -69,12 +69,33 @@ signUpformSmall.on('submit',function(event){
  });
 })
 
+
+
+
+
 //  login functionalities
+
 const loginForm = $('.user_forms-login');
 loginForm.on('submit', function(e) {
     e.preventDefault();
     const email = loginForm.find('#email')[0].value;
     const password = loginForm.find('#password')[0].value;
+
+    auth.signInWithEmailAndPassword(email, password).then( cred => {
+        console.log(typeof(cred));
+         toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
+         document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
+         window.location.replace("./success.html");
+    }).catch( error => {
+        toastr["error"](error.code, error.message)
+    });
+})
+
+const loginSmallForm = $('#login-form')
+loginSmallForm.on('submit', function(e) {
+    e.preventDefault();
+    const email = loginSmallForm.find('#email')[0].value;
+    const password = loginSmallForm.find('#password')[0].value;
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
         console.log(typeof(cred));
