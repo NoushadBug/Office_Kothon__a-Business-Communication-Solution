@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Kothon</title>
+    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300, 400, 500" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./toaster/toastr.min.css">
+</head>
+<body>
+    <div class="loader" style=" position: fixed;z-index: 99;top: 0;left: 0;width: 100%;height: 100%;display: flex;background: #101011;justify-content: center;align-items: center;">
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px">
+    </div>
+    <h1>HI USER</h1>
+</body>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+    authDomain: "office-kothon.firebaseapp.com",
+    databaseURL: "https://office-kothon.firebaseio.com",
+    projectId: "office-kothon",
+    storageBucket: "office-kothon.appspot.com",
+    messagingSenderId: "605346039997",
+    appId: "1:605346039997:web:350fd046addb6f51860fd4",
+    measurementId: "G-W822J60VT1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  //make firebase consts
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  //update firebase settings
+  db.settings({timestampsInSnapshots: true });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./toaster/toastr.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="./js/auth.js"></script>
+<script>
+
+    $(window).on('load', function() {
+    // initialization of header
+    $('.loader').fadeOut('slow');
+    });
+
+    $('h1').text(auth.currentUser.displayName)
+</script>
+</html>
