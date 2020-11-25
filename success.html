@@ -48,8 +48,9 @@
         var db = firebase.firestore();
         //update firebase settings
         db.settings({ timestampsInSnapshots: true });
-        // $('h1').text("Hi "+firebase.auth().currentUser.displayName+'!');
-            $('h1').text("Hi "+firebase.auth().currentUser+'!');
+        var name = firebase.auth().currentUser.displayName;
+        alert(firebase.auth())
+            $('h1').text("Hi "+name+'!');
     });
 
 </script>

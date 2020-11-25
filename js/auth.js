@@ -1,3 +1,24 @@
+$(document).ready(function(){
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
+  });
+
+
 // signup functionalities
 
 const signUpform = $('.user_forms-signup')
@@ -15,28 +36,11 @@ signUpform.on('submit',function(event){
         displayName: name, //setting up the user name with account display name
         });
         console.log(cred.user);
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-          }
          toastr["success"]("you are good to go!", "successfully signed up")
          signUpform.find('input:not(#signUpButton)').val('');
-        //  auth.signOut().then(() => {
-        //     console.log(prevUser+' has been logged out');
-        // })
+         auth.signOut().then(() => {
+            console.log(prevUser+' has been logged out');
+        })
         $('#login-button').click();
     })
  });
@@ -54,36 +58,18 @@ signUpformSmall.on('submit',function(event){
         displayName: name, //setting up the user name with account display name
         });
         console.log(cred.user);
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-          }
          toastr["success"]("you are good to go!", "Successfully signed up")
          signUpformSmall.find('input:not(#signUpButton)').val('');
          auth.signOut().then(() => {
              console.log('user has been logged out');
          })
          toggleLogin();
-    })
-    
+    }).catch( error => {
+        toastr["error"](error.code, error.message)
  });
-
+})
 
 //  login functionalities
-
 const loginForm = $('.user_forms-login');
 loginForm.on('submit', function(e) {
     e.preventDefault();
@@ -91,26 +77,11 @@ loginForm.on('submit', function(e) {
     const password = loginForm.find('#password')[0].value;
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
-        console.log(cred.user);
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-          }
+        console.log(typeof(cred));
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
          document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
          window.location.replace("./success.html");
-    })
+    }).catch( error => {
+        toastr["error"](error.code, error.message)
+    });
 })
