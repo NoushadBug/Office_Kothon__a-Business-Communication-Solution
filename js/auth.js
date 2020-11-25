@@ -92,7 +92,6 @@ loginForm.on('submit', function(e) {
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
         console.log(cred.user);
-        window.location.replace("./success.html");
         toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -110,6 +109,8 @@ loginForm.on('submit', function(e) {
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
           }
-         toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName)
+         toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
+         document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
+         window.location.replace("./success.html");
     })
 })
