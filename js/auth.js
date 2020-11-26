@@ -58,6 +58,7 @@ signUpformSmall.on('submit',function(event){
          auth.signOut().then(() => {
              console.log('user has been logged out');
          })
+        toggleLogin();
           
     }).catch( error => {
         toastr["error"](error.code, error.message)

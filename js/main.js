@@ -52,15 +52,9 @@ function resizeTrigger(){
 
 $(window).on('load', function() {
   // initialization of header
-  firebase.auth().onAuthStateChanged(function(user) {
-    if(user){
-        if(user.v.b == 4){
-          window.location.replace("./success.html");
-        }
-    }
-    $('.loader').fadeOut('slow');
-  });
-  $('#signup-form').hide('slow');
+
+  $('.loader').fadeOut('slow');
+  $('#signup-form').hide('slow'); 
 });
 
 
