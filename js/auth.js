@@ -1,6 +1,8 @@
 $(document).ready(function(){
     firebase.auth().onAuthStateChanged(function(user) {
         if(user){
+            // first time signin= 1 => (signout) => login = 4
+
             if(user.v.b == 4) window.location.replace("./success.html");
         }
     });
@@ -14,6 +16,7 @@ $(document).ready(function(){
 
 const signUpform = $('.user_forms-signup')
 const signUpformSmall = $('#signup-form')
+
 
 signUpform.on('submit',function(event){
     event.preventDefault();
@@ -32,7 +35,7 @@ signUpform.on('submit',function(event){
          auth.signOut().then(() => {
             console.log('user has been logged out');
         })
-        $('#login-button').click();
+        $('#login-button').click();      
     }).catch( error => {
         toastr["error"](error.code, error.message)
  });
@@ -56,7 +59,7 @@ signUpformSmall.on('submit',function(event){
          auth.signOut().then(() => {
              console.log('user has been logged out');
          })
-         toggleLogin();
+          
     }).catch( error => {
         toastr["error"](error.code, error.message)
  });
