@@ -1,23 +1,8 @@
 $(document).ready(function(){
     toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
+        "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
       }
   });
-
 
 // signup functionalities
 
@@ -33,16 +18,18 @@ signUpform.on('submit',function(event){
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
         var currentUser = auth.currentUser;
         currentUser.updateProfile({
-        displayName: name, //setting up the user name with account display name
+            displayName: name, //setting up the user name with account display name
         });
         console.log(cred.user);
          toastr["success"]("you are good to go!", "successfully signed up")
          signUpform.find('input:not(#signUpButton)').val('');
          auth.signOut().then(() => {
-            console.log(prevUser+' has been logged out');
+            console.log('user has been logged out');
         })
         $('#login-button').click();
-    })
+    }).catch( error => {
+        toastr["error"](error.code, error.message)
+ });
  });
 
 signUpformSmall.on('submit',function(event){
@@ -84,7 +71,7 @@ loginForm.on('submit', function(e) {
     auth.signInWithEmailAndPassword(email, password).then( cred => {
         console.log(typeof(cred));
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
-         document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
+        //  document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
          window.location.replace("./success.html");
     }).catch( error => {
         toastr["error"](error.code, error.message)
@@ -100,7 +87,7 @@ loginSmallForm.on('submit', function(e) {
     auth.signInWithEmailAndPassword(email, password).then( cred => {
         console.log(typeof(cred));
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
-         document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
+        //  document.cookie0 = "username="+encodeURIComponent(auth.currentUser.displayName);
          window.location.replace("./success.html");
     }).catch( error => {
         toastr["error"](error.code, error.message)

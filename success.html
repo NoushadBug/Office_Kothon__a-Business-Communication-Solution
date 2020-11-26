@@ -29,6 +29,9 @@
 
 <script>
     $(document).ready(function () {
+        toastr.options = {
+        "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
+      }
          var firebaseConfig = {
              apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
              authDomain: "office-kothon.firebaseapp.com",
@@ -47,7 +50,7 @@
             $('h1').text("Hi "+user.displayName+'!');
         }
         else {
-            console.log('No user is signed in.')
+            $('h1').text('No user is signed in.');
         }});
     });
 
