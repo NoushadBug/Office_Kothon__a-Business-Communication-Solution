@@ -18,6 +18,7 @@
         <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px">
     </div>
     <h1>loading..</h1>
+    <button id="signout" class="btn btn-primary">sign out</button>
 </body>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
@@ -45,7 +46,6 @@
         // // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
-
         firebase.auth().onAuthStateChanged(function(user) {if (user) { 
             $('h1').text("Hi "+user.displayName+'!');
         }
@@ -53,6 +53,12 @@
             $('h1').text('No user is signed in.');
         }});
     });
+
+    document.getElementById('signout').addEventListener('click', () => {
+        firebase.auth().signOut().then(() => {
+            toastr["info"]("you are signed out!", "see you soon");
+         })
+    })
 
 </script>
 <script>

@@ -52,6 +52,7 @@ function resizeTrigger(){
 
 $(window).on('load', function() {
   // initialization of header
+  $('#indexBody').show();
   $('.loader').fadeOut('slow');
   $('#signup-form').hide('slow'); 
 });

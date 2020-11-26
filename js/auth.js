@@ -1,4 +1,10 @@
 $(document).ready(function(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user){
+            if(user.v.b == 4) window.location.replace("./success.html");
+        }
+    });
+
     toastr.options = {
         "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
       }
