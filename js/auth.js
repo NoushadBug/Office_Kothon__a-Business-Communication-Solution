@@ -2,7 +2,6 @@ $(document).ready(function(){
     firebase.auth().onAuthStateChanged(function(user) {
         if(user){
             // first time signin= 1 => (signout) => login = 4
-
             if(user.v.b == 4) window.location.replace("./success.html");
         }
     });
