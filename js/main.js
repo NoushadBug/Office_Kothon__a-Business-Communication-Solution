@@ -52,11 +52,16 @@ function resizeTrigger(){
 
 $(window).on('load', function() {
   // initialization of header
-
-  $('.loader').fadeOut('slow');
-  $('#signup-form').hide('slow'); 
+  firebase.auth().onAuthStateChanged(function(user) {
+    if(user){
+        if(user.v.b == 4){
+          window.location.replace("./success.html");
+        }
+    }
+    $('.loader').fadeOut('slow');
+  });
+  $('#signup-form').hide('slow');
 });
-
 
 function toggleSignup(){
    document.getElementById("login-toggle").style.backgroundColor="rgb(219, 253, 251)";
