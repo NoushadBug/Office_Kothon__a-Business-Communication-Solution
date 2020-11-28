@@ -6,17 +6,16 @@
 .leftbar{
     height: 93%;
     width: 7%;
-    top: 3.5vh;
-    left: 1.32vw;
-    position: absolute;
     border-radius: 2.52em;
     background: #2E3035;
     display: flex;
     flex-direction: column;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-top: 3.6vh;
 }
-.leftbar img{
-  
 }
+
 .leftbar-icons{
     margin: auto; 
     display: flex;
