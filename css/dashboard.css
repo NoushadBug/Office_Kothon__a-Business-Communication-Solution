@@ -1,6 +1,7 @@
 .dashboard-container{
     background: #393C45;
-    
+    border-top-right-radius: 6em;
+    border-bottom-right-radius: 6em;
 }
 .dashboard-main{
     background: #1e2025;
@@ -36,3 +37,5 @@
     text-align: center;
     font-size: 1.4em;
 }
+
+
