@@ -22,25 +22,31 @@
     <button id="signout" class="btn btn-primary">sign out</button> -->
 
     <div class="dashboard-main row">
-        <div class="dashboard-container row col-md-8">
+        <div class="dashboard-container row col-md-9">
             <!-- leftbar container -->
-            <div class="leftbar shadow py-4">
-                <a href="./index.html" class="text-center"><img src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
+            <div class="leftbar shadow py-5">
+                <a href="./index.html" class="text-center"><img
+                        src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
                 <div class="leftbar-icons">
-                    <a href=""><i class="fa fa-home" style="margin: 0;"></i></a>
-                    <a href=""><i class="fa fa-comment"></i></a>
-                    <a href=""><i class="fa fa-group"></i></a>
-                    <a href=""><i class="fa fa-edit"></i></a>
-                    <a href=""><i class="fa fa-cog"></i></a>
+                    <a href=""><i class="fa fa-home m-0" data-toggle="tooltip" data-placement="right"
+                            title="Home"></i></a>
+                    <a href=""><i class="fa fa-comment" data-toggle="tooltip" data-placement="right"
+                            title="Chat"></i></a>
+                    <a href=""><i class="fa fa-group" data-toggle="tooltip" data-placement="right"
+                            title="Group chat"></i></a>
+                    <a href=""><i class="fa fa-edit" data-toggle="tooltip" data-placement="right" title="Task"></i></a>
+                    <a href=""><i class="fa fa-cog" data-toggle="tooltip" data-placement="right"
+                            title="Settings"></i></a>
                 </div>
-                    <a href="#0" id="signout"><i class="fa fa-sign-out" id="signoutBtn"></i></a>
+                <a href="#0" id="signout"><i class="fa fa-sign-out" data-toggle="tooltip" data-placement="right"
+                        title="Sign out" id="signoutBtn"></i></a>
             </div>
             <!-- leftbar container ends-->
-    
+
             <div class=" bg-danger col-md-9 my-4 ">
                 test
             </div>
-    
+
         </div>
     </div>
 
@@ -56,36 +62,40 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="./toaster/toastr.min.js"></script>
+<script src="./js/dashboard.js"></script>
+
 <script>
     $(document).ready(function () {
         toastr.options = {
-        "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
-      }
-         var firebaseConfig = {
-             apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
-             authDomain: "office-kothon.firebaseapp.com",
-             databaseURL: "https://office-kothon.firebaseio.com",
-             projectId: "office-kothon",
-             storageBucket: "office-kothon.appspot.com",
-             messagingSenderId: "605346039997",
-             appId: "1:605346039997:web:350fd046addb6f51860fd4",
-             measurementId: "G-W822J60VT1"
-         };
+            "closeButton": true, "debug": false, "newestOnTop": false, "progressBar": true, "positionClass": "toast-top-right", "preventDuplicates": false, "onclick": null, "showDuration": "300", "hideDuration": "1000", "timeOut": "5000", "extendedTimeOut": "1000", "showEasing": "swing", "hideEasing": "linear", "showMethod": "fadeIn", "hideMethod": "fadeOut"
+        }
+        var firebaseConfig = {
+            apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+            authDomain: "office-kothon.firebaseapp.com",
+            databaseURL: "https://office-kothon.firebaseio.com",
+            projectId: "office-kothon",
+            storageBucket: "office-kothon.appspot.com",
+            messagingSenderId: "605346039997",
+            appId: "1:605346039997:web:350fd046addb6f51860fd4",
+            measurementId: "G-W822J60VT1"
+        };
         // // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
-        firebase.auth().onAuthStateChanged(function(user) {if (user) { 
-            $('h1').text("Hi "+user.displayName+'!');
-        }
-        else {
-            $('h1').text('No user is signed in.');
-        }});
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                $('h1').text("Hi " + user.displayName + '!');
+            }
+            else {
+                $('h1').text('No user is signed in.');
+            }
+        });
     });
 
     document.getElementById('signout').addEventListener('click', () => {
         firebase.auth().signOut().then(() => {
             toastr["info"]("you are signed out!", "see you soon");
-         })
+        })
     })
 
 </script>
