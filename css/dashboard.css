@@ -11,20 +11,26 @@
     position: absolute;
     border-radius: 2.52em;
     background: #2E3035;
+    display: flex;
+    flex-direction: column;
 }
 .leftbar img{
-    margin-top: 5.1vh;
-    margin-left: 1.3vw;
+  
 }
 .leftbar-icons{
+    margin: auto; 
     display: flex;
-    margin-left: 2.5vw;
     flex-direction: column;
-    margin-top: 13vh;
-    margin-bottom: 22vh;
+    align-items: center;
 }
 .leftbar-icons i{
     color: white;
     font-size: 1.2em;
     margin-top: 4.5vh;
+}
+
+#signout {
+    left: 2em;
+    text-align: center;
+    font-size: 1.4em;
 }

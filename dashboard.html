@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Office Kothon</title>
     <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./toaster/toastr.min.css">
@@ -21,17 +21,17 @@
     <!-- <h1>loading..</h1>
     <button id="signout" class="btn btn-primary">sign out</button> -->
 
-    <div class="dashboard-container">
-        <div class="leftbar z-depth-2">
+    <div class="dashboard-container row">
+        <div class="leftbar col-md-1 shadow py-4">
             <a href="./index.html"><img src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
             <div class="leftbar-icons">
-                <a href=""><i class="fa fa-home"></i></a>
+                <a href=""><i class="fa fa-home" style="margin: 0;"></i></a>
                 <a href=""><i class="fa fa-comment"></i></a>
                 <a href=""><i class="fa fa-group"></i></a>
                 <a href=""><i class="fa fa-edit"></i></a>
                 <a href=""><i class="fa fa-cog"></i></a>
             </div>
-                <a href="#0" id="signout"  style="position: absolute;left: 2em;font-size: 1.2em;"><i class="fa fa-sign-out"></i></a>
+                <a href="#0" id="signout"  ><i class="fa fa-sign-out" id="signoutBtn"></i></a>
         </div>
     </div>
 </body>
@@ -43,8 +43,8 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="./toaster/toastr.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
     $(document).ready(function () {
         toastr.options = {
