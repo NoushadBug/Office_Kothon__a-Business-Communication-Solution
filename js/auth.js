@@ -2,7 +2,7 @@ $(document).ready(function(){
     firebase.auth().onAuthStateChanged(function(user) {
         if(user){
             // first time signin= 1 => (signout) => login = 4
-            if(user.v.b == 4) window.location.replace("./success.html");
+            if(user.v.b == 4) window.location.replace("./dashboard.html");
         }
     });
 
@@ -81,7 +81,7 @@ loginForm.on('submit', function(e) {
         console.log(typeof(cred));
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
         //  document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
-         window.location.replace("./success.html");
+         window.location.replace("./dashboard.html");
     }).catch( error => {
         toastr["error"](error.code, error.message)
     });
@@ -97,7 +97,7 @@ loginSmallForm.on('submit', function(e) {
         console.log(typeof(cred));
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
         //  document.cookie0 = "username="+encodeURIComponent(auth.currentUser.displayName);
-         window.location.replace("./success.html");
+         window.location.replace("./dashboard.html");
     }).catch( error => {
         toastr["error"](error.code, error.message)
     });

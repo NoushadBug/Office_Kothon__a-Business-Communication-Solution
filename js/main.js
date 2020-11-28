@@ -55,7 +55,7 @@ $(window).on('load', function() {
   firebase.auth().onAuthStateChanged(function(user) {
     if(user){
         if(user.v.b == 4){
-          window.location.replace("./success.html");
+          window.location.replace("./dashboard.html");
         }
     }
     $('.loader').fadeOut('slow');

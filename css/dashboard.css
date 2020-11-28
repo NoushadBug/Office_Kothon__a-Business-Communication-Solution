@@ -1,0 +1,14 @@
+.dashboard-container{
+    background: #393C45;
+    height: 100%;
+    width: 100%;
+}
+.leftbar{
+    height: 93%;
+    width: 7%;
+    top: 3.5vh;
+    left: 1.32vw;
+    position: absolute;
+    border-radius: 2.52em;
+    background: #2E3035;
+}
