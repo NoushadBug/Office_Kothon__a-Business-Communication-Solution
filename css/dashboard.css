@@ -1,16 +1,19 @@
-.dashboard-container{
-    background: #393C45;
-    border-top-right-radius: 6em;
-    border-bottom-right-radius: 6em;}
-    
+.dashboard-container {
+  background: #393C45;
+  border-top-right-radius: 6em;
+  /* border-bottom-right-radius: 6em; */
+}
+
 .dashboard-container {
   background: #393c45;
 }
+
 .dashboard-main {
   background: #1e2025;
   height: 100%;
   width: 100%;
 }
+
 .leftbar {
   height: 93%;
   width: 8%;
@@ -29,6 +32,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .leftbar-icons i {
   color: white;
   font-size: 1.2em;
@@ -36,9 +40,100 @@
 }
 
 #signout {
-    left: 2em;
-    text-align: center;
-    font-size: 1.4em;
+  left: 2em;
+  text-align: center;
+  font-size: 1.4em;
 }
 
 
+
+/* searchbar css */
+
+/* form elements */
+select,
+textarea,
+input {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: arial;
+  font-size: 1em;
+  color: inherit;
+}
+
+input[type=submit],
+input[type=button] {
+  cursor: pointer;
+}
+
+/* img */
+/* ==============================
+$-Modules
+============================== */
+/* clearfix */
+.cf:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* inline block */
+.ib {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.ib-m {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ==============================
+$-Styles
+============================== */
+.search {
+  display: contents;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  min-width: 18.9375em;
+}
+
+.search input[type=submit] {
+  vertical-align: middle;
+  width: 1.375em;
+  height: 1.375em;
+  border: none;
+  outline: none;
+  color: cadetblue;
+  font-size: 1.3em;
+  background: none;
+  -webkit-transition: opacity 100ms ease-in-out;
+  transition: opacity 100ms ease-in-out;
+}
+
+.search input[type=submit]:hover {
+  opacity: .5;
+}
+
+.search input[type=text] {
+  width: 43.5625vw;
+  height: 2.5em;
+  color: white;
+  padding: 0 .375em;
+  border: none;
+  margin-left: .1875em;
+  background: inherit;
+  -webkit-transition: border-color 100ms ease-in-out;
+  transition: border-color 100ms ease-in-out;
+}
+
+.search input[type=text]:focus {
+  border-bottom-color: inherit;
+  outline: none;
+}
+
+.search-slide {
+  width: 46vw;
+  height: 2.5em;
+  overflow: hidden;
+}

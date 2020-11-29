@@ -28,23 +28,23 @@
                 <a href="./index.html" class="text-center"><img
                         src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
                 <div class="leftbar-icons">
-                    <a href=""><i class="fa fa-home m-0" data-toggle="tooltip" data-placement="right"
-                            title="Home"></i></a>
-                    <a href=""><i class="fa fa-comment" data-toggle="tooltip" data-placement="right"
-                            title="Chat"></i></a>
-                    <a href=""><i class="fa fa-group" data-toggle="tooltip" data-placement="right"
-                            title="Group chat"></i></a>
-                    <a href=""><i class="fa fa-edit" data-toggle="tooltip" data-placement="right" title="Task"></i></a>
-                    <a href=""><i class="fa fa-cog" data-toggle="tooltip" data-placement="right"
-                            title="Settings"></i></a>
+                    <a href=""  data-toggle="tooltip" data-placement="right" title="Home"><i class="fa fa-home m-0"></i></a>
+                    <a href=""  data-toggle="tooltip" data-placement="right" title="Chat"><i class="fa fa-comment"></i></a>
+                    <a href=""  data-toggle="tooltip" data-placement="right" title="Group chat"><i class="fa fa-group"></i></a>
+                    <a href=""  data-toggle="tooltip" data-placement="right" title="Task"><i class="fa fa-edit"></i></a>
+                    <a href=""  data-toggle="tooltip" data-placement="right" title="Settings"><i class="fa fa-cog"></i></a>
                 </div>
-                <a href="#0" id="signout"><i class="fa fa-sign-out" data-toggle="tooltip" data-placement="right"
-                        title="Sign out" id="signoutBtn"></i></a>
+                <a href="#0" id="signout" data-toggle="tooltip" data-placement="right" title="Sign out" id="signoutBtn"><i class="fa fa-sign-out"></i></a>
             </div>
             <!-- leftbar container ends-->
 
-            <div class=" bg-danger col-md-9 my-4 ">
-                test
+            <div class="col-md-9 my-4 ">
+                <div class="search">
+                    <input type="submit" value="&#xf002;" class="search-btn fa ib-m"><!--
+                    --><div class="search-slide ib-m">
+                        <input type="text" placeholder="Enter your search" class="ib-m">
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -61,8 +61,8 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="./toaster/toastr.min.js"></script>
 <script src="./js/dashboard.js"></script>
+<script src="./toaster/toastr.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -94,7 +94,7 @@
 
     document.getElementById('signout').addEventListener('click', () => {
         firebase.auth().signOut().then(() => {
-            toastr["info"]("you are signed out!", "see you soon");
+            toastr["info"]("You are signed out!", "see you soon");
         })
     })
 
