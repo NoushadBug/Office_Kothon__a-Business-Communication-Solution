@@ -1,10 +1,8 @@
 $(document).ready(function () {
   $(sliCont).css('width', '0')
+  $('[data-toggle="tooltip"]').tooltip();   
 });
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
 
 
 //// slide out search
@@ -16,6 +14,7 @@ let searchClicked = false;
 
 $(sliBtn).click(function () {
   if(!searchClicked) {
+   // $(sliTxt).val('');
     $(sliCont).animate(
       { 'width': '46vw' }, sliSpd
     );
