@@ -176,20 +176,4 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="./js/auth.js"></script>
 <script src="./js/main.js"></script>
-<script>
-  
-$(function(){
-   $("a[rel='tab']").click(function(e){
-	pageurl = $(this).attr('href');
-	$.ajax({url:pageurl+'?rel=tab',success: function(data){
-	   $('#content').html(data);
-	}});
-	if(pageurl!=window.location){
-	   window.history.pushState({path:pageurl},'',pageurl);	
-	}
-	return false;  
-   });
-});
-
-</script>
 </html>

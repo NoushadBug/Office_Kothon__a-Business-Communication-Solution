@@ -1,3 +1,7 @@
+*{
+  font-family: 'Montserrat', sans-serif;
+}
+
 .dashboard-container {
   background: #393C45;
   border-top-right-radius: 6em;
@@ -135,4 +139,23 @@ $-Styles
   width: 46vw;
   height: 2.5em;
   overflow: hidden;
+}
+
+
+/* hello bar */
+.hello-bar{
+  margin-top: 1em;
+  color: white;
+  padding: 2em;
+  padding-left: 4em;
+  padding-right: 4em;
+  border-radius: 2em;
+  /* background: #FF0B66; */
+  /* background:linear-gradient(120deg, #e32934, #004883); */
+  background: #642B73;  /* fallback for old browsers */
+  background: linear-gradient(to bottom, #C6426E, #d37903); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  -ms-border-radius: 2em;
+  -o-border-radius: 2em;
 }

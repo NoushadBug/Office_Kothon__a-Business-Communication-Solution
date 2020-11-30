@@ -39,14 +39,25 @@
             </div>
             <!-- leftbar container ends-->
 
-            <div class="col-md-9 my-4 ">
+            <div class="col-md-10 my-4 ">
                 <div class="search">
                     <input type="submit" value="&#xf002;" class="search-btn fa ib-m"><!--
                     --><div class="search-slide ib-m">
                         <input type="text" placeholder="Enter your search" class="ib-m">
                     </div>
                 </div>
-                <h5 class="text-light">loading..</h5>
+                <div class="hello-bar shadow-lg">
+                    <div class="row">
+                        <h5 id="userName" class="col-md-6 m-auto">user name</h5>
+                        <div class="col-md-6 text-right" id="userHelloInfo">
+                            <h6>Today you have</h6>
+                            <ul style="list-style: none;">
+                                <li><i class="fa fa-calendar"></i> 6 mettings</li>
+                                <li><i class="fa fa-pencil"></i> 2 tasks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -86,10 +97,10 @@
         firebase.analytics();
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                $('h5').text("Hi " + user.displayName + '!');
+                $('#userName').text("Hi " + user.displayName + '!');
             }
             else {
-                $('h5').text('No user is signed in.');
+                $('#userName').text('No user is signed in.');
             }
         });
     });
