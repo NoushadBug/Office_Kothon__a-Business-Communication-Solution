@@ -29,20 +29,28 @@
                 <a href="./index.html" class="text-center"><img
                         src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
                 <div class="leftbar-icons">
-                    <a href=""   aria-label="Home" data-microtip-position="right" role="tooltip"><i class="fa fa-home m-0"></i></a>
-                    <a href=""  aria-label="Chat" data-microtip-position="right" role="tooltip"><i class="fa fa-comment"></i></a>
-                    <a href=""  aria-label="Group chat" data-microtip-position="right" role="tooltip"><i class="fa fa-group"></i></a>
-                    <a href=""  aria-label="Task" data-microtip-position="right" role="tooltip"><i class="fa fa-edit"></i></a>
-                    <a href=""  aria-label="Settings" data-microtip-position="right" role="tooltip"><i class="fa fa-cog"></i></a>
+                    <a href="" aria-label="Home" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-home m-0"></i></a>
+                    <a href="" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-comment"></i></a>
+                    <a href="" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-group"></i></a>
+                    <a href="" aria-label="Task" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-edit"></i></a>
+                    <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-cog"></i></a>
                 </div>
-                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip" id="signoutBtn"><i class="fa fa-sign-out"></i></a>
+                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip"
+                    id="signoutBtn"><i class="fa fa-sign-out"></i></a>
             </div>
             <!-- leftbar container ends-->
 
             <div class="col-md-10 my-4 ">
                 <div class="search">
-                    <input type="submit" value="&#xf002;" class="search-btn fa ib-m"><!--
-                    --><div class="search-slide ib-m">
+                    <input type="submit" value="&#xf002;" class="search-btn fa ib-m">
+                    <!--
+                    -->
+                    <div class="search-slide ib-m">
                         <input type="text" placeholder="Enter your search" class="ib-m">
                     </div>
                 </div>
@@ -58,7 +66,30 @@
                         </div>
                     </div>
                 </div>
+                <div class="feed-bar scrollbar" id="force-overflow">
+                    <div class="feeditem">
+                        <h2>Practice test
+                        </h2>
+
+
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+
+
             </div>
+
+
+
+
+
 
         </div>
     </div>
@@ -114,16 +145,16 @@
 </script>
 <script>
     $(window).on('load', function () {
-        firebase.auth().onAuthStateChanged(function(user) {
-        if(user){
-            if(user.v.b == 4){
-                $('.loader').fadeOut('slow');
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                if (user.v.b == 4) {
+                    $('.loader').fadeOut('slow');
+                }
             }
-        }
-        else{
-            window.location.replace("./index.html");
-        }
-    });
+            else {
+                window.location.replace("./index.html");
+            }
+        });
         $('#signup-form').hide('slow');
     });
 </script>
