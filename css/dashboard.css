@@ -172,9 +172,13 @@ $-Styles
   min-height: 63vh;
 }
 #force-overflow::-webkit-scrollbar-track {
-  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
-  border-radius: 10px;
+  /*-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  */border-radius: 10px;
   background-color: transparent;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 #force-overflow::-webkit-scrollbar {
@@ -192,4 +196,8 @@ $-Styles
 }
 .feed-bar scrollbar .panel {
   border-radius: 1.5em;
+}
+
+.panel-title{
+  cursor: pointer;
 }
