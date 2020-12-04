@@ -1,21 +1,21 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Office Kothon</title>
-  <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
-  <link rel="stylesheet" href="./toaster/toastr.min.css" />
-  <link rel="stylesheet" href="./css/dashboard.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Office Kothon</title>
+    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
+    <link rel="stylesheet" href="./toaster/toastr.min.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
 </head>
 
 <body onload="startTime()">
-  <div class="loader" style="
+    <div class="loader" style="
         position: fixed;
         z-index: 99;
         top: 0;
@@ -27,292 +27,299 @@
         justify-content: center;
         align-items: center;
       ">
-    <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
-  </div>
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
+    </div>
 
-  <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
-    <div class="dashboard-container row col-md-9 mr-2">
-      <!-- leftbar container -->
-      <div class="leftbar shadow py-5">
-        <a href="./index.html" class="text-center"><img src="https://img.icons8.com/cotton/2x/communication--v1.png"
-            alt="" height="51px" /></a>
-        <div class="leftbar-icons">
-          <a href="" aria-label="Home" data-microtip-position="right" role="tooltip"><i class="fa fa-home m-0"></i></a>
-          <a href="" aria-label="Chat" data-microtip-position="right" role="tooltip"><i class="fa fa-comment"></i></a>
-          <a href="" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
-              class="fa fa-group"></i></a>
-          <a href="" aria-label="Task" data-microtip-position="right" role="tooltip"><i class="fa fa-edit"></i></a>
-          <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i class="fa fa-cog"></i></a>
-        </div>
-        <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip" id="signoutBtn"><i
-            class="fa fa-sign-out"></i></a>
-      </div>
-      <!-- leftbar container ends-->
+    <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
+        <div class="dashboard-container row col-md-9 mr-2">
+            <!-- leftbar container -->
+            <div class="leftbar shadow py-5">
+                <a href="./index.html" class="text-center"><img
+                        src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px" /></a>
+                <div class="leftbar-icons">
+                    <a href="" aria-label="Home" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-home m-0"></i></a>
+                    <a href="" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-comment"></i></a>
+                    <a href="" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-group"></i></a>
+                    <a href="" aria-label="Task" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-edit"></i></a>
+                    <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-cog"></i></a>
+                </div>
+                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip"
+                    id="signoutBtn"><i class="fa fa-sign-out"></i></a>
+            </div>
+            <!-- leftbar container ends-->
 
-      <div class="col-md-10 my-4">
-        <div class="search">
-          <input type="submit" value="&#xf002;" class="search-btn fa ib-m" />
-          <!--
+            <div class="col-md-10 my-4">
+                <div class="search">
+                    <input type="submit" value="&#xf002;" class="search-btn fa ib-m" />
+                    <!--
                     -->
-          <div class="search-slide ib-m">
-            <input type="text" placeholder="Enter your search" class="ib-m" />
-          </div>
+                    <div class="search-slide ib-m">
+                        <input type="text" placeholder="Enter your search" class="ib-m" />
+                    </div>
+                </div>
+                <div class="hello-bar shadow-lg">
+                    <div class="row">
+                        <h5 id="userName" class="col-md-6 m-auto">user name</h5>
+                        <div class="col-md-6 text-right" id="userHelloInfo">
+                            <h6>Today you have</h6>
+                            <ul style="list-style: none">
+                                <li><i class="fa fa-calendar"></i> 6 mettings</li>
+                                <li><i class="fa fa-pencil"></i> 2 tasks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="feed-bar scrollbar" id="force-overflow">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse1" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading row">
+                                <div class="title-header col-6">
+                                    <h4 class="panel-title d-inline" aria-label="view"
+                                        data-microtip-position="right" role="tooltip">
+                                        Collapsible Group 1
+                                    </h4>
+                                </div>
+                                <div class="header-side col-6 m-auto ">
+                                    <i class="fa fa-paperclip "></i>
+                                    <i class="fa fa-bolt"></i>
+                                    <i class="fa fa-bell"></i>
+                                </div>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse in">
+                                <div class="collapse-header row mt-3">
+                                    <div class="col-4">
+                                        <p> Nov 25 ,2020</p>
+
+                                    </div>
+                                    <div class="status col-4 d-inline ">
+                                        <i class="fa fa-circle"></i>
+                                        <p class="d-inline">Meeting</p>
+                                    </div>
+                                    <div class="view-button col-4">
+                                        <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                            aria-pressed="true">View File</a>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="panel-body row m-auto">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse2" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 2
+                                </h4>
+                            </div>
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse3" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 3
+                                </h4>
+                            </div>
+                            <div id="collapse3" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse4" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 4
+                                </h4>
+                            </div>
+                            <div id="collapse4" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse5" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 5
+                                </h4>
+                            </div>
+                            <div id="collapse5" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse6" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 6
+                                </h4>
+                            </div>
+                            <div id="collapse6" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse7" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 7
+                                </h4>
+                            </div>
+                            <div id="collapse7" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse8" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 8
+                                </h4>
+                            </div>
+                            <div id="collapse8" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse9" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 9
+                                </h4>
+                            </div>
+                            <div id="collapse9" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse10" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 10
+                                </h4>
+                            </div>
+                            <div id="collapse10" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse11" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 11
+                                </h4>
+                            </div>
+                            <div id="collapse11" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
+                            href="#collapse12" data-toggle="collapse" data-parent="#accordion">
+                            <div class="panel-heading">
+                                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Collapsible Group 12
+                                </h4>
+                            </div>
+                            <div id="collapse12" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                    sed do eiusmod tempor incididunt ut labore et dolore magna
+                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="hello-bar shadow-lg">
-          <div class="row">
-            <h5 id="userName" class="col-md-6 m-auto">user name</h5>
-            <div class="col-md-6 text-right" id="userHelloInfo">
-              <h6>Today you have</h6>
-              <ul style="list-style: none">
-                <li><i class="fa fa-calendar"></i> 6 mettings</li>
-                <li><i class="fa fa-pencil"></i> 2 tasks</li>
-              </ul>
+        <div class="rightbar-div col-md-3">
+            <div class="clock-section p-5">
+                <div class="date-section text-light text-center">
+                    <h3 id="date"></h3>
+                </div>
+                <div class="time-section text-light text-center">
+                    <h1 id="time"></h1>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="feed-bar scrollbar" id="force-overflow">
-          <div class="panel-group" id="accordion">
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse1" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading row">
-                <div class="title-header col-6">
-                  <h4 class="panel-title d-inline " aria-label="view" data-microtip-position="text-right"
-                    role="tooltip">
-                    Collapsible Group 1
-                  </h4>
-
-
-                </div>
-                <div class="header-side col-6 m-auto ">
-
-                  <i class="fa fa-paperclip "></i>
-                  <i class="fa fa-bolt"></i>
-                  <i class="fa fa-bell"></i>
-
-
-                </div>
-
-
-
-              </div>
-              <div id="collapse1" class="panel-collapse collapse in mt-4">
-
-                <div class="collapse-header row">
-                  <div class="col-4">
-                    <p> Nov 25 ,2020</p>
-
-                  </div>
-                  <div class="status col-4 d-inline ">
-                    <i class="fa fa-circle"></i>
-                    <p class="d-inline">Meeting</p>
-                  </div>
-                  <div class="view-button col-4">
-                    <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
-                  </div>
-
-
-                </div>
-
-
-                <div class="panel-body row m-auto">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse2" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 2
-                </h4>
-              </div>
-              <div id="collapse2" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse3" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 3
-                </h4>
-              </div>
-              <div id="collapse3" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse4" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 4
-                </h4>
-              </div>
-              <div id="collapse4" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse5" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 5
-                </h4>
-              </div>
-              <div id="collapse5" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse6" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 6
-                </h4>
-              </div>
-              <div id="collapse6" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse7" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 7
-                </h4>
-              </div>
-              <div id="collapse7" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse8" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 8
-                </h4>
-              </div>
-              <div id="collapse8" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse9" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 9
-                </h4>
-              </div>
-              <div id="collapse9" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse10" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 10
-                </h4>
-              </div>
-              <div id="collapse10" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse11" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 11
-                </h4>
-              </div>
-              <div id="collapse11" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
-              href="#collapse12" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 12
-                </h4>
-              </div>
-              <div id="collapse12" class="panel-collapse collapse">
-                <div class="panel-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="rightbar-div col-md-3">
-      <div class="clock-section p-5">
-        <div class="date-section text-light text-center">
-          <h3 id="date"></h3>
-        </div>
-        <div class="time-section text-light text-center">
-          <h1 id="time"></h1>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
@@ -326,70 +333,70 @@
 
 <script>
 
-  // time js
+    // time js
 
-  $(document).ready(function () {
-    toastr.options = {
-      closeButton: true,
-      debug: false,
-      newestOnTop: false,
-      progressBar: true,
-      positionClass: 'toast-top-right',
-      preventDuplicates: false,
-      onclick: null,
-      showDuration: '300',
-      hideDuration: '1000',
-      timeOut: '5000',
-      extendedTimeOut: '1000',
-      showEasing: 'swing',
-      hideEasing: 'linear',
-      showMethod: 'fadeIn',
-      hideMethod: 'fadeOut',
-    };
-    var firebaseConfig = {
-      apiKey: 'AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE',
-      authDomain: 'office-kothon.firebaseapp.com',
-      databaseURL: 'https://office-kothon.firebaseio.com',
-      projectId: 'office-kothon',
-      storageBucket: 'office-kothon.appspot.com',
-      messagingSenderId: '605346039997',
-      appId: '1:605346039997:web:350fd046addb6f51860fd4',
-      measurementId: 'G-W822J60VT1',
-    };
-    // // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        $('#userName').text('Hi ' + user.displayName + '!');
-      } else {
-        $('#userName').text('No user is signed in.');
-      }
+    $(document).ready(function () {
+        toastr.options = {
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: true,
+            positionClass: 'toast-top-right',
+            preventDuplicates: false,
+            onclick: null,
+            showDuration: '300',
+            hideDuration: '1000',
+            timeOut: '5000',
+            extendedTimeOut: '1000',
+            showEasing: 'swing',
+            hideEasing: 'linear',
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut',
+        };
+        var firebaseConfig = {
+            apiKey: 'AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE',
+            authDomain: 'office-kothon.firebaseapp.com',
+            databaseURL: 'https://office-kothon.firebaseio.com',
+            projectId: 'office-kothon',
+            storageBucket: 'office-kothon.appspot.com',
+            messagingSenderId: '605346039997',
+            appId: '1:605346039997:web:350fd046addb6f51860fd4',
+            measurementId: 'G-W822J60VT1',
+        };
+        // // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                $('#userName').text('Hi ' + user.displayName + '!');
+            } else {
+                $('#userName').text('No user is signed in.');
+            }
+        });
     });
-  });
 
-  document.getElementById('signout').addEventListener('click', () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        toastr['info']('You are signed out!', 'see you soon');
-      });
-  });
+    document.getElementById('signout').addEventListener('click', () => {
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                toastr['info']('You are signed out!', 'see you soon');
+            });
+    });
 </script>
 <script>
-  $(window).on('load', function () {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        if (user.v.b == 4) {
-          $('.loader').fadeOut('slow');
-        }
-      } else {
-        window.location.replace('./index.html');
-      }
+    $(window).on('load', function () {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                if (user.v.b == 4) {
+                    $('.loader').fadeOut('slow');
+                }
+            } else {
+                window.location.replace('./index.html');
+            }
+        });
+        $('#signup-form').hide('slow');
     });
-    $('#signup-form').hide('slow');
-  });
 </script>
 
 </html>

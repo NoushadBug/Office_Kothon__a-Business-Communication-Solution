@@ -203,7 +203,7 @@ $-Styles
   cursor: pointer;
 }
 .header-side {
-  left: 20em;
+  text-align: right;
 }
 .header-side .fa {
   margin-right: 1em;
@@ -219,5 +219,5 @@ $-Styles
   left: 3em;
 }
 .collapse-header .view-button {
-  left: 11.2em;
+  text-align: right;
 }
