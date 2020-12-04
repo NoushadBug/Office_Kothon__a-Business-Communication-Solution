@@ -74,13 +74,47 @@
           <div class="panel-group" id="accordion">
             <div class="panel panel-default feeditem shadow-lg bg-dark text-light p-3 mb-2 rounded shadow-lg"
               href="#collapse1" data-toggle="collapse" data-parent="#accordion">
-              <div class="panel-heading">
-                <h4 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-                  Collapsible Group 1
-                </h4>
+              <div class="panel-heading row">
+                <div class="title-header col-6">
+                  <h4 class="panel-title d-inline " aria-label="view" data-microtip-position="text-right"
+                    role="tooltip">
+                    Collapsible Group 1
+                  </h4>
+
+
+                </div>
+                <div class="header-side col-6 m-auto ">
+
+                  <i class="fa fa-paperclip "></i>
+                  <i class="fa fa-bolt"></i>
+                  <i class="fa fa-bell"></i>
+
+
+                </div>
+
+
+
               </div>
-              <div id="collapse1" class="panel-collapse collapse in">
-                <div class="panel-body">
+              <div id="collapse1" class="panel-collapse collapse in mt-4">
+
+                <div class="collapse-header row">
+                  <div class="col-4">
+                    <p> Nov 25 ,2020</p>
+
+                  </div>
+                  <div class="status col-4 d-inline ">
+                    <i class="fa fa-circle"></i>
+                    <p class="d-inline">Meeting</p>
+                  </div>
+                  <div class="view-button col-4">
+                    <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
+                  </div>
+
+
+                </div>
+
+
+                <div class="panel-body row m-auto">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                   sed do eiusmod tempor incididunt ut labore et dolore magna
                   aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -291,43 +325,7 @@
 <script src="./toaster/toastr.min.js"></script>
 
 <script>
-  // time js
-  function startTime() {
-    let days = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ];
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
 
-    m = checkTime(m);
-    s = checkTime(s);
-    var formattedTime = twelveHour(h, m, s);
-
-    document.getElementById('time').innerHTML = formattedTime;
-    document.getElementById('date').innerHTML =
-      days[today.getDay()] + ', ' + today.getDate();
-    var t = setTimeout(startTime, 500);
-  }
-  function checkTime(i) {
-    if (i < 10) {
-      i = '0' + i;
-    } // add zero in front of numbers < 10
-    return i;
-  }
-  // twelve hour formatted time
-  function twelveHour(h, m, s) {
-    var AmOrPm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    return h + ':' + m + ':' + s + ' ' + AmOrPm;
-  }
   // time js
 
   $(document).ready(function () {
