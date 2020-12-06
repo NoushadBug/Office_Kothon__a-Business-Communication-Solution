@@ -220,7 +220,8 @@ $-Styles
 .collapse-header .view-button {
   text-align: right;
 }
-//calender css
+
+/* calender css */
 .calendar {
   position: relative;
   overflow: hidden;
