@@ -231,8 +231,9 @@ $-Styles
   color: #545a5c;
 }
 .calendar-container {
+  /* height: 46vh; */
   border-radius: 2.5em;
-  background: #443e47; /* fallback for old browsers */
+  background: mintcream; /* fallback for old browsers */
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .calendar a {
@@ -319,6 +320,7 @@ $-Styles
   background: white;
 }
 .calendar .day.wrong-month {
+  display: hidden;
   color: #cbd1d2;
 }
 .calendar .day.wrong-month:hover {
@@ -409,6 +411,7 @@ $-Styles
   transform: translate(-50%, -50%);
 }
 .calendar {
+  height: 48vh;
   position: relative;
   overflow: hidden;
   text-transform: capitalize;
@@ -469,7 +472,7 @@ $-Styles
 }
 .calendar table {
   width: 100%;
-  margin: 20px 0;
+  margin: -5px 0px;
   border-spacing: 0px;
 }
 .calendar thead {
@@ -480,20 +483,23 @@ $-Styles
   padding: 0.8em 0.1em;
 }
 .calendar .day {
+  /* border-block-style: none; */
+  margin-bottom: 1px;
   position: relative;
   display: inline-block;
-  width: 2.5em;
-  height: 2.5em;
-  line-height: 2.5em;
+  width: 0.9em;
+  height: 1.5em;
+  line-height: 1.5em;
   border-radius: 50%;
   border: 2px solid transparent;
   cursor: pointer;
+  /* left: 13px; */
 }
 .calendar .day:hover {
   border: 2px solid #6691cc;
 }
 .calendar .day.today {
-  background: #6691cc;
+  background: darkblue;
   color: white;
 }
 .calendar .day.today.has-event:after {
@@ -524,22 +530,24 @@ $-Styles
 .calendar .event-container {
   display: none;
   position: absolute;
-  top: 0;
+  top: 0px;
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 70px;
+  padding: 24px;
   background: #545a5c;
   box-sizing: border-box;
 }
 .calendar .event-container .event-wrapper {
+  margin-top: 22px;
+  /* top: 7px; */
   overflow-y: auto;
   max-height: 100%;
 }
 .calendar .event-container .close {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 18px;
   top: 20px;
   right: 20px;
   cursor: pointer;

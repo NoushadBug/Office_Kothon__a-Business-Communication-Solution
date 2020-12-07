@@ -2,44 +2,45 @@ $(document).ready(function () {
   $(sliCont).css('width', '0');
   $('[data-toggle="tooltip"]').tooltip();
   $('#calender').simpleCalendar({
-    //Defaults options below
-    //string of months starting from january
-    months: [
-      'january',
-      'february',
-      'march',
-      'april',
-      'may',
-      'june',
-      'july',
-      'august',
-      'september',
-      'october',
-      'november',
-      'december',
+    fixedStartDay: 0, // begin weeks by sunday
+    disableEmptyDetails: true,
+    events: [
+      // generate new event after tomorrow for one hour
+      {
+        startDate: new Date(
+          new Date().setHours(new Date().getHours() + 24)
+        ).toDateString(),
+        endDate: new Date(
+          new Date().setHours(new Date().getHours() + 25)
+        ).toISOString(),
+        summary: 'Visit of the Eiffel Tower',
+      },
+      // generate new event for yesterday at noon
+      {
+        startDate: new Date(
+          new Date().setHours(
+            new Date().getHours() - new Date().getHours() - 12,
+            0
+          )
+        ).toISOString(),
+        endDate: new Date(
+          new Date().setHours(
+            new Date().getHours() - new Date().getHours() - 11
+          )
+        ).getTime(),
+        summary: 'Restaurant',
+      },
+      // generate new event for the last two days
+      {
+        startDate: new Date(
+          new Date().setHours(new Date().getHours() - 48)
+        ).toISOString(),
+        endDate: new Date(
+          new Date().setHours(new Date().getHours() - 24)
+        ).getTime(),
+        summary: 'Visit of the Louvre',
+      },
     ],
-    days: [
-      'sunday',
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-    ],
-    displayYear: true, // Display year in header
-    fixedStartDay: true, // Week begin always by monday or by day set by number 0 = sunday, 7 = saturday, false = month always begin by first day of the month
-    displayEvent: true, // Display existing event
-    disableEventDetails: false, // disable showing event details
-    disableEmptyDetails: false, // disable showing empty date details
-    events: [], // List of events
-    onInit: function (calendar) {}, // Callback after first initialization
-    onMonthChange: function (month, year) {}, // Callback on month change
-    onDateSelect: function (date, events) {}, // Callback on date selection
-    onEventSelect: function () {}, // Callback on event selection - use $(this).data('event') to access the event
-    onEventCreate: function ($el) {}, // Callback fired when an HTML event is created - see $(this).data('event')
-    onDayCreate: function ($el, d, m, y) {},
-    // Callback fired when an HTML day is created   - see $(this).data('today'), .data('todayEvents')
   });
 });
 
