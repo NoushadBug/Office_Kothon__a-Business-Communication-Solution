@@ -88,6 +88,15 @@ $-Modules
 /* ==============================
 $-Styles
 ============================== */
+
+.profile {
+  text-align: right;
+}
+.profile img {
+  width: 3vw;
+  height: 6vh;
+}
+
 .search {
   display: contents;
   -webkit-transform: translate(-50%, -50%);
