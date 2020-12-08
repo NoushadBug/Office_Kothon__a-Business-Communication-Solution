@@ -411,6 +411,7 @@ $-Styles
   transform: translate(-50%, -50%);
 }
 .calendar {
+  /* font-size: 8em; */
   height: 48vh;
   position: relative;
   overflow: hidden;
@@ -494,6 +495,7 @@ $-Styles
   border: 2px solid transparent;
   cursor: pointer;
   /* left: 13px; */
+  font-size: 1.9vh;
 }
 .calendar .day:hover {
   border: 2px solid #6691cc;
