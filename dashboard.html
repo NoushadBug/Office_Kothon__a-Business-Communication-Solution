@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
   <link rel="stylesheet" href="./toaster/toastr.min.css" />
+  <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
   <link rel="stylesheet" href="./css/dashboard.css" />
 </head>
 
@@ -285,7 +286,7 @@
       </div>
     </div>
     <div class="rightbar-div col-md-3">
-      <div class="clock-section p-4">
+      <div class="clock-section px-4 pt-4 pb-2">
         <div class="date-section text-light text-center">
           <h3 id="date"></h3>
         </div>
@@ -293,7 +294,8 @@
           <h1 id="time"></h1>
         </div>
       </div>
-      <div id="calender" class="calendar-container m-auto p-3">
+      <div id="calendar"></div>
+      <div class="bg-secondary mt-3" style="height: 12vh;border-radius: 3em;"></div>
       </div>
     </div>
   </div>
@@ -308,9 +310,36 @@
 <script src="./js/dashboard.js"></script>
 <script src="./toaster/toastr.min.js"></script>
 
-<script src="js/jquery calender min .js"></script>
+<script src="./clndr/mini-event-calendar.js"></script>
 
 <script>
+
+  var sampleEvents = [
+      {
+        title: "Soulful sundays bay area",
+        date: new Date().setDate(new Date().getDate() - 7), // last week
+        link: "#"
+      },
+      {
+        title: "London Comicon",
+        date: new Date().getTime(), // today
+        link: "#"
+      },
+      {
+        title: "Youth Athletic Camp",
+        date: new Date().setDate(new Date().getDate() + 31), // next month
+        link: "#"
+      }
+  ];
+
+  $("#calendar").MEC({
+    events: sampleEvents
+  });
+
+  $("#calendar").MEC({
+    events: sampleEvents,
+    from_monday: true
+  });
 
   // time js
 
