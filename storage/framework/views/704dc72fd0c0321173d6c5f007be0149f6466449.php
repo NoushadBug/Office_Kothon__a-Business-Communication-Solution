@@ -1,0 +1,1 @@
+<?php /**PATH D:\Office_Kothon__a-Business-Communication-Solution\resources\views/layouts/app.blade.php ENDPATH**/ ?>
