@@ -1,0 +1,64 @@
+.usersListDiv{
+    overflow-y: scroll;
+}
+
+#force-overflow {
+    min-height: 63vh;
+  }
+  #force-overflow::-webkit-scrollbar-track {
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    */
+    border-radius: 10px;
+    background-color: transparent;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+  }
+  
+  #force-overflow::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+  }
+  #force-overflow::-webkit-scrollbar {
+    height: 12px !important;
+  }
+  
+  #force-overflow::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #555;
+  }
+  .feed-bar scrollbar .panel {
+    border-radius: 1.5em;
+  }
+  
+  .panel-title {
+    cursor: pointer;
+  }
+  .header-side {
+    text-align: right;
+  }
+  .header-side .fa {
+    margin-right: 1em;
+  }
+  .collapse-header p {
+    font-style: italic;
+  }
+  .collapse-header .fa {
+    color: rgb(86, 241, 125);
+  }
+  .collapse-header .status {
+    text-align: center;
+  }
+  .collapse-header .view-button {
+    text-align: right;
+  }
+
+.card img{
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  -ms-border-radius: 50% !important;
+  -o-border-radius: 50% !important;
+}

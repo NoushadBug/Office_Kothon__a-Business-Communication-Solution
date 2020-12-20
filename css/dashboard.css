@@ -172,7 +172,7 @@ $-Styles
   padding: 1em;
   border-radius: 2em;
 }
-.feed-bar.scrollbar {
+.scrollbar {
   height: 300px;
   background: #576075;
   overflow-y: scroll;
