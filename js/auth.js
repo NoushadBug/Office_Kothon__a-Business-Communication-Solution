@@ -2,7 +2,10 @@ $(document).ready(function(){
     firebase.auth().onAuthStateChanged(function(user) {
         if(user){
             // first time signin= 1 => (signout) => login = 4
-            if(user.v.b == 4) window.location.replace("./dashboard.html");
+            if(user.v.b == 4)
+            {
+                window.location.replace("./dashboard.html");
+            }
         }
     });
 
@@ -27,14 +30,26 @@ signUpform.on('submit',function(event){
         var currentUser = auth.currentUser;
         currentUser.updateProfile({
             displayName: name, //setting up the user name with account display name
-        });
+        })
+        .then(function() {
+            const userCollection = db.collection("users");
+            userCollection.doc(email).set({
+                displayName: name,
+            }).then(function() {
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                console.log("Error writing document: ", error);
+            });
+          });
+
         console.log(cred.user);
          toastr["success"]("you are good to go!", "successfully signed up")
          signUpform.find('input:not(#signUpButton)').val('');
          auth.signOut().then(() => {
             console.log('user has been logged out');
         })
-        $('#login-button').click();      
+        $('#login-button').click();
     }).catch( error => {
         toastr["error"](error.code, error.message)
  });
@@ -50,10 +65,32 @@ signUpformSmall.on('submit',function(event){
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
         var currentUser = auth.currentUser;
         currentUser.updateProfile({
-        displayName: name, //setting up the user name with account display name
-        });
+            displayName: name, //setting up the user name with account display name
+        })
+        .then(function() {
+            const userCollection = db.collection("users");
+            userCollection.doc(email).set({
+                displayName: name,
+            }).then(function() {
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                console.log("Error writing document: ", error);
+            });
+          });
+
         console.log(cred.user);
          toastr["success"]("you are good to go!", "Successfully signed up")
+         firebase.firestore().collection("users").doc(email).set({
+            displayName: name,
+            // state: "CA",
+            // country: "USA"
+        }).then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
          signUpformSmall.find('input:not(#signUpButton)').val('');
          auth.signOut().then(() => {
              console.log('user has been logged out');

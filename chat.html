@@ -89,7 +89,7 @@
     $(window).on('load', function () {
         $('.loader').fadeOut('slow');
     });
-    
+
     document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
         toastr['info']('You are signed out! ', 'see you soon');
