@@ -65,6 +65,24 @@ border-radius: 50% !important;
 -ms-border-radius: 50% !important;
 -o-border-radius: 50% !important;
 }
+
+.dfeed-bar .card
+{
+  border-radius: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* chat css */
 
 @media screen and (max-width: 360px) {
