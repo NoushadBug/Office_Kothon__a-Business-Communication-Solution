@@ -1,14 +1,4 @@
 $(document).ready(function(){
-    firebase.auth().onAuthStateChanged(function(user) {
-        if(user){
-            // first time signin= 1 => (signout) => login = 4
-            if(user.v.b == 4)
-            {
-                window.location.replace("./dashboard.html");
-            }
-        }
-    });
-
     toastr.options = {
         "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
       }
@@ -21,6 +11,7 @@ const signUpformSmall = $('#signup-form')
 
 
 signUpform.on('submit',function(event){
+    $(this).data('clicked', true);
     event.preventDefault();
     const name = signUpform.find('#name')[0].value;
     const email = signUpform.find('#email')[0].value;
@@ -33,25 +24,25 @@ signUpform.on('submit',function(event){
         })
         .then(function() {
             const userCollection = db.collection("users");
-            userCollection.doc(email).set({
-                displayName: name,
-                designation: 'unknown',
-                photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-            }).then(function() {
-                console.log("Document successfully written!");
-            })
-            .catch(function(error) {
-                console.log("Error writing document: ", error);
-            });
+                userCollection.doc(email).set({
+                    displayName: name,
+                    designation: 'unknown',
+                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                }).then(function() {
+                    console.log("Document successfully written!");
+                    auth.signOut().then(() => {
+                        console.log('user has been logged out');
+                    })
+                })
+                .catch(function(error) {
+                    console.log("Error writing document: ", error);
+                });
           });
+          toastr["success"]("you are good to go!", "successfully signed up")
+          signUpform.find('input:not(#signUpButton)').val('');
+            $('#login-button').click();
+          console.log(cred.user);
 
-        console.log(cred.user);
-         toastr["success"]("you are good to go!", "successfully signed up")
-         signUpform.find('input:not(#signUpButton)').val('');
-         auth.signOut().then(() => {
-            console.log('user has been logged out');
-        })
-        $('#login-button').click();
     }).catch( error => {
         toastr["error"](error.code, error.message)
  });
@@ -117,9 +108,8 @@ loginForm.on('submit', function(e) {
     const password = loginForm.find('#password')[0].value;
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
-        console.log(typeof(cred));
+        console.log(cred);
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
-        //  document.cookie = "username="+encodeURIComponent(auth.currentUser.displayName);
          window.location.replace("./dashboard.html");
     }).catch( error => {
         toastr["error"](error.code, error.message)
@@ -133,9 +123,8 @@ loginSmallForm.on('submit', function(e) {
     const password = loginSmallForm.find('#password')[0].value;
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
-        console.log(typeof(cred));
+        console.log(cred);
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
-        //  document.cookie0 = "username="+encodeURIComponent(auth.currentUser.displayName);
          window.location.replace("./dashboard.html");
     }).catch( error => {
         toastr["error"](error.code, error.message)

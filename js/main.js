@@ -54,7 +54,7 @@ $(window).on('load', function() {
   // initialization of header
   firebase.auth().onAuthStateChanged(function(user) {
     if(user){
-        if(user.v.b == 4){
+        if(user.v.b == 4 && !$('.user_forms-signup').data('clicked')){
           window.location.replace("./dashboard.html");
         }
     }
