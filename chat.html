@@ -1,21 +1,21 @@
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Office Kothon</title>
-    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
-    <link rel="stylesheet" href="./toaster/toastr.min.css" />
-    <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
-    <link rel="stylesheet" href="./css/dashboard.css" />
-    <link rel="stylesheet" href="./css/chat.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Office Kothon</title>
+  <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
+  <link rel="stylesheet" href="./toaster/toastr.min.css" />
+  <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
+  <link rel="stylesheet" href="./css/dashboard.css" />
+  <link rel="stylesheet" href="./css/chat.css" />
 </head>
 
 <body>
-    <div class="loader" style="
+  <div class="loader" style="
           position: fixed;
           z-index: 99;
           top: 0;
@@ -27,61 +27,124 @@
           justify-content: center;
           align-items: center;
         ">
-        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
-    </div>
+    <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
+  </div>
 
-    <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
-        <div class="dashboard-container row col-md-9 mr-2">
-            <!-- leftbar container -->
-            <div class="leftbar shadow py-5">
-                <a href="./index.html" class="text-center"><img
-                        src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px" /></a>
-                <div class="leftbar-icons">
-                    <a href="./dashboard.html" aria-label="Home" data-microtip-position="right" role="tooltip"><i
-                            class="fa fa-home m-0"></i></a>
-                    <a href="#0" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
-                            class="fa fa-comment"></i></a>
-                    <a href="" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
-                            class="fa fa-group"></i></a>
-                    <a href="" aria-label="Task" data-microtip-position="right" role="tooltip"><i
-                            class="fa fa-edit"></i></a>
-                    <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i
-                            class="fa fa-cog"></i></a>
-                </div>
-                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip"
-                    id="signoutBtn"><i class="fa fa-sign-out"></i></a>
-            </div>
-
-
-            <div class="col-md-10 my-4">
-            </div>
-
-
-            </div>
-            <div class="rightbar-div col-md-3">
-              <h2 class="text-light text-center pt-5 pb-2 mr-2"> Users</h2>
-                <div class="input-group mb-2">
-                  <input type="text" id="myInput" class="form-control bg-transparent border-dark" placeholder="find somebody...">
-                  <div class="input-group-append">
-                    <button class="btn btn-dark mr-2" type="button">
-                      <i class="fa fa-search"></i>
-                    </button>
-                  </div>
-              </div>
-              <div class="dfeed-bar bg-transparent border-none scrollbar" id="force-overflow" style="min-height: 73.6vh;">
-                <div class="card shadow-lg bg-dark p-2 mb-1" id="userDiv">
-                  <div class="row m-auto">
-                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" class="col-md-4 rounded" alt="">
-                    <div class="col-md-8 pl-0 m-auto">
-                      <h6 class="text-light m-0 d-block">User Name</h6>
-                      <small class="text-info m-0">Software Developer</small>
-                    </div>
-                  </div>
-              </div>
-              </div>
-            </div>
+  <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
+    <div class="dashboard-container row col-md-9 mr-2">
+      <!-- leftbar container -->
+      <div class="leftbar shadow py-5">
+        <a href="./index.html" class="text-center"><img src="https://img.icons8.com/cotton/2x/communication--v1.png"
+            alt="" height="51px" /></a>
+        <div class="leftbar-icons">
+          <a href="./dashboard.html" aria-label="Home" data-microtip-position="right" role="tooltip"><i
+              class="fa fa-home m-0"></i></a>
+          <a href="#0" aria-label="Chat" data-microtip-position="right" role="tooltip"><i class="fa fa-comment"></i></a>
+          <a href="" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+              class="fa fa-group"></i></a>
+          <a href="" aria-label="Task" data-microtip-position="right" role="tooltip"><i class="fa fa-edit"></i></a>
+          <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i class="fa fa-cog"></i></a>
         </div>
+        <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip" id="signoutBtn"><i
+            class="fa fa-sign-out"></i></a>
+      </div>
+
+
+
+      <div class="content col-md-10 my-4 " id="frame">
+        <div class="contact-profile">
+          <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+          <p>Harvey Specter</p>
+          <div class="social-media">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="messages bg-dark shadow">
+          <ul>
+            <li class="sent">
+              <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+              <p class="shadow-lg">How the hell am I supposed to get a jury to believe you when I am not even sure that
+                I do?!
+              </p>
+            </li>
+            <li class="replies">
+              <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+              <p class="shadow-lg">When you're backed against the wall, break the god damn thing down.</p>
+            </li>
+            <li class="replies">
+              <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+              <p class="shadow-lg">Excuses don't win championships.</p>
+            </li>
+            <li class="sent">
+              <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+              <p class="shadow-lg">Oh yeah, did Michael Jordan tell you that?</p>
+            </li>
+            <li class="replies">
+              <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+              <p class="shadow-lg">No, I told him that.</p>
+            </li>
+            <li class="replies">
+              <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+              <p class="shadow-lg">What are your choices when someone puts a gun to your head?</p>
+            </li>
+            <li class="sent">
+              <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+              <p class="shadow-lg">What are you talking about? You do what they say or they shoot you.</p>
+            </li>
+            <li class="replies">
+              <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+              <p class="shadow-lg">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or,
+                you do
+                any one of a hundred and forty six other things.</p>
+            </li>
+          </ul>
+        </div>
+        <div class="message-input">
+          <div class="wrap">
+            <input type="text" placeholder="Write your message..." />
+            <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+            <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
+
+
+
+
+
+
+
+    <div class="rightbar-div col-md-3">
+      <h2 class="text-light text-center pt-5 pb-2 mr-2"> Users</h2>
+      <div class="input-group mb-2">
+        <input type="text" id="myInput" class="form-control bg-transparent border-dark" placeholder="find somebody...">
+        <div class="input-group-append">
+          <button class="btn btn-dark mr-2" type="button">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="dfeed-bar bg-transparent border-none scrollbar" id="force-overflow" style="min-height: 73.6vh;">
+        <div class="card shadow-lg bg-dark p-2 mb-1" id="userDiv">
+          <div class="row m-auto">
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+              class="col-md-4 rounded" alt="">
+            <div class="col-md-8 pl-0 m-auto">
+              <h6 class="text-light m-0 d-block">User Name</h6>
+              <small class="text-info m-0">Software Developer</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 </body>
 
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
@@ -106,10 +169,10 @@
 
   //make firebase consts
   const auth = firebase.auth();
-  firebase.auth().onAuthStateChanged(function(user) {
-      if (!user) {
-        window.location.replace('./index.html');
-      }
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (!user) {
+      window.location.replace('./index.html');
+    }
   });
   const db = firebase.firestore();
 

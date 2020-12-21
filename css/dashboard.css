@@ -11,11 +11,12 @@ body {
 }
 
 .dashboard-container {
+  height: -webkit-fill-available;
   background: #393c45;
 }
 
 .leftbar {
-  height: 93%;
+  height: 95%;
   width: 10%;
   border-radius: 2.52em;
   background: #2e3035;
