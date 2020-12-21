@@ -1,5 +1,5 @@
-* {
-  font-family: 'Montserrat', sans-serif;
+*:not(.fa) {
+  font-family: 'Montserrat', sans-serif !important;
 }
 body {
   background: #1e2025;

@@ -1,3 +1,6 @@
+*:not(.fa) {
+  font-family: 'Montserrat', sans-serif !important;
+}
 .usersListDiv{
   overflow-y: scroll;
 }
@@ -159,9 +162,10 @@ float: right;
 margin: 6px 0 0 8px;
 }
 
-.content .messages ul li.replies p {
-background: #f5f5f5;
-float: right;
+  .content .messages ul li.replies p {
+    background: #6C757D;
+    float: right;
+    color: white;
 }
 
 .content .messages ul li img {
@@ -188,7 +192,16 @@ line-height: 130%;
 
 .content .message-input .wrap {/* border-radius: 5em; */position: relative;}
 
-.content .message-input .wrap input {border-radius: 5em;font-family: "proxima-nova", "Source Sans Pro", sans-serif;float: left;border: none;width: calc(98% - 90px);padding: 11px 32px 10px 8px;font-size: 0.8em;color: #32465a;}
+.content .message-input input {    border-radius: 5em;
+  float: left;
+  border: none;
+  width: 96.3%;
+  padding: 11px 32px 10px 30px;
+  font-size: 0.8em;
+  color: #32465a;
+  background: darkslategray;
+  border: 1px solid #2f3d63;
+}
 
 @media screen and (max-width: 735px) {
 #frame .content .message-input .wrap input {
