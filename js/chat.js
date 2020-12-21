@@ -6,7 +6,7 @@ $(document).ready(function(){
         $('.loader').fadeOut('slow');
         querySnapshot.forEach(function(doc) {
             counter++;
-            $(`<div class="card shadow-lg bg-dark p-2 mb-1" id="userDiv${counter}">
+            $(`<div class="card shadow-lg bg-dark p-2 mb-1" id="${doc.id}">
             <div class="row m-auto">
               <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
               <div class="col-md-8 pl-0 m-auto">
