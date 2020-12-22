@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
     <link rel="stylesheet" href="./css/dashboard.css" />
     <link rel="stylesheet" href="./css/chat.css" />
+    <link rel="stylesheet" href="./css/month.css">
+    <link rel="stylesheet" href="./css/week.css">
+    <link rel="stylesheet" href="./css/datePicker.css">
 
 
     <link rel="stylesheet" href="./css/addTask.css" />
@@ -164,5 +167,29 @@
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./js/jqDatePicker.min.js"></script>
+<script src="./js/addtask.js"></script>
+<script>
+    db.collection("users").get()
+    .then(function(querySnapshot) {
+        $('.loader').fadeOut('slow');
+        querySnapshot.forEach(function(doc) {
+            if(doc.id === auth.currentUser.email){
+            }
+            else{
+                $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
+                <div class="row m-auto">
+                  <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
+                  <div class="col-md-8 pl-0 m-auto">
+                    <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
+                    <small class="text-info m-0">${doc.data().designation}</small>
+                  </div>
+                </div>
+            </div>`).appendTo('#force-overflow');
+            }
+            console.log(doc.id, " => ", doc.data());
+        });
+    })
+</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="./toaster/toastr.min.js"></script>
