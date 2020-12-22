@@ -213,12 +213,27 @@ line-height: 130%;
 .content .message-input input {    border-radius: 5em;
   float: left;
   border: none;
+  padding-right: 7em;
   width: 96.3%;
   padding: 11px 32px 10px 30px;
   font-size: 0.8em;
   color: #32465a;
   background: darkslategray;
+  margin-bottom: 3px;
+  padding-right: 7em;
   border: 1px solid #2f3d63;
+}
+
+.content .message-input input:focus {
+  box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+}
+
+.welcome-message{
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 @media screen and (max-width: 735px) {
