@@ -43,7 +43,8 @@
               class="fa fa-comment"></i></a>
           <a href="" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
               class="fa fa-group"></i></a>
-          <a href="" aria-label="Task" data-microtip-position="right" role="tooltip"><i class="fa fa-edit"></i></a>
+          <a href="./addTask.html" aria-label="Task" data-microtip-position="right" role="tooltip"><i
+              class="fa fa-edit"></i></a>
           <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i class="fa fa-cog"></i></a>
         </div>
         <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip" id="signoutBtn"><i
@@ -53,15 +54,18 @@
 
       <div class="col-md-10 my-4">
         <div class="row">
-          <div class="col-md-11"> 
-              <div class="search">
-            <input type="submit" value="" class="search-btn fa ib-m">
-            <div class="search-slide ib-m" style="width: 0px;">
-              <input type="text" placeholder="Enter your search" class="ib-m">
-            </div></div>
+          <div class="col-md-11">
+            <div class="search">
+              <input type="submit" value="" class="search-btn fa ib-m">
+              <div class="search-slide ib-m" style="width: 0px;">
+                <input type="text" placeholder="Enter your search" class="ib-m">
+              </div>
+            </div>
           </div>
           <div class="profile ">
-            <img src="https://img2.pngio.com/avatar-businessman-circle-human-male-person-user-icon-avatar-person-png-512_512.png" alt="profile">
+            <img
+              src="https://img2.pngio.com/avatar-businessman-circle-human-male-person-user-icon-avatar-person-png-512_512.png"
+              alt="profile">
           </div>
         </div>
         <div class="hello-bar shadow-lg">
@@ -596,9 +600,9 @@
 
   document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
-        toastr['info']('You are signed out! ', 'see you soon');
-      });
-      window.location.replace("./index.html");
+      toastr['info']('You are signed out! ', 'see you soon');
+    });
+    window.location.replace("./index.html");
   });
 </script>
 <script>
