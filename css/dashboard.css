@@ -5,7 +5,6 @@ body {
   background: #1e2025;
 }
 .dashboard-container {
-  height: inherit;
   background: #393c45;
   border-top-right-radius: 6em;
   /* border-bottom-right-radius: 6em; */
