@@ -1,12 +1,13 @@
 
 $(document).ready(function(){
+    $('#frame').hide();
     let counter = 0
     db.collection("users").get()
     .then(function(querySnapshot) {
         $('.loader').fadeOut('slow');
         querySnapshot.forEach(function(doc) {
             counter++;
-            $(`<div class="card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
+            $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
             <div class="row m-auto">
               <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
               <div class="col-md-8 pl-0 m-auto">
