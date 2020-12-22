@@ -1,13 +1,11 @@
 let userImage;
 $(document).ready(function(){
-    let counter = 0
     db.collection("users").get()
     .then(function(querySnapshot) {
         $('.loader').fadeOut('slow');
         $('#frame').hide();
         $('#welcome').slideDown("slow");
         querySnapshot.forEach(function(doc) {
-            counter++;
             if(doc.id === auth.currentUser.email){
                 $('#userImage').attr("src", `${doc.data().photoURL}`);
                 $('.userName').html(`${doc.data().displayName}`);
