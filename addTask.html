@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./toaster/toastr.min.css" />
     <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
     <link rel="stylesheet" href="./css/dashboard.css" />
-    <link rel="stylesheet" href="./css/chat.css" />
+
     <link rel="stylesheet" href="./css/addTask.css" />
 </head>
 
@@ -68,6 +68,45 @@
                 </div>
             </div>
             <div class="taskForm container col-md-6 shadow-lg">
+                <form class="p-3 rounded">
+
+
+                    <input class="form-control mb-2" type="text" placeholder="Add Task Title">
+
+                    <textarea class="form-control mb-2" id="exampleFormControlTextarea1" rows="3"
+                        placeholder="Add Task Details...."></textarea>
+
+
+
+
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                    <div class="mt-2">
+                        <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <option selected>Select Priority</option>
+                            <option value="1">Easy</option>
+                            <option value="2">Moderate</option>
+                            <option value="3">Hard</option>
+                        </select>
+                    </div>
+
+
+                    <form id="form" name="form" class="form-inline">
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <input id="startDate" name="startDate" type="text" class="form-control" />
+                            &nbsp;
+                            <label for="endDate">End Date</label>
+                            <input id="endDate" name="endDate" type="text" class="form-control" />
+                        </div>
+                    </form>
+
+
+
+                </form>
 
             </div>
 
