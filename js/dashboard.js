@@ -84,7 +84,7 @@ function startTime() {
   document.getElementById('time').innerHTML = formattedTime;
   document.getElementById('date').innerHTML =
     days[today.getDay()] + ', ' + today.getDate();
-  var t = setTimeout(startTime, 500);
+  setTimeout(startTime, 500);
 }
 function checkTime(i) {
   if (i < 10) {

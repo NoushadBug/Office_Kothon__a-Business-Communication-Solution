@@ -135,7 +135,7 @@ border-radius: 50% !important;
 
     @keyframes Floatingx {
     from {-webkit-transform:translate(0, 0px);}
-    65% {-webkit-transform:translate(0, 20px);}
+    65% {-webkit-transform:translate(0, 70px);}
     to {-webkit-transform: translate(0, -0px);    }    
 }
     
@@ -415,4 +415,8 @@ background: #435f7a;
 
 .content .message-input .wrap button:focus {
 outline: none;
+}
+
+.messageTime{
+  display: flow-root;
 }
