@@ -1,23 +1,35 @@
 
 $(document).ready(function(){
-    $('#frame').hide();
     let counter = 0
     db.collection("users").get()
     .then(function(querySnapshot) {
         $('.loader').fadeOut('slow');
+        $('#frame').hide();
+        $('#welcome').slideDown("slow");
         querySnapshot.forEach(function(doc) {
             counter++;
-            $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
-            <div class="row m-auto">
-              <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
-              <div class="col-md-8 pl-0 m-auto">
-                <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
-                <small class="text-info m-0">${doc.data().designation}</small>
-              </div>
-            </div>
-        </div>`).appendTo('#force-overflow');
+            if(doc.id === auth.currentUser.email){
+                $('#userImage').attr("src", `${doc.data().photoURL}`);
+                $('.userName').html(`${doc.data().displayName}`);
+            }
+            else{
+                $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
+                <div class="row m-auto">
+                  <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
+                  <div class="col-md-8 pl-0 m-auto">
+                    <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
+                    <small class="text-info m-0">${doc.data().designation}</small>
+                  </div>
+                </div>
+            </div>`).appendTo('#force-overflow');
+            }
             console.log(doc.id, " => ", doc.data());
         });
+        $(".card").on( "click", function() {
+            $('#frame').show(500);
+            $('#welcome').remove();
+          });
+    
     })
     .catch(function(error) {
         console.log("Error getting documents: ", error);
@@ -30,6 +42,7 @@ $(document).ready(function(){
         });
     });
     });
+
 
     document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
