@@ -148,11 +148,15 @@ border-radius: 50% !important;
 
 svg {
 	display: block;
-	margin: 0 auto;
 	width: 40%;
     overflow: hidden;
 }
-    
+.chat-icon{
+  position: absolute;
+  right: 11vw;
+  top: 5vh;
+  height: 17vh;
+}
     .chat-bg {
         animation: zoom .5s ease-out backwards;
         -webkit-animation: zoom .5s ease-out backwards;
