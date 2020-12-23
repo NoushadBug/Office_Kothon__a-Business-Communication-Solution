@@ -1,4 +1,5 @@
 let userImage;
+let selectUserImage;
 $(document).ready(function(){
     db.collection("users").get()
     .then(function(querySnapshot) {
@@ -57,38 +58,37 @@ $(document).ready(function(){
         return queryDoc;
     }
 
-    const replacerFunc = () => {
-        const visited = new WeakSet();
-        return (key, value) => {
-          if (typeof value === "object" && value !== null) {
-            if (visited.has(value)) {
-              return;
-            }
-            visited.add(value);
-          }
-          return value;
-        };
-      };
-
 // function of opening message threads
     function openMessageThread(clickedUser){
+        $('.messages ul').empty();
+        $(".messages ul").append( `<svg style="margin: auto;position: absolute;bottom: 48%;left: 30%;" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        width="60px" height="10px" viewBox="0 0 80 20">
+        <circle cx="10" cy="10" r="10" fill="#666" >
+          <animate attributeName="cx" from="10" to="40" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+        </circle>
+        <circle cx="10" cy="10" r="0" fill="#555">
+          <animate attributeName="r" from="0" to="10" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+        </circle>
+        <circle cx="40" cy="10" r="10" fill="#777">
+          <animate attributeName="cx" from="40" to="70" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+        </circle>
+        <circle cx="70" cy="10" r="10" fill="#666">
+          <animate attributeName="r" from="10" to="0" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+        </circle>
+      </svg>`);
         let queryDoc = createDocQuery(clickedUser);
+        selectUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc
         db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
             let clickedUserName = $("[data='"+clickedUser+"'] h6").text();
             $('.contact-profile p').fadeOut(function(){$(this).text(clickedUserName).fadeIn(300);})
             $('.contact-profile img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
-            $('.sent img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
+            $('.sent img').fadeOut(function(){$(this).attr("src", selectUserImage ).fadeIn(300);})
             $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
             if(querySnapshot.exists){
                 db.collection('chats').doc(queryDoc).get()
                 .then(function(messageDatas) {
-                     let messageInfos = messageDatas.data();
-                    //let messageInfos = JSON.stringify(messageDatas, replacerFunc());
-                    // console.log(messageInfos.test.sgr)
-                    console.log(messageInfos)
-                    // messageInfos.forEach(function(msgInfo) { 
-                    //     console.log(msgInfo)
-                    // })
+                    $('.messages ul').empty();
+                     renderMessages(messageDatas.data());
                 })
             }
             else{
@@ -97,6 +97,34 @@ $(document).ready(function(){
             //db.collection('chats').doc(queryDoc);
         });
     }
+
+// render the messages inside HTML
+    function renderMessages(messageInfos){
+         for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
+            // console.log(Object.getOwnPropertyNames(messageInfos)[i]);
+            // console.log(Object.values(messageInfos)[i].message);
+            if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                $(`<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                <small class="messageTime text-right text-secondary mr-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                <img src='${userImage}' alt="">
+                <p class="bg-secondary text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
+              </li>`).appendTo('.messages ul').fadeIn(3000);
+            }
+            else{
+                $(`<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                <small class="messageTime text-left text-secondary ml-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                <img src='${selectUserImage}' alt="">
+                <p class="text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
+              </li>`).appendTo('.messages ul').fadeIn(300);
+            }
+            if(i>0){
+                $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
+                    return ($(b).data('position')) < ($(a).data('position')) ? 1 : -1;
+                }));
+            }
+        }
+    }
+
 
 // send messages function
     function sendMessage(docStatus){
