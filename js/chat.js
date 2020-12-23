@@ -22,14 +22,13 @@ $(document).ready(function(){
                 </div>
             </div>`).appendTo('#force-overflow');
             }
-            console.log(doc.id, " => ", doc.data());
+            //console.log(doc.id, " => ", doc.data());
         });
         $(".card").on( "click", function() {
             $('#frame').show(500);
             $('#welcome').remove();
             openMessageThread($(this).attr('data'));
           });
-    
     })
     .catch(function(error) {
         console.log("Error getting documents: ", error);
@@ -58,23 +57,43 @@ $(document).ready(function(){
         return queryDoc;
     }
 
+    const replacerFunc = () => {
+        const visited = new WeakSet();
+        return (key, value) => {
+          if (typeof value === "object" && value !== null) {
+            if (visited.has(value)) {
+              return;
+            }
+            visited.add(value);
+          }
+          return value;
+        };
+      };
+
 // function of opening message threads
     function openMessageThread(clickedUser){
         let queryDoc = createDocQuery(clickedUser);
         db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
             let clickedUserName = $("[data='"+clickedUser+"'] h6").text();
-            $('.contact-profile p').text(clickedUserName);
-            $('.contact-profile img').attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc );
-            $('.sent img').attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc );
-            $('.replies img').attr("src", userImage );
-            if(!querySnapshot.exists){
-                db.collection('chats').doc(queryDoc).get().then(function(messageDatas) {
-                    console.log(messageDatas);
-                    // messageDatas.forEach(function(doc) { 
-                    //     console.log(doc.id);
+            $('.contact-profile p').fadeOut(function(){$(this).text(clickedUserName).fadeIn(300);})
+            $('.contact-profile img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
+            $('.sent img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
+            $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
+            if(querySnapshot.exists){
+                db.collection('chats').doc(queryDoc).get()
+                .then(function(messageDatas) {
+                     let messageInfos = messageDatas.data();
+                    //let messageInfos = JSON.stringify(messageDatas, replacerFunc());
+                    // console.log(messageInfos.test.sgr)
+                    console.log(messageInfos)
+                    // messageInfos.forEach(function(msgInfo) { 
+                    //     console.log(msgInfo)
                     // })
                 })
-            }else{sendMessage("new")}
+            }
+            else{
+            sendMessage("new")
+        }
             //db.collection('chats').doc(queryDoc);
         });
     }
