@@ -73,22 +73,22 @@
                 </div>
             </div>
             <div class="taskForm container col-md-6 shadow-lg">
-                <form class="p-3 rounded">
+                <form class="p-5 ">
 
 
-                    <input class="form-control mb-2" type="text" placeholder="Add Task Title">
+                    <input class="form-control mb-3 mt-5" type="text" placeholder="add task title">
 
-                    <textarea class="form-control mb-2" id="exampleFormControlTextarea1" rows="3"
-                        placeholder="Add Task Details...."></textarea>
-
-
+                    <textarea class="form-control mb-3" id="exampleFormControlTextarea1" rows="4"
+                        placeholder="add task details...."></textarea>
 
 
-                    <div class="custom-file">
+
+
+                    <div class="custom-file mb-3">
                         <input type="file" class="custom-file-input" id="customFile">
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
-                    <div class="mt-2">
+                    <div class=" priority">
                         <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
                         <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                             <option selected>Select Priority</option>
@@ -101,11 +101,13 @@
 
                     <form id="form" name="form" class="form-inline">
                         <div class="form-group">
-                            <label for="startDate">Start Date</label>
-                            <input id="startDate" name="startDate" type="text" class="form-control" />
+
+                            <input id="startDate" name="startDate" type="text" class="form-control"
+                                placeholder="select start date" />
                             &nbsp;
-                            <label for="endDate">End Date</label>
-                            <input id="endDate" name="endDate" type="text" class="form-control" />
+
+                            <input id="endDate" name="endDate" type="text" class="form-control"
+                                placeholder="select end date" />
                         </div>
                     </form>
 
@@ -171,13 +173,13 @@
 <script src="./js/addtask.js"></script>
 <script>
     db.collection("users").get()
-    .then(function(querySnapshot) {
-        $('.loader').fadeOut('slow');
-        querySnapshot.forEach(function(doc) {
-            if(doc.id === auth.currentUser.email){
-            }
-            else{
-                $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
+        .then(function (querySnapshot) {
+            $('.loader').fadeOut('slow');
+            querySnapshot.forEach(function (doc) {
+                if (doc.id === auth.currentUser.email) {
+                }
+                else {
+                    $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
                 <div class="row m-auto">
                   <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
                   <div class="col-md-8 pl-0 m-auto">
@@ -186,10 +188,10 @@
                   </div>
                 </div>
             </div>`).appendTo('#force-overflow');
-            }
-            console.log(doc.id, " => ", doc.data());
-        });
-    })
+                }
+                console.log(doc.id, " => ", doc.data());
+            });
+        })
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="./toaster/toastr.min.js"></script>

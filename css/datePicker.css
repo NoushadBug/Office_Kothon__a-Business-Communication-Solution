@@ -2,14 +2,12 @@
 /* --------- date picker --------- */
 .date-picker {
 	position: absolute;
-
-    font-size: 1em;
-    color: #CCC;
-    text-align: center;
-    cursor: default;
-
+	font-size: 1em;
+	color: #CCC;
+	text-align: center;
+	cursor: default;
 	border: 1px solid #444;
-    border-radius: 2px;
+	border-radius: 2em;
 	margin: 6px 0;
 	background: #222;
 	box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.2);
@@ -41,6 +39,7 @@
 /* ------ months, rendering from calendar.js ------ */
 /* ------ I'm shure you can do better ;o)    ------ */
 .cal-month {
+    color: honeydew;
     border-collapse: collapse;
     margin: 0 12px 12px 0;
 }
@@ -128,9 +127,9 @@
 
 /* ------ the UI for the picker (next, prev, month, year and time) ------ */
 .dp-title, .dp-footer {
+    background: content-box;
     padding: 5px 5px 6px;
-
-    background: #333;
+    /* background: #333; */
     border-radius: 0 0 2px 2px;
 }
 .dp-title {
@@ -138,16 +137,17 @@
     border-radius: 2px 2px 0 0;
 }
 .dp-label {
+    color: chocolate;
     position: relative;
     display: inline-block;
     overflow: hidden;
-	margin: 0 2px -5px;
+    margin: 0 2px -5px;
 }
 .dp-label-month {
     /*font-weight: bold;*/
 }
 .dp-label-year {
-    color: #999;
+    color: honeydew;
 }
 .dp-label:hover {
     color: #FFF;

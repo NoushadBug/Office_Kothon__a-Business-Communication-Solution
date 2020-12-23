@@ -6,3 +6,43 @@
     width: 10vw;
     top: 9vh;
 }
+.taskForm input
+{
+    border-radius: 2em;
+   
+}
+.taskForm textarea
+{
+    border-radius: 2em;
+   
+}
+.custom-file label
+{
+    border-radius: 2em;
+
+}
+.custom-file-label::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: block;
+    height: calc(1.5em + .75rem);
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    color: #495057;
+    content: "Browse";
+    background-color: #e9ecef;
+    border-left: inherit;
+    border-radius: 2em;
+}
+.priority select
+{
+    border-radius: 2em;
+
+}
+.form-group label
+{
+    color: aqua;
+}
