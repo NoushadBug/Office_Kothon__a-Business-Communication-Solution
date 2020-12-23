@@ -112,7 +112,12 @@ function renderLoadingSvg(){
             $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
             if(querySnapshot.exists){
                 renderLoadingSvg();
-                     renderMessages(querySnapshot.data());
+                if(!Object.getOwnPropertyNames(querySnapshot).length){
+
+                    $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
+                    <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
+                }
+                renderMessages(querySnapshot.data());
             }
             else{
                 //renderLoadingSvg();
@@ -127,15 +132,22 @@ function renderLoadingSvg(){
 
 // render the messages inside HTML
     function renderMessages(messageInfos){
+
+        // clearing docs
+        var numberOfKeys = Object.values(messageInfos).length;
+        if (numberOfKeys === 0 || numberOfKeys > 500) {
+             db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
+             openMessageThread(selectedUserId);
+        }
+        // clearing docs
+
         $('.messages ul').empty();
          for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
-            // console.log(Object.getOwnPropertyNames(messageInfos)[i]);
-            // console.log(Object.values(messageInfos)[i].message);
             if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
                var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                 <small class="messageTime text-right text-secondary mr-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${userImage}' alt="">
-                <p class="bg-secondary text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
+                <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
               </li>`;
               animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
             }
@@ -143,7 +155,7 @@ function renderLoadingSvg(){
                var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                 <small class="messageTime text-left text-secondary ml-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${selectedUserImage}' alt="">
-                <p class="text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
+                <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message.join('-\n'))}</p>
               </li>`;
               animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
             }
@@ -195,16 +207,21 @@ function renderLoadingSvg(){
 
     db.collection("chats").onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
-            renderMessages(change.doc.data());
-            console.log(change.doc.data());
+            console.log("change => "+Object.values(change)[0])
+            // console.log("change"+Object.getOwnPropertyNames(change.o_.oldIndex))
+            //console.log(change.doc.data());
             if (change.type === "added") {
-                console.log("New: ", change.doc.data());
+                //console.log("New: ", change.doc.data());
             }
             if (change.type === "modified") {
-                console.log("Modified: ", change.doc.data());
+                //console.log("Modified: ", change.doc.data());
             }
             if (change.type === "removed") {
-                console.log("Deleted: ", change.doc.data());
+                openMessageThread(selectedUserId);
+                //console.log("Deleted: ", change.doc.data());
+            }
+            else{
+                renderMessages(change.doc.data());
             }
         });
     });
@@ -241,4 +258,16 @@ function renderLoadingSvg(){
         }
         selectedReplies= [];
         $(".social-media .fa-check").remove();
+    }
+
+ 
+
+    function chunk(str) {
+        var ret = [];
+        var i;
+        var len;
+        for(i = 0, len = str.length; i < len; i += 40) {
+           ret.push(str.substr(i, 40))
+        }
+        return ret;
     }
