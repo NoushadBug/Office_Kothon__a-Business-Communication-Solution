@@ -1,6 +1,10 @@
 let userImage;
+let docAvailable;
+let selectedUserName;
 let selectedUserImage;
 let selectedUserDesignation;
+let selectedUserId;
+
 $(document).ready(function(){
     db.collection("users").get()
     .then(function(querySnapshot) {
@@ -78,9 +82,12 @@ $(document).ready(function(){
         </circle>
       </svg>`);
         let queryDoc = createDocQuery(clickedUser);
+        selectedUserName = $("[data='"+clickedUser+"'] h6")[0].currentSrc;
         selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
         selectedUserDesignation = $("[data='"+clickedUser+"'] small").text();
+        selectedUserId = clickedUser;
         db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
+            docAvailable = true;
             $('.messages ul').empty();
             let clickedUserName = $("[data='"+clickedUser+"'] h6").text();
             $('.contact-profile p').fadeOut(function(){$(this).text(clickedUserName).fadeIn(300);})
@@ -96,7 +103,7 @@ $(document).ready(function(){
             else{
                 $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                 <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
-                sendMessage("new")
+                docAvailable = false;
         }
             //db.collection('chats').doc(queryDoc);
         });
@@ -131,6 +138,36 @@ $(document).ready(function(){
 
 
 // send messages function
-    function sendMessage(docStatus){
-        
+    function sendMessage(messageString, timestamp){
+        $("#sendInput").val('');
+        var senderIdVal = auth.currentUser.email;
+        var receiverIdVal = selectedUserId;
+
+        if(messageString){
+            //alert(createDocQuery(selectedUserId));
+            db.collection("chats").doc(createDocQuery(selectedUserId)).set({
+                [timestamp] : {file: "null", message: messageString, receiverID: receiverIdVal, senderID: senderIdVal}
+            }, { merge: true });
+        }
     }
+
+
+   // on enter key press submit message
+   $("#sendInput").keyup(function(e){ 
+        var code = e.key; // recommended to use e.key, it's normalized across devices and languages
+        if(code==="Enter"){
+            e.preventDefault();
+            sendMessage($(this).val(), new Date().getTime());
+        }
+    });
+
+    // on clicking send button submit message
+    $('#submitMessageBtn').on( "click", function() {
+        sendMessage($("#sendInput").val(),new Date().getTime());
+    });
+
+
+    // on storage data change listener
+    db.collection("chats").onSnapshot(function (){
+        openMessageThread(selectedUserId);
+    });
