@@ -1,5 +1,6 @@
 let userImage;
-let selectUserImage;
+let selectedUserImage;
+let selectedUserDesignation;
 $(document).ready(function(){
     db.collection("users").get()
     .then(function(querySnapshot) {
@@ -77,22 +78,25 @@ $(document).ready(function(){
         </circle>
       </svg>`);
         let queryDoc = createDocQuery(clickedUser);
-        selectUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc
+        selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
+        selectedUserDesignation = $("[data='"+clickedUser+"'] small").text();
         db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
+            $('.messages ul').empty();
             let clickedUserName = $("[data='"+clickedUser+"'] h6").text();
             $('.contact-profile p').fadeOut(function(){$(this).text(clickedUserName).fadeIn(300);})
             $('.contact-profile img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
-            $('.sent img').fadeOut(function(){$(this).attr("src", selectUserImage ).fadeIn(300);})
+            $('.sent img').fadeOut(function(){$(this).attr("src", selectedUserImage ).fadeIn(300);})
             $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
             if(querySnapshot.exists){
                 db.collection('chats').doc(queryDoc).get()
                 .then(function(messageDatas) {
-                    $('.messages ul').empty();
                      renderMessages(messageDatas.data());
                 })
             }
             else{
-            sendMessage("new")
+                $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
+                <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
+                sendMessage("new")
         }
             //db.collection('chats').doc(queryDoc);
         });
@@ -108,14 +112,14 @@ $(document).ready(function(){
                 <small class="messageTime text-right text-secondary mr-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${userImage}' alt="">
                 <p class="bg-secondary text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
-              </li>`).appendTo('.messages ul').fadeIn(3000);
+              </li>`).appendTo('.messages ul').hide().fadeIn(500);
             }
             else{
                 $(`<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                 <small class="messageTime text-left text-secondary ml-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                <img src='${selectUserImage}' alt="">
+                <img src='${selectedUserImage}' alt="">
                 <p class="text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
-              </li>`).appendTo('.messages ul').fadeIn(300);
+              </li>`).appendTo('.messages ul').hide().fadeIn(500);
             }
             if(i>0){
                 $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
