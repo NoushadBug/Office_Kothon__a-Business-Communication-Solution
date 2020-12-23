@@ -63,9 +63,8 @@ $(document).ready(function(){
         return queryDoc;
     }
 
-// function of opening message threads
-    function openMessageThread(clickedUser){
-        $('.messages ul').empty();
+function renderLoadingSvg(){
+    if (!$(".messages ul li").length){ 
         $(".messages ul").append( `<svg style="margin: auto;position: absolute;bottom: 48%;left: 30%;" version="1.1" xmlns="http://www.w3.org/2000/svg"
         width="60px" height="10px" viewBox="0 0 80 20">
         <circle cx="10" cy="10" r="10" fill="#666" >
@@ -81,6 +80,12 @@ $(document).ready(function(){
           <animate attributeName="r" from="10" to="0" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
         </circle>
       </svg>`);
+     }
+}
+
+// function of opening message threads
+    function openMessageThread(clickedUser){
+        $('.messages ul').empty();
         let queryDoc = createDocQuery(clickedUser);
         selectedUserName = $("[data='"+clickedUser+"'] h6")[0].currentSrc;
         selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
@@ -95,12 +100,14 @@ $(document).ready(function(){
             $('.sent img').fadeOut(function(){$(this).attr("src", selectedUserImage ).fadeIn(300);})
             $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
             if(querySnapshot.exists){
+                renderLoadingSvg();
                 db.collection('chats').doc(queryDoc).get()
                 .then(function(messageDatas) {
                      renderMessages(messageDatas.data());
                 })
             }
             else{
+                renderLoadingSvg();
                 $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                 <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
                 docAvailable = false;
