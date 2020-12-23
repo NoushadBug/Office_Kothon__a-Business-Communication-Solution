@@ -4,6 +4,8 @@ let selectedUserName;
 let selectedUserImage;
 let selectedUserDesignation;
 let selectedUserId;
+let animationTriggered = false;
+let selectedReplies= [];
 
 $(document).ready(function(){
     db.collection("users").get()
@@ -33,11 +35,13 @@ $(document).ready(function(){
         $(".card").on( "click", function() {
             $('#frame').show(500);
             $('#welcome').remove();
+            selectedReplies= [];
+            $(".social-media .fa-check").remove();
             openMessageThread($(this).attr('data'));
           });
     })
     .catch(function(error) {
-        console.log("Error getting documents: ", error);
+        toastr['error']('Error getting documents: ', error);
     });
 
     $("#myInput").on("keyup", function() {
@@ -64,7 +68,7 @@ $(document).ready(function(){
     }
 
 function renderLoadingSvg(){
-    if (!$(".messages ul li").length){ 
+    if ($(".messages ul").children().length == 0 ){
         $(".messages ul").append( `<svg style="margin: auto;position: absolute;bottom: 48%;left: 30%;" version="1.1" xmlns="http://www.w3.org/2000/svg"
         width="60px" height="10px" viewBox="0 0 80 20">
         <circle cx="10" cy="10" r="10" fill="#666" >
@@ -81,11 +85,18 @@ function renderLoadingSvg(){
         </circle>
       </svg>`);
      }
+    // if(!$('.messages li').length){
+    //     //$('.messages ul').empty();
+    //     $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
+    //     <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${selectedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
+    //     docAvailable = false;
+    // }
 }
 
 // function of opening message threads
     function openMessageThread(clickedUser){
         $('.messages ul').empty();
+        renderLoadingSvg();
         let queryDoc = createDocQuery(clickedUser);
         selectedUserName = $("[data='"+clickedUser+"'] h6")[0].currentSrc;
         selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
@@ -101,13 +112,11 @@ function renderLoadingSvg(){
             $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
             if(querySnapshot.exists){
                 renderLoadingSvg();
-                db.collection('chats').doc(queryDoc).get()
-                .then(function(messageDatas) {
-                     renderMessages(messageDatas.data());
-                })
+                     renderMessages(querySnapshot.data());
             }
             else{
-                renderLoadingSvg();
+                //renderLoadingSvg();
+                $('.messages ul').empty();
                 $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                 <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
                 docAvailable = false;
@@ -118,22 +127,25 @@ function renderLoadingSvg(){
 
 // render the messages inside HTML
     function renderMessages(messageInfos){
+        $('.messages ul').empty();
          for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
             // console.log(Object.getOwnPropertyNames(messageInfos)[i]);
             // console.log(Object.values(messageInfos)[i].message);
             if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                $(`<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+               var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                 <small class="messageTime text-right text-secondary mr-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${userImage}' alt="">
                 <p class="bg-secondary text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
-              </li>`).appendTo('.messages ul').hide().fadeIn(500);
+              </li>`;
+              animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
             }
             else{
-                $(`<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+               var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                 <small class="messageTime text-left text-secondary ml-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${selectedUserImage}' alt="">
                 <p class="text-light shadow-lg">${Object.values(messageInfos)[i].message}</p>
-              </li>`).appendTo('.messages ul').hide().fadeIn(500);
+              </li>`;
+              animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
             }
             if(i>0){
                 $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
@@ -154,13 +166,17 @@ function renderLoadingSvg(){
             //alert(createDocQuery(selectedUserId));
             db.collection("chats").doc(createDocQuery(selectedUserId)).set({
                 [timestamp] : {file: "null", message: messageString, receiverID: receiverIdVal, senderID: senderIdVal}
-            }, { merge: true });
+            }, { merge: true })
+           .catch(function(error) {
+                toastr['error']('Error sending message: ', error);
+            });
         }
     }
 
 
    // on enter key press submit message
    $("#sendInput").keyup(function(e){ 
+        animationTriggered = true;
         var code = e.key; // recommended to use e.key, it's normalized across devices and languages
         if(code==="Enter"){
             e.preventDefault();
@@ -170,11 +186,59 @@ function renderLoadingSvg(){
 
     // on clicking send button submit message
     $('#submitMessageBtn').on( "click", function() {
+        animationTriggered = true;
         sendMessage($("#sendInput").val(),new Date().getTime());
     });
 
 
     // on storage data change listener
-    db.collection("chats").onSnapshot(function (){
-        openMessageThread(selectedUserId);
+
+    db.collection("chats").onSnapshot(function(snapshot) {
+        snapshot.docChanges().forEach(function(change) {
+            renderMessages(change.doc.data());
+            console.log(change.doc.data());
+            if (change.type === "added") {
+                console.log("New: ", change.doc.data());
+            }
+            if (change.type === "modified") {
+                console.log("Modified: ", change.doc.data());
+            }
+            if (change.type === "removed") {
+                console.log("Deleted: ", change.doc.data());
+            }
+        });
     });
+
+
+    // on click trigger deletion
+    $(".social-media .fa-trash").on( "click", function() {
+        if($('.replies input[type=checkbox]').length){
+            if($('.replies input[type=checkbox]').is(":hidden")){$('.replies input[type=checkbox]').show();
+            }else{$('.replies input[type=checkbox]').hide();}}
+        else{
+                $('.replies').append('<input type="checkbox" style="margin:.81em;float:right;" /><br />');
+            }
+            $(".replies input[type=checkbox]").change(function() {
+                if(this.checked) {
+                    if(!$(".social-media .fa-check").length){
+                        $(".social-media").prepend(`<i class="fa fa-check mt-1 pt-3" aria-hidden="true"></i>`);
+                        $(".social-media .fa-check").on( "click", function() {
+                            deleteReplies();
+                          });
+                    }
+                    selectedReplies.push($(this).closest(".replies").data("position"));
+                }
+            });
+      });
+
+    //  reply deletion
+    function deleteReplies(){
+        selectedReplies.sort();
+        for (let index = 0; index < selectedReplies.length; index++) {
+            db.collection('chats').doc(createDocQuery(selectedUserId)).update({
+                [selectedReplies[index]]: firebase.firestore.FieldValue.delete()
+            });
+        }
+        selectedReplies= [];
+        $(".social-media .fa-check").remove();
+    }
