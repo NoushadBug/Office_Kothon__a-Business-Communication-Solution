@@ -84,9 +84,6 @@ function renderLoadingSvg(){
           <animate attributeName="r" from="10" to="0" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
         </circle>
       </svg>`);
-<<<<<<< HEAD
-      
-=======
      }
     // if(!$('.messages li').length){
     //     //$('.messages ul').empty();
@@ -100,7 +97,6 @@ function renderLoadingSvg(){
     function openMessageThread(clickedUser){
         $('.messages ul').empty();
         renderLoadingSvg();
->>>>>>> 7a37632fe03740869a64a4e2e63fd9a0f8871ad2
         let queryDoc = createDocQuery(clickedUser);
         selectedUserName = $("[data='"+clickedUser+"'] h6")[0].currentSrc;
         selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
