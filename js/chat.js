@@ -77,6 +77,7 @@ $(document).ready(function(){
           <animate attributeName="r" from="10" to="0" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
         </circle>
       </svg>`);
+      
         let queryDoc = createDocQuery(clickedUser);
         selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
         selectedUserDesignation = $("[data='"+clickedUser+"'] small").text();

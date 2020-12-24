@@ -2,7 +2,7 @@
 {
     border-radius: 2em;
     background:unset;
-    height: 87vh;
+    height: 72vh;
     width: 10vw;
     top: 9vh;
 }
@@ -31,13 +31,19 @@
     height: calc(1.5em + .75rem);
     padding: .375rem .75rem;
     line-height: 1.5;
-    color: #495057;
+    color: currentcolor;
     content: "Browse";
-    background-color: #e9ecef;
+    background-color: cadetblue;
     border-left: inherit;
     border-radius: 2em;
 }
+
 .priority select
+{
+    border-radius: 2em;
+
+}
+.priority .choose
 {
     border-radius: 2em;
 
