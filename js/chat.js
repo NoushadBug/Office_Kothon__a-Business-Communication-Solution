@@ -7,8 +7,11 @@ let selectedUserId;
 let animationTriggered = false;
 let selectedReplies= [];
 let loadSvg = true;
+let unreadMessage = 0;
+let unreadThread;
 
 $(document).ready(function(){
+
     db.collection("users").get()
     .then(function(querySnapshot) {
         $('.loader').fadeOut('slow');
@@ -46,10 +49,18 @@ $(document).ready(function(){
     });
 
     $("#myInput").on("keyup", function() {
+        if($("#myInput").val() != ''){
+            $(".input-group .btn").length? $(".input-group .btn").show() : 
+            $("#myInput").after(`<button class="btn" style="right: 0;bottom: 1vh;"><i class="fa fa-times text-secondary"></i></button>`);
+        }else{ $(".input-group .btn").hide()}
         var value = $(this).val().toLowerCase();
         $(".dfeed-bar .card").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
+        $(".input-group .btn").on( "click", function() {
+            $("#myInput").focus()
+            $("#myInput").val('');
+        })
     });
     });
 
@@ -93,7 +104,7 @@ function renderLoadingSvg(){
         if(loadSvg) $('.messages ul').empty();
         renderLoadingSvg();
         let queryDoc = createDocQuery(clickedUser);
-        selectedUserName = $("[data='"+clickedUser+"'] h6")[0].currentSrc;
+        selectedUserName = $("[data='"+clickedUser+"'] h6").val();
         selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
         selectedUserDesignation = $("[data='"+clickedUser+"'] small").text();
         selectedUserId = clickedUser;
@@ -118,7 +129,7 @@ function renderLoadingSvg(){
                 renderLoadingSvg();
                 if(!Object.getOwnPropertyNames(querySnapshot).length){
                     $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
-                    <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
+                    <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
                 }
                 renderMessages(querySnapshot.data());
             }
@@ -126,7 +137,7 @@ function renderLoadingSvg(){
                 renderLoadingSvg();
                 $('.messages ul').empty();
                 $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
-                <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
+                <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
                 docAvailable = false;
             }
             //db.collection('chats').doc(queryDoc);
@@ -146,9 +157,16 @@ function renderLoadingSvg(){
 
         $('.messages ul').empty();
          for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
+
             if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                if(Object.values(messageInfos)[i].read == false){
+                    unreadMessage++;
+                    unreadThread = Object.values(messageInfos)[i].senderID;
+                    alert(unreadThread)
+                }
+                //console.log('read: '+Object.values(messageInfos)[i].read)
                var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                <small class="messageTime text-right text-secondary mr-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${userImage}' alt="">
                 <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
               </li>`;
@@ -156,7 +174,7 @@ function renderLoadingSvg(){
             }
             else{
                var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                <small class="messageTime text-left text-secondary ml-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${selectedUserImage}' alt="">
                 <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
               </li>`;
@@ -180,7 +198,7 @@ function renderLoadingSvg(){
         if(messageString){
             //alert(createDocQuery(selectedUserId));
             db.collection("chats").doc(createDocQuery(selectedUserId)).set({
-                [timestamp] : {file: "null", message: messageString, receiverID: receiverIdVal, senderID: senderIdVal}
+                [timestamp] : {file: "null", message: messageString, receiverID: receiverIdVal, senderID: senderIdVal, read: false}
             }, { merge: true })
            .catch(function(error) {
                 toastr['error']('Error sending message: ', error);
@@ -211,15 +229,12 @@ function renderLoadingSvg(){
         snapshot.docChanges().forEach(function(change) {
 
             //console.log("change => "+Object.values(change)[0])
-            // if (change.type === "added") {
-                 //console.log("New: ", change.doc.data());
+            // if (change.type === "added" || change.type === "modified") {
+            //      //console.log("New: ", change.doc.data());
             // }
             // if (change.type === "removed") {
             // }
-            if (change.type === "modified") {
-                loadSvg = false;
-                animationTriggered = true;
-           }
+            change.type === "modified"? loadSvg = false : loadSvg = true;
             openMessageThread(selectedUserId);
         });
     });

@@ -27,7 +27,7 @@ signUpform.on('submit',function(event){
                 userCollection.doc(email).set({
                     displayName: name,
                     designation: 'unknown',
-                    photoURL: ""
+                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                 }).then(function() {
                     console.log("Document successfully written!");
                     auth.signOut().then(() => {
