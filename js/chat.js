@@ -272,8 +272,8 @@ function renderLoadingSvg(){
 
     // notification renderer
 
-    function notificationRenderer(){
-        db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
+    // function notificationRenderer(){
+    //     db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
 
-        })
-    }
+    //     })
+    // }
