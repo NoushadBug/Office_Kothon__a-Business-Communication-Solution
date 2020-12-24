@@ -6,6 +6,7 @@ let selectedUserDesignation;
 let selectedUserId;
 let animationTriggered = false;
 let selectedReplies= [];
+let loadSvg = true;
 
 $(document).ready(function(){
     db.collection("users").get()
@@ -85,47 +86,49 @@ function renderLoadingSvg(){
         </circle>
       </svg>`);
      }
-    // if(!$('.messages li').length){
-    //     //$('.messages ul').empty();
-    //     $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
-    //     <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${selectedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
-    //     docAvailable = false;
-    // }
 }
 
 // function of opening message threads
     function openMessageThread(clickedUser){
-        $('.messages ul').empty();
+        if(loadSvg) $('.messages ul').empty();
         renderLoadingSvg();
         let queryDoc = createDocQuery(clickedUser);
         selectedUserName = $("[data='"+clickedUser+"'] h6")[0].currentSrc;
         selectedUserImage = $("[data='"+clickedUser+"'] img")[0].currentSrc;
         selectedUserDesignation = $("[data='"+clickedUser+"'] small").text();
         selectedUserId = clickedUser;
+        let clickedUserName = $("[data='"+clickedUser+"'] h6").text();
+
         db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
             docAvailable = true;
             $('.messages ul').empty();
-            let clickedUserName = $("[data='"+clickedUser+"'] h6").text();
-            $('.contact-profile p').fadeOut(function(){$(this).text(clickedUserName).fadeIn(300);})
-            $('.contact-profile img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
-            $('.sent img').fadeOut(function(){$(this).attr("src", selectedUserImage ).fadeIn(300);})
-            $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
+            if(loadSvg){
+                $('.contact-profile p').fadeOut(function(){$(this).text(clickedUserName).fadeIn(300);})
+                $('.contact-profile img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
+                $('.sent img').fadeOut(function(){$(this).attr("src", selectedUserImage ).fadeIn(300);})
+                $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
+            }
+            else{
+                $('.contact-profile p').text(clickedUserName);
+                $('.contact-profile img').attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc );
+                $('.sent img').attr("src", selectedUserImage );
+                $('.replies img').attr("src", userImage );
+            }
             if(querySnapshot.exists){
                 renderLoadingSvg();
                 if(!Object.getOwnPropertyNames(querySnapshot).length){
-
                     $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                     <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
                 }
                 renderMessages(querySnapshot.data());
             }
             else{
-                //renderLoadingSvg();
+                renderLoadingSvg();
                 $('.messages ul').empty();
                 $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                 <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Send a new message</small></ul></div></div>`).hide().fadeIn(500);
                 docAvailable = false;
-        }
+            }
             //db.collection('chats').doc(queryDoc);
         });
     }
@@ -206,20 +209,18 @@ function renderLoadingSvg(){
     // on storage data change listener
     db.collection("chats").onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
+
             //console.log("change => "+Object.values(change)[0])
             // if (change.type === "added") {
                  //console.log("New: ", change.doc.data());
             // }
-            // if (change.type === "modified") {
-                 //console.log("Modified: ", change.doc.data());
+            // if (change.type === "removed") {
             // }
-            if (change.type === "removed") {
-                openMessageThread(selectedUserId);
-                //console.log("Deleted: ", change.doc.data());
-            }
-            else{
-                renderMessages(change.doc.data());
-            }
+            if (change.type === "modified") {
+                loadSvg = false;
+                animationTriggered = true;
+           }
+            openMessageThread(selectedUserId);
         });
     });
 
@@ -262,7 +263,7 @@ function renderLoadingSvg(){
     }
 
  
-// message chunk string rendering beautifier
+    // message chunk string rendering beautifier
     function chunk(str) {
         var ret = [];
         var i;
@@ -275,9 +276,8 @@ function renderLoadingSvg(){
 
 
     // notification renderer
+    // function notificationRenderer(){
+    //     db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
 
-    function notificationRenderer(){
-        db.collection('chagts').doc(queryDoc).get().then((querySnapshot) => {
-
-        })
-    }
+    //     })
+    // }
