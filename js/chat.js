@@ -135,7 +135,7 @@ function renderLoadingSvg(){
 
         // clearing docs
         var numberOfKeys = Object.values(messageInfos).length;
-        if (numberOfKeys === 0 || numberOfKeys > 500) {
+        if (numberOfKeys === 0 || numberOfKeys > 300) {
              db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
              openMessageThread(selectedUserId);
         }
@@ -204,18 +204,15 @@ function renderLoadingSvg(){
 
 
     // on storage data change listener
-
     db.collection("chats").onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
-            console.log("change => "+Object.values(change)[0])
-            // console.log("change"+Object.getOwnPropertyNames(change.o_.oldIndex))
-            //console.log(change.doc.data());
-            if (change.type === "added") {
-                //console.log("New: ", change.doc.data());
-            }
-            if (change.type === "modified") {
-                //console.log("Modified: ", change.doc.data());
-            }
+            //console.log("change => "+Object.values(change)[0])
+            // if (change.type === "added") {
+                 //console.log("New: ", change.doc.data());
+            // }
+            // if (change.type === "modified") {
+                 //console.log("Modified: ", change.doc.data());
+            // }
             if (change.type === "removed") {
                 openMessageThread(selectedUserId);
                 //console.log("Deleted: ", change.doc.data());
@@ -261,7 +258,7 @@ function renderLoadingSvg(){
     }
 
  
-
+// message chunk string rendering beautifier
     function chunk(str) {
         var ret = [];
         var i;
@@ -270,4 +267,13 @@ function renderLoadingSvg(){
            ret.push(str.substr(i, 40))
         }
         return ret;
+    }
+
+
+    // notification renderer
+
+    function notificationRenderer(){
+        db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
+
+        })
     }
