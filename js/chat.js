@@ -159,11 +159,6 @@ function renderLoadingSvg(){
          for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
 
             if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                if(Object.values(messageInfos)[i].read == false){
-                    unreadMessage++;
-                    unreadThread = Object.values(messageInfos)[i].senderID;
-                    alert(unreadThread)
-                }
                 //console.log('read: '+Object.values(messageInfos)[i].read)
                var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                 <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
@@ -229,9 +224,9 @@ function renderLoadingSvg(){
         snapshot.docChanges().forEach(function(change) {
 
             //console.log("change => "+Object.values(change)[0])
-            // if (change.type === "added" || change.type === "modified") {
-            //      //console.log("New: ", change.doc.data());
-            // }
+             if (change.type === "added" || change.type === "modified") {
+                  notifyMessages(change.doc.data());
+            }
             // if (change.type === "removed") {
             // }
             change.type === "modified"? loadSvg = false : loadSvg = true;
@@ -291,8 +286,15 @@ function renderLoadingSvg(){
 
 
     // notification renderer
-    // function notificationRenderer(){
-    //     db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
-
-    //     })
-    // }
+     function notifyMessages(messageInfos){
+            for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
+            if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                if(Object.values(messageInfos)[i].read == false && Object.values(messageInfos)[i].receiverID === auth.currentUser.email){
+                    unreadMessage++;
+                    unreadThread = Object.values(messageInfos)[i].senderID;
+                    alert(unreadMessage)
+                }
+              }
+        }
+        unreadMessage = 0;
+    }
