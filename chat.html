@@ -55,9 +55,7 @@
           <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
           <p>loading..</p>
           <div class="social-media">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-            <i class="fa fa-twitter" aria-hidden="true"></i>
-            <i class="fa fa-instagram" aria-hidden="true"></i>
+            <i class="fa fa-trash mt-1 pt-3 pr-3" aria-hidden="true"></i>
           </div>
         </div>
         <div class="messages bg-dark shadow">
@@ -66,10 +64,10 @@
         </div>
         <div class="message-input">
           <div class="wrap">
-            <input type="text" class="text-light " placeholder="Write your message...">
+            <input type="text" id="sendInput" class="text-light " placeholder="Write your message...">
             <div style="position: absolute;right: 2vw;top: 0.1351vh;">
               <i class="fa fa-paperclip attachment text-light" aria-hidden="true"></i>
-              <button class="submit bg-info" style="border-radius: 90em;"><i class="fa fa-paper-plane"
+              <button class="submit bg-info" id="submitMessageBtn" style="border-radius: 90em;"><i class="fa fa-paper-plane"
                   aria-hidden="true"></i></button>
             </div>
           </div>
