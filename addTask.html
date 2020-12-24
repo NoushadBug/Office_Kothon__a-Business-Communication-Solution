@@ -76,33 +76,18 @@
                 <form class="p-5 ">
 
 
-                    <input class="form-control mb-3 mt-4 bg-dark shadow-lg text-light border-info" type="text"
+                    <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
                         placeholder="add task title">
 
                     <textarea class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
                         id="exampleFormControlTextarea1" rows="4" placeholder="add task details...."></textarea>
 
-
-
-
                     <div class="custom-file mb-3">
                         <input type="file" class="custom-file-input  " id="customFile">
-                        <label class="custom-file-label bg-dark shadow-lg text-light border-info "
+                        <label class="custom-file-label bg-dark shadow-lg text-secondary border-info "
                             for="customFile">Choose
                             file </label>
                     </div>
-                    <div class=" priority mb-3 ">
-                        <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
-                        <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info"
-                            id="inlineFormCustomSelect">
-                            <option selected class="choose">Select Priority</option>
-                            <option value="1">Easy</option>
-                            <option value="2">Moderate</option>
-                            <option value="3">Hard</option>
-                        </select>
-                    </div>
-
-
                     <form id="form" name="form" class="form-inline">
                         <div class="form-group ">
 
@@ -115,7 +100,25 @@
                                 class="form-control bg-dark shadow-lg text-light  border-info"
                                 placeholder="select end date" />
                         </div>
+
+                        <div class=" priority mb-3 ">
+                            <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
+                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
+                                id="inlineFormCustomSelect">
+                                <option selected class="choose">Select Priority</option>
+                                <option value="1">Easy</option>
+                                <option value="2">Moderate</option>
+                                <option value="3">Hard</option>
+                            </select>
+                        </div>
+                        <button type="button"
+                            class="btn btn-secondary rounded-pill border-dark shadow-lg mt-3 button">submit</button>
+
                     </form>
+
+
+
+
 
 
 

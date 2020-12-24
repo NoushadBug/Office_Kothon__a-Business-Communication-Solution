@@ -1,27 +1,30 @@
 .taskForm
 {
+    background: #2e3035;
     border-radius: 2em;
-    background:unset;
-    height: 72vh;
+    /* background:unset; */
+    height: 74vh;
     width: 10vw;
-    top: 9vh;
+    top: 20vh;
 }
 .taskForm input
 {
-    border-radius: 2em;
+    border-radius: 1em;
    
 }
 .taskForm textarea
 {
-    border-radius: 2em;
+    border-radius: 1em;
    
 }
 .custom-file label
 {
-    border-radius: 2em;
+    border-radius: 1em;
 
 }
 .custom-file-label::after {
+    color: white;
+    border-radius: 1em;
     position: absolute;
     top: 0;
     right: 0;
@@ -31,24 +34,27 @@
     height: calc(1.5em + .75rem);
     padding: .375rem .75rem;
     line-height: 1.5;
-    color: currentcolor;
+    /* color: currentcolor; */
     content: "Browse";
     background-color: cadetblue;
     border-left: inherit;
-    border-radius: 2em;
 }
 
 .priority select
 {
-    border-radius: 2em;
+    border-radius: 1em;
 
 }
 .priority .choose
 {
-    border-radius: 2em;
+    border-radius: 1em;
 
 }
 .form-group label
 {
     color: aqua;
+}
+ .button {
+    padding-left: 12.5vw;
+    padding-right: 12.5vw;
 }

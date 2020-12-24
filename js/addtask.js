@@ -1,4 +1,16 @@
-$('#startDate').datePicker({
+$(document).ready(function(){
+  $('#taskformbar').hide();
+  $('.dfeed-bar .card').click(function() {
+    $('#taskformbar').show(function(){
+      $(this).animate({width:'toggle'},350)
+    });
+  })
+})
+
+
+
+
+  $('#startDate').datePicker({
 
     // use cache
     useCache: false,
@@ -138,9 +150,14 @@ $('#startDate').datePicker({
     rangeEndAttribute: 'data-to'
     
   });
+  
+  
+  
+  
   //endDate
-$('#endDate').datePicker({
-
+  
+  $('#endDate').datePicker({
+  
     // use cache
     useCache: false,
   
@@ -279,3 +296,12 @@ $('#endDate').datePicker({
     rangeEndAttribute: 'data-to'
     
   });
+    
+
+
+
+
+
+
+
+  
