@@ -155,7 +155,7 @@ function renderLoadingSvg(){
                var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                 <small class="messageTime text-left text-secondary ml-5">sent at ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                 <img src='${selectedUserImage}' alt="">
-                <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message.join('-\n'))}</p>
+                <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
               </li>`;
               animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
             }
