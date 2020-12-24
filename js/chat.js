@@ -226,14 +226,15 @@ function renderLoadingSvg(){
 
     // on click trigger deletion
     $(".social-media .fa-trash").on( "click", function() {
-        if($('.replies input[type=checkbox]').length){
+        var checkboxLength = $('.replies input[type=checkbox]').length
+        if(checkboxLength){
             if($('.replies input[type=checkbox]').is(":hidden")){$('.replies input[type=checkbox]').show();
             }else{$('.replies input[type=checkbox]').hide();}}
         else{
                 $('.replies').append('<input type="checkbox" style="margin:.81em;float:right;" /><br />');
             }
             $(".replies input[type=checkbox]").change(function() {
-                if(this.checked) {
+                if($(this).prop("checked") == true) {
                     if(!$(".social-media .fa-check").length){
                         $(".social-media").prepend(`<i class="fa fa-check mt-1 pt-3" aria-hidden="true"></i>`);
                         $(".social-media .fa-check").on( "click", function() {
@@ -241,6 +242,9 @@ function renderLoadingSvg(){
                           });
                     }
                     selectedReplies.push($(this).closest(".replies").data("position"));
+                }
+                else{
+                    selectedReplies.splice( $.inArray($(this).closest(".replies").data("position"), selectedReplies), 1 );
                 }
             });
       });
@@ -272,8 +276,8 @@ function renderLoadingSvg(){
 
     // notification renderer
 
-    // function notificationRenderer(){
-    //     db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
+    function notificationRenderer(){
+        db.collection('chagts').doc(queryDoc).get().then((querySnapshot) => {
 
-    //     })
-    // }
+        })
+    }
