@@ -9,6 +9,13 @@ let selectedReplies= [];
 let loadSvg = true;
 let unreadMessage = 0;
 let unreadThread;
+let countReads = 0;
+let serverUpdated = false;
+let docLists = [];
+let selectedDocInfo = [];
+var queryExists;
+var queriedInfo;
+// TODO:global variables
 
 $(document).ready(function(){
 
@@ -101,6 +108,7 @@ function renderLoadingSvg(){
 
 // function of opening message threads
     function openMessageThread(clickedUser){
+        //alert(serverUpdated);
         if(loadSvg) $('.messages ul').empty();
         renderLoadingSvg();
         let queryDoc = createDocQuery(clickedUser);
@@ -110,7 +118,66 @@ function renderLoadingSvg(){
         selectedUserId = clickedUser;
         let clickedUserName = $("[data='"+clickedUser+"'] h6").text();
 
-        db.collection('chats').doc(queryDoc).get().then((querySnapshot) => {
+        if(serverUpdated){
+            // TODO: query snap
+            db.collection('chats').get().then((querySnapshot) => {
+                docLists = [];
+                selectedDocInfo = [];
+                
+                for (let i = 0; i < querySnapshot.docs.length; i++) {
+                    if (queryDoc === querySnapshot.docs[i].id) {
+                        queryExists = true;
+                        queriedInfo = querySnapshot.docs[i].data();
+                    }
+                    docLists.push(querySnapshot.docs[i].id)
+                    selectedDocInfo.push(querySnapshot.docs[i].data())
+                }
+                countReads++;
+                //alert(countReads);
+                docAvailable = true;
+                $('.messages ul').empty();
+                if(loadSvg){
+                    $('.contact-profile p').fadeOut(function(){$(this).text(clickedUserName).fadeIn(300);})
+                    $('.contact-profile img').fadeOut(function(){$(this).attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc ).fadeIn(300);})
+                    $('.sent img').fadeOut(function(){$(this).attr("src", selectedUserImage ).fadeIn(300);})
+                    $('.replies img').fadeOut(function(){$(this).attr("src", userImage ).fadeIn(300);})
+                }
+                else{
+                    $('.contact-profile p').text(clickedUserName);
+                    $('.contact-profile img').attr("src", $("[data='"+clickedUser+"'] img")[0].currentSrc );
+                    $('.sent img').attr("src", selectedUserImage );
+                    $('.replies img').attr("src", userImage );
+                }
+                if(queryExists){
+                   // renderLoadingSvg();
+                    if(!Object.getOwnPropertyNames(queriedInfo).length){
+                        $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
+                        <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
+                    }
+                    renderMessages(queriedInfo);
+                }
+                else{
+                    renderLoadingSvg();
+                    $('.messages ul').empty();
+                    $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
+                    <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
+                    docAvailable = false;
+                }
+        });}
+        else{
+            var iterate;
+            for (let i = 0; i < docLists.length; i++) {
+                if (createDocQuery(clickedUser) === docLists[i]) {
+                    queryExists = true;
+                    queriedInfo = selectedDocInfo[i];
+                    iterate = i;
+                    //console.log(docLists[i])
+                    //console.log(selectedDocInfo[i])
+                }
+                //console.log(queryExists)
+                //console.log(createDocQuery(clickedUser))
+            }
+            //console.log(queryExists)
             docAvailable = true;
             $('.messages ul').empty();
             if(loadSvg){
@@ -125,56 +192,57 @@ function renderLoadingSvg(){
                 $('.sent img').attr("src", selectedUserImage );
                 $('.replies img').attr("src", userImage );
             }
-            if(querySnapshot.exists){
+            if(queryExists){
                 renderLoadingSvg();
-                if(!Object.getOwnPropertyNames(querySnapshot).length){
+                if(!(selectedDocInfo[iterate])){
                     $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                     <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
                 }
-                renderMessages(querySnapshot.data());
+                renderMessages(selectedDocInfo[iterate]);
             }
             else{
-                renderLoadingSvg();
+                //renderLoadingSvg();
                 $('.messages ul').empty();
                 $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                 <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
                 docAvailable = false;
             }
             //db.collection('chats').doc(queryDoc);
-        });
+        }
+        serverUpdated = false;
     }
 
 // render the messages inside HTML
     function renderMessages(messageInfos){
-
+       // console.log('messageInfo: ' + messageInfos)
         // clearing docs
         var numberOfKeys = Object.values(messageInfos).length;
         if (numberOfKeys === 0 || numberOfKeys > 300) {
-             db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
-             openMessageThread(selectedUserId);
+            db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
+            //openMessageThread(selectedUserId);
         }
         // clearing docs
-
         $('.messages ul').empty();
          for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
-
-            if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                //console.log('read: '+Object.values(messageInfos)[i].read)
-               var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                <img src='${userImage}' alt="">
-                <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
-              </li>`;
-              animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
-            }
-            else{
-               var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                <img src='${selectedUserImage}' alt="">
-                <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
-              </li>`;
-              animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
-            }
+            // console.log(typeof(Object.values(messageInfos)[i]) == 'object')
+             if( typeof(Object.values(messageInfos)[i]) == 'object' ){
+                if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                    var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                     <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                     <img src='${userImage}' alt="">
+                     <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
+                   </li>`;
+                   animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
+                 }
+                 else{
+                    var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                     <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                     <img src='${selectedUserImage}' alt="">
+                     <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
+                   </li>`;
+                   animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
+                 }
+                }
             if(i>0){
                 $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
                     return ($(b).data('position')) < ($(a).data('position')) ? 1 : -1;
@@ -193,7 +261,7 @@ function renderLoadingSvg(){
         if(messageString){
             //alert(createDocQuery(selectedUserId));
             db.collection("chats").doc(createDocQuery(selectedUserId)).set({
-                [timestamp] : {file: "null", message: messageString, receiverID: receiverIdVal, senderID: senderIdVal, read: false}
+                [timestamp] : {file: "null", message: messageString, receiverID: receiverIdVal, senderID: senderIdVal}
             }, { merge: true })
            .catch(function(error) {
                 toastr['error']('Error sending message: ', error);
@@ -222,14 +290,16 @@ function renderLoadingSvg(){
     // on storage data change listener
     db.collection("chats").onSnapshot(function(snapshot) {
         snapshot.docChanges().forEach(function(change) {
-
             //console.log("change => "+Object.values(change)[0])
-             if (change.type === "added" || change.type === "modified") {
-                  notifyMessages(change.doc.data());
-            }
+            serverUpdated = true;
+            //  if (change.type === "added" || change.type === "modified") {
+            //      notifyMessages(change.doc.data());
+            // }
             // if (change.type === "removed") {
             // }
-            change.type === "modified"? loadSvg = false : loadSvg = true;
+            //
+            //change.type === "modified"? loadSvg = false : loadSvg = true;
+            loadSvg = true;
             openMessageThread(selectedUserId);
         });
     });
@@ -272,7 +342,7 @@ function renderLoadingSvg(){
         $(".social-media .fa-check").remove();
     }
 
- 
+
     // message chunk string rendering beautifier
     function chunk(str) {
         var ret = [];
@@ -286,15 +356,15 @@ function renderLoadingSvg(){
 
 
     // notification renderer
-     function notifyMessages(messageInfos){
-            for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
-            if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                if(Object.values(messageInfos)[i].read == false && Object.values(messageInfos)[i].receiverID === auth.currentUser.email){
-                    unreadMessage++;
-                    unreadThread = Object.values(messageInfos)[i].senderID;
-                    alert(unreadMessage)
-                }
-              }
-        }
-        unreadMessage = 0;
-    }
+    //  function notifyMessages(messageInfos){
+    //         for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
+    //         if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+    //             if(Object.values(messageInfos)[i].read == false && Object.values(messageInfos)[i].receiverID === auth.currentUser.email){
+    //                 unreadMessage++;
+    //                 unreadThread = Object.values(messageInfos)[i].senderID;
+    //                 alert(unreadMessage)
+    //             }
+    //           }
+    //     }
+    //     unreadMessage = 0;
+    // }
