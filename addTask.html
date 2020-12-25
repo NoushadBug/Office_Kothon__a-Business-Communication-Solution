@@ -248,10 +248,10 @@
                     console.log(doc.id, " => ", doc.data());
                 });
                 $(".card").on("click", function () {
-                    $('.taskForm').show(500);
+                    $('.taskForm').fadeIn(500);
                     $('.svg-div').remove();
                     var cardText = $(this).children("h6").text();
-                    alert(cardText)
+                    //(cardText)
                     $("form h4").text(cardText);
                 });
             })
