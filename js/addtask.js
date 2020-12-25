@@ -1,11 +1,10 @@
 $(document).ready(function(){
-  $('#taskformbar').hide();
-  $('.dfeed-bar .card').click(function() {
-    $('#taskformbar').show(function(){
-      $(this).animate({width:'toggle'},350)
-    });
-  })
+  $('.taskForm').hide();
+ 
+  
 })
+
+
 
 
 
@@ -297,11 +296,3 @@ $(document).ready(function(){
     
   });
     
-
-
-
-
-
-
-
-  

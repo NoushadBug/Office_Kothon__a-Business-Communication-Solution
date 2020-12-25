@@ -45,7 +45,7 @@
                 <div class="leftbar-icons">
                     <a href="./dashboard.html" aria-label="Home" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-home m-0"></i></a>
-                    <a href="/chat.html" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
+                    <a href="./chat.html" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-comment"></i></a>
                     <a href="#" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-group"></i></a>
@@ -72,8 +72,10 @@
 
                 </div>
             </div>
-            <div class="taskForm container col-md-6 shadow-lg" id="taskformbar">
-                <form class="p-5 ">
+            <div class="taskForm container col-md-6 shadow-lg " id="taskformbar">
+
+                <form class="p-5">
+
 
 
                     <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
@@ -124,7 +126,26 @@
 
                 </form>
 
+
             </div>
+
+
+            <div class=" svg-div col-md-6 typewriter">
+                <div class="slide shadow-lg"><i></i></div>
+                <div class="paper shadow-lg"></div>
+                <div class="keyboard shadow-lg"></div>
+                <h6>click anyone to assign task</h6>
+            </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -179,15 +200,14 @@
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="./js/jqDatePicker.min.js"></script>
+
 <script src="./js/addtask.js"></script>
 <script>
     db.collection("users").get()
         .then(function (querySnapshot) {
             $('.loader').fadeOut('slow');
             querySnapshot.forEach(function (doc) {
-                if (doc.id === auth.currentUser.email) {
-                }
-                else {
+                if (doc.id != auth.currentUser.email) {
                     $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
                 <div class="row m-auto">
                   <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
@@ -198,7 +218,24 @@
                 </div>
             </div>`).appendTo('#force-overflow');
                 }
+
+
+
                 console.log(doc.id, " => ", doc.data());
+            });
+            $(".card").on("click", function () {
+
+
+                $('.taskForm').show(500);
+                $('.svg-div').remove();
+
+
+                // var cardText = $(this).closest("h6").val();
+                // alert(cardText);
+
+                // $("#taskForm form h3").text(cardText);
+
+
             });
         })
 </script>
