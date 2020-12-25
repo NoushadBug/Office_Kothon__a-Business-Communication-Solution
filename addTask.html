@@ -136,32 +136,43 @@
                 <div class="keyboard shadow-lg"></div>
                 <h6>click anyone to assign task</h6>
             </div>
+        </div>
+        <div class="welcome-message col-md-3    mb-2  " id="welcome">
+            <div class=" col-md-7 mx-auto my-4">
+                <img id="userImage" class="col-md-12" alt=""
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLK5y6vrKYkljqyxprlyBhttps://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                    style="border-radius: 50em;">
+                <h4 class="text-center mt-3 text-light userName mb-0 mx-auto">Loading...</h4>
+                <h5 class="text-center mt-1 text-info designation mb-0 mx-auto">Loading...</h5>
+            </div>
+            <div class="task-div col-md-12 container">
+                <div class="d-flex ">
+                    <h6 class="text-light">Total Task</h6>
+                </div>
+
+                <div class="d-flex">
+                    <h6 class="text-light">Completed Task</h6>
+                </div>
+
+
+                <div class="d-flex">
+                    <h6 class="text-light">Task priority</h6>
+                </div>
+                <div class="d-flex">
+                    <h6 class="text-light">InCompleted Task</h6>
+                </div>
 
 
 
 
 
-
-
-
-
-
-
-
-
+            </div>
         </div>
 
 
 
 
 
-
-
-
-
-        <div class="col-md-3">
-
-        </div>
     </div>
 </body>
 
@@ -206,6 +217,7 @@
     db.collection("users").get()
         .then(function (querySnapshot) {
             $('.loader').fadeOut('slow');
+
             querySnapshot.forEach(function (doc) {
                 if (doc.id != auth.currentUser.email) {
                     $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">

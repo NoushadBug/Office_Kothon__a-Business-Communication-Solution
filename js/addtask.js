@@ -1,9 +1,31 @@
+
 $(document).ready(function(){
   $('.taskForm').hide();
- 
+  
+  db.collection("users").get()
+  .then(function(querySnapshot){
+    $('#welcome').slideDown("slow");
+    querySnapshot.forEach(function(doc) {
+      if(doc.id === auth.currentUser.email){
+        $('#userImage').attr("src", `${doc.data().photoURL}`);
+        $('.userName').html(`${doc.data().displayName}`);
+        $('.designation').html(`${doc.data().designation}`);
+       
+    }
+  
+    })
+  })
+  
+
   
 })
 
+document.getElementById('signout').addEventListener('click', () => {
+  firebase.auth().signOut().then(() => {
+      toastr['info']('You are signed out! ', 'see you soon');
+      });
+      window.location.replace("./index.html");
+  });
 
 
 
