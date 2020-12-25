@@ -21,19 +21,9 @@
 </head>
 
 <body>
-    <div class="loader" style="
-            position: fixed;
-            z-index: 99;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            background: #101011;
-            justify-content: center;
-            align-items: center;
-          ">
-        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
+    <div class="loader"
+        style="position: fixed; z-index: 99; top: 0px; left: 0px; width: 100%; height: 100%; display: none; background: rgb(16, 16, 17); justify-content: center; align-items: center;">
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px">
     </div>
 
     <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
@@ -70,19 +60,78 @@
                 <div class="dfeed-bar bg-transparent border-none scrollbar" id="force-overflow"
                     style="min-height: 73.6vh;">
 
+                    <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="bapo@mailinator.com">
+                        <div class="row m-auto">
+                            <img src="https://financialallianceforwomen.org/wp-content/uploads/2019/11/IMG_9053.jpg"
+                                class="col-md-4 rounded" alt="">
+                            <div class="col-md-8 pl-0 m-auto">
+                                <h6 class="text-light m-0 d-block">Rooney Rosales</h6>
+                                <small class="text-info m-0">H.R. manager</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="giwy@mailinator.com">
+                        <div class="row m-auto">
+                            <img src="https://www.researchgate.net/profile/Niklas_Jakobsson2/publication/271944386/figure/fig1/AS:718558128533509@1548329016702/Profile-picture-color-figure-available-online_Q640.jpg"
+                                class="col-md-4 rounded" alt="">
+                            <div class="col-md-8 pl-0 m-auto">
+                                <h6 class="text-light m-0 d-block">Blaze Mooney</h6>
+                                <small class="text-info m-0">Designer</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="lusopixomy@mailinator.com">
+                        <div class="row m-auto">
+                            <img src="https://www0.sun.ac.za/100/wp-content/uploads/Dr-Cedric-de-Coning.jpg"
+                                class="col-md-4 rounded" alt="">
+                            <div class="col-md-8 pl-0 m-auto">
+                                <h6 class="text-light m-0 d-block">Debra Duncan</h6>
+                                <small class="text-info m-0">Business Head</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="mowud@mailinator.com">
+                        <div class="row m-auto">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLK5y6vrKYkljqyxprlyB-VeKM-OWxN_8fA&amp;usqp=CAU"
+                                class="col-md-4 rounded" alt="">
+                            <div class="col-md-8 pl-0 m-auto">
+                                <h6 class="text-light m-0 d-block">Cailin Gilmore</h6>
+                                <small class="text-info m-0">Tester</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="relinybo@mailinator.com">
+                        <div class="row m-auto">
+                            <img src="https://chanzuckerberg.com/wp-content/uploads/2020/04/Marcelo-Alves-da-Silva-Mori-PhD-Lead.jpg"
+                                class="col-md-4 rounded" alt="">
+                            <div class="col-md-8 pl-0 m-auto">
+                                <h6 class="text-light m-0 d-block">Zorita Reed</h6>
+                                <small class="text-info m-0">Consultant</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="voxidozik@mailinator.com">
+                        <div class="row m-auto">
+                            <img src="https://preview.redd.it/x9jo1vw9amr41.jpg?width=640&amp;height=640&amp;crop=smart&amp;auto=webp&amp;s=637c48b70a134315ab0d996d524a9ac98e15620d"
+                                class="col-md-4 rounded" alt="">
+                            <div class="col-md-8 pl-0 m-auto">
+                                <h6 class="text-light m-0 d-block">Fiona Rhodes</h6>
+                                <small class="text-info m-0">Software Engineer</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="taskForm container col-md-6 shadow-lg " id="taskformbar">
+            <div class="taskForm container mt-5 mb-1 col-md-6 shadow-lg " id="taskformbar">
+                <form style="margin: auto;align-items: center;">
 
-                <form class="p-5">
-
-
+                    <h4 class="text-light text-center"></h4>
 
                     <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
                         placeholder="add task title">
 
                     <textarea class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
-                        id="exampleFormControlTextarea1" rows="4" placeholder="add task details...."></textarea>
+                        id="exampleFormControlTextarea1" rows="3" placeholder="add task details...."></textarea>
 
                     <div class="custom-file mb-3">
                         <input type="file" class="custom-file-input  " id="customFile">
@@ -90,41 +139,35 @@
                             for="customFile">Choose
                             file </label>
                     </div>
-                    <form id="form" name="form" class="form-inline">
-                        <div class="form-group ">
 
-                            <input id="startDate" name="startDate" type="text"
-                                class="form-control bg-dark shadow-lg text-light  border-info"
-                                placeholder="select start date" />
-                            &nbsp;
+                    <div class="form-group ">
 
-                            <input id="endDate" name="endDate" type="text"
-                                class="form-control bg-dark shadow-lg text-light  border-info"
-                                placeholder="select end date" />
-                        </div>
+                        <input id="startDate" name="startDate" type="text"
+                            class="form-control bg-dark shadow-lg text-light  border-info"
+                            placeholder="select start date">
+                        &nbsp;
 
-                        <div class=" priority mb-3 ">
-                            <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
-                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
-                                id="inlineFormCustomSelect">
-                                <option selected class="choose">Select Priority</option>
-                                <option value="1">Easy</option>
-                                <option value="2">Moderate</option>
-                                <option value="3">Hard</option>
-                            </select>
-                        </div>
-                        <button type="button"
-                            class="btn btn-secondary rounded-pill border-dark shadow-lg mt-3 button">submit</button>
+                        <input id="endDate" name="endDate" type="text"
+                            class="form-control bg-dark shadow-lg text-light  border-info"
+                            placeholder="select end date">
+                    </div>
 
-                    </form>
-
-
-
-
-
-
+                    <div class=" priority mb-3 ">
+                        <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
+                        <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
+                            id="inlineFormCustomSelect">
+                            <option selected="" class="choose">Select Priority</option>
+                            <option value="1">Easy</option>
+                            <option value="2">Moderate</option>
+                            <option value="3">Hard</option>
+                        </select>
+                    </div>
+                    <button type="button"
+                        class="btn btn-secondary rounded-pill border-dark shadow-lg mt-3 button">submit</button>
 
                 </form>
+
+
 
 
             </div>
@@ -136,42 +179,46 @@
                 <div class="keyboard shadow-lg"></div>
                 <h6>click anyone to assign task</h6>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
+
+
+
+
+
+
+
+
+
+
         <div class="welcome-message col-md-3    mb-2  " id="welcome">
-            <div class=" col-md-7 mx-auto my-4">
+
+
+            <div class=" col-md-7 mx-auto my-5 " style="
+        /* margin-bottom: 53vh; */
+    ">
                 <img id="userImage" class="col-md-12" alt=""
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLK5y6vrKYkljqyxprlyBhttps://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLK5y6vrKYkljqyxprlyB-VeKM-OWxN_8fA&amp;usqp=CAU"
                     style="border-radius: 50em;">
-                <h4 class="text-center mt-3 text-light userName mb-0 mx-auto">Loading...</h4>
-                <h5 class="text-center mt-1 text-info designation mb-0 mx-auto">Loading...</h5>
+                <h4 class="text-center mt-3 text-light userName mb-0 mx-auto">Cailin Gilmore</h4>
+                <small class="d-block m-auto text-info text-center">Click anyone to message</small>
             </div>
-            <div class="task-div col-md-12 container">
-                <div class="d-flex ">
-                    <h6 class="text-light">Total Task</h6>
-                </div>
-
-                <div class="d-flex">
-                    <h6 class="text-light">Completed Task</h6>
-                </div>
-
-
-                <div class="d-flex">
-                    <h6 class="text-light">Task priority</h6>
-                </div>
-                <div class="d-flex">
-                    <h6 class="text-light">InCompleted Task</h6>
-                </div>
 
 
 
-
-
-            </div>
         </div>
-
-
-
-
 
     </div>
 </body>
@@ -221,33 +268,23 @@
             querySnapshot.forEach(function (doc) {
                 if (doc.id != auth.currentUser.email) {
                     $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
-                <div class="row m-auto">
-                  <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
-                  <div class="col-md-8 pl-0 m-auto">
-                    <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
-                    <small class="text-info m-0">${doc.data().designation}</small>
-                  </div>
-                </div>
-            </div>`).appendTo('#force-overflow');
+                    <div class="row m-auto">
+                      <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
+                      <div class="col-md-8 pl-0 m-auto">
+                        <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
+                        <small class="text-info m-0">${doc.data().designation}</small>
+                      </div>
+                    </div>
+                </div>`).appendTo('#force-overflow');
                 }
-
-
-
                 console.log(doc.id, " => ", doc.data());
             });
             $(".card").on("click", function () {
-
-
-                $('.taskForm').show(500);
+                $('.taskForm').fadeIn(500);
                 $('.svg-div').remove();
-
-
-                // var cardText = $(this).closest("h6").val();
-                // alert(cardText);
-
-                // $("#taskForm form h3").text(cardText);
-
-
+                var cardText = $(this).children("h6").text();
+                //(cardText)
+                $("form h4").text(cardText);
             });
         })
 </script>
