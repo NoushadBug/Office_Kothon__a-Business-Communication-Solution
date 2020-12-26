@@ -369,3 +369,31 @@ margin-top: 4vh;
   padding-left: 12.5vw;
   padding-right: 12.5vw;
 }
+.wrapper .container h6
+{
+  text-align: center;
+  
+}
+ .container 
+{
+ 
+      /* margin: auto; */
+      overflow-x: auto;
+      /* width: 50%; */
+      overflow-x: hidden;
+  
+}
+.chart-wrapper
+{
+  width: 500px;
+
+  margin: 0 auto;
+
+}
+#myChart
+{
+  margin-left: -5.5em;
+  display: block;
+  height: 250px;
+  width: 500px;
+}

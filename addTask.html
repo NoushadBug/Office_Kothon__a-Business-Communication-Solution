@@ -206,7 +206,7 @@
         <div class="welcome-message col-md-3    mb-2  " id="welcome">
 
 
-            <div class=" col-md-7 mx-auto my-5">
+            <div class=" col-md-7 mx-auto my-4">
                 <img id="userImage" class="col-md-12" alt=""
                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                     style="border-radius: 50em;">
@@ -214,6 +214,17 @@
                 <h6 class="text-center mt-1 text-info designation mb-0 mx-auto">Loading...</h6>
 
             </div>
+
+            <div class="container">
+                <div class="title text-center">
+                    <h6 class="text-secondary  ">your daily task ratio</h6>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+
 
 
 
@@ -257,6 +268,10 @@
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="./js/jqDatePicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js"></script>
+
+
 
 <script src="./js/addtask.js"></script>
 <script>

@@ -318,3 +318,53 @@ document.getElementById('signout').addEventListener('click', () => {
     
   });
     
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let labels = ['completed','incompleted','time out'];
+  let colorHex = ['#253D5B','#FB3640','#EFCA08',];
+  let myChart = new Chart(ctx,{
+
+    type: 'doughnut',
+    data:{
+      datasets:[
+        {
+          data:[60,30,10],
+          backgroundColor:colorHex,
+          borderColor: '#393c45'
+        }
+      ],
+      labels:labels,
+      
+    },
+    options:{
+      responsive:true,
+      legend:{
+        position:'top',
+        
+        
+    
+        
+      },
+       plugins:{
+       datalabels:{
+         color : 'white',
+         anchor:'end',
+         align:'start',
+         offset:-10,
+         borderWidth:2,
+         borderColor:'#2e3035',
+         borderRadius:25,
+         backgroundColor:(context)=>{
+           return context.dataset.backgroundColor;
+         },
+         font:{
+           weight:'bold',
+           size:'13'
+         },
+         formatter:(value)=>{
+           return value + ' %';
+         }
+       }
+     }
+    }
+
+  })
