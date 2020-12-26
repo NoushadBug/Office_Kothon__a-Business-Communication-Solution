@@ -56,18 +56,10 @@ $(document).ready(function(){
     });
 
     $("#myInput").on("keyup", function() {
-        if($("#myInput").val() != ''){
-            $(".input-group .btn").length? $(".input-group .btn").show() : 
-            $("#myInput").after(`<button class="btn" style="right: 0;bottom: 1vh;"><i class="fa fa-times text-secondary"></i></button>`);
-        }else{ $(".input-group .btn").hide()}
         var value = $(this).val().toLowerCase();
         $(".dfeed-bar .card").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
-        $(".input-group .btn").on( "click", function() {
-            $("#myInput").focus()
-            $("#myInput").val('');
-        })
     });
     });
 
@@ -123,7 +115,6 @@ function renderLoadingSvg(){
             db.collection('chats').get().then((querySnapshot) => {
                 docLists = [];
                 selectedDocInfo = [];
-                
                 for (let i = 0; i < querySnapshot.docs.length; i++) {
                     if (queryDoc === querySnapshot.docs[i].id) {
                         queryExists = true;

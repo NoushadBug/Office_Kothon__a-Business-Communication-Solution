@@ -1,23 +1,43 @@
 
 $(document).ready(function(){
   $('.taskForm').hide();
-  
   db.collection("users").get()
-  .then(function(querySnapshot){
-    $('#welcome').slideDown("slow");
-    querySnapshot.forEach(function(doc) {
-      if(doc.id === auth.currentUser.email){
-        $('#userImage').attr("src", `${doc.data().photoURL}`);
-        $('.userName').html(`${doc.data().displayName}`);
-        $('.designation').html(`${doc.data().designation}`);
-       
-    }
-  
-    })
+  .then(function (querySnapshot) {
+    $('.loader').fadeOut('slow');
+      querySnapshot.forEach(function (doc) {
+          if (doc.id != auth.currentUser.email) {
+              $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
+              <div class="row m-auto">
+                <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
+                <div class="col-md-8 pl-0 m-auto">
+                  <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
+                  <small class="text-info m-0">${doc.data().designation}</small>
+                </div>
+              </div>
+          </div>`).appendTo('#force-overflow');
+          }
+          else{
+              $('#userImage').attr("src", `${doc.data().photoURL}`);
+              $('.userName').html(`${doc.data().displayName}`);
+              $('.designation').html(`${doc.data().designation}`);
+          }
+          console.log(doc.id, " => ", doc.data());
+      });
+      $(".card").on("click", function () {
+          $('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
+          $('.svg-div').remove();
+          var cardText = $("[data='"+$(this).attr('data')+"'] h6").text();
+          //(cardText)
+          $("form h4").fadeOut(function(){$(this).text("Task for "+cardText).fadeIn(400);})
+      });
   })
-  
 
-  
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $(".dfeed-bar .card").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+});
 })
 
 document.getElementById('signout').addEventListener('click', () => {
@@ -171,12 +191,8 @@ document.getElementById('signout').addEventListener('click', () => {
     rangeEndAttribute: 'data-to'
     
   });
-  
-  
-  
-  
   //endDate
-  
+
   $('#endDate').datePicker({
   
     // use cache
@@ -317,9 +333,10 @@ document.getElementById('signout').addEventListener('click', () => {
     rangeEndAttribute: 'data-to'
     
   });
-    
+
+  Chart.defaults.global.legend.labels.usePointStyle = true; 
   let ctx = document.getElementById('myChart').getContext('2d');
-  let labels = ['completed','incompleted','time out'];
+  let labels = ['completed','incompleted','deadline cross'];
   let colorHex = ['#253D5B','#FB3640','#EFCA08',];
   let myChart = new Chart(ctx,{
 
@@ -336,13 +353,13 @@ document.getElementById('signout').addEventListener('click', () => {
       
     },
     options:{
-      responsive:true,
+      responsive:false,
+      circular: true,
       legend:{
-        position:'top',
-        
-        
-    
-        
+        display: true,
+        position: 'bottom',
+        usePointStyle: true,
+        pointStyle: 'd'
       },
        plugins:{
        datalabels:{
