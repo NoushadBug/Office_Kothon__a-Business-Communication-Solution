@@ -180,33 +180,11 @@
                 <h6>click anyone to assign task</h6>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
-
-
         <div class="welcome-message col-md-3    mb-2  " id="welcome">
 
 
-            <div class=" col-md-7 mx-auto my-5">
+            <div class=" col-md-7 mx-auto my-4">
                 <img id="userImage" class="col-md-12" alt=""
                     src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                     style="border-radius: 50em;">
@@ -279,7 +257,7 @@
                 console.log(doc.id, " => ", doc.data());
             });
             $(".card").on("click", function () {
-                $('.taskForm').fadeIn(500);
+                $('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
                 $('.svg-div').remove();
                 var cardText = $(this).children("h6").text();
                 //(cardText)
