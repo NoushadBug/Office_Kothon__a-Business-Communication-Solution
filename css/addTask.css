@@ -392,8 +392,19 @@ margin-top: 4vh;
 }
 #myChart
 {
-  margin-left: -5.5em;
-  display: block;
-  height: 250px;
-  width: 500px;
+  margin-left: -8vw;
+
 }
+
+.card img{
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  -ms-border-radius: 50% !important;
+  -o-border-radius: 50% !important;
+  }
+  
+
+  form,.form-control,input, select{
+    font-size: 0.9vw !important;
+  }
