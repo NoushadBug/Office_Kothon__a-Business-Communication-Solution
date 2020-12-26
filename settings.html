@@ -1,0 +1,138 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Office Kothon</title>
+    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
+    <link rel="stylesheet" href="./toaster/toastr.min.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
+    <link rel="stylesheet" href="./css/chat.css" />
+    <link rel="stylesheet" href="./css/settings.css" />
+</head>
+
+<body onload="startTime()">
+    <div class="loader"
+        style="position: fixed; z-index: 99; top: 0px; left: 0px; width: 100%; height: 100%; display: none; background: rgb(16, 16, 17); justify-content: center; align-items: center;">
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px">
+    </div>
+
+    <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
+        <div class="dashboard-container row col-md-9 ">
+            <!-- leftbar container -->
+            <div class="leftbar shadow py-5">
+                <a href="./index.html" class="text-center"><img
+                        src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
+                <div class="leftbar-icons">
+                    <a href="./dashboard.html" aria-label="Home" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-home m-0"></i></a>
+                    <a href="./chat.html" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-comment"></i></a>
+                    <a href="#" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-group"></i></a>
+                    <a href="./addTask.html" aria-label="Task" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-edit"></i></a>
+                    <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-cog"></i></a>
+                </div>
+                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip"><i
+                        class="fa fa-sign-out"></i></a>
+            </div>
+            <!-- setting page -->
+
+            <div class="profile-card-4 col-md-5 text-center my-5">
+                <img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg"
+                    class="img img-responsive">
+
+            </div>
+
+            <div class="taskForm container mt-5 mb-1 col-md-7 shadow-lg " id="taskformbar">
+                <form style="margin: auto;align-items: center;">
+
+                    <h2>settings</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first">First Name</label>
+                                <input type="text" class="form-control" placeholder="" id="first">
+                            </div>
+                        </div>
+                        <!--  col-md-6   -->
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="last">Last Name</label>
+                                <input type="text" class="form-control" placeholder="" id="last">
+                            </div>
+                        </div>
+                        <!--  col-md-6   -->
+                    </div>
+
+
+
+
+                </form>
+
+
+
+
+            </div>
+
+        </div>
+
+
+        <div class="rightbar-div col-md-3">
+            <div class="clock-section px-4 pt-4 pb-2">
+                <div class="date-section text-light text-center">
+                    <h3 id="date"></h3>
+                </div>
+                <div class="time-section text-light text-center">
+                    <h1 id="time"></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+        authDomain: "office-kothon.firebaseapp.com",
+        databaseURL: "https://office-kothon.firebaseio.com",
+        projectId: "office-kothon",
+        storageBucket: "office-kothon.appspot.com",
+        messagingSenderId: "605346039997",
+        appId: "1:605346039997:web:350fd046addb6f51860fd4",
+        measurementId: "G-W822J60VT1"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    //make firebase consts
+    const auth = firebase.auth();
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+            window.location.replace('./index.html');
+        }
+    });
+    const db = firebase.firestore();
+
+    //update firebase settings
+    db.settings({ timestampsInSnapshots: true });
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./js/settings.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="./toaster/toastr.min.js"></script>
