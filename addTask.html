@@ -180,29 +180,7 @@
                 <h6>click anyone to assign task</h6>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
-
-
         <div class="welcome-message col-md-3    mb-2  " id="welcome">
 
 
@@ -294,7 +272,7 @@
                 console.log(doc.id, " => ", doc.data());
             });
             $(".card").on("click", function () {
-                $('.taskForm').fadeIn(500);
+                $('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
                 $('.svg-div').remove();
                 var cardText = $(this).children("h6").text();
                 //(cardText)

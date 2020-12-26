@@ -9,12 +9,12 @@ let selectedReplies= [];
 let loadSvg = true;
 let unreadMessage = 0;
 let unreadThread;
-let countReads = 0;
 let serverUpdated = false;
 let docLists = [];
 let selectedDocInfo = [];
 var queryExists;
 var queriedInfo;
+var renderedChats = [];
 // TODO:global variables
 
 $(document).ready(function(){
@@ -132,8 +132,6 @@ function renderLoadingSvg(){
                     docLists.push(querySnapshot.docs[i].id)
                     selectedDocInfo.push(querySnapshot.docs[i].data())
                 }
-                countReads++;
-                //alert(countReads);
                 docAvailable = true;
                 $('.messages ul').empty();
                 if(loadSvg){
@@ -217,7 +215,7 @@ function renderLoadingSvg(){
        // console.log('messageInfo: ' + messageInfos)
         // clearing docs
         var numberOfKeys = Object.values(messageInfos).length;
-        if (numberOfKeys === 0 || numberOfKeys > 300) {
+        if (numberOfKeys == null || numberOfKeys > 300) {
             db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
             //openMessageThread(selectedUserId);
         }
@@ -225,7 +223,8 @@ function renderLoadingSvg(){
         $('.messages ul').empty();
          for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
             // console.log(typeof(Object.values(messageInfos)[i]) == 'object')
-             if( typeof(Object.values(messageInfos)[i]) == 'object' ){
+            // TODO: render chat array 
+             if(Object.keys(messageInfos)[i] != 'lastSeen'){
                 if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
                     var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                      <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
@@ -235,6 +234,7 @@ function renderLoadingSvg(){
                    animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
                  }
                  else{
+                    renderedChats.push(Object.keys(messageInfos)[i]);
                     var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                      <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
                      <img src='${selectedUserImage}' alt="">
@@ -242,6 +242,17 @@ function renderLoadingSvg(){
                    </li>`;
                    animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
                  }
+                }
+                else{
+                    // TODO: implement notification
+                    unreadThread = Object.keys(messageInfos)[i];
+                    //alert(unreadThread)
+                    if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                        if( typeof(Object.values(messageInfos)[i]) == 'number'){
+                            unreadMessage++;
+                            //alert(unreadMessage)
+                        }
+                      }
                 }
             if(i>0){
                 $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
@@ -292,14 +303,15 @@ function renderLoadingSvg(){
         snapshot.docChanges().forEach(function(change) {
             //console.log("change => "+Object.values(change)[0])
             serverUpdated = true;
-            //  if (change.type === "added" || change.type === "modified") {
-            //      notifyMessages(change.doc.data());
-            // }
+             if (change.type === "added" || change.type === "modified") {
+                 notifyMessages(change.doc.data());
+            }
             // if (change.type === "removed") {
             // }
             //
             //change.type === "modified"? loadSvg = false : loadSvg = true;
             loadSvg = true;
+            //console.log("change: "+change.doc.data())
             openMessageThread(selectedUserId);
         });
     });
@@ -333,6 +345,7 @@ function renderLoadingSvg(){
     //  reply deletion
     function deleteReplies(){
         selectedReplies.sort();
+       // alert(selectedReplies)
         for (let index = 0; index < selectedReplies.length; index++) {
             db.collection('chats').doc(createDocQuery(selectedUserId)).update({
                 [selectedReplies[index]]: firebase.firestore.FieldValue.delete()
@@ -355,16 +368,7 @@ function renderLoadingSvg(){
     }
 
 
-    // notification renderer
-    //  function notifyMessages(messageInfos){
-    //         for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
-    //         if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-    //             if(Object.values(messageInfos)[i].read == false && Object.values(messageInfos)[i].receiverID === auth.currentUser.email){
-    //                 unreadMessage++;
-    //                 unreadThread = Object.values(messageInfos)[i].senderID;
-    //                 alert(unreadMessage)
-    //             }
-    //           }
-    //     }
-    //     unreadMessage = 0;
-    // }
+    // TODO: notification renderer
+     function notifyMessages(messageInfos){
+        unreadMessage = 0;
+    }
