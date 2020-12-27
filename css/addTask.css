@@ -411,10 +411,5 @@ margin-top: 4vh;
 
   input[type="file"] {
     margin: 0;
-    padding: 0 0 0 35px;
-    height: 100%;
-    line-height: inherit;
-    left: 0;
-    z-index: 0;
-    opacity: 1;
+    outline: none;
   }
