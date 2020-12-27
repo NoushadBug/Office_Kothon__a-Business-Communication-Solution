@@ -1,5 +1,10 @@
 
+var assignedTo;
+
 $(document).ready(function(){
+  toastr.options = {
+    "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
+  }
   $('.taskForm').hide();
   db.collection("users").get()
   .then(function (querySnapshot) {
@@ -26,9 +31,14 @@ $(document).ready(function(){
       $(".card").on("click", function () {
           $('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
           $('.svg-div').remove();
-          var cardText = $("[data='"+$(this).attr('data')+"'] h6").text();
-          //(cardText)
-          $("form h4").fadeOut(function(){$(this).text("Task for "+cardText).fadeIn(400);})
+          var cardName = $("[data='"+$(this).attr('data')+"'] h6").text();
+          $("form h4").fadeOut(function(){$(this).text("Task for "+cardName).fadeIn(400);})
+          assignedTo = ($(this).attr('data'));
+          $('#taskName').fadeOut(function(){$(this).val('').fadeIn(400);});
+          $('#startDate').fadeOut(function(){$(this).val('').fadeIn(400);});
+          $('#endDate').fadeOut(function(){$(this).val('').fadeIn(400);});
+          $('#taskDetails').fadeOut(function(){$(this).val('').fadeIn(400);});
+          $('#inlineFormCustomSelect').fadeOut(function(){$(this).val('').fadeIn(400);});
       });
   })
 
@@ -46,8 +56,6 @@ document.getElementById('signout').addEventListener('click', () => {
       });
       window.location.replace("./index.html");
   });
-
-
 
 
 
@@ -336,7 +344,7 @@ document.getElementById('signout').addEventListener('click', () => {
 
   Chart.defaults.global.legend.labels.usePointStyle = true; 
   let ctx = document.getElementById('myChart').getContext('2d');
-  let labels = ['completed','incompleted','deadline crossed'];
+  let labels = ['completed','incompleted','deadline cross'];
   let colorHex = ['#253D5B','#EFCA08','#FB3640'];
   let total = parseInt($('#completedTask').text())+parseInt($('#incompletedTask').text())+parseInt($('#deadlineCrossed').text())
   let completedTask = Math.round(parseInt($('#completedTask').text()) / total * 100);
@@ -365,7 +373,7 @@ document.getElementById('signout').addEventListener('click', () => {
       
     },
     options:{
-      responsive:false,
+      responsive:true,
       circular: true,
       legend:{
         display: true,
@@ -383,7 +391,7 @@ document.getElementById('signout').addEventListener('click', () => {
          borderColor:'#2e3035',
          borderRadius:25,
          backgroundColor:(context)=>{
-           return context.dataset.backgroundColor;
+           return 'darkslategrey';
          },
          font:{
            weight:'bold',
@@ -397,3 +405,104 @@ document.getElementById('signout').addEventListener('click', () => {
     }
 
   })
+
+  $("#customFile").change(function() {
+    if ($("#customFile")[0].files.length > 3) {
+      $("#customFile")[0].value = null;
+      $('#fileLabel').text("You can select only 2 images");
+    }
+    else {
+      if(this.files[0].name != undefined){
+        for (var i = 0; i < this.files.length; i++)
+        {
+          if(i == 0){
+            $('#fileLabel').text(this.files[i].name);
+          }
+          else{
+            if(i < this.files.length){
+              $('#fileLabel').text($('#fileLabel').text()+", "+this.files[i].name);
+            }
+          }
+        }
+        
+      }
+    }
+  });
+
+  $('#taskForm').on('submit',function(e){
+    e.preventDefault();
+    let taskName = $('#taskName').val();
+    let startDate = $('#startDate').val();
+    let endDate = $('#endDate').val();
+    let taskDetails = $('#taskDetails').val();
+    let taskPriority = $('#inlineFormCustomSelect').val();
+    let timestamp = new Date().getTime();
+
+    if( $("#customFile")[0].files.length == 0 ){
+          // Add a new document in collection "tasks"
+          db.collection("tasks").doc(assignedTo).set({
+            [timestamp]: {
+            assignedBy: auth.currentUser.email,
+            description: taskDetails,
+            end: endDate,
+            start: startDate,
+            name: taskName,
+            doc: 'null',
+            priority: taskPriority}
+          })
+          .then(function() {
+            toastr["success"]("success", "Task successfully assigned!")
+            console.log("");
+          })
+          .catch(function(error) {
+            console.error("Error writing document: ", error);
+          });
+    }
+    else{
+        for (var i = 0; i < $("#customFile")[0].files.length; i++)
+        {
+          let file = $("#customFile")[0].files[i];
+          let storageRef = storage.ref("Tasks/"+timestamp+"/"+file.name);
+          let uploadProgress = storageRef.put(file);
+          uploadProgress.on('state_changed', function progress(snapshot){
+            console.log(snapshot.state)
+            switch(snapshot.state){
+                case firebase.storage.TaskState.PAUSED:
+                  toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
+                  uploadProgress.resume();
+                  break;
+
+                case firebase.storage.TaskState.RUNNING:
+                  toastr['info']('Your file is uploading', 'upload running');
+                  break;
+
+                case firebase.storage.TaskState.SUCCESS:
+                  toastr['success']('Your file uploaded successfully', 'uploading success');
+                  break;
+
+                case firebase.storage.TaskState.ERROR:
+                  toastr['error']('Error uploading files', 'uploading paused');
+                  break;
+              }
+            })
+        }
+
+          // Add a new document in collection "tasks"
+          // db.collection("tasks").doc(assignedTo).set({
+          //   assignedBy: auth.currentUser.email,
+          //   description: taskDetails,
+          //   end: endDate,
+          //   start: startDate,
+          //   name: taskName,
+          //   doc: 'null',
+          //   priority: taskPriority
+          // })
+          // .then(function() {
+          //   console.log("Document successfully written!");
+          // })
+          // .catch(function(error) {
+          //   console.error("Error writing document: ", error);
+          // });
+    }
+
+ });

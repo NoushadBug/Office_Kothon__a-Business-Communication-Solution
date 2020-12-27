@@ -61,27 +61,23 @@
                     style="min-height: 73.6vh;"></div>
             </div>
             <div class="taskForm container mt-5 mb-1 col-md-6 shadow-lg " id="taskformbar">
-                <form style="margin: auto;align-items: center;">
+                <form id="taskForm" style="margin: auto;align-items: center;">
                     <h4 class="text-light text-center">loading..</h4>
                     <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
-                        placeholder="add task title" required />
+                        placeholder="add task title" id="taskName" required />
                     <div class="form-group ">
                         <input id="startDate" name="startDate" type="text"
                             class="form-control bg-dark shadow-lg text-light  border-info"
                             placeholder="select start date" required />
                         &nbsp;
 
-                        <input id="endDate" name="endDate" type="text"
-                            class="form-control bg-dark shadow-lg text-light  border-info" placeholder="select end date"
-                            required />
-                    </div><textarea class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
+                        <input id="endDate" name="endDate" type="text" class="form-control bg-dark shadow-lg text-light  border-info" placeholder="select end date" required />
+                    </div><textarea id="taskDetails" class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
                         id="exampleFormControlTextarea1" rows="3" placeholder="add task details...."></textarea>
 
                     <div class="custom-file mb-3" style="z-index: 0;">
-                        <input type="file" class="custom-file-input  " id="customFile" required />
-                        <label class="custom-file-label bg-dark shadow-lg text-secondary border-info "
-                            for="customFile">Choose
-                            file </label>
+                        <label class="custom-file-label bg-dark shadow-lg text-secondary border-info " style="overflow: hidden;" for="customFile" id="fileLabel">Choose file </label>
+                        <input type="file" class="custom-file-inpu" id="customFile" multiple />
                     </div>
 
 
@@ -90,9 +86,9 @@
                         <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
                             id="inlineFormCustomSelect" required />
                         <option selected="" disabled class="choose">Select Priority</option>
-                        <option value="1">Easy</option>
-                        <option value="2">Moderate</option>
-                        <option value="3">Hard</option>
+                        <option value="easy">Easy</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="hard">Hard</option>
                         </select>
                     </div>
                     <button type="submit"
@@ -135,14 +131,9 @@
                     <i class="fa fa-bar-chart text-success mx-2" aria-hidden="true"></i>
                 </div>
                 <div class="chart-wrapper">
-                    <canvas id="myChart" width="587" height="293"
-                        style="display: block;height: 37vh;width: 37vw;"></canvas>
+                    <canvas id="myChart" width="92%" height="42%" class="chartjs-render-monitor"></canvas>
                 </div>
             </div>
-
-
-
-
         </div>
 
     </div>
@@ -151,6 +142,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
 
 <script>
@@ -170,6 +162,7 @@
 
     //make firebase consts
     const auth = firebase.auth();
+    const storage = firebase.storage();
     firebase.auth().onAuthStateChanged(function (user) {
         if (!user) {
             window.location.replace('./index.html');
