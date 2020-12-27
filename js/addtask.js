@@ -1,7 +1,10 @@
 
 var assignedTo;
+var docLinks;
+var svgClone = $(".svg-div").clone(); // making zeh' clones!
 
 $(document).ready(function(){
+  
   $('.uploader').fadeOut();
   toastr.options = {
     "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
@@ -30,8 +33,11 @@ $(document).ready(function(){
           console.log(doc.id, " => ", doc.data());
       });
       $(".card").on("click", function () {
+
           $('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
           $('.svg-div').remove();
+          $('#fileLabel').text('');
+          $("#customFile")[0].value = null;
           var cardName = $("[data='"+$(this).attr('data')+"'] h6").text();
           $("form h4").fadeOut(function(){$(this).text("Task for "+cardName).fadeIn(400);})
           assignedTo = ($(this).attr('data'));
@@ -39,7 +45,8 @@ $(document).ready(function(){
           $('#startDate').fadeOut(function(){$(this).val('').fadeIn(400);});
           $('#endDate').fadeOut(function(){$(this).val('').fadeIn(400);});
           $('#taskDetails').fadeOut(function(){$(this).val('').fadeIn(400);});
-          $('#inlineFormCustomSelect').fadeOut(function(){$(this).val('').fadeIn(400);});
+          $('#fileLabel').text("Choose multiple files");
+          //$('#inlineFormCustomSelect').fadeOut(function(){$(this).val('').fadeIn(400);});
       });
   })
 
@@ -407,6 +414,7 @@ document.getElementById('signout').addEventListener('click', () => {
 
   })
 
+
   $("#customFile").change(function() {
     if ($("#customFile")[0].files.length > 3) {
       $("#customFile")[0].value = null;
@@ -440,6 +448,7 @@ document.getElementById('signout').addEventListener('click', () => {
 
     if( $("#customFile")[0].files.length == 0 ){
           // Add a new document in collection "tasks"
+          $('.uploader').fadeIn('slow');
           db.collection("tasks").doc(assignedTo).set({
             [timestamp]: {
             assignedBy: auth.currentUser.email,
@@ -451,14 +460,17 @@ document.getElementById('signout').addEventListener('click', () => {
             priority: taskPriority}
           })
           .then(function() {
-            toastr["success"]("success", "Task successfully assigned!")
+            $('.uploader').fadeOut('slow');
+            toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTo);
             console.log("");
           })
           .catch(function(error) {
+            $('.uploader').fadeOut('slow');
             console.error("Error writing document: ", error);
           });
     }
     else{
+        var count = 0;
         for (var i = 0; i < $("#customFile")[0].files.length; i++)
         {
           let file = $("#customFile")[0].files[i];
@@ -468,10 +480,6 @@ document.getElementById('signout').addEventListener('click', () => {
           uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
                   // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                   var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  if(progress == 100 && file === $("#customFile")[0].files[2]){
-                    $('.uploader').fadeOut('slow');
-                    toastr['success']('Your file uploaded successfully', 'uploaded file(s) successfully');
-                  }
                   if(progress == 0){
                     $('.uploader').fadeIn('slow');
                   }
@@ -489,27 +497,53 @@ document.getElementById('signout').addEventListener('click', () => {
                     toastr['error']('Error uploading files', error.code);
               }, function() {
                 uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                  console.log('File available at', downloadURL);
+                  docLinks == undefined? docLinks = downloadURL : docLinks += downloadURL+",";
+                  count++;
+                    if(count == $("#customFile")[0].files.length){
+                        // Add a new document in collection "tasks"
+                        db.collection("tasks").doc(assignedTo).set({
+                        [timestamp]: {
+                          assignedBy: auth.currentUser.email,
+                          description: taskDetails,
+                          end: endDate,
+                          start: startDate,
+                          name: taskName,
+                          doc: docLinks,
+                          priority: taskPriority
+                        }})
+                        .then(function() {
+                          $('.uploader').fadeOut('slow');
+                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTo);
+                        })
+                        .catch(function(error) {
+                          console.error("Error writing document: ", error);
+                        });
+                    }
                 });
               });
         }
-
-          // Add a new document in collection "tasks"
-          // db.collection("tasks").doc(assignedTo).set({
-          //   assignedBy: auth.currentUser.email,
-          //   description: taskDetails,
-          //   end: endDate,
-          //   start: startDate,
-          //   name: taskName,
-          //   doc: 'null',
-          //   priority: taskPriority
-          // })
-          // .then(function() {
-          //   console.log("Document successfully written!");
-          // })
-          // .catch(function(error) {
-          //   console.error("Error writing document: ", error);
-          // });
     }
-
+    $(".rightbar-div").after(svgClone).fadeIn('slow');
+    $('#taskformbar').hide();
+    
  });
+
+
+
+
+//  task list show div rendering
+// $('#userInfoSection')
+db.collection("tasks").onSnapshot(function(snapshot) {
+  snapshot.docChanges().forEach(function(change) {
+    if(auth.currentUser.email == change.doc.id){
+      $('#userInfoSection').remove();
+    }
+      //  if (change.type === "added" || change.type === "modified") {
+      //      notifyMessages(change.doc.data());
+      // }
+      // if (change.type === "removed") {
+      // }
+      //
+      //console.log("change: "+change.doc.data())
+  });
+});
