@@ -392,8 +392,7 @@ margin-top: 4vh;
 }
 #myChart
 {
-  margin-left: -8vw;
-
+  margin-left: -9vw;
 }
 
 .card img{
@@ -407,4 +406,14 @@ margin-top: 4vh;
 
   form,.form-control,input, select{
     font-size: 0.9vw !important;
+  }
+
+  input[type="file"] {
+    margin: 0;
+    padding: 0 0 0 35px;
+    height: 100%;
+    line-height: inherit;
+    left: 0;
+    z-index: 0;
+    opacity: 1;
   }
