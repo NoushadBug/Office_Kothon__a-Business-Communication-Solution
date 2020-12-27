@@ -373,7 +373,7 @@ document.getElementById('signout').addEventListener('click', () => {
       
     },
     options:{
-      responsive: true,
+      responsive: false,
       circular: true,
       legend:{
         display: true,
