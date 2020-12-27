@@ -2,6 +2,7 @@
 var assignedTo;
 
 $(document).ready(function(){
+  $('.uploader').fadeOut();
   toastr.options = {
     "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
   }
@@ -409,7 +410,7 @@ document.getElementById('signout').addEventListener('click', () => {
   $("#customFile").change(function() {
     if ($("#customFile")[0].files.length > 3) {
       $("#customFile")[0].value = null;
-      $('#fileLabel').text("You can select only 2 images");
+      $('#fileLabel').text("You can select only 3 files");
     }
     else {
       if(this.files[0].name != undefined){
@@ -424,7 +425,6 @@ document.getElementById('signout').addEventListener('click', () => {
             }
           }
         }
-        
       }
     }
   });
@@ -464,27 +464,34 @@ document.getElementById('signout').addEventListener('click', () => {
           let file = $("#customFile")[0].files[i];
           let storageRef = storage.ref("Tasks/"+timestamp+"/"+file.name);
           let uploadProgress = storageRef.put(file);
-          uploadProgress.on('state_changed', function progress(snapshot){
-            console.log(snapshot.state)
-            switch(snapshot.state){
-                case firebase.storage.TaskState.PAUSED:
-                  toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
-                  uploadProgress.resume();
-                  break;
 
-                case firebase.storage.TaskState.RUNNING:
-                  toastr['info']('Your file is uploading', 'upload running');
-                  break;
-
-                case firebase.storage.TaskState.SUCCESS:
-                  toastr['success']('Your file uploaded successfully', 'uploading success');
-                  break;
-
-                case firebase.storage.TaskState.ERROR:
-                  toastr['error']('Error uploading files', 'uploading paused');
-                  break;
-              }
-            })
+          uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
+                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  if(progress == 100 && file === $("#customFile")[0].files[2]){
+                    $('.uploader').fadeOut('slow');
+                    toastr['success']('Your file uploaded successfully', 'uploaded file(s) successfully');
+                  }
+                  if(progress == 0){
+                    $('.uploader').fadeIn('slow');
+                  }
+                  console.log('Upload is ' + progress + '% done');
+                  switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                          toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
+                          uploadProgress.resume();  
+                          break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                          //toastr['info']('Your file is uploading', 'upload running');
+                          break;
+                  }
+                }, function(error) {
+                    toastr['error']('Error uploading files', error.code);
+              }, function() {
+                uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                  console.log('File available at', downloadURL);
+                });
+              });
         }
 
           // Add a new document in collection "tasks"
