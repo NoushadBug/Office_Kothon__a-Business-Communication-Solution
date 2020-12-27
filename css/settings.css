@@ -40,22 +40,7 @@
 
 
 
-.profile-card-4 .profile-content::before {
-    content: "";
-    position: absolute;
-    height: 20px;
-    top: -10px;
-    left: 0px;
-    right: 0px;
-   
-    z-index: 0;
-    transform: skewY(3deg);
-}
 
-.profile-card-4:hover img {
-    transform: rotate(5deg) scale(1.1, 1.1);
-    filter: brightness(110%);
-}
 
 .taskForm
 {
@@ -71,3 +56,12 @@
   border-radius: 1em;
 }
 
+.vl {
+    border-radius: 2em;
+    /* left: 8em; */
+    /* left: auto; */
+    /* margin: auto; */
+    border-left: 0.4vw solid #2e3035;
+    height: 62%;
+  }
+ 

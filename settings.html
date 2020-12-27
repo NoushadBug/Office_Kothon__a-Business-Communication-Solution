@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
     <link rel="stylesheet" href="./toaster/toastr.min.css" />
     <link rel="stylesheet" href="./css/dashboard.css" />
-    <link rel="stylesheet" href="./css/chat.css" />
+
     <link rel="stylesheet" href="./css/settings.css" />
 </head>
 
 <body onload="startTime()">
     <div class="loader"
-        style="position: fixed; z-index: 99; top: 0px; left: 0px; width: 100%; height: 100%; display: none; background: rgb(16, 16, 17); justify-content: center; align-items: center;">
-        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px">
+        style="position:fixed;z-index:99;top:0;left:0;width:100%;height:100%;display:flex;background:#101011;justify-content:center;align-items:center">
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
     </div>
 
     <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
@@ -31,7 +31,7 @@
                             class="fa fa-home m-0"></i></a>
                     <a href="./chat.html" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-comment"></i></a>
- <!-- <a href="#" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                    <!-- <a href="#" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-group"></i></a> -->
                     <a href="./addTask.html" aria-label="Task" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-edit"></i></a>
@@ -42,44 +42,40 @@
                         class="fa fa-sign-out"></i></a>
             </div>
             <!-- setting page -->
+            <div class="row col-md-4">
+                <div class="profile-card-4 col-md-12 text-center mx-auto my-4">
+                    <img id="userImage" class="col-md-12" alt=""
+                        src="https://competition.adesignaward.com/designer/d6d4f6625fe7f5e216382a187d134fe3cabb3fa7-t710.jpg"
+                        style="border-radius: 50%;">
 
-            <div class="profile-card-4 col-md-5 text-center my-5">
-                <img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg"
-                    class="img img-responsive">
 
-            </div>
 
-            <div class="taskForm container mt-5 mb-1 col-md-7 shadow-lg " id="taskformbar">
-                <form style="margin: auto;align-items: center;">
 
-                    <h2>settings</h2>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="first">First Name</label>
-                                <input type="text" class="form-control" placeholder="" id="first">
-                            </div>
-                        </div>
-                        <!--  col-md-6   -->
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="last">Last Name</label>
-                                <input type="text" class="form-control" placeholder="" id="last">
-                            </div>
-                        </div>
-                        <!--  col-md-6   -->
+                </div>
+                <div class="col-md-12  ">
+                    <h5 class="text-center mt-3 text-light userName mb-0 mx-auto"> Mohammad Ali Shuvo</h5>
+                    <h6 class="text-center mt-1 text-info designation mb-0 mx-auto">Asst Project Manager</h6>
+                </div>
+                <div class="bio col-md-12 mx-auto pb-0">
+
+                    <div class="justify-content-center title text-center  text-secondary d-flex mx-auto">
+
+                        <h6 class="font-weight-bold pb-0">Bio</h6>
+                        <a href="#0" id="bio-btn"> <i class="fa fa-pencil text-info mx-2 my-auto text-center"
+                                aria-hidden="true"></i></a>
                     </div>
 
+                </div>
 
-
-
-                </form>
 
 
 
 
             </div>
+            <div class="vl my-auto ml-4"></div>
+
+
 
         </div>
 
