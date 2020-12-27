@@ -336,15 +336,27 @@ document.getElementById('signout').addEventListener('click', () => {
 
   Chart.defaults.global.legend.labels.usePointStyle = true; 
   let ctx = document.getElementById('myChart').getContext('2d');
-  let labels = ['completed','incompleted','deadline cross'];
-  let colorHex = ['#253D5B','#FB3640','#EFCA08',];
+  let labels = ['completed','incompleted','deadline crossed'];
+  let colorHex = ['#253D5B','#EFCA08','#FB3640'];
+  let total = parseInt($('#completedTask').text())+parseInt($('#incompletedTask').text())+parseInt($('#deadlineCrossed').text())
+  let completedTask = Math.round(parseInt($('#completedTask').text()) / total * 100);
+  if(completedTask>50) {
+    $('#status').text('good')
+  }
+  else if(completedTask<30) {
+    $('#status').text('bad')
+  }
+  else{
+    $('#status').text('average')
+  }
+
   let myChart = new Chart(ctx,{
 
     type: 'doughnut',
     data:{
       datasets:[
         {
-          data:[60,30,10],
+          data:[$('#completedTask').text(),$('#incompletedTask').text(),$('#deadlineCrossed').text()],
           backgroundColor:colorHex,
           borderColor: '#393c45'
         }
@@ -378,7 +390,7 @@ document.getElementById('signout').addEventListener('click', () => {
            size:'13'
          },
          formatter:(value)=>{
-           return value + ' %';
+           return Math.round(value / total * 100) + ' %';
          }
        }
      }

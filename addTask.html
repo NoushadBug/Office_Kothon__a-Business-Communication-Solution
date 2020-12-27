@@ -37,8 +37,8 @@
                             class="fa fa-home m-0"></i></a>
                     <a href="./chat.html" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-comment"></i></a>
-                    <a href="#" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
-                            class="fa fa-group"></i></a>
+                    <!-- <a href="#" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-group"></i></a> -->
                     <a href="#" aria-label="Task" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-edit"></i></a>
                     <a href="" aria-label="Settings" data-microtip-position="right" role="tooltip"><i
@@ -62,7 +62,7 @@
             </div>
             <div class="taskForm container mt-5 mb-1 col-md-6 shadow-lg " id="taskformbar">
                 <form style="margin: auto;align-items: center;">
-                    <h4 class="text-light text-center"></h4>
+                    <h4 class="text-light text-center">loading..</h4>
                     <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
                         placeholder="add task title" required />
                     <div class="form-group ">
@@ -117,14 +117,10 @@
                 <h6 class="text-center mt-1 text-info designation mb-0 mx-auto">Tester</h6>
             </div>
             <div class="container row mx-auto mb-3">
-                <div class=" text-light mx-auto text-center"><small>Completed: </small><small
-                        class="text-info font-weight-bold">60</small> </div>
-                <div class="text-light mx-auto  text-center"><small>In-completed: </small><small
-                        class="text-info font-weight-bold">30</small> </div>
-                <div class=" text-light mx-auto  text-center"><small>Deadline Crossed: </small><small
-                        class="text-info font-weight-bold">10</small> </div>
-                <div class=" text-light mx-auto  text-center"><small>Status: </small><small
-                        class="text-info font-weight-bold">good</small> </div>
+                <div class=" text-light mx-auto text-center"><small>Completed: </small><small id="completedTask" class="text-info font-weight-bold">6</small> </div>
+                <div class="text-light mx-auto  text-center"><small>In-completed: </small><small id="incompletedTask"  class="text-info font-weight-bold">30</small> </div><div class="col-md-12"></div>
+                <div class=" text-light mx-auto  text-center"><small>Deadline Crossed: </small><small id="deadlineCrossed"  class="text-info font-weight-bold">10</small> </div>
+                <div class=" text-light mx-auto  text-center"><small>Status: </small><small id="status" class="text-info font-weight-bold">good</small> </div>
             </div>
 
             <div class="container mt-4">
