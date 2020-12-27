@@ -15,8 +15,18 @@
 </head>
 
 <body onload="startTime()">
-    <div class="loader"
-        style="position:fixed;z-index:99;top:0;left:0;width:100%;height:100%;display:flex;background:#101011;justify-content:center;align-items:center">
+    <div class="loader" style="
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        background: #101011;
+        justify-content: center;
+        align-items: center;
+      ">
         <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
     </div>
 
@@ -42,38 +52,34 @@
                     role="tooltip"><i class="fa fa-sign-out"></i></a>
             </div>
             <!-- setting page -->
-            <div class="col-md-4">
+            <div class="col-md-4 mt-5">
                 <div class="profile-card-4 col-md-10 text-center mx-auto my-4">
                     <img id="userImage" class="col-md-10" alt=""
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLK5y6vrKYkljqyxprlyB-VeKM-OWxN_8fA&amp;usqp=CAU"
+                        src="https://competition.adesignaward.com/designer/d6d4f6625fe7f5e216382a187d134fe3cabb3fa7-t710.jpg"
                         style="border-radius: 50%;">
 
                 </div>
                 <div class="col-md-12  ">
-                    <h5 class="text-center mt-3 text-light userName mb-0 mx-auto">Cailin Gilmore</h5>
-                    <h6 class="text-center mt-1 text-info designation mb-0 mx-auto">Tester</h6>
+                    <h5 class="text-center mt-3 text-light userName mb-0 mx-auto"> Mohammad Ali Shuvo</h5>
+                    <h6 class="text-center mt-1 text-info designation mb-0 mx-auto">Asst Project Manager</h6>
                 </div>
-                <div class=" col-md-12 mx-auto mt-5 pb-0">
+                <div class=" col-md-12 mx-auto mt-5 pb-0 ">
 
-                    <div class="justify-content-center title text-center  text-secondary d-flex mx-auto">
+                    <div class="justify-content-center text-center   text-secondary d-flex mx-auto">
 
-                        <h6 class="font-weight-bold pb-0">Bio</h6>
-                        <a href="#0" id="bio-btn"> <i class="fa fa-pencil text-info mx-2 my-auto text-center"
-                                aria-hidden="true"></i></a>
+                        <h6 class="font-weight-bold pb-0">📝 Favourite Quotes 📝</h6>
+
                     </div>
 
                 </div>
 
                 <!-- <p class="text-center mt-3 text-light bio mb-0 mx-auto "></p> -->
                 <div class=" col-md-12 ">
-                    <blockquote>
-                        <p class="quotation-mark">
-                            “
-                        </p>
-                        <p class="quote-text text-center text-light bio mb-0 mx-auto">
 
-                    </blockquote>
+                    <p class="quote-text text-center text-light bio mb-0 mx-auto">Bio loading...</p>
+
                 </div>
+
 
 
 
@@ -83,7 +89,53 @@
 
             </div>
             <div class="vl my-auto ml-4"></div>
+            <!-- form -->
+            <div class="taskForm container mt-5 mb-1 col-md-5 shadow-lg ">
 
+                <form class="p-3 my-5 is-readonly">
+                    <h4 class="text-center text-light">Update Your Info</h4>
+                    <div class="set-btn ">
+                        <button type="button" class="btn btn-default text-light btn-edit js-edit btn-sm"><i
+                                class="fa fa-pencil"></i></button>
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Change Profile Name</label>
+                        <input id="settings-name" type="text"
+                            class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                            placeholder="Update Profile Name" value="" disabled>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Change Password</label>
+                        <input id="settings-pass" type="password"
+                            class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                            placeholder="Change Password" value="●●●●●●●●●●" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Update Your Bio</label>
+
+                        <textarea id="taskDetails" class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
+                            id="exampleFormControlTextarea1" rows="3" placeholder="whats on your mind ?"></textarea>
+                    </div>
+
+                    <!-- drag box -->
+
+                    <div class="file-drop-area mt-4" id="drag">
+                        <span class="fake-btn">Choose files</span>
+                        <span class="file-msg">or drag and drop files here</span>
+                        <input class="file-input" type="file">
+                    </div>
+
+                    <button type="submit"
+                        class="btn btn-dark rounded-pill border-info shadow-lg mt-3 button">submit</button>
+
+                </form>
+            </div>
 
 
         </div>
@@ -104,20 +156,20 @@
 </body>
 
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+<scrip src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></scrip>
+<scrip src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></scrip>
+<scrip src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></scrip>
 
-<script>
+<scrip>
     var firebaseConfig = {
-        apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
-        authDomain: "office-kothon.firebaseapp.com",
-        databaseURL: "https://office-kothon.firebaseio.com",
-        projectId: "office-kothon",
-        storageBucket: "office-kothon.appspot.com",
-        messagingSenderId: "605346039997",
-        appId: "1:605346039997:web:350fd046addb6f51860fd4",
-        measurementId: "G-W822J60VT1"
+    apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+    authDomain: "office-kothon.firebaseapp.com",
+    databaseURL: "https://office-kothon.firebaseio.com",
+    projectId: "office-kothon",
+    storageBucket: "office-kothon.appspot.com",
+    messagingSenderId: "605346039997",
+    appId: "1:605346039997:web:350fd046addb6f51860fd4",
+    measurementId: "G-W822J60VT1"
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -126,18 +178,18 @@
     //make firebase consts
     const auth = firebase.auth();
     firebase.auth().onAuthStateChanged(function (user) {
-        if (!user) {
-            window.location.replace('./index.html');
-        }
+    if (!user) {
+    window.location.replace('./index.html');
+    }
     });
     const db = firebase.firestore();
 
     //update firebase settings
     db.settings({ timestampsInSnapshots: true });
 
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="./js/settings.js"></script>
+</scrip>
+<scrip src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></scrip>
+<scrip src="./js/settings.js"></scrip>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="./toaster/toastr.min.js"></script>
+<scrip src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></scrip>
+<scrip src="./toaster/toastr.min.js"></scrip>
