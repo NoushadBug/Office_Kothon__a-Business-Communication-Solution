@@ -7,6 +7,7 @@ $(document).ready(function(){
             $('#userImage').attr("src", `${doc.data().photoURL}`);
             $('.userName').html(`${doc.data().displayName}`);
             $('.designation').html(`${doc.data().designation}`);
+            $('.bio').text(`${doc.data().bio}`);
           }
          
          

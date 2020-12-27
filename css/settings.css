@@ -65,3 +65,27 @@
     height: 62%;
   }
  
+
+
+
+
+.quotation-mark {
+    
+margin-top: 4vh;
+    
+font-weight: bold;
+    
+font-size:100px;
+    
+color: deepskyblue;
+    
+font-family: "Times New Roman", Times, Serif;
+}
+
+.quote-text {
+    
+font-size: 19px;
+    
+margin-top: -83px;
+}
+
