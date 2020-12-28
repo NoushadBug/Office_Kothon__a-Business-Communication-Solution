@@ -146,7 +146,8 @@ $-Styles
 
 /* hello bar */
 .hello-bar {
-  margin-top: 1em;
+  height: 18vh;
+  margin-top: 2em;
   color: white;
   padding: 2em;
   padding-left: 4em;
@@ -164,6 +165,7 @@ $-Styles
   -moz-border-radius: 2em;
   -ms-border-radius: 2em;
   -o-border-radius: 2em;
+  /* top: 5vh; */
 }
 .feed-bar {
   overflow-x: hidden;
@@ -228,4 +230,132 @@ $-Styles
 }
 .collapse-header .view-button {
   text-align: right;
+}
+/* hello bar svg  */
+.container {
+  width: 30%;
+  margin: 20px auto;
+}
+
+.cls-1 {
+  /* color: transparent; */
+  fill: transparent;
+}
+
+.cls-2 {
+  fill: #7fc2e2;
+}
+
+.cls-3 {
+  fill: #d8d5d5;
+}
+
+.cls-4 {
+  fill: #131413;
+}
+
+.cls-5 {
+  fill: #fff;
+}
+
+.cls-6 {
+  fill: #b28f82;
+}
+
+.cls-7 {
+  fill: #231f20;
+}
+
+.cls-8 {
+  fill: #418cbd;
+}
+
+.eye {
+  -webkit-animation: squeeze 2.4s infinite;
+          animation: squeeze 2.4s infinite;
+}
+
+.nose {
+  -webkit-animation: nose 2s infinite ease;
+          animation: nose 2s infinite ease;
+}
+
+.gopher {
+  transform: translateY(120px);
+  -webkit-animation: start 0.8s forwards ease-in-out;
+          animation: start 0.8s forwards ease-in-out;
+}
+
+@-webkit-keyframes start {
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes start {
+  100% {
+    transform: translateY(0);
+  }
+}
+@-webkit-keyframes nose {
+  80% {
+    transform: none;
+  }
+  83% {
+    transform: translateX(7.5px) scaleX(0.9);
+  }
+  90% {
+    transform: none;
+  }
+  93% {
+    transform: translateX(7.5px) scaleX(0.9);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes nose {
+  80% {
+    transform: none;
+  }
+  83% {
+    transform: translateX(7.5px) scaleX(0.9);
+  }
+  90% {
+    transform: none;
+  }
+  93% {
+    transform: translateX(7.5px) scaleX(0.9);
+  }
+  100% {
+    transform: none;
+  }
+}
+@-webkit-keyframes squeeze {
+  90% {
+    transform: none;
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  93% {
+    transform: translateY(70px) scaleY(0.1);
+  }
+  100% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+@keyframes squeeze {
+  90% {
+    transform: none;
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  93% {
+    transform: translateY(70px) scaleY(0.1);
+  }
+  100% {
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
 }
