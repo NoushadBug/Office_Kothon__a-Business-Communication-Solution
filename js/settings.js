@@ -92,6 +92,29 @@ function startTime() {
         return h + ':' + m + ' ' + AmOrPm;
     }
 
+    $('#profilePic').on('change', function () {
+          $('#exampleModalCenter').modal('show')
+          var croppieDemo = $('#exampleModalCenter .modal-body').croppie({
+            enableOrientation: true,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'circle' // or 'square'
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            }
+        });
+        var reader = new FileReader();
+        reader.onload = function (f) {
+            croppieDemo.croppie('bind', {
+                url: f.target.result
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+
 
     $('.taskForm form').on('submit',function(e){
       e.preventDefault();
@@ -109,6 +132,7 @@ function startTime() {
           // profile pic change
           if(profilePic.length > 0){
             let file = profilePic[0];
+
             // var basic = $('#demo-basic').croppie({
             //   enableExif: true,
             //     viewport: {
