@@ -75,67 +75,46 @@
                         <h6 class="font-weight-bold pb-0">📝 Favourite Quotes 📝</h6>
 
                     </div>
-
                 </div>
-
                 <!-- <p class="text-center mt-3 text-light bio mb-0 mx-auto "></p> -->
                 <div class=" col-md-12 ">
 
                     <p class="quote-text text-center text-light bio mb-0 mx-auto">Bio loading...</p>
-
                 </div>
-
-
-
-
-
-
-
 
             </div>
             <div class="vl my-auto ml-4"></div>
             <!-- form -->
-            <div class="taskForm container mt-5 mb-1 col-md-5 shadow-lg ">
-
-                <form class="p-3 my-5 is-readonly">
-                    <h4 class="text-center text-light">Update Your Info</h4>
-                    <div class="set-btn ">
-                        <button type="button" class="btn btn-default text-light btn-edit js-edit btn-sm"><i
-                                class="fa fa-pencil"></i></button>
-                    </div>
-
-
-
-
+            <div class="taskForm container my-auto col-md-5 shadow-lg ">
+                <form class="px-3 py-1 my-auto">
+                    <h5 class="text-center text-light mb-2">Update Your Info</h5>
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">Change Profile Name</label>
-                        <input id="settings-name" type="text"
-                            class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                            placeholder="Update Profile Name" value="" disabled>
+                        <input id="settings-name" type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" placeholder="Update Profile Name" value="">
 
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Change Password</label>
-                        <input id="settings-pass" type="password"
-                            class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                            placeholder="Change Password" value="●●●●●●●●●●" disabled>
+                        <input id="settings-pass" type="password" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" placeholder="Change Password" value="">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Update Your Bio</label>
-
-                        <textarea id="taskDetails" class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
-                            id="exampleFormControlTextarea1" rows="3" placeholder="whats on your mind ?"></textarea>
+                        <textarea id="bioDetails" class="form-control mb-3 bg-dark shadow-lg text-light  border-info" rows="2" val="" placeholder="whats on your mind?"></textarea>
                     </div>
 
                     <!-- drag box -->
-
-                    <div class="file-drop-area mt-4" id="drag">
+                    <label for="file-input" class="text-info m-0">Update your profile picture</label>
+                    <div class="file-drop-area mt-1 mb-3" id="drag">
                         <span class="fake-btn">Choose files</span>
                         <span class="file-msg">or drag and drop files here</span>
-                        <input class="file-input" type="file">
+                        <input class="file-input" id="profilePic" type="file">
                     </div>
-                    <button type="submit" class="text-center form-control btn btn-dark rounded-pill border-info shadow-lg mt-3 ">submit</button>
+                    <div class="form-group">
+                        <label for="userPass" class="text-info">Current password</label>
+                        <input id="userPass" type="password" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" placeholder="Your Current Password" value="" required="">
+                    </div>
+                    <button type="submit" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button>
 
                 </form>
             </div>
@@ -425,6 +404,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
 
 <script>
@@ -443,6 +423,7 @@
     firebase.analytics();
 
     //make firebase consts
+    const storage = firebase.storage();
     const auth = firebase.auth();
     firebase.auth().onAuthStateChanged(function (user) {
     if (!user) {

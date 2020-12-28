@@ -46,16 +46,21 @@
 
 .taskForm
 {
-background: #2e3035;
-border-radius: 2em;
-height: 89%;
-width: 29vw;
-margin-top: 6vh;
-display: -webkit-inline-box;
+  background: #2e3035;
+  border-radius: 2em;
+  height: 89%;
+  width: 29vw;
+  margin-top: 6vh;
+  display: -webkit-inline-box;
 }
-.taskForm input
+.taskForm input,.taskForm textarea {
+  border-radius: 1em;
+  font-size: 0.8em; 
+}
+.taskForm label
 {
-border-radius: 1em;
+  margin: 0 !important;
+  font-size: 0.8em !important;
 }
 
 .vl {
@@ -130,9 +135,7 @@ form.is-editing .btn-edit {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  /* background: linear-gradient(to right, #4568dc, #b06ab3); */
   color: #D7D7EF;
-  /* font-family: "Lato", sans-serif; */
 }
 
 
@@ -147,7 +150,7 @@ section {
   align-items: center;
   width: 450px;
   max-width: 100%;
-  padding: 25px;
+  padding: 17px;
   border: 1px dashed rgba(255, 255, 255, 0.4);
   border-radius: 1em;
   transition: 0.2s;
@@ -161,7 +164,7 @@ section {
   background-color: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1em;
-  padding: 8px 15px;
+  padding: 4px 15px;
   margin-right: 10px;
   font-size: 12px;
   text-transform: uppercase;
