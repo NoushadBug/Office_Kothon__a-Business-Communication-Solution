@@ -15,6 +15,48 @@
   <link rel="stylesheet" href="./css/dashboard.css" />
 </head>
 
+
+<script>
+  // time js
+  function startTime() {
+    let days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+
+    m = checkTime(m);
+
+    var formattedTime = twelveHour(h, m);
+
+    document.getElementById('time').innerHTML = formattedTime;
+    document.getElementById('date').innerHTML =
+      days[today.getDay()] + ', ' + today.getDate();
+    setTimeout(startTime, 500);
+  }
+  function checkTime(i) {
+    if (i < 10) {
+      i = '0' + i;
+    } // add zero in front of numbers < 10
+    return i;
+  }
+  // twelve hour formatted time
+  function twelveHour(h, m) {
+    var AmOrPm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return h + ':' + m + ' ' + AmOrPm;
+  }
+</script>
+
+
+
 <body onload="startTime()">
   <div class="loader" style="
         position: fixed;
@@ -63,9 +105,9 @@
             </div>
           </div>
           <div class="profile ">
-            <img
-              src="https://img2.pngio.com/avatar-businessman-circle-human-male-person-user-icon-avatar-person-png-512_512.png"
-              alt="profile">
+            <img id="userimage" alt="profile"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmLK5y6vrKYkljqyxprlyB-VeKM-OWxN_8fA&amp;usqp=CAU"
+              style="border-radius: 50%;">
           </div>
         </div>
         <div class="hello-bar shadow-lg">
@@ -520,83 +562,57 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+    authDomain: "office-kothon.firebaseapp.com",
+    databaseURL: "https://office-kothon.firebaseio.com",
+    projectId: "office-kothon",
+    storageBucket: "office-kothon.appspot.com",
+    messagingSenderId: "605346039997",
+    appId: "1:605346039997:web:350fd046addb6f51860fd4",
+    measurementId: "G-W822J60VT1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  //make firebase consts
+  const auth = firebase.auth();
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (!user) {
+      window.location.replace('./index.html');
+    }
+  });
+  const db = firebase.firestore();
+
+  //update firebase settings
+  db.settings({ timestampsInSnapshots: true });
+
+</script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="./js/dashboard.js"></script>
+
 <script src="./toaster/toastr.min.js"></script>
 
 <script src="./clndr/mini-event-calendar.js"></script>
 
+
 <script>
 
-  var sampleEvents = [
-    {
-      title: "Soulful sundays bay area",
-      date: new Date().setDate(new Date().getDate() - 7), // last week
-      link: "#"
-    },
-    {
-      title: "London Comicon",
-      date: new Date().getTime(), // today
-      link: "#"
-    },
-    {
-      title: "Youth Athletic Camp",
-      date: new Date().setDate(new Date().getDate() + 31), // next month
-      link: "#"
+
+
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      $('#userName').text('Hi ' + user.displayName + '!');
+    } else {
+      $('#userName').text('No user is signed in.');
     }
-  ];
-
-  $("#calendar").MEC({
-    events: sampleEvents
   });
 
-  $("#calendar").MEC({
-    events: sampleEvents,
-    from_monday: true
-  });
-
-  // time js
-
-  $(document).ready(function () {
-    toastr.options = {
-      closeButton: true,
-      debug: false,
-      newestOnTop: false,
-      progressBar: true,
-      positionClass: 'toast-top-right',
-      preventDuplicates: false,
-      onclick: null,
-      showDuration: '300',
-      hideDuration: '1000',
-      timeOut: '5000',
-      extendedTimeOut: '1000',
-      showEasing: 'swing',
-      hideEasing: 'linear',
-      showMethod: 'fadeIn',
-      hideMethod: 'fadeOut',
-    };
-    var firebaseConfig = {
-      apiKey: 'AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE',
-      authDomain: 'office-kothon.firebaseapp.com',
-      databaseURL: 'https://office-kothon.firebaseio.com',
-      projectId: 'office-kothon',
-      storageBucket: 'office-kothon.appspot.com',
-      messagingSenderId: '605346039997',
-      appId: '1:605346039997:web:350fd046addb6f51860fd4',
-      measurementId: 'G-W822J60VT1',
-    };
-    // // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        $('#userName').text('Hi ' + user.displayName + '!');
-      } else {
-        $('#userName').text('No user is signed in.');
-      }
-    });
-  });
 
   document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
@@ -619,5 +635,6 @@
     $('#signup-form').hide('slow');
   });
 </script>
+<script src="./js/dashboard.js"></script>
 
 </html>

@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="./css/settings.css" />
 </head>
+
 <body onload="startTime()">
     <div class="loader" style="
         position: fixed;
@@ -129,7 +130,8 @@
                         <span class="file-msg">or drag and drop files here</span>
                         <input class="file-input" type="file">
                     </div>
-                    <button type="submit" class="text-center form-control btn btn-dark rounded-pill border-info shadow-lg mt-3 ">submit</button>
+                    <button type="submit"
+                        class="text-center form-control btn btn-dark rounded-pill border-info shadow-lg mt-3 ">submit</button>
 
                 </form>
             </div>
@@ -159,14 +161,14 @@
 
 <script>
     var firebaseConfig = {
-    apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
-    authDomain: "office-kothon.firebaseapp.com",
-    databaseURL: "https://office-kothon.firebaseio.com",
-    projectId: "office-kothon",
-    storageBucket: "office-kothon.appspot.com",
-    messagingSenderId: "605346039997",
-    appId: "1:605346039997:web:350fd046addb6f51860fd4",
-    measurementId: "G-W822J60VT1"
+        apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+        authDomain: "office-kothon.firebaseapp.com",
+        databaseURL: "https://office-kothon.firebaseio.com",
+        projectId: "office-kothon",
+        storageBucket: "office-kothon.appspot.com",
+        messagingSenderId: "605346039997",
+        appId: "1:605346039997:web:350fd046addb6f51860fd4",
+        measurementId: "G-W822J60VT1"
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -175,9 +177,9 @@
     //make firebase consts
     const auth = firebase.auth();
     firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-    window.location.replace('./index.html');
-    }
+        if (!user) {
+            window.location.replace('./index.html');
+        }
     });
     const db = firebase.firestore();
 

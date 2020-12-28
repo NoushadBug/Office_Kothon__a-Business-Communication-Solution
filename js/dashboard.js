@@ -1,47 +1,75 @@
 $(document).ready(function () {
+  toastr.options = {
+    closeButton: true,
+    debug: false,
+    newestOnTop: false,
+    progressBar: true,
+    positionClass: 'toast-top-right',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
+  };
+
+  db.collection("users").get()
+  .then(function (querySnapshot) {
+
+      querySnapshot.forEach(function (doc) {
+          if (doc.id == auth.currentUser.email) {
+            $('#userimage').attr("src", `${doc.data().photoURL}`);
+        
+          }
+         
+         
+      });
+      toastr["info"]("Signed in as "+ auth.currentUser.displayName, "Welcome to Office Kothon")
+      $('.loader').fadeOut('slow');
+     
+
+
+  
+
+
+
+
+
+
   $(sliCont).css('width', '0');
   $('[data-toggle="tooltip"]').tooltip();
-  $('#calender').simpleCalendar({
-    fixedStartDay: 0, // begin weeks by sunday
-    disableEmptyDetails: true,
-    events: [
-      // generate new event after tomorrow for one hour
-      {
-        startDate: new Date(
-          new Date().setHours(new Date().getHours() + 24)
-        ).toDateString(),
-        endDate: new Date(
-          new Date().setHours(new Date().getHours() + 25)
-        ).toISOString(),
-        summary: 'Visit of the Eiffel Tower',
-      },
-      // generate new event for yesterday at noon
-      {
-        startDate: new Date(
-          new Date().setHours(
-            new Date().getHours() - new Date().getHours() - 12,
-            0
-          )
-        ).toISOString(),
-        endDate: new Date(
-          new Date().setHours(
-            new Date().getHours() - new Date().getHours() - 11
-          )
-        ).getTime(),
-        summary: 'Restaurant',
-      },
-      // generate new event for the last two days
-      {
-        startDate: new Date(
-          new Date().setHours(new Date().getHours() - 48)
-        ).toISOString(),
-        endDate: new Date(
-          new Date().setHours(new Date().getHours() - 24)
-        ).getTime(),
-        summary: 'Visit of the Louvre',
-      },
-    ],
-  });
+ 
+});
+// calender
+var sampleEvents = [
+  {
+    title: "Soulful sundays bay area",
+    date: new Date().setDate(new Date().getDate() - 7), // last week
+    link: "#"
+  },
+  {
+    title: "London Comicon",
+    date: new Date().getTime(), // today
+    link: "#"
+  },
+  {
+    title: "Youth Athletic Camp",
+    date: new Date().setDate(new Date().getDate() + 31), // next month
+    link: "#"
+  }
+];
+
+$("#calendar").MEC({
+  events: sampleEvents
+});
+
+$("#calendar").MEC({
+  events: sampleEvents,
+  from_monday: true
 });
 
 //// slide out search
@@ -62,39 +90,5 @@ $(sliBtn).click(function () {
     searchClicked = false;
   }
 });
-// time js
-function startTime() {
-  let days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
-  var today = new Date();
-  var h = today.getHours();
-  var m = today.getMinutes();
 
-  m = checkTime(m);
-
-  var formattedTime = twelveHour(h, m);
-
-  document.getElementById('time').innerHTML = formattedTime;
-  document.getElementById('date').innerHTML =
-    days[today.getDay()] + ', ' + today.getDate();
-  setTimeout(startTime, 500);
-}
-function checkTime(i) {
-  if (i < 10) {
-    i = '0' + i;
-  } // add zero in front of numbers < 10
-  return i;
-}
-// twelve hour formatted time
-function twelveHour(h, m) {
-  var AmOrPm = h >= 12 ? 'PM' : 'AM';
-  h = h % 12 || 12;
-  return h + ':' + m + ' ' + AmOrPm;
-}
+  })
