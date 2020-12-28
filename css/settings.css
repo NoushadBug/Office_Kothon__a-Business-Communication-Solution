@@ -2,6 +2,7 @@
   font-family: 'Montserrat', sans-serif !important;
 }
 
+
 .profile-card-4 {
   height: fit-content;
   max-width: 300px;
@@ -62,7 +63,7 @@
 }
 .taskForm input,.taskForm textarea {
   border-radius: 1em;
-  font-size: 0.8em; 
+  font-size: 0.8em;
 }
 .taskForm label
 {
@@ -143,6 +144,7 @@ form.is-editing .btn-edit {
   align-items: center;
   justify-content: space-between;
   color: #D7D7EF;
+  overflow: hidden;
 }
 
 
@@ -259,4 +261,87 @@ color: white;
 }
 
 .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper { opacity: 1; transform: translate(1em, 1em) rotate(-15deg); -webkit-transform: translate(1em, 1em) rotate(-15deg); -moz-transform: translate(1em, 1em) rotate(-15deg); -ms-transform: translate(1em, 1em) rotate(-15deg); -o-transform: translate(1em, 1em) rotate(-15deg);
+}
+
+
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes vaporize {
+  0% {
+    opacity: 1;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0px);
+  }
+}
+@keyframes vaporize {
+  0% {
+    opacity: 1;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0px);
+  }
+}
+
+
+.containerSVG {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alchemist-ph .clipped {
+  -webkit-clip-path: url(#clipper);
+          clip-path: url(#clipper);
+}
+.alchemist-ph #sun {
+  -webkit-animation: vaporize 1100ms infinite linear;
+          animation: vaporize 1100ms infinite linear;
+}
+.alchemist-ph #star1 {
+  -webkit-animation: vaporize 900ms infinite linear;
+          animation: vaporize 900ms infinite linear;
+}
+.alchemist-ph #star2 {
+  -webkit-animation: vaporize 850ms infinite linear;
+          animation: vaporize 850ms infinite linear;
+}
+.alchemist-ph #star3 {
+  -webkit-animation: vaporize 750ms infinite linear;
+          animation: vaporize 750ms infinite linear;
+}
+.alchemist-ph .clipped > .chem1 {
+  fill: #6e41b5;
+}
+.alchemist-ph .clipped > .chem2 {
+  fill: #a486e2;
+}
+.alchemist-ph .clipped > .chem1 {
+  -webkit-animation: spin 3500ms infinite linear;
+          animation: spin 3500ms infinite linear;
+  transform-origin: 30% 82%;
+}
+.alchemist-ph .clipped > .chem2 {
+  -webkit-animation: spin 5000ms infinite linear;
+          animation: spin 5000ms infinite linear;
+  transform-origin: 25% 82%;
 }

@@ -1,5 +1,6 @@
 var userBio,userPhoto,userDesignation;
 $(document).ready(function(){
+  $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
   }
@@ -17,8 +18,9 @@ $(document).ready(function(){
         userPhoto = doc.data().photoURL;
         userDesignation = doc.data().designation;
       }
+
+      $('.loader').fadeOut('slow');
   });
-  $('.loader').fadeOut('slow');
 });
 
 // drag box js
@@ -103,9 +105,23 @@ function startTime() {
       // alert(profilePic[0].name);
       auth.signInWithEmailAndPassword(auth.currentUser.email, currentPass)
         .then((user) => {
+          $('.uploader').fadeIn('slow');
           // profile pic change
           if(profilePic.length > 0){
             let file = profilePic[0];
+            // var basic = $('#demo-basic').croppie({
+            //   enableExif: true,
+            //     viewport: {
+            //         width: 200,
+            //         height: 200,
+            //         type: 'circle'
+            //     }
+            //   });
+            //   basic.croppie('bind', {
+            //     url: 'https://i.imgur.com/xD9rzSt.jpg',
+            //     points: [77, 469, 280, 739]
+            //   });
+
             let storageRef = storage.ref("Users/"+auth.currentUser.email+"/"+'profilePic.jpg');
             let uploadProgress = storageRef.put(file);
 
@@ -139,6 +155,7 @@ function startTime() {
                                     displayName: displayName,
                                     photoURL: downloadURL,
                                   }).then(function() {
+                                    $('.uploader').fadeOut('slow');
                                     toastr['success']('updated user information sucessfully', 'updated information');
                                   }).catch(function(error) {
                                     toastr['error']('Error updating info', error.code);
@@ -152,6 +169,7 @@ function startTime() {
                                   displayName: displayName,
                                   photoURL: userPhoto,
                                 }).then(function() {
+                                  $('.uploader').fadeOut('slow');
                                   toastr['success']('updated user information sucessfully', 'updated information');
                                 }).catch(function(error) {
                                   toastr['error']('Error updating info', error.code);
@@ -178,6 +196,7 @@ function startTime() {
                     displayName: displayName,
                     photoURL: userPhoto,
                   }).then(function() {
+                    $('.uploader').fadeOut('slow');
                     toastr['success']('updated user information sucessfully', 'updated information');
                   }).catch(function(error) {
                     toastr['error']('Error updating info', error.code);
@@ -191,6 +210,7 @@ function startTime() {
                   displayName: displayName,
                   photoURL: userPhoto,
                 }).then(function() {
+                  $('.uploader').fadeOut('slow');
                   toastr['success']('updated user information sucessfully', 'updated information');
                 }).catch(function(error) {
                   toastr['error']('Error updating info', error.code);
