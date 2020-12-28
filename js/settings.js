@@ -1,5 +1,7 @@
 $(document).ready(function(){
-
+  if(localStorage.getItem("theme") == "dark"){
+    $('.toggle-checkbox').click();
+  }
   db.collection("users").get()
   .then(function (querySnapshot) {
 
@@ -95,6 +97,3 @@ function startTime() {
         return h + ':' + m + ' ' + AmOrPm;
     }
 
-
-
-  

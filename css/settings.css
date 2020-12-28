@@ -1,43 +1,43 @@
 *:not(.fa) {
-    font-family: 'Montserrat', sans-serif !important;
-  }
+  font-family: 'Montserrat', sans-serif !important;
+}
 
 .profile-card-4 {
-    height: fit-content;
-    max-width: 300px;
-    /* background-color: #FFF; */
-    border-radius: 50%;
-    /* box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1); */
-    overflow: hidden;
-    position: relative;
-    /* margin: 10px auto; */
-    cursor: pointer;
+  height: fit-content;
+  max-width: 300px;
+  /* background-color: #FFF; */
+  border-radius: 50%;
+  /* box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1); */
+  overflow: hidden;
+  position: relative;
+  /* margin: 10px auto; */
+  cursor: pointer;
 }
 
 .profile-card-4 img {
-    transition: all 0.25s linear;
+  transition: all 0.25s linear;
 }
 
 .profile-card-4 .profile-content {
-    position: relative;
-    padding: 15px;
-    background-color: #FFF;
+  position: relative;
+  padding: 15px;
+  background-color: #FFF;
 }
 
 .profile-card-4 .profile-name {
-    font-weight: bold;
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: -70px;
-    color: #FFF;
-    font-size: 17px;
+  font-weight: bold;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: -70px;
+  color: #FFF;
+  font-size: 17px;
 }
 
 .profile-card-4 .profile-name p {
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 1.5px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1.5px;
 }
 
 
@@ -46,27 +46,27 @@
 
 .taskForm
 {
-  background: #2e3035;
-  border-radius: 2em;
-  height: 89%;
-  width: 29vw;
-  margin-top: 6vh;
-  display: -webkit-inline-box;
+background: #2e3035;
+border-radius: 2em;
+height: 89%;
+width: 29vw;
+margin-top: 6vh;
+display: -webkit-inline-box;
 }
 .taskForm input
 {
-  border-radius: 1em;
+border-radius: 1em;
 }
 
 .vl {
-    border-radius: 2em;
-    /* left: 8em; */
-    /* left: auto; */
-    /* margin: auto; */
-    border-left: 0.4vw solid #2e3035;
-    height: 62%;
-  }
- 
+  border-radius: 2em;
+  /* left: 8em; */
+  /* left: auto; */
+  /* margin: auto; */
+  border-left: 0.4vw solid #2e3035;
+  height: 62%;
+}
+
 
 
 
@@ -76,32 +76,32 @@
 .js-edit .btn
 {
 
-        border: none; 
-        font-size: 16px;
-        cursor: pointer;      
+      border: none; 
+      font-size: 16px;
+      cursor: pointer;      
 }
 
 .set-btn
 {
-    text-align: right !important;
+  text-align: right !important;
 }
 .taskForm 
 {
-  background: #2e3035;
-  border-radius: 2em;
-  height: 89%;
-  width: 29vw;
-  margin-top: 6vh;
-  display: -webkit-inline-box;
+background: #2e3035;
+border-radius: 2em;
+height: 89%;
+width: 29vw;
+margin-top: 6vh;
+display: -webkit-inline-box;
 }
 .taskForm form
 {
-    width: 100%;
-    align-items: center;
+  width: 100%;
+  align-items: center;
 }
 .form-group label
 {
-    color: cadetblue;
+  color: cadetblue;
 
 
 }
@@ -112,84 +112,141 @@ resize: none
 
 }
 form.is-readonly .btn-save {
-    display: none;
-  }
-  form.is-readonly input[disabled], form.is-readonly textarea[disabled] {
-    cursor: text;
-    background-color: #fff;
-    border-color: transparent;
-    outline-color: transparent;
-    box-shadow: none;
-  }
-  form.is-editing .btn-edit {
-    display: none;
-  }
-  /* drag box css */
-  #drag{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    /* background: linear-gradient(to right, #4568dc, #b06ab3); */
-    color: #D7D7EF;
-    /* font-family: "Lato", sans-serif; */
-  }
-  
-  
-  
-  section {
-    flex-grow: 1;
-  }
-  
-  .file-drop-area {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 450px;
-    max-width: 100%;
-    padding: 25px;
-    border: 1px dashed rgba(255, 255, 255, 0.4);
-    border-radius: 1em;
-    transition: 0.2s;
-  }
-  .file-drop-area.is-active {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-  
-  .fake-btn {
-    flex-shrink: 0;
-    background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1em;
-    padding: 8px 15px;
-    margin-right: 10px;
-    font-size: 12px;
-    text-transform: uppercase;
-  }
-  
-  .file-msg {
-    font-size: small;
-    font-weight: 300;
-    line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .file-input {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    cursor: pointer;
-    opacity: 0;
-  }
-  .file-input:focus {
-    outline: none;
-  }
-  
-  .button {
-    padding-left: 11.5vw;
-    padding-right: 11.5vw;
-  }
+  display: none;
+}
+form.is-readonly input[disabled], form.is-readonly textarea[disabled] {
+  cursor: text;
+  background-color: #fff;
+  border-color: transparent;
+  outline-color: transparent;
+  box-shadow: none;
+}
+form.is-editing .btn-edit {
+  display: none;
+}
+/* drag box css */
+#drag{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  /* background: linear-gradient(to right, #4568dc, #b06ab3); */
+  color: #D7D7EF;
+  /* font-family: "Lato", sans-serif; */
+}
+
+
+
+section {
+  flex-grow: 1;
+}
+
+.file-drop-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 450px;
+  max-width: 100%;
+  padding: 25px;
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 1em;
+  transition: 0.2s;
+}
+.file-drop-area.is-active {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.fake-btn {
+  flex-shrink: 0;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1em;
+  padding: 8px 15px;
+  margin-right: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.file-msg {
+  font-size: small;
+  font-weight: 300;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+.file-input:focus {
+  outline: none;
+}
+
+.button {
+  padding-left: 11.5vw;
+  padding-right: 11.5vw;
+}
+
+
+
+
+
+.toggle-checkbox {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+
+.toggle-slot {position: relative;height: 5em;width: 10em;border: 5px solid #7d9fd2;border-radius: 10em;background-color: white;box-shadow: 0px 2px 15px #0e5de0;transition: background-color 250ms;}
+
+.toggle-checkbox:checked ~ .toggle-slot {
+background-color: #374151;
+}
+
+.toggle-button {transform: translate(1em, 1.0em);position: absolute;height: 2.5em;width: 2.5em;border-radius: 50%;background-color: #ffeccf;box-shadow: inset 0px 0px 0px 0.3em #f7b754;transition: background-color 250ms, border-color 250ms, transform 50ms cubic-bezier(.26,2,.46,.71);}
+
+.toggle-checkbox:checked ~ .toggle-slot .toggle-button {background-color: #404a5d;box-shadow: inset 0px 0px 0px 0.3em white;transform: translate(5.75em, 0.9em);}
+
+.sun-icon {
+position: absolute;
+height: 3em;
+width: 3em;
+color: #ffbb52;
+}
+
+.sun-icon-wrapper {
+position: absolute;
+height: 1em;
+width: 2em;
+opacity: 1;
+transform: translate(5em, 0.3em) rotate(15deg);
+transform-origin: 50% 50%;
+transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+opacity: 0;
+transform: translate(1em, 2em) rotate(0deg);
+}
+
+.moon-icon {
+position: absolute;
+height: 3em;
+width: 3em;
+color: white;
+}
+
+.moon-icon-wrapper { position: absolute; height: 5em; width: 0em; opacity: 0; transform: translate(6em, 1.2em) rotate(0deg); transform-origin: 50% 50%; transition: opacity 150ms, transform 500ms cubic-bezier(.26,2.5,.46,.71); -webkit-transform: translate(2em, 1.2em) rotate(0deg); -moz-transform: translate(6em, 1.2em) rotate(0deg); -ms-transform: translate(6em, 1.2em) rotate(0deg); -o-transform: translate(6em, 1.2em) rotate(0deg);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper { opacity: 1; transform: translate(1em, 1em) rotate(-15deg); -webkit-transform: translate(1em, 1em) rotate(-15deg); -moz-transform: translate(1em, 1em) rotate(-15deg); -ms-transform: translate(1em, 1em) rotate(-15deg); -o-transform: translate(1em, 1em) rotate(-15deg);
+}

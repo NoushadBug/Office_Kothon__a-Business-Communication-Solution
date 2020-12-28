@@ -1,6 +1,8 @@
 /**
  * Variables
  */
+localStorage.setItem("theme", "dark");
+
 $('#signup-form').hide();
 var w = window.outerWidth;
 var h = window.outerHeight;
