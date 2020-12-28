@@ -1,5 +1,6 @@
 var userBio,userPhoto,userDesignation;
 $(document).ready(function(){
+  $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
   }
@@ -17,8 +18,9 @@ $(document).ready(function(){
         userPhoto = doc.data().photoURL;
         userDesignation = doc.data().designation;
       }
+
+      $('.loader').fadeOut('slow');
   });
-  $('.loader').fadeOut('slow');
 });
 
 // drag box js
@@ -103,6 +105,7 @@ function startTime() {
       // alert(profilePic[0].name);
       auth.signInWithEmailAndPassword(auth.currentUser.email, currentPass)
         .then((user) => {
+          $('.uploader').fadeIn('slow');
           // profile pic change
           if(profilePic.length > 0){
             let file = profilePic[0];
@@ -139,6 +142,7 @@ function startTime() {
                                     displayName: displayName,
                                     photoURL: downloadURL,
                                   }).then(function() {
+                                    $('.uploader').fadeOut('slow');
                                     toastr['success']('updated user information sucessfully', 'updated information');
                                   }).catch(function(error) {
                                     toastr['error']('Error updating info', error.code);
@@ -152,6 +156,7 @@ function startTime() {
                                   displayName: displayName,
                                   photoURL: userPhoto,
                                 }).then(function() {
+                                  $('.uploader').fadeOut('slow');
                                   toastr['success']('updated user information sucessfully', 'updated information');
                                 }).catch(function(error) {
                                   toastr['error']('Error updating info', error.code);
@@ -178,6 +183,7 @@ function startTime() {
                     displayName: displayName,
                     photoURL: userPhoto,
                   }).then(function() {
+                    $('.uploader').fadeOut('slow');
                     toastr['success']('updated user information sucessfully', 'updated information');
                   }).catch(function(error) {
                     toastr['error']('Error updating info', error.code);
@@ -191,6 +197,7 @@ function startTime() {
                   displayName: displayName,
                   photoURL: userPhoto,
                 }).then(function() {
+                  $('.uploader').fadeOut('slow');
                   toastr['success']('updated user information sucessfully', 'updated information');
                 }).catch(function(error) {
                   toastr['error']('Error updating info', error.code);
