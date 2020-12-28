@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
   db.collection("users").get()
   .then(function (querySnapshot) {
 
@@ -55,6 +56,9 @@ $fileInput.on('change', function() {
 });
 // time js
 
+})
+
+
 function startTime() {
   let days = [
     'Sunday',
@@ -90,11 +94,6 @@ function startTime() {
         h = h % 12 || 12;
         return h + ':' + m + ' ' + AmOrPm;
     }
-
-})
-
-
-
 
 
 

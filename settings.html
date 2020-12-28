@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="./css/settings.css" />
 </head>
-
 <body onload="startTime()">
     <div class="loader" style="
         position: fixed;
@@ -130,9 +129,7 @@
                         <span class="file-msg">or drag and drop files here</span>
                         <input class="file-input" type="file">
                     </div>
-
-                    <button type="submit"
-                        class="btn btn-dark rounded-pill border-info shadow-lg mt-3 button">submit</button>
+                    <button type="submit" class="text-center form-control btn btn-dark rounded-pill border-info shadow-lg mt-3 ">submit</button>
 
                 </form>
             </div>
@@ -156,11 +153,11 @@
 </body>
 
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
-<scrip src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></scrip>
-<scrip src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></scrip>
-<scrip src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></scrip>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
 
-<scrip>
+<script>
     var firebaseConfig = {
     apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
     authDomain: "office-kothon.firebaseapp.com",
@@ -187,9 +184,9 @@
     //update firebase settings
     db.settings({ timestampsInSnapshots: true });
 
-</scrip>
-<scrip src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></scrip>
-<scrip src="./js/settings.js"></scrip>
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./js/settings.js"></script>
 
-<scrip src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></scrip>
-<scrip src="./toaster/toastr.min.js"></scrip>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="./toaster/toastr.min.js"></script>

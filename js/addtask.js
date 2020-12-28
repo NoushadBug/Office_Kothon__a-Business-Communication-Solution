@@ -480,13 +480,6 @@ document.getElementById('signout').addEventListener('click', () => {
           uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
                   // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                   var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-<<<<<<< HEAD
-                  if(progress == 100 && file === $("#customFile")[0].files[$("#customFile")[0].files.length-1]){
-                    $('.uploader').fadeOut('slow');
-                    toastr['success']('Your file uploaded successfully', 'uploaded file(s) successfully');
-                  }
-=======
->>>>>>> 714d5069a7736575230b6dcb46859396d75dcacf
                   if(progress == 0){
                     $('.uploader').fadeIn('slow');
                   }
