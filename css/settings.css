@@ -63,7 +63,7 @@
 }
 .taskForm input,.taskForm textarea {
   border-radius: 1em;
-  font-size: 0.8em; 
+  font-size: 0.8em;
 }
 .taskForm label
 {
@@ -144,6 +144,7 @@ form.is-editing .btn-edit {
   align-items: center;
   justify-content: space-between;
   color: #D7D7EF;
+  overflow: hidden;
 }
 
 

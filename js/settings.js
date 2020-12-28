@@ -109,6 +109,19 @@ function startTime() {
           // profile pic change
           if(profilePic.length > 0){
             let file = profilePic[0];
+            // var basic = $('#demo-basic').croppie({
+            //   enableExif: true,
+            //     viewport: {
+            //         width: 200,
+            //         height: 200,
+            //         type: 'circle'
+            //     }
+            //   });
+            //   basic.croppie('bind', {
+            //     url: 'https://i.imgur.com/xD9rzSt.jpg',
+            //     points: [77, 469, 280, 739]
+            //   });
+
             let storageRef = storage.ref("Users/"+auth.currentUser.email+"/"+'profilePic.jpg');
             let uploadProgress = storageRef.put(file);
 
