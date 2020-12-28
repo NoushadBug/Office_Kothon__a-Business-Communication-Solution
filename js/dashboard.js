@@ -1,21 +1,5 @@
 $(document).ready(function () {
-  toastr.options = {
-    closeButton: true,
-    debug: false,
-    newestOnTop: false,
-    progressBar: true,
-    positionClass: 'toast-top-right',
-    preventDuplicates: false,
-    onclick: null,
-    showDuration: '300',
-    hideDuration: '1000',
-    timeOut: '5000',
-    extendedTimeOut: '1000',
-    showEasing: 'swing',
-    hideEasing: 'linear',
-    showMethod: 'fadeIn',
-    hideMethod: 'fadeOut',
-  };
+ 
 
   db.collection("users").get()
   .then(function (querySnapshot) {
@@ -23,13 +7,35 @@ $(document).ready(function () {
       querySnapshot.forEach(function (doc) {
           if (doc.id == auth.currentUser.email) {
             $('#userimage').attr("src", `${doc.data().photoURL}`);
+            console.log('photo load ')
+            
         
           }
          
          
       });
-      toastr["info"]("Signed in as "+ auth.currentUser.displayName, "Welcome to Office Kothon")
+      console.log('loader fadeout start')
       $('.loader').fadeOut('slow');
+      toastr.options = {
+        closeButton: true,
+        debug: false,
+        newestOnTop: false,
+        progressBar: true,
+        positionClass: 'toast-top-right',
+        preventDuplicates: false,
+        onclick: null,
+        showDuration: '300',
+        hideDuration: '1000',
+        timeOut: '5000',
+        extendedTimeOut: '1000',
+        showEasing: 'swing',
+        hideEasing: 'linear',
+        showMethod: 'fadeIn',
+        hideMethod: 'fadeOut',
+      };
+    
+      toastr["info"]("Signed in as "+ auth.currentUser.displayName, "Welcome to Office Kothon")
+     
      
 
 
