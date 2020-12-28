@@ -41,7 +41,14 @@
 }
 
 
-
+.userImage{
+  border-radius: 50%;
+  overflow: hidden;
+  width: 13rem;
+  height: 13rem;
+  background-image: url('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png');
+  background-size: cover;
+}
 
 
 .taskForm

@@ -295,7 +295,9 @@ function renderLoadingSvg(){
             //console.log("change => "+Object.values(change)[0])
             serverUpdated = true;
              if (change.type === "added" || change.type === "modified") {
-                 notifyMessages(change.doc.data());
+                var scroll=$('.content .messages');
+                scroll.animate({scrollTop: scroll.prop("scrollHeight")});
+                // notifyMessages(change.doc.data());
             }
             // if (change.type === "removed") {
             // }

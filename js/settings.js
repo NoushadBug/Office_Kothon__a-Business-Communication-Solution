@@ -206,3 +206,5 @@ function startTime() {
           toastr['error']('Your provided current password may not matched', "Profile updation irterrupted");
         });
    });
+
+   
