@@ -205,51 +205,63 @@ function renderLoadingSvg(){
     function renderMessages(messageInfos){
        // console.log('messageInfo: ' + messageInfos)
         // clearing docs
-        var numberOfKeys = Object.values(messageInfos).length;
-        if (numberOfKeys == null || numberOfKeys > 300) {
-            db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
-            //openMessageThread(selectedUserId);
-        }
-        // clearing docs
-        $('.messages ul').empty();
-         for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
-            // console.log(typeof(Object.values(messageInfos)[i]) == 'object')
-            // TODO: render chat array 
-             if(Object.keys(messageInfos)[i] != 'lastSeen'){
-                if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                    var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                     <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                     <img src='${userImage}' alt="">
-                     <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
-                   </li>`;
-                   animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
-                 }
-                 else{
-                    renderedChats.push(Object.keys(messageInfos)[i]);
-                    var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                     <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                     <img src='${selectedUserImage}' alt="">
-                     <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
-                   </li>`;
-                   animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
-                 }
-                }
-                else{
-                    // TODO: implement notification
-                    unreadThread = Object.keys(messageInfos)[i];
-                    //alert(unreadThread)
-                    if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                        if( typeof(Object.values(messageInfos)[i]) == 'number'){
-                            unreadMessage++;
-                            //alert(unreadMessage)
-                        }
-                      }
-                }
-            if(i>0){
-                $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
-                    return ($(b).data('position')) < ($(a).data('position')) ? 1 : -1;
-                }));
+        if(messageInfos != null) {
+            var numberOfKeys = Object.values(messageInfos).length;
+            if (numberOfKeys > 300) {
+                db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
+                serverUpdated = true;
+                openMessageThread(selectedUserId);
             }
+                // clearing docs
+                $('.messages ul').empty();
+                for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
+                   // console.log(typeof(Object.values(messageInfos)[i]) == 'object')
+                   // TODO: render chat array 
+                    if(Object.keys(messageInfos)[i] != 'lastSeen'){
+                       if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                           var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                            <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                            <img src='${userImage}' alt="">
+                            <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
+                          </li>`;
+                          animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
+                        }
+                        else{
+                           renderedChats.push(Object.keys(messageInfos)[i]);
+                           var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                            <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                            <img src='${selectedUserImage}' alt="">
+                            <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
+                          </li>`;
+                          animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
+                        }
+                       }
+                       else{
+                           // TODO: implement notification
+                           unreadThread = Object.keys(messageInfos)[i];
+                           //alert(unreadThread)
+                           if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                               if( typeof(Object.values(messageInfos)[i]) == 'number'){
+                                   unreadMessage++;
+                                   //alert(unreadMessage)
+                               }
+                             }
+                       }
+                   if(i>0){
+                       $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
+                           return ($(b).data('position')) < ($(a).data('position')) ? 1 : -1;
+                       }));
+                   }
+               }
+        }
+        else{
+            db.collection('chats').doc(createDocQuery(selectedUserId)).delete();
+            serverUpdated = true;
+            openMessageThread(selectedUserId);
+            $('.messages ul').empty();
+                $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
+                <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${selectedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
+                docAvailable = false;
         }
     }
 
@@ -294,12 +306,14 @@ function renderLoadingSvg(){
         snapshot.docChanges().forEach(function(change) {
             //console.log("change => "+Object.values(change)[0])
             serverUpdated = true;
+
              if (change.type === "added" || change.type === "modified") {
                 var scroll=$('.content .messages');
                 scroll.animate({scrollTop: scroll.prop("scrollHeight")});
                 // notifyMessages(change.doc.data());
             }
             // if (change.type === "removed") {
+                
             // }
             //
             //change.type === "modified"? loadSvg = false : loadSvg = true;

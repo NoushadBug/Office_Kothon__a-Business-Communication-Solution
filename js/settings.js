@@ -1,6 +1,7 @@
-let userBio,userPhoto,userDesignation, myBlob, convertedImage;
+let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width;
 $(document).ready(function(){
   $('.uploader').fadeOut();
+
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
   }
@@ -18,10 +19,9 @@ $(document).ready(function(){
         userPhoto = doc.data().photoURL;
         userDesignation = doc.data().designation;
       }
-
-      $('.loader').fadeOut('slow');
   });
-});
+  $('.loader').fadeOut('slow');
+})
 
 // drag box js
 let $fileInput = $('.file-input');
@@ -122,8 +122,8 @@ $fileInput.on('change', function() {
         img.src = e.target.result;
         //Validate the File Height and Width.
         img.onload = function () {
-          var height = this.height;
-          var width = this.width;
+           height = this.height;
+           width = this.width;
           if(height / width != 1) {
             done(reader.result);
           }
@@ -145,8 +145,8 @@ $fileInput.on('change', function() {
 
 	$('#crop').click(function(){
 		let canvas = cropper.getCroppedCanvas({
-			width:200,
-			height:200
+			width: height<width? height:width,
+			height: height<width? height:width
 		});
 
 		canvas.toBlob(function(blob){

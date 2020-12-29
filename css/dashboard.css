@@ -232,41 +232,41 @@ $-Styles
   text-align: right;
 }
 /* hello bar svg  */
-.container {
+.hello-bar .container {
   width: 30%;
   margin: 20px auto;
 }
 
-.cls-1 {
+.hello-bar .cls-1 {
   /* color: transparent; */
   fill: transparent;
 }
 
-.cls-2 {
+.hello-bar .cls-2 {
   fill: #7fc2e2;
 }
 
-.cls-3 {
+.hello-bar .cls-3 {
   fill: #d8d5d5;
 }
 
-.cls-4 {
+.hello-bar .cls-4 {
   fill: #131413;
 }
 
-.cls-5 {
+.hello-bar .cls-5 {
   fill: #fff;
 }
 
-.cls-6 {
+.hello-bar .cls-6 {
   fill: #b28f82;
 }
 
-.cls-7 {
+.hello-bar .cls-7 {
   fill: #231f20;
 }
 
-.cls-8 {
+.hello-bar .cls-8 {
   fill: #418cbd;
 }
 
