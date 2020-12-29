@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone/dist/dropzone.css" />
-    <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet" />
     <script src="https://unpkg.com/dropzone"></script>
     <script src="https://unpkg.com/cropperjs"></script>
 
@@ -132,25 +132,29 @@
                     <img id="userImage" class="col-md-10 rounded-circle" alt=""
                         src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                         style="border-radius: 50%; max-width: 100%;">
-                                        <!-- Modal -->
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered " role="document">
-                        <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
-                            <div class="modal-header shadow-lg" style="border: 0;">
-                            <h6 class="modal-title" id="exampleModalLongTitle">Resize your photo</h6>
-                            <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body shadow-lg ">
-                                <div class="col-md-10 text-center mx-auto">
-                                   <img src="" id="sample_image"  class="col-md-12 rounded-circle mx-auto" alt=""/>
+                            <div class="modal-content shadow-lg text-light bg-dark"
+                                style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                                <div class="modal-header shadow-lg" style="border: 0;">
+                                    <h6 class="modal-title" id="exampleModalLongTitle">Resize your photo</h6>
+                                    <button type="button" class="close text-light" data-dismiss="modal"
+                                        aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body shadow-lg ">
+                                    <div class="col-md-10 text-center mx-auto">
+                                        <img src="" id="sample_image" class="col-md-12 rounded-circle mx-auto" alt="" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer shadow-lg" style="border: 0;">
+                                    <button type="button" id="crop"
+                                        class="mx-auto btn btn-secondary rounded-pill shadow-lg">Crop</button>
                                 </div>
                             </div>
-                            <div class="modal-footer shadow-lg" style="border: 0;">
-                                <button type="button" id="crop" class="mx-auto btn btn-secondary rounded-pill shadow-lg">Crop</button>
-                            </div>
-                        </div>
                         </div>
                     </div>
 
