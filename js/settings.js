@@ -137,7 +137,6 @@ $fileInput.on('change', function() {
 		cropper = new Cropper(image, {
 			aspectRatio: 1,
 			viewMode: 2,
-			preview:'#userImage'
 		});
 	}).on('hidden.bs.modal', function(){
 		cropper.destroy();
