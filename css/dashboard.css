@@ -217,7 +217,8 @@ $-Styles
   text-align: right;
 }
 .header-side .fa {
-  margin-right: 1em;
+  font-size: 0.8em;
+  margin-right: 0.7em;
 }
 .collapse-header p {
   font-style: italic;
