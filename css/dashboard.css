@@ -147,32 +147,13 @@ $-Styles
 /* hello bar */
 .hello-bar {
   border: 5px solid #70B8DE !important;
-  background: #2e3035;
-  background: ;
-  /* background: rgb(166,59,184); */
-  /* background: linear-gradient(45deg, rgba(166,59,184,1) 0%, rgba(93,93,173,1) 0%, rgba(48,7,59,1) 0%, rgba(183,183,221,1) 100%, rgba(9,9,121,1) 100%, rgba(46,203,235,1) 100%); */
-  /* background: rgb(2,0,36); */
-  /* background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(7,7,99,1) 0%, rgba(164,164,214,1) 100%, rgba(9,9,121,1) 100%, rgba(0,212,255,1) 100%); */
-  /* background: rgb(7,31,78); */
-  /* background: linear-gradient(129deg, rgba(7,31,78,1) 17%, rgba(220,75,235,1) 68%, rgba(219,119,176,1) 100%); */
-  /* background: rgb(5,63,175); */
-  /* background: linear-gradient(129deg, rgba(5,63,175,1) 16%, rgba(220,75,235,1) 73%, rgba(219,119,176,1) 100%); */
-  height: 18vh;
-  margin-top: 2em;
   color: white;
   padding: 2em;
   padding-left: 4em;
   padding-right: 4em;
+   /* fallback for old browsers */
+   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   border-radius: 2em;
-  /* background: #FF0B66; */
-  /* background:linear-gradient(120deg, #e32934, #004883); */
-  /* background: #642b73; */ /* fallback for old browsers */
-  /* background: dimgrey; */ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  -webkit-border-radius: 2em;
-  -moz-border-radius: 2em;
-  -ms-border-radius: 2em;
-  -o-border-radius: 2em;
-  /* top: 5vh; */
 }
 .feed-bar {
   overflow-x: hidden;
@@ -256,18 +237,12 @@ $-Styles
   }
   
   .penguin {
-    right: 0vw;
-    /* left: -4vw; */
-    bottom: 62vh;
-    width: 30%;
+    right: 3.2%;
+    bottom: 72.5%;
+    width: 19%;
     z-index: 1;
     position: absolute;
-    /* margin: auto; */
-    /* display: block; */
-    /* margin-top: 15%; */
-    /* width: var(--penguin-size, 300px); */
-    /* height: var(--penguin-size, 300px); */
-    height: 35%;
+    height: 26%;
   }
   
   .right-cheek {
@@ -447,4 +422,8 @@ $-Styles
   
   .penguin * {
     position: absolute;
+  }
+
+  .panel-group .panel{
+    border-radius: 1em!important;
   }
