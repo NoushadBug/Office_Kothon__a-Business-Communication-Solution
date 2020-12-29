@@ -121,7 +121,7 @@ weather.temperature = {
 const KELVIN = 273;
 // API KEY
 const key = "4219c65233a9df06329c72c8bee9f117";
-
+const descElement = document.querySelector(".temperature-description p");
 // CHECK IF BROWSER SUPPORTS GEOLOCATION
 if('geolocation' in navigator){
     navigator.geolocation.getCurrentPosition(setPosition, showError);
@@ -155,7 +155,7 @@ function getWeather(latitude, longitude){
         })
         .then(function(data){
             weather.temperature.value = Math.floor(data.main.temp - KELVIN);
-         
+            weather.description = data.weather[0].description;
             weather.iconId = data.weather[0].icon;
             weather.city = data.name;
             weather.country = data.sys.country;
@@ -170,6 +170,7 @@ function displayWeather(){
     iconElement.innerHTML = `<img src="icons/${weather.iconId}.png"/>`;
     tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
     locationElement.innerHTML = `${weather.city}, ${weather.country}`;
+    descElement.innerHTML = weather.description;
 }
 
 // C to F conversion

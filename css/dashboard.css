@@ -38,6 +38,7 @@ body {
   color: white;
   font-size: 1.2em;
   margin-top: 4.5vh;
+  text-shadow: 0px 13px 17px rgb(10 1 25 / 84%);
 }
 
 #signout {
@@ -448,7 +449,7 @@ $-Styles
 .weather-icon img{
     display: block;
     margin: 0 auto;
-    height: 15%;
+    height: 100%;
 }
 
 
