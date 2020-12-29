@@ -35,10 +35,14 @@ body {
 }
 
 .leftbar-icons i {
-  color: white;
   font-size: 1.2em;
   margin-top: 4.5vh;
-  text-shadow: 0px 13px 17px rgb(10 1 25 / 84%);
+  
+    /* fallback for old browsers */
+  background: -webkit-linear-gradient( #ffffff, #5bafdb, #6066ff);  /* Chrome 10-25, Safari 5.1-6 */
+   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 #signout {
@@ -470,4 +474,9 @@ $-Styles
     padding: 0;
     text-align: center;
     font-size: 0.8em;
+}
+
+.header-side .border{
+  border-radius: 2em;
+  background: #2b3035;
 }
