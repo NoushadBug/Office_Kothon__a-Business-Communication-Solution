@@ -1,4 +1,16 @@
 $(document).ready(function () {
+
+  
+  
+  if(auth.currentUser && localStorage.getItem('welcomed')==null )
+  {
+    alert('sorte dukce');
+    localStorage.setItem("welcomed", true);
+    toastr["info"]("Signed in as "+ auth.currentUser.displayName, "Welcome to Office Kothon")
+  }
+  
+
+
  
 
   db.collection("users").get()
@@ -34,7 +46,7 @@ $(document).ready(function () {
         hideMethod: 'fadeOut',
       };
     
-      toastr["info"]("Signed in as "+ auth.currentUser.displayName, "Welcome to Office Kothon")
+    
      
      
 
@@ -46,7 +58,7 @@ $(document).ready(function () {
         });
     });
 
-
+  
 
 
 
@@ -125,10 +137,9 @@ const descElement = document.querySelector(".temperature-description p");
 // CHECK IF BROWSER SUPPORTS GEOLOCATION
 if('geolocation' in navigator){
     navigator.geolocation.getCurrentPosition(setPosition, showError);
-}else{
-    notificationElement.style.display = "block";
-    notificationElement.innerHTML = "<p>Browser doesn't Support Geolocation</p>";
 }
+
+
 
 // SET USER'S POSITION
 function setPosition(position){
@@ -140,8 +151,9 @@ function setPosition(position){
 
 // SHOW ERROR WHEN THERE IS AN ISSUE WITH GEOLOCATION SERVICE
 function showError(error){
-    notificationElement.style.display = "block";
-    notificationElement.innerHTML = `<p> ${error.message} </p>`;
+  toastr['error']('Weather update will not be shown', 'Location denied by user');
+    // notificationElement.style.display = "block";
+    // notificationElement.innerHTML = `<p> ${error.message} </p>`;
 }
 
 // GET WEATHER FROM API PROVIDER

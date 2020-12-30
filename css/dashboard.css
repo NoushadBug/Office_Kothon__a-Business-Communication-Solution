@@ -154,7 +154,7 @@ $-Styles
 
 /* hello bar */
 .hello-bar {
-  background: #212529;
+  background: #2d3346;
   min-height: 20%;
   border: 5px solid #70B8DE !important;
   color: white;
@@ -172,6 +172,7 @@ $-Styles
   border-radius: 2em;
 }
 .scrollbar {
+  border: 0.4em solid;
   height: 300px;
   background: #576075;
   overflow-y: scroll;
@@ -201,7 +202,7 @@ $-Styles
 #force-overflow::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #555;
+  background-color: rgb(138, 138, 177);
 }
 .feed-bar scrollbar .panel {
   border-radius: 1.5em;
