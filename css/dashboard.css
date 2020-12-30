@@ -158,7 +158,6 @@ $-Styles
   min-height: 20%;
   border: 5px solid #70B8DE !important;
   color: white;
-  padding: 2em;
   padding-left: 4em;
   padding-right: 4em;
    /* fallback for old browsers */
@@ -481,4 +480,40 @@ $-Styles
 .header-side .border{
   border-radius: 2em;
   background: #2b3035;
+}
+
+.coffeeSVG{
+    width: 52%;
+    float: right;
+    transform: scale(1.2) translate(14%, -15%);
+    animation: 2s infinite alternate floating;
+    -webkit-transform: scale(1.2) translate(14%, -15%);
+    -moz-transform: scale(1.2) translate(14%, -15%);
+    -ms-transform: scale(1.2) translate(14%, -15%);
+    -o-transform: scale(1.2) translate(14%, -15%);
+}
+
+
+@keyframes floating {
+	0% {
+		transform:scale(1.2)  translatey(-15%);
+		-webkit-transform:scale(1.2)  translatey(-15%);
+		-moz-transform:scale(1.2)  translatey(-15%);
+		-ms-transform:scale(1.2)  translatey(-15%);
+		-o-transform:scale(1.2)  translatey(-15%);
+}
+	50% {
+		transform: scale(1.2) translatey(-20%);
+		-webkit-transform: scale(1.2) translatey(-20%);
+		-moz-transform: scale(1.2) translatey(-20%);
+		-ms-transform: scale(1.2) translatey(-20%);
+		-o-transform: scale(1.2) translatey(-20%);
+}
+	100% {
+		transform:scale(1.2)  translatey(-15%);
+		-webkit-transform:scale(1.2)  translatey(-15%);
+		-moz-transform:scale(1.2)  translatey(-15%);
+		-ms-transform:scale(1.2)  translatey(-15%);
+		-o-transform:scale(1.2)  translatey(-15%);
+}
 }
