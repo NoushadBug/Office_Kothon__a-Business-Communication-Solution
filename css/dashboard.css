@@ -34,10 +34,12 @@ body {
   align-items: center;
 }
 
+.leftbar-icons a:not(:first-child){
+  margin-top: 4.5vh;
+}
+
 .leftbar-icons i {
   font-size: 1.2em;
-  margin-top: 4.5vh;
-  
     /* fallback for old browsers */
   background: -webkit-linear-gradient( #ffffff, #5bafdb, #e6e6e6, #ffffff);  /* Chrome 10-25, Safari 5.1-6 */
    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */

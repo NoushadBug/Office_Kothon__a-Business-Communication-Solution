@@ -304,9 +304,7 @@ html {
   text-align: center;
 }
 .svg-div h6 {
- 
 color: cyan;
- 
 margin-top: 4vh;
 }
 
@@ -1566,3 +1564,6 @@ margin-top: 4vh;
   }
 }
 
+.taskListDiv span{
+
+}
