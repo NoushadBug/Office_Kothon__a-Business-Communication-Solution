@@ -1,7 +1,15 @@
 let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width;
+
+document.getElementById('signout').addEventListener('click', () => {
+  firebase.auth().signOut().then(() => {
+      localStorage.clear();
+      toastr['info']('You are signed out! ', 'see you soon');
+      });
+      window.location.replace("./index.html");
+  });
+
 $(document).ready(function(){
   $('.uploader').fadeOut();
-
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
   }

@@ -12,7 +12,6 @@ $(document).ready(function(){
   $('.taskForm').hide();
   db.collection("users").get()
   .then(function (querySnapshot) {
-    $('.loader').fadeOut('slow');
       querySnapshot.forEach(function (doc) {
           if (doc.id != auth.currentUser.email) {
               $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
@@ -32,9 +31,10 @@ $(document).ready(function(){
           }
           console.log(doc.id, " => ", doc.data());
       });
+      $('.loader').fadeOut('slow');
       $(".card").on("click", function () {
-
           $('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
+          $('.taskListDiv').remove();
           $('.svg-div').remove();
           $('#fileLabel').text('');
           $("#customFile")[0].value = null;
@@ -65,12 +65,13 @@ $('#closeForm').on("click", function(){
 // TODO:kAJJ
 $('#viewTasksBtn').on("click", function(){
   $('.svg-div').remove();
-  $(".rightbar-div").after(taskListDiv).fadeIn('slow');;
+  $(".rightbar-div").after(taskListDiv).fadeIn('slow');
 });
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
-      toastr['info']('You are signed out! ', 'see you soon');
+    localStorage.clear()
+    toastr['info']('You are signed out! ', 'see you soon');
       });
       window.location.replace("./index.html");
   });

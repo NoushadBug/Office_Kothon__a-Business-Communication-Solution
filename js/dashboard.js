@@ -1,17 +1,6 @@
 $(document).ready(function () {
 
-  
-  
-  if(auth.currentUser && localStorage.getItem('welcomed')==null )
-  {
-    alert('sorte dukce');
-    localStorage.setItem("welcomed", true);
-    toastr["info"]("Signed in as "+ auth.currentUser.displayName, "Welcome to Office Kothon")
-  }
-  
 
-
- 
 
   db.collection("users").get()
   .then(function (querySnapshot) {
@@ -20,11 +9,7 @@ $(document).ready(function () {
           if (doc.id == auth.currentUser.email) {
             $('#userimage').attr("src", `${doc.data().photoURL}`);
             console.log('photo load ')
-            
-        
-          }
-         
-         
+          } 
       });
       console.log('loader fadeout start')
       $('.loader').fadeOut('slow');

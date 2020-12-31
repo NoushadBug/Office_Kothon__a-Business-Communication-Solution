@@ -25,6 +25,8 @@ body {
   margin-left: 1vw;
   margin-right: 2vw;
   margin-top: 3.6vh;
+  -webkit-box-shadow: 0px 0px 56px -11px rgba(0,0,0,0.83);
+  -moz-box-shadow: 2px -3px 37px -3px rgba(0,0,0,0.83);
 }
 
 .leftbar-icons {
@@ -41,7 +43,7 @@ body {
 .leftbar-icons i {
   font-size: 1.2em;
     /* fallback for old browsers */
-  background: -webkit-linear-gradient( #ffffff, #7cdbf5, #e6e6e6, #ffffff);  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient( #ffffff, #ffffff, #bdc2ff, #ffffff);  /* Chrome 10-25, Safari 5.1-6 */
    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
