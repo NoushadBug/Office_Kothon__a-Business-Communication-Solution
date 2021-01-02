@@ -142,19 +142,20 @@
                 <h6>click anyone to assign task</h6>
                 <button id="viewTasksBtn" class="shadow-lg font-weight-bold rounded-pill btn btn-outline-secondary btn-sm">view tasks</button>
             </div>
-            <div class="taskListDiv col-md-6 text-success my-5" style="background: #2e3035; border-radius: 2em;">
+            <div class="taskListDiv container mt-5 mb-1 col-md-6 shadow-lg" style="background: #2e3035; border-radius: 2em;">
                 <div class="mx-3 my-5">
-                    <h6 id="taskHeading"class="text-light d-inline">Your Incompleted Tasks</h6>
-                    <div class="rounded-pill">
-                        <label for="sel1">Filter your tasks</label>
-                        <select class="custom-select custom-select-sm">
-                          <option selected>Open this select menu</option>
-                          <option>Incompleted</option>
-                          <option>Completed</option>
-                          <option>Deadline Crossed</option>
-                        <label for="sel2">Tasks you've assigned</label>
-                          <option>view tasks</option>
-                        </select>
+                    <div class="d-flex justify-content-between">
+                        <h6 id="taskHeading" class="my-auto text-light d-inline">Your incompleted Tasks</h6><div class="selection-div row">
+                            <i class="text-right my-auto mr-1 fa fa-filter text-info" aria-hidden="true" style="-webkit-text-stroke: 1px #5bc0de;-webkit-text-fill-color: transparent;"></i>
+                            <select class="my-auto col-md-10 form-control bg-dark d-inline text-light border-0 custom-select-sm" id="filterTask">
+                                <option value="incompleted" selected="">Incompleted</option>
+                                <option value="completed">Completed</option>
+                                <option value="deadlineCrossed">Deadline Crossed</option>
+                                <option value="" disabled="">Tasks you've assigned ——</option>
+                                <option value="assignedTasks">assigned tasks</option>
+                              </select>
+                        </div>
+
                       </div>
 
                 </div>
@@ -179,13 +180,15 @@
                         class="text-info font-weight-bold">good</small> </div>
             </div>
 
-            <div class="container mt-4">
-                <div class="justify-content-center title text-center mt-4 text-secondary d-flex mx-auto">
+            <div class="container mt-5">
+                <div class="pt-4 justify-content-center title text-center mt-4 text-secondary d-flex mx-auto">
                     <i class="fa fa-bar-chart text-success mx-2" aria-hidden="true"></i>
                     <h6>Task Stat</h6>
                     <i class="fa fa-bar-chart text-success mx-2" aria-hidden="true"></i>
                 </div>
-                <canvas id="myChart" width="587" height="293"></canvas>
+                <div class="container m-auto">
+                    <canvas class="container-fluid" id="myChart" width="587" height="293"></canvas>
+                </div>
                 <!-- <div class="chart-wrapper">
                 </div> -->
             </div>

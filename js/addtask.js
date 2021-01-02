@@ -3,13 +3,14 @@ var assignedTo;
 var docLinks;
 var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
+var taskForm = $('#taskformbar').clone();
 $(document).ready(function(){
-  $('.taskListDiv').remove();
+  $('.taskListDiv').hide();
   $('.uploader').fadeOut();
   toastr.options = {
     "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
   }
-  $('.taskForm').hide();
+  $('#taskformbar').hide();
   db.collection("users").get()
   .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -33,20 +34,20 @@ $(document).ready(function(){
       });
       $('.loader').fadeOut('slow');
       $(".card").on("click", function () {
-          $('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
-          $('.taskListDiv').remove();
+          //$(".rightbar-div").after(taskForm).fadeIn('slow');
+          //$('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
+          $('#taskformbar').show()
+          $('.taskListDiv').hide();
           $('.svg-div').remove();
-          $('#fileLabel').text('');
           $("#customFile")[0].value = null;
           var cardName = $("[data='"+$(this).attr('data')+"'] h6").text();
-          $("form h4").fadeOut(function(){$(this).text("Task for "+cardName).fadeIn(400);})
+          $("form h4").text("Task for "+cardName)
           assignedTo = ($(this).attr('data'));
-          $('#taskName').fadeOut(function(){$(this).val('').fadeIn(400);});
-          $('#startDate').fadeOut(function(){$(this).val('').fadeIn(400);});
-          $('#endDate').fadeOut(function(){$(this).val('').fadeIn(400);});
-          $('#taskDetails').fadeOut(function(){$(this).val('').fadeIn(400);});
-          $('#fileLabel').text("Choose multiple files");
-          //$('#inlineFormCustomSelect').fadeOut(function(){$(this).val('').fadeIn(400);});
+          $('#taskName').val('');
+          $('#startDate').val('');
+          $('#endDate').val('');
+          $('#taskDetails').val('');
+          $("#customFile").text("Choose multiple files");
       });
   })
 
@@ -58,14 +59,20 @@ $(document).ready(function(){
 });
 })
 
-$('#closeForm').on("click", function(){
-  $(".rightbar-div").after(svgClone).fadeIn('slow');
+$('#closeForm').on("click", function(event){
+  event.preventDefault();
   $('#taskformbar').hide();
+  $(".rightbar-div").after(svgClone).fadeIn('slow', function(){
+    $('#viewTasksBtn').on("click", function(){
+      //$('#taskformbar').hide();
+      $('.svg-div').remove();
+      $('.taskListDiv').show();
+    });
+  });
 });
-// TODO:kAJJ
 $('#viewTasksBtn').on("click", function(){
   $('.svg-div').remove();
-  $(".rightbar-div").after(taskListDiv).fadeIn('slow');
+  $('.taskListDiv').show();
 });
 
 document.getElementById('signout').addEventListener('click', () => {
@@ -361,6 +368,26 @@ document.getElementById('signout').addEventListener('click', () => {
     
   });
 
+  $("#filterTask").click(function(){
+    switch(this.value) {
+      case 'incompleted':
+        $("#taskHeading").text('Your incompleted tasks');
+        break;
+      case 'completed':
+        $("#taskHeading").text('Your completed tasks');
+        break;
+      case 'deadlineCrossed':
+        $("#taskHeading").text('Deadline crossed tasks');
+        break;
+      case 'assignedTasks':
+        $("#taskHeading").text('Your assigned tasks');
+        break;
+      default:
+        $("#taskHeading").text('...');
+    }
+    
+  });
+
   Chart.defaults.global.legend.labels.usePointStyle = true; 
   let ctx = document.getElementById('myChart').getContext('2d');
   let labels = ['completed','incompleted','deadline cross'];
@@ -424,7 +451,6 @@ document.getElementById('signout').addEventListener('click', () => {
     }
 
   })
-
 
   $("#customFile").change(function() {
     if ($("#customFile")[0].files.length > 3) {
@@ -534,7 +560,13 @@ document.getElementById('signout').addEventListener('click', () => {
               });
         }
     }
-    $(".rightbar-div").after(svgClone).fadeIn('slow');
+    $(".rightbar-div").after(svgClone).fadeIn('slow', function(){
+      $('#viewTasksBtn').on("click", function(){
+        $('.svg-div').remove();
+        $('.taskListDiv').show();
+      });
+    });
+
     $('#taskformbar').hide();
     
  });
@@ -547,7 +579,7 @@ document.getElementById('signout').addEventListener('click', () => {
 db.collection("tasks").onSnapshot(function(snapshot) {
   snapshot.docChanges().forEach(function(change) {
     if(auth.currentUser.email == change.doc.id){
-      $('#userInfoSection').remove();
+      // alert('own task')
     }
       //  if (change.type === "added" || change.type === "modified") {
       //      notifyMessages(change.doc.data());
