@@ -529,3 +529,11 @@ $-Styles
 		-o-transform:scale(1.2)  translatey(-15%);
 }
 }
+
+.card{
+  border-radius: 1em;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+}

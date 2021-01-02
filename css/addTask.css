@@ -1,6 +1,9 @@
 *:not(.fa) {
   font-family: 'Montserrat', sans-serif !important;
 }
+body{
+  overflow: hidden;
+}
 .typewriter {
   --blue: #5C86FF;
   --blue-dark: #275EFE;
@@ -374,15 +377,7 @@ margin-top: 4vh;
   text-align: center;
   
 }
- .container 
-{
- 
-      /* margin: auto; */
-      overflow-x: auto;
-      /* width: 50%; */
-      overflow-x: hidden;
-  
-}
+
 .chart-wrapper
 {
   width: 500px;
@@ -392,8 +387,7 @@ margin-top: 4vh;
 }
 #myChart
 {
-  margin-left: -8.5vw;
-  height: 37%;
+  transform: scale(2.4) translate(0%, 30%);
 }
 
 .card img{
@@ -1527,7 +1521,11 @@ margin-top: 4vh;
   }
   43% {
     transform: translate(-24px, -64px);
-  }
+    -webkit-transform: translate(-24px, -64px);
+    -moz-transform: translate(-24px, -64px);
+    -ms-transform: translate(-24px, -64px);
+    -o-transform: translate(-24px, -64px);
+}
   46% {
     transform: translate(-27px, -55px);
   }
@@ -1564,6 +1562,4 @@ margin-top: 4vh;
   }
 }
 
-.taskListDiv span{
 
-}
