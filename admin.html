@@ -1,0 +1,172 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
+    <link rel="stylesheet" href="./toaster/toastr.min.css" />
+
+    <link rel="stylesheet" href="./css/dashboard.css" />
+    <link rel="stylesheet" href="./css/admin.css">
+
+</head>
+
+<body>
+    <div class="loader" style="
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            background: #101011;
+            justify-content: center;
+            align-items: center;
+          ">
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
+    </div>
+
+    <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
+        <div class="dashboard-container row col-md-9 " style="height: inherit;">
+            <!-- leftbar container -->
+            <div class="leftbar py-5">
+                <a href="./index.html" class="text-center"><img
+                        src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
+                <div class="leftbar-icons">
+                    <a href="./dashboard.html" aria-label="Home" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-home m-0"></i></a>
+                    <a href="#0" aria-label="Chat" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-comment"></i></a>
+                    <!-- <a href="#0" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                class="fa fa-group"></i></a> -->
+                    <a href="./addTask.html" aria-label="Task" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-edit"></i></a>
+                    <a href="./settings.html" aria-label="Settings" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-cog"></i></a>
+                </div>
+                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="top-right" role="tooltip"><i
+                        class="fa fa-sign-out text-secondary"></i></a>
+            </div>
+
+            <div class="content col-md-10 my-4" id="frame">
+
+                <iframe width="100%" height="96%"
+                    src="https://datastudio.google.com/embed/reporting/ab15dc58-b1eb-4044-87d4-96040158bdab/page/SG7uB"
+                    frameborder="0" style="border:0" allowfullscreen></iframe>
+
+            </div>
+
+        </div>
+
+        <div class="rightbar-div col-md-3 m-auto">
+
+
+            <!-- setting page -->
+            <div class="col-md-12  mt-3 ">
+                <div class="profile-card-4 col-md-12 text-center mx-auto ">
+                    <img id="userImage" class="col-md-12 rounded-circle" alt=""
+                        src="https://firebasestorage.googleapis.com/v0/b/office-kothon.appspot.com/o/Users%2Fab123%40gmail.com%2FprofilePic.jpg?alt=media&amp;token=0e40bd74-8d72-4ebe-969f-9dd84fdac0f1"
+                        style="border-radius: 50%;max-width: 65%;">
+                    <!-- Modal -->
+
+
+                </div>
+                <div class="col-md-12 my-3  ">
+                    <h5 class="text-center  text-light userName  mx-auto"> Mohammad Ali Shuvo</h5>
+
+                </div>
+
+
+
+            </div>
+
+            <!-- form -->
+            <div class="taskForm  container col-md-12 shadow-lg ">
+                <form class="  my-3 mx-auto">
+                    <h5 class="text-center text-light mb-3">Admin Settings</h5>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Change Profile Name</label>
+                        <input id="settings-name" type="text"
+                            class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                            placeholder="Update Profile Name" value="">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Change Password</label>
+                        <input id="settings-pass" type="password"
+                            class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                            placeholder="Change Password" value="">
+                    </div>
+
+
+                    <!-- drag box -->
+                    <label for="file-input" class="text-info m-0">Update your profile picture</label>
+                    <button class="btn" id="closeForm"
+                        onclick="$('#profilePic')[0].value = null; $('.file-msg').text('0 files selected')"><i
+                            class="fa fa-times-circle text-secondary" aria-hidden="true"></i></button>
+                    <div class="file-drop-area mt-1 mb-3" id="drag">
+                        <span class="fake-btn">Choose files</span>
+                        <span class="file-msg">or drag and drop files here</span>
+                        <input class="file-input" id="profilePic" type="file" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPass" class="text-info">Current password</label>
+                        <input id="userPass" type="password"
+                            class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                            placeholder="Your Current Password" value="" required="">
+                    </div>
+                    <button type="submit"
+                        class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+        authDomain: "office-kothon.firebaseapp.com",
+        databaseURL: "https://office-kothon.firebaseio.com",
+        projectId: "office-kothon",
+        storageBucket: "office-kothon.appspot.com",
+        messagingSenderId: "605346039997",
+        appId: "1:605346039997:web:350fd046addb6f51860fd4",
+        measurementId: "G-W822J60VT1"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    //make firebase consts
+    const auth = firebase.auth();
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+            window.location.replace('./index.html');
+        }
+    });
+    const db = firebase.firestore();
+
+    //update firebase settings
+    db.settings({ timestampsInSnapshots: true });
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="./toaster/toastr.min.js"></script>
+<script src="./js/dashboard.js"></script>
+<script src="./js/admin.js"></script>
