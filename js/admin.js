@@ -1,4 +1,4 @@
-let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width;
+let userPhoto,userDesignation, myBlob, convertedImage, height, width;
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
@@ -17,12 +17,6 @@ $(document).ready(function(){
   db.collection("users").onSnapshot(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
       if (doc.id == auth.currentUser.email) {
-        $('#userImage').attr("src", `${doc.data().photoURL}`);
-        $('.userName').html(`${doc.data().displayName}`);
-        $('#settings-name').val(`${doc.data().displayName}`);
-        $('.designation').html(`${doc.data().designation}`);
-       
-        userBio = doc.data().bio;
         userPhoto = doc.data().photoURL;
         userDesignation = doc.data().designation;
       }
@@ -142,7 +136,6 @@ $fileInput.on('change', function() {
       let currentPass = $('#userPass').val();
       let newPass = $('#settings-pass').val() == ''? 'oldPass' : $('#settings-pass').val();
       let displayName = $('#settings-name').val() == ''? auth.currentUser.displayName : $('#settings-name').val();
-      let bioDetails = $('#bioDetails').val() == ''? userBio : $('#bioDetails').val();
       let profilePic = $('#profilePic')[0].files;
 
       //console.log(auth);

@@ -202,3 +202,46 @@
   
   
   
+.containerSVG {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alchemist-ph .clipped {
+  -webkit-clip-path: url(#clipper);
+          clip-path: url(#clipper);
+}
+.alchemist-ph #sun {
+  -webkit-animation: vaporize 1100ms infinite linear;
+          animation: vaporize 1100ms infinite linear;
+}
+.alchemist-ph #star1 {
+  -webkit-animation: vaporize 900ms infinite linear;
+          animation: vaporize 900ms infinite linear;
+}
+.alchemist-ph #star2 {
+  -webkit-animation: vaporize 850ms infinite linear;
+          animation: vaporize 850ms infinite linear;
+}
+.alchemist-ph #star3 {
+  -webkit-animation: vaporize 750ms infinite linear;
+          animation: vaporize 750ms infinite linear;
+}
+.alchemist-ph .clipped > .chem1 {
+  fill: #6e41b5;
+}
+.alchemist-ph .clipped > .chem2 {
+  fill: #a486e2;
+}
+.alchemist-ph .clipped > .chem1 {
+  -webkit-animation: spin 3500ms infinite linear;
+          animation: spin 3500ms infinite linear;
+  transform-origin: 30% 82%;
+}
+.alchemist-ph .clipped > .chem2 {
+  -webkit-animation: spin 5000ms infinite linear;
+          animation: spin 5000ms infinite linear;
+  transform-origin: 25% 82%;
+}

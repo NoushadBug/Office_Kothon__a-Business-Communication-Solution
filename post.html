@@ -1,0 +1,746 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Feed</title>
+    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
+    <link rel="stylesheet" href="./toaster/toastr.min.css" />
+    <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
+
+    <link rel="stylesheet" href="./css/month.css">
+    <link rel="stylesheet" href="./css/week.css">
+    <link rel="stylesheet" href="./css/datePicker.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/post.css">
+
+</head>
+
+<body>
+    <div class="loader" style="
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            background: #101011;
+            justify-content: center;
+            align-items: center;
+          ">
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
+    </div>
+
+
+
+    <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
+        <div class="dashboard-container row col-md-9 mr-1 " style="height: inherit;">
+            <!-- leftbar container -->
+            <div class="leftbar py-5">
+                <a href="./index.html" class="text-center"><img
+                        src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
+                <div class="leftbar-icons">
+                    <a href="./admin.html" aria-label="Dashboard" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-home m-0"></i></a>
+                    <a href="./post.html" aria-label="Create Post" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-plus-circle"></i></a>
+                    <!-- <a href="#0" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                class="fa fa-group"></i></a> -->
+                    <a href="./addTask.html" aria-label="Users" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-user-plus"></i></a>
+
+                </div>
+                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="top-right" role="tooltip"><i
+                        class="fa fa-sign-out text-secondary"></i></a>
+            </div>
+
+            <div class="content col-md-10 my-4" id="frame">
+                <div class="row container m-auto hello-bar shadow-lg border border-info">
+                    <div class="profile-card-4 col-md-3 ">
+                        <img id="userImage" class="col-md-12 rounded-circle mb-5" alt=""
+                            src="https://firebasestorage.googleapis.com/v0/b/office-kothon.appspot.com/o/Users%2Fab123%40gmail.com%2FprofilePic.jpg?alt=media&amp;token=0e40bd74-8d72-4ebe-969f-9dd84fdac0f1"
+                            style="max-width: 65%;left: 2.5vw;">
+                        <!-- Modal -->
+                        <div class=" priority mb-2 ">
+                            <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
+                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
+                                id="inlineFormCustomSelect" required="">
+                                <option selected="" class="choose">Select Priority</option>
+                                <option value="easy">Meeting</option>
+                                <option value="moderate">Notice</option>
+                                <option value="hard">Event</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-2 ">
+                            <input id="endDate" name="endDate" type="text"
+                                class="form-control bg-dark shadow-lg text-light  border-info"
+                                placeholder="select end date" required="">
+
+                        </div>
+                        <div class="file-upload  mx-auto">
+                            <input type="file">
+                            <i class="fa fa-arrow-up"></i>
+                        </div>
+
+                    </div>
+                    <div class="taskForm  mt-2 mb-1 col-md-9 shadow-lg " id="taskformbar">
+
+
+
+
+                        <div class="l-section col-md-12">
+
+                            <span class="c-link js-toggleForm">undo</span>
+                            <div class="form form--enabled">
+                                <label>Title</label>
+                                <input name="name" class="form-control mb-2  bg-dark shadow-lg text-light border-info"
+                                    type="text" id="taskName" required="">
+                                <label>What's on your mind?</label>
+
+                                <textarea id="taskDetails" rows="6"
+                                    class="form-control mb-3 bg-dark shadow-lg text-light  border-info"></textarea>
+
+
+                                <input
+                                    class="btn btn-secondary form-control  bg-dark shadow-lg text-light  border-info "
+                                    type="submit" value="Post">
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div class="rightbar-div col-md-3 m-auto">
+
+            <div class="feed-bar scrollbar" id="force-overflowdiv">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse1" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Proven ability to carry national projects worldwide
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt text-warning"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Dec 2 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Notice</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                Techsoi has deployed national scale solutions in Bangladesh, Nepal, Bhutan, Brazil and
+                                Canada. We have
+                                experience in dealing with huge amounts of sensitive data and in handling the
+                                complexities associated
+                                with large scale projects.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse2" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    IT Departmant Monthly Meeting
+
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt text-info"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Nov 25 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Meeting</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                The key to having a great yearly planning meeting is to being prepared, determine the
+                                right annual
+                                planning meeting agenda, and follow a process to ensure that you get the maximum value
+                                out of the
+                                investment you’re making in annual planning. Successful meetings require that everyone
+                                come prepared
+                                as being prepared will save you time when working with your team in the session itself
+                                and allow you
+                                to focus on the important agenda items. Our consultants have worked with hundreds of
+                                companies over
+                                the last decade to help them write annual plans that inspire and align the entire
+                                company around the
+                                main focus and a few key initiatives for the year. Let me share a few of the patterns
+                                we’ve learned
+                                for conducting an effective Annual Planning meeting and make it productive for everyone
+                                to attend the
+                                meeting. An effective meeting agenda will have all of the meeting participants on the
+                                same page prior
+                                to setting foot in the room.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse3" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Festival Bonus for Fall Vacation
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt text-light"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Nov 25 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Meeting</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                Signing or hiring bonuses (given upon hiring) can attract and motivate new hires — 34%
+                                of companies in
+                                PayScale’s survey use them. Although they’re less likely to be used by small businesses,
+                                signing
+                                bonuses might be a good idea if:
+
+                                They are standard in your industry. For instance, signing bonuses are common with IT
+                                employees.
+                                You need to attract a candidate with hard-to-find skills.
+                                You need to motivate a desirable candidate to move from another state.
+                                For small businesses on a budget, a signing bonus can enable you to land desirable
+                                employees at lower
+                                starting salaries. Of course, signing bonuses can also backfire if candidates use them
+                                to job-hop.
+
+                                To prevent this, it’s a good idea to stagger your signing bonus. You might pay half of
+                                the bonus at
+                                signing, then one-quarter after the employee has worked for six months and the rest at
+                                the end of the
+                                year. Some companies also institute “clawback” provisions where employees who quit a job
+                                before a year
+                                is up must return a percentage of the signing bonus.
+
+                                However, don’t expect to rely on signing bonuses as your sole attraction and retention
+                                tactic. You
+                                need a comprehensive plan of employee development to keep these desirable workers
+                                motivated and loyal
+                                beyond the first year.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse4" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Tecksoi Appoint Four Flutter Developer In December
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Nov 25 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Meeting</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                In the past few years, mobile devices have evolved from being just a means of
+                                communication into a
+                                highly important business tool. As technology advances at lightning speed each day, so
+                                do people get
+                                addicted to their smartphones and other mobile devices. According to a survey carried
+                                out in 2017 by
+                                comScore; the media marketing and analytics giant, into how much time an average
+                                American spends on
+                                their smartphone and other mobile devices. It was discovered that the average American
+                                spends an
+                                average of three hours each day on these devices. When this estimate is multiplied over
+                                a month, it
+                                adds up to half the total time they spend on their full-time job during the same period.
+                                And this is
+                                the more conservative estimates of the several recent studies.
+
+                                The importance of mobile app development in business is very palpable. Mobile
+                                applications have
+                                changed the way we do business. These apps have made it easier for customers to get
+                                business
+                                information with the speed of light and at the same time remain connected and up to date
+                                with their
+                                favorite brand. These apps are a vital means of marketing for these businesses to expand
+                                their reach
+                                while delivering both massive and relevant exposure to the brand.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse5" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Noushad Bhuiyan Assigned as a Project Manager
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Dec 5 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Meeting</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                Thanks to strong industry demand and their own technical expertise, skilled software
+                                engineers on both
+                                the applications and the systems sides are compensated well for the value they deliver.
+                                The Bureau of
+                                Labor Statistics lists the median annual salary for applications developers at $103,620
+                                and at
+                                $110,000 for systems developers.
+
+                                Of course, applications and systems developer jobs are not the only two positions
+                                available in the
+                                field of software engineering. Other common roles include mobile developers,
+                                applications architects,
+                                quality assurance analysts, and database administrators.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse6" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Victory Day Celebration In Techsoi
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse6" class="panel-collapse in collapse" style="">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Dec 16 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Meeting</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                In 1971 Bangladesh fought the Bangladesh Liberation War against Pakistan to become an
+                                Independent
+                                country,[4] which resulted in the secession of East Pakistan from the Islamic Republic
+                                of Pakistan[5]
+                                and established the sovereign nation called Bangladesh. The war pitted East Pakistan and
+                                India against
+                                West Pakistan, and lasted for a duration of nine months. One of the most violent wars of
+                                the 20th
+                                century, it witnessed large-scale atrocities, the exodus of 10 million refugees and the
+                                killing of 3
+                                million people by the Pakistani armed forces.[6]
+
+                                On 16 December 1971, Lieutenant General Amir Abdullah Khan Niazi, CO of Pakistan Armed
+                                Forces located
+                                in East Pakistan signed the Instrument of Surrender. The Instrument of Surrender was a
+                                written
+                                agreement that enabled the surrender of the Pakistan Eastern Command in the Bangladesh
+                                Liberation War,
+                                and marked the end of the Indo-Pakistani War of 1971 in the Eastern Theater.[7]
+
+                                The surrender took place at the Ramna Race Course in Dhaka on 16 December 1971.
+                                Lieutenant General
+                                Amir Abdullah Khan Niazi and Lieutenant General Jagjit Singh Aurora, Joint Commander of
+                                Indian and
+                                Bangladesh Forces, signed the instrument amid thousands of cheering crowds at the
+                                racecourse. Air
+                                Commodore A. K. Khandker, Deputy Commander-in-Chief of the Bangladesh Armed Forces, and
+                                Lieutenant
+                                General J F R Jacob [8] of the Indian Eastern Command, acted as witnesses to the
+                                surrender. Also
+                                present were Vice-Admiral Mohammad Shariff, commander of the Pakistani Naval Eastern
+                                Command and Air
+                                Vice-Marshal Patrick D. Callaghan of the Pakistan Air Force's Eastern Air Force Command,
+                                who signed
+                                the agreement. On behalf of Bangladesh, Air Commodore A. K. Khandker acted as witness to
+                                the
+                                surrender. Lieutenant Jacob Rafael Jacob, Chief of Staff of the Indian Eastern Command,
+                                along with the
+                                other commanders of Indian naval and air forces, acted as witnesses on behalf of India.
+                                Aurora
+                                accepted the surrender without a word, while the crowd on the race course started
+                                shouting anti-Nazi
+                                and anti-Pakistan slogans.[9]
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse7" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Official Board Meeting On Sunday
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse7" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Nov 25 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Meeting</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                In the last 23 years, Southtech Group has gained immense growth which has exceeded the
+                                boundaries of
+                                the country. Currently, We have 6 offices across 5 countries all around the world.
+
+                                We understand that every business is different and their software needs are different
+                                too. Keeping
+                                that in mind, we have built services that can be tailored to meet all your requirements.
+                                We firmly
+                                believe, customizing our customers needs is our custom. Our dedication and passion for
+                                excellence in
+                                software development has made us a leading CMMI L5 accredited IT Company.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse8" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Techsoi Nominated For IT Fest 2021
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse8" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Nov 25 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Notice</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                BAC IT club organized an IT Fest during 23-24 May, 2021. Prof. Dr. M. Harunur Rashid,
+                                Chairman. BAC
+                                International inaugurated the festival. The festival was segmented into four events: IT
+                                Gaming Combat
+                                v2.0, IT Olympiad on IT General Knowledge, Poster Design Contest on App/Software/Tech
+                                Idea and Sci-Fi-
+                                Movie Show. Students from all schools participated in the festival enthusiastically. At
+                                the end of the
+                                festival prizes were distributed among the winners. The festival was taken place under
+                                the guidance of
+                                Mr. Md. Rezaul Huda Reza, Sr. Lecturer, School of IT &amp; Adviser, BAC IT Club. Ms.
+                                Tasnem Tarannum,
+                                Officer, Academic Administration, coordinated the program wholeheartedly.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
+                        style="">
+                        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse9" data-toggle="collapse"
+                            data-parent="#accordion" aria-expanded="false">
+                            <div class="title-header col-6">
+                                <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right"
+                                    role="tooltip">
+                                    Winter Picnic Day 2020 In Techsoi
+                                </h6>
+                            </div>
+                            <div class="header-side col-6 m-auto">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
+            border-radius: 2em;
+        ">
+                                    <i class="fa fa-paperclip text-secondary "></i>
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
+                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                                class="fa fa-bolt"></i></span></span>
+                                    <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="collapse9" class="panel-collapse collapse in">
+                            <div class="collapse-header row mt-3 mx-auto">
+                                <div class="col-4">
+                                    <p> Nov 25 ,2020</p>
+                                </div>
+                                <div class="status col-4">
+                                    <i class="fa fa-circle"></i>
+                                    <p class="d-inline">Meeting</p>
+                                </div>
+                                <div class="view-button col-4">
+                                    <a href="#" class="btn btn-primary btn-sm disabled" role="button"
+                                        aria-pressed="true">View File</a>
+                                </div>
+                            </div>
+                            <div class="panel-body row mx-3 pb-3">
+                                Winter Fest at techsoi announed . Millions of people come from all over the world to
+                                gather in the
+                                city and enjoy the festivities that date back to the Middle Ages. Being Germany, the
+                                beer and glühwein
+                                are excellent and free flowing, making this one of the booziest winter festivals on this
+                                list. The
+                                Cologne Winter Carnival‘s crazy events include ‘Fat Thursday’, involving women cutting
+                                off men’s ties
+                                and rewarding them with a kiss, and ‘Rose Monday’, which polishes off a weekend of
+                                drinking and fun
+                                with a day of marching bands, outrageous floats, and street parties. The festivities
+                                last around a
+                                week and, while things are still open, you’ll actually find people dressed up and in the
+                                holiday
+                                spirit all week long, even while working!
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+        authDomain: "office-kothon.firebaseapp.com",
+        databaseURL: "https://office-kothon.firebaseio.com",
+        projectId: "office-kothon",
+        storageBucket: "office-kothon.appspot.com",
+        messagingSenderId: "605346039997",
+        appId: "1:605346039997:web:350fd046addb6f51860fd4",
+        measurementId: "G-W822J60VT1"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    //make firebase consts
+    const auth = firebase.auth();
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+            window.location.replace('./index.html');
+        }
+    });
+    const db = firebase.firestore();
+
+    //update firebase settings
+    db.settings({ timestampsInSnapshots: true });
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<script src="./toaster/toastr.min.js"></script>
+<script src="./js/jqDatePicker.min.js"></script>
+
+<script src="./js/post.js"></script>
