@@ -387,7 +387,8 @@ margin-top: 4vh;
 }
 #myChart
 {
-  transform: scale(2.4) translate(0%, 30%);
+  width: 180%;
+  margin-left: -39.5%;
 }
 
 .card img{
