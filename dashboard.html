@@ -678,13 +678,14 @@
 <script>
   $(window).on('load', function () {
     firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        if (user.v.b == 4) {
-          $('.loader').fadeOut('slow');
+        if (!user) {
+            window.location.replace('./index.html');
         }
-      } else {
-        window.location.replace('./index.html');
-      }
+        else{
+            if(user.displayName == 'admin'){
+                window.location.replace('./admin.html');
+            }
+        }
     });
     $('#signup-form').hide('slow');
   });

@@ -177,7 +177,7 @@ $fileInput.on('change', function() {
       e.preventDefault();
       let currentPass = $('#userPass').val();
       let newPass = $('#settings-pass').val() == ''? 'oldPass' : $('#settings-pass').val();
-      let displayName = $('#settings-name').val() == ''? auth.currentUser.displayName : $('#settings-name').val();
+      let displayName = $('#settings-name').val() == ''? $('.userName').text() : $('#settings-name').val();
       let bioDetails = $('#bioDetails').val() == ''? userBio : $('#bioDetails').val();
       let profilePic = $('#profilePic')[0].files;
 
@@ -227,7 +227,6 @@ $fileInput.on('change', function() {
                             if(newPass != 'oldPass'){
                                 auth.currentUser.updatePassword(newPass).then(function() {
                                   auth.currentUser.updateProfile({
-                                    displayName: displayName,
                                     photoURL: downloadURL,
                                   }).then(function() {
                                     $('.uploader').fadeOut('slow');
@@ -268,7 +267,6 @@ $fileInput.on('change', function() {
               if(newPass != 'oldPass'){
                 auth.currentUser.updatePassword(newPass).then(function() {
                   auth.currentUser.updateProfile({
-                    displayName: displayName,
                     photoURL: userPhoto,
                   }).then(function() {
                     $('.uploader').fadeOut('slow');

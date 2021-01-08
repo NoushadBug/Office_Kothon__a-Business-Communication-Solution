@@ -26,9 +26,12 @@ $(document).ready(function(){
           </div>`).appendTo('#force-overflow');
           }
           else{
+            if(doc.data().designation == 'unknown'){
+              window.location.replace('./userNotVerified.html');
+            }else{
               $('#userImage').attr("src", `${doc.data().photoURL}`);
               $('.userName').html(`${doc.data().displayName}`);
-              $('.designation').html(`${doc.data().designation}`);
+              $('.designation').html(`${doc.data().designation}`);}
           }
           console.log(doc.id, " => ", doc.data());
       });
@@ -62,6 +65,17 @@ $(document).ready(function(){
 $('#closeForm').on("click", function(event){
   event.preventDefault();
   $('#taskformbar').hide();
+  $(".rightbar-div").after(svgClone).fadeIn('slow', function(){
+    $('#viewTasksBtn').on("click", function(){
+      //$('#taskformbar').hide();
+      $('.svg-div').remove();
+      $('.taskListDiv').show();
+    });
+  });
+});
+$('#closeLists').on("click", function(event){
+  event.preventDefault();
+  $('.taskListDiv').hide();
   $(".rightbar-div").after(svgClone).fadeIn('slow', function(){
     $('#viewTasksBtn').on("click", function(){
       //$('#taskformbar').hide();

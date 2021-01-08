@@ -167,10 +167,15 @@
   //make firebase consts
   const auth = firebase.auth();
   firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-      window.location.replace('./index.html');
-    }
-  });
+        if (!user) {
+            window.location.replace('./index.html');
+        }
+        else{
+            if(user.displayName == 'admin'){
+                window.location.replace('./admin.html');
+            }
+        }
+    });
   const db = firebase.firestore();
 
   //update firebase settings

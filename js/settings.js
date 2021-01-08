@@ -17,6 +17,9 @@ $(document).ready(function(){
   db.collection("users").onSnapshot(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
       if (doc.id == auth.currentUser.email) {
+        if(doc.data().designation == 'unknown'){
+          window.location.replace('./userNotVerified.html');
+        }else{
         $('#userImage').attr("src", `${doc.data().photoURL}`);
         $('.userName').html(`${doc.data().displayName}`);
         $('#settings-name').val(`${doc.data().displayName}`);
@@ -25,7 +28,7 @@ $(document).ready(function(){
         $('#bioDetails').val(`${doc.data().bio}`);
         userBio = doc.data().bio;
         userPhoto = doc.data().photoURL;
-        userDesignation = doc.data().designation;
+        userDesignation = doc.data().designation;}
       }
   });
   $('.loader').fadeOut('slow');

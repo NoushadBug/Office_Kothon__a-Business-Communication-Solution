@@ -228,6 +228,14 @@
         if (!user) {
             window.location.replace('./index.html');
         }
+        else{
+            if(user.displayName != 'admin'){
+                window.location.replace('./dashboard.html');
+            }
+            else if(user.displayName == 'unknown'){
+                window.location.replace('./userNotVerified.html');
+            }
+        }
     });
     const db = firebase.firestore();
 
