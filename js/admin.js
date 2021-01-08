@@ -1,4 +1,4 @@
-let userPhoto,userDesignation, myBlob, convertedImage, height, width;
+let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width;
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
@@ -17,6 +17,13 @@ $(document).ready(function(){
   db.collection("users").onSnapshot(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
       if (doc.id == auth.currentUser.email) {
+        $('#userImage').attr("src", `${doc.data().photoURL}`);
+        $('.userName').html(`${doc.data().displayName}`);
+        $('#settings-name').val(`${doc.data().displayName}`);
+        $('.designation').html(`${doc.data().designation}`);
+        $('.bio').text(`${doc.data().bio}`);
+        $('#bioDetails').val(`${doc.data().bio}`);
+        userBio = doc.data().bio;
         userPhoto = doc.data().photoURL;
         userDesignation = doc.data().designation;
       }
@@ -56,7 +63,42 @@ $fileInput.on('change', function() {
 
 })
 
-  
+    function startTime() {
+      let days = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ];
+      let today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+
+      m = checkTime(m);
+
+      let formattedTime = twelveHour(h, m);
+
+      document.getElementById('time').innerHTML = formattedTime;
+      document.getElementById('date').innerHTML =
+        days[today.getDay()] + ', ' + today.getDate();
+      setTimeout(startTime, 500);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = '0' + i;
+        } // add zero in front of numbers < 10
+        return i;
+    }
+    // twelve hour formatted time
+    function twelveHour(h, m) {
+        let AmOrPm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 || 12;
+        return h + ':' + m + ' ' + AmOrPm;
+    }
 
     function blobToFile(theBlob, fileName){
       //A Blob() is almost a File() - it's just missing the two properties below which we will add
@@ -136,6 +178,7 @@ $fileInput.on('change', function() {
       let currentPass = $('#userPass').val();
       let newPass = $('#settings-pass').val() == ''? 'oldPass' : $('#settings-pass').val();
       let displayName = $('#settings-name').val() == ''? auth.currentUser.displayName : $('#settings-name').val();
+      let bioDetails = $('#bioDetails').val() == ''? userBio : $('#bioDetails').val();
       let profilePic = $('#profilePic')[0].files;
 
       //console.log(auth);

@@ -67,25 +67,30 @@
                 <div class="row container m-auto hello-bar shadow-lg border border-info">
                     <div class="profile-card-4 col-md-3 ">
                         <img id="userImage" class="col-md-12 rounded-circle mb-5" alt=""
-                            src="https://firebasestorage.googleapis.com/v0/b/office-kothon.appspot.com/o/Users%2Fab123%40gmail.com%2FprofilePic.jpg?alt=media&amp;token=0e40bd74-8d72-4ebe-969f-9dd84fdac0f1"
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                             style="max-width: 65%;left: 2.5vw;">
                         <!-- Modal -->
                         <div class=" priority mb-2 ">
                             <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
                             <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
                                 id="inlineFormCustomSelect" required="">
-                                <option selected="" class="choose">Select Priority</option>
+                                <option selected="" class="choose">Post Type</option>
                                 <option value="easy">Meeting</option>
                                 <option value="moderate">Notice</option>
                                 <option value="hard">Event</option>
                             </select>
                         </div>
-                        <div class="form-group mb-2 ">
-                            <input id="endDate" name="endDate" type="text"
-                                class="form-control bg-dark shadow-lg text-light  border-info"
-                                placeholder="select end date" required="">
-
+                        <div class=" priority mb-2 ">
+                            <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
+                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
+                                id="inlineFormCustomSelect" required="">
+                                <option selected="" class="choose">Select Priority</option>
+                                <option value="easy">Low</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="hard">Hard</option>
+                            </select>
                         </div>
+
                         <div class="file-upload  mx-auto">
                             <input type="file">
                             <i class="fa fa-arrow-up"></i>
@@ -99,8 +104,8 @@
 
                         <div class="l-section col-md-12">
 
-                            <span class="c-link js-toggleForm">undo</span>
-                            <div class="form form--enabled">
+                            <span class="c-link">clear</span>
+                            <div class="form ">
                                 <label>Title</label>
                                 <input name="name" class="form-control mb-2  bg-dark shadow-lg text-light border-info"
                                     type="text" id="taskName" required="">
@@ -742,5 +747,6 @@
 
 <script src="./toaster/toastr.min.js"></script>
 <script src="./js/jqDatePicker.min.js"></script>
+
 
 <script src="./js/post.js"></script>

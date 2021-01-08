@@ -632,10 +632,10 @@
     if (!user) {
       window.location.replace('./index.html');
     }
-    else{
-      if(localStorage.getItem('welcomed')!= 'true'){
+    else {
+      if (localStorage.getItem('welcomed') != 'true') {
         localStorage.setItem("welcomed", true);
-        toastr["info"]("Signed in as "+ auth.currentUser.displayName, "Welcome to Office Kothon")
+        toastr["info"]("Signed in as " + auth.currentUser.displayName, "Welcome to Office Kothon")
       }
     }
   });
