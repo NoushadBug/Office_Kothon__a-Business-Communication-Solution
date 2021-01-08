@@ -237,47 +237,12 @@ padding-right: 12.5vw;
   color: darkgray;
 }
 
-input, button, textarea, select {
-  display: block;
-  width: 100%;
-  margin: 5px 0;
-  padding: 12px 15px;
-  border-radius: 2px;
-  border: 1px solid #efefef;
-  outline: none;
-  -webkit-appearance: none;
-  transition: all 0.2s ease-in-out;
-}
 
-input:focus {
-  border-color: #888;
-}
 
-button {
-  background: #1a1a1a;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  margin-top: 1em;
-  display: inline-block;
-}
 
-button[disabled] {
-  background: #ECEFF1;
-  border: 1px solid #CFD8DC;
-  transition: all 0.2s ease-in-out;
-  cursor: not-allowed;
-  color: #B0BEC5;
-}
 
-button[disabled]:hover {
-  transition: all 0.2s ease-in-out;
-}
 
-button:hover {
-  opacity: 1;
-  transition: all 0.2s ease-in-out;
-}
+
 
 label {
   font-size: 0.925em;
@@ -287,14 +252,9 @@ label {
   display: inline-block;
 }
 
-.form {
-  clear: both;
-}
 
-.form--disabled input, .form--disabled textarea, .form--disabled select {
-  border: 0 solid #efefef;
-  transition: all 0.2s ease-in-out;
-}
+
+
 /* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 12px;

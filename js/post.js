@@ -28,7 +28,12 @@ $(document).ready(function () {
 })
 
   
- 
+$(".c-link").click(function(){
+
+  $('#taskName').val("");
+  $('#taskDetails').val("");
+
+});
 
 
 
