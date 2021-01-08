@@ -7,8 +7,13 @@ $(document).ready(function () {
 
       querySnapshot.forEach(function (doc) {
           if (doc.id == auth.currentUser.email) {
-            $('#userimage').attr("src", `${doc.data().photoURL}`);
-            console.log('photo load ')
+            if(doc.data().designation == 'unknown'){
+              window.location.replace('./userNotVerified.html');
+            }else{
+              $('#userimage').attr("src", `${doc.data().photoURL}`);
+              console.log('photo load ')
+            }
+            
           } 
       });
       console.log('loader fadeout start')

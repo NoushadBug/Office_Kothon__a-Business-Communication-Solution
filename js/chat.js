@@ -26,9 +26,13 @@ $(document).ready(function(){
         $('#welcome').slideDown("slow");
         querySnapshot.forEach(function(doc) {
             if(doc.id === auth.currentUser.email){
+                if(doc.data().designation == 'unknown'){
+                window.location.replace('./userNotVerified.html');
+                }
+                else{
                 $('#userImage').attr("src", `${doc.data().photoURL}`);
                 $('.userName').html(`${doc.data().displayName}`);
-                userImage = doc.data().photoURL;
+                userImage = doc.data().photoURL;}
             }
             else{
                 $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">

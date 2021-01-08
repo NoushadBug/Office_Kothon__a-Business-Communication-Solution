@@ -143,6 +143,7 @@
                 <button id="viewTasksBtn" class="shadow-lg font-weight-bold rounded-pill btn btn-outline-secondary btn-sm">view tasks</button>
             </div>
             <div class="taskListDiv container mt-5 mb-1 col-md-6 shadow-lg" style="background: #2e3035; border-radius: 2em;">
+                <button class="btn d-block float-right mt-3" id="closeLists"><i class="fa fa-times-circle text-secondary" aria-hidden="true"></i></button>
                 <div class="mx-3 my-5">
                     <div class="d-flex justify-content-between">
                         <h6 id="taskHeading" class="my-auto text-light d-inline">Your incompleted tasks</h6><div class="selection-div row">
@@ -221,6 +222,14 @@
     firebase.auth().onAuthStateChanged(function (user) {
         if (!user) {
             window.location.replace('./index.html');
+        }
+        else{
+            if(user.displayName == 'admin'){
+                window.location.replace('./admin.html');
+            }
+            else if(user.displayName == 'unknown'){
+                window.location.replace('./userNotVerified.html');
+            }
         }
     });
     const db = firebase.firestore();
