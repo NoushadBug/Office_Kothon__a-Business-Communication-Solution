@@ -27,7 +27,7 @@ $(document).ready(function(){
         querySnapshot.forEach(function(doc) {
             if(doc.id === auth.currentUser.email){
                 if(doc.data().designation == 'unknown'){
-                window.location.replace('./userNotVerified.html');
+                    window.location.replace('./userNotVerified.html');
                 }
                 else{
                 $('#userImage').attr("src", `${doc.data().photoURL}`);
@@ -35,6 +35,7 @@ $(document).ready(function(){
                 userImage = doc.data().photoURL;}
             }
             else{
+                if(doc.data().designation != 'admin' && doc.data().designation != 'unknown'){
                 $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
                 <div class="row m-auto">
                   <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
@@ -45,6 +46,7 @@ $(document).ready(function(){
                 </div>
             </div>`).appendTo('#force-overflow');
             }
+        }
             //console.log(doc.id, " => ", doc.data());
         });
         $(".card").on( "click", function() {
