@@ -51,11 +51,11 @@
                 <div class="leftbar-icons">
                     <a href="./admin.html" aria-label="Dashboard" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-home m-0"></i></a>
-                    <a href="./post.html" aria-label="Create Post" data-microtip-position="right" role="tooltip"><i
+                    <a href="#0" aria-label="Create Post" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-plus-circle"></i></a>
                     <!-- <a href="#0" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
                 class="fa fa-group"></i></a> -->
-                    <a href="./addTask.html" aria-label="Users" data-microtip-position="right" role="tooltip"><i
+                    <a href="./members.html" aria-label="Users" data-microtip-position="right" role="tooltip"><i
                             class="fa fa-user-plus"></i></a>
 
                 </div>
@@ -72,33 +72,39 @@
                         <!-- Modal -->
                         <div class=" priority mb-2 ">
                             <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
-                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
-                                id="inlineFormCustomSelect" required="">
-                                <option selected="" class="choose">Post Type</option>
-                                <option value="easy">Meeting</option>
-                                <option value="moderate">Notice</option>
-                                <option value="hard">Event</option>
+                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-dark"
+                                id="add_fields_placeholder" required="">
+                                <option selected="" class="choose " value="" disabled="">Post Type</option>
+                                <option value="Meeting">Meeting</option>
+                                <option value="Notice">Notice</option>
+                                <option value="Event">Event</option>
                             </select>
                         </div>
                         <div class=" priority mb-2 ">
                             <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
-                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-info"
-                                id="inlineFormCustomSelect" required="">
+                            <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-dark"
+                                required="">
                                 <option selected="" class="choose">Select Priority</option>
                                 <option value="easy">Low</option>
                                 <option value="moderate">Moderate</option>
                                 <option value="hard">Hard</option>
                             </select>
                         </div>
+                        <div class="form-group " style="opacity: 0;">
+                            <input id="startDate" name="startDate" type="text"
+                                class="form-control bg-dark shadow-lg text-light  border-dark"
+                                placeholder="select event date" required="">
+
+                        </div>
 
 
                         <div class="file-upload  mx-auto">
                             <input type="file">
-                            <i class="fa fa-arrow-up"></i>
+                            <i class="fa fa-upload"></i>
                         </div>
 
                     </div>
-                    <div class="taskForm  mt-2 mb-1 col-md-9 shadow-lg " id="taskformbar">
+                    <div class="taskForm  my-3 mb-1 col-md-9 shadow-lg " id="taskformbar">
 
 
 
@@ -108,17 +114,15 @@
                             <span class="c-link">clear</span>
                             <div class="form ">
                                 <label>Title</label>
-                                <input name="name" class="form-control mb-2  bg-dark shadow-lg text-light border-info"
-                                    type="text" id="taskName" required />
+                                <input name="name" class="form-control mb-2  bg-dark shadow-lg text-light border-dark"
+                                    type="text" id="taskName" required="">
                                 <label>What's on your mind?</label>
 
                                 <textarea id="taskDetails" rows="6"
-                                    class="form-control mb-3 bg-dark shadow-lg text-light  border-info"></textarea>
+                                    class="form-control mb-3 bg-dark shadow-lg text-light  border-dark"></textarea>
 
 
-                                <input
-                                    class="btn btn-secondary form-control  bg-dark shadow-lg text-light  border-info "
-                                    type="submit" value="Post">
+                                <input class="form-control shadow-lg btn-secondary  " type="submit" value="Post">
 
 
 
@@ -144,9 +148,9 @@
 
         </div>
 
-        <div class="rightbar-div col-md-3 m-auto">
+        <div class="rightbar-div col-md-3 ">
 
-            <div class="feed-bar scrollbar" id="force-overflowdiv">
+            <div class="feed-bar scrollbar" id="force-overflow">
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
                         style="">
@@ -159,8 +163,10 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
+
                                 <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
                                     style="border-radius: 2em;">
+
                                     <i class="fa fa-paperclip text-secondary "></i>
                                     <span aria-label="High" data-microtip-position="left" role="tooltip"><span
                                             aria-label="High" data-microtip-position="left" role="tooltip"><i
@@ -168,15 +174,18 @@
                                     <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
 
                                 </div>
+                                <a href="" class="btn"><i class="fa fa-ellipsis-v text-secondary "></i> </a>
 
                             </div>
+
                         </div>
-                        <div id="collapse1" class="panel-collapse collapse in">
+                        <div id="collapse1" class="panel-collapse in collapse" style="">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Dec 2 ,2020</p>
                                 </div>
                                 <div class="status col-4">
+
                                     <i class="fa fa-circle"></i>
                                     <p class="d-inline">Notice</p>
                                 </div>
@@ -219,7 +228,7 @@
 
                             </div>
                         </div>
-                        <div id="collapse2" class="panel-collapse collapse in">
+                        <div id="collapse2" class="panel-collapse in collapse" style="">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Nov 25 ,2020</p>
@@ -350,7 +359,7 @@
 
                             </div>
                         </div>
-                        <div id="collapse4" class="panel-collapse collapse in">
+                        <div id="collapse4" class="panel-collapse in collapse" style="">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Nov 25 ,2020</p>
@@ -417,7 +426,7 @@
 
                             </div>
                         </div>
-                        <div id="collapse5" class="panel-collapse collapse in">
+                        <div id="collapse5" class="panel-collapse in collapse" style="">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Dec 5 ,2020</p>
@@ -735,11 +744,11 @@
         if (!user) {
             window.location.replace('./index.html');
         }
-        else{
-            if(user.displayName != 'admin'){
+        else {
+            if (user.displayName != 'admin') {
                 window.location.replace('./dashboard.html');
             }
-            else if(user.displayName == 'unknown'){
+            else if (user.displayName == 'unknown') {
                 window.location.replace('./userNotVerified.html');
             }
         }
@@ -750,9 +759,9 @@
     db.settings({ timestampsInSnapshots: true });
 
 </script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 <script src="./toaster/toastr.min.js"></script>
 <script src="./js/jqDatePicker.min.js"></script>
