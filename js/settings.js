@@ -133,11 +133,11 @@ $fileInput.on('change', function() {
         img.src = e.target.result;
         //Validate the File Height and Width.
         img.onload = function () {
-           height = this.height;
-           width = this.width;
-          if(height / width != 1) {
+          //  height = this.height;
+          //  width = this.width;
+          // if(height / width != 1) {
             done(reader.result);
-          }
+          // }
         };
 			};
 			reader.readAsDataURL(files[0]);
@@ -156,8 +156,8 @@ $fileInput.on('change', function() {
 
 	$('#crop').click(function(){
 		let canvas = cropper.getCroppedCanvas({
-			width: height<width? height:width,
-			height: height<width? height:width
+			width: 200,
+			height: 200
 		});
 
 		canvas.toBlob(function(blob){
