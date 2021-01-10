@@ -238,24 +238,13 @@ padding-right: 12.5vw;
   cursor: pointer;
 }
 
-
-
-
-
-
-
-
-
 label {
   font-size: 0.925em;
-  font-weight: bold;
+ 
   color: white;
   /* padding-top: 0.5em; */
   display: inline-block;
 }
-
-
-
 
 /* Scrollbar styles */
 ::-webkit-scrollbar {

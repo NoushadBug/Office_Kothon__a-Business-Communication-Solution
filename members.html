@@ -1,1 +1,128 @@
-hi kamrul how are you?
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Members panel</title>
+    <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/microtip/microtip.css" />
+    <link rel="stylesheet" href="./toaster/toastr.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/members.css">
+
+</head>
+
+<body>
+    <div class="loader" style="
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            background: #101011;
+            justify-content: center;
+            align-items: center;
+          ">
+        <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
+    </div>
+
+
+
+    <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
+        <div class="dashboard-container1 row col-md-9 mr-1 " style="height: inherit;">
+            <!-- leftbar1 container -->
+            <div class="leftbar1 py-5">
+                <a href="./index.html" class="text-center"><img
+                        src="https://img.icons8.com/cotton/2x/communication--v1.png" alt="" height="51px"></a>
+                <div class="leftbar1-icons">
+                    <a href="./admin.html" aria-label="Dashboard" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-home m-0"></i></a>
+                    <a href="#0" aria-label="Create Post" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-plus-circle"></i></a>
+                    <!-- <a href="#0" aria-label="Group chat" data-microtip-position="right" role="tooltip"><i
+                class="fa fa-group"></i></a> -->
+                    <a href="./members.html" aria-label="Users" data-microtip-position="right" role="tooltip"><i
+                            class="fa fa-user-plus"></i></a>
+
+                </div>
+                <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="top-right" role="tooltip"><i
+                        class="fa fa-sign-out text-secondary"></i></a>
+            </div>
+
+            <div class="content col-md-10 my-4" id="frame">
+
+
+
+            </div>
+
+        </div>
+
+        <div class="rightbar-div col-md-3 ">
+
+
+
+
+        </div>
+    </div>
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+        authDomain: "office-kothon.firebaseapp.com",
+        databaseURL: "https://office-kothon.firebaseio.com",
+        projectId: "office-kothon",
+        storageBucket: "office-kothon.appspot.com",
+        messagingSenderId: "605346039997",
+        appId: "1:605346039997:web:350fd046addb6f51860fd4",
+        measurementId: "G-W822J60VT1"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    //make firebase consts
+    const auth = firebase.auth();
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+            window.location.replace('./index.html');
+        }
+        else {
+            if (user.displayName != 'admin') {
+                window.location.replace('./dashboard.html');
+            }
+            else if (user.displayName == 'unknown') {
+                window.location.replace('./userNotVerified.html');
+            }
+        }
+    });
+    const db = firebase.firestore();
+
+    //update firebase settings
+    db.settings({ timestampsInSnapshots: true });
+
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script src="./toaster/toastr.min.js"></script>
+<script src="./js/jqDatePicker.min.js"></script>
+
+
+<script src="./js/post.js"></script>

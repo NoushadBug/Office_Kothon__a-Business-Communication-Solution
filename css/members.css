@@ -1,0 +1,62 @@
+*:not(.fa) {
+    font-family: 'Montserrat', sans-serif !important;
+  }
+  
+  link {}
+  body {
+    background: #1e2025;
+  }
+  .dashboard-container1 {
+    background: #393c45;
+    border-top-right-radius: 6em;
+    /* border-bottom-right-radius: 6em; */
+  }
+  
+  .dashboard-container1 {
+    background: #393c45;
+  }
+  
+  .leftbar1 {
+    max-height: 100%;
+    height: 95%;
+    width: 10%;
+    border-radius: 2.52em;
+    background: #2e3035;
+    display: flex;
+    flex-direction: column;
+    margin-left: 1vw;
+    margin-right: 2vw;
+    margin-top: 3.6vh;
+    -webkit-box-shadow: 0px 0px 56px -11px rgba(0,0,0,0.83);
+    -moz-box-shadow: 2px -3px 37px -3px rgba(0,0,0,0.83);
+  }
+  
+  .leftbar1-icons {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .leftbar1-icons a:not(:first-child){
+    margin-top: 4.5vh;
+  }
+  
+  .leftbar1-icons i {
+    font-size: 1.2em;
+      /* fallback for old browsers */
+    background: -webkit-linear-gradient( #ffffff, #ffffff, #bdc2ff, #ffffff);  /* Chrome 10-25, Safari 5.1-6 */
+     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    text-shadow: 1px 6px 5px rgba(0, 0, 0, 0.33);
+  }
+  
+  #signout {
+    text-align: center;
+    font-size: 1.4em;
+  }
+  
+  
+ 
