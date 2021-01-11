@@ -13,6 +13,9 @@
 
 <body>
     <div class="background">
+      <div id="stars-00"></div>
+      <div id="stars-01"></div>
+      <div id="stars-02"></div>
         <div class="ground"></div>
     </div>
     <div class="container">
@@ -22,7 +25,7 @@
                     <h5 class="heading">You are not verified</h5>
                     <p class="subheading">Your account will be reviewed by the admin. Please wait until your account is being approved or try again later.</p>
                 </div>
-                    <button class="mx-auto btn btn-secondary rounded-pill">Sign Out</button>
+                    <button id="signout" class="mx-auto btn btn-info rounded-pill">Sign Out</button>
             </div>
         </div>
         <div class="right-section">
@@ -94,14 +97,17 @@
 
     const db = firebase.firestore();
 
-
+      document.getElementById('signout').addEventListener('click', () => {
+      firebase.auth().signOut().then(() => {
+        localStorage.clear()
+        toastr['info']('You are signed out! ', 'see you soon');
+      });
+      window.location.replace("./index.html");
+    });
     //update firebase settings
     db.settings({ timestampsInSnapshots: true });
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
-
-
 <script src="./js/unverified.js"></script>
-
 </html>
