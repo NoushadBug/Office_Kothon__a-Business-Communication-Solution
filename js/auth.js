@@ -20,12 +20,12 @@ signUpform.on('submit',function(event){
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
         var currentUser = auth.currentUser;
         currentUser.updateProfile({
-            displayName: name, //setting up the user name with account display name
+            displayName: name+'isUnknown', //setting up the user name with account display name
         })
         .then(function() {
             const userCollection = db.collection("users");
                 userCollection.doc(email).set({
-                    displayName: name,
+                    displayName: name+'isUnknown',
                     designation: 'unknown',
                     photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                 }).then(function() {
@@ -58,12 +58,12 @@ signUpformSmall.on('submit',function(event){
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
         var currentUser = auth.currentUser;
         currentUser.updateProfile({
-            displayName: name, //setting up the user name with account display name
+            displayName: name+'isUnknown', //setting up the user name with account display name
         })
         .then(function() {
             const userCollection = db.collection("users");
             userCollection.doc(email).set({
-                displayName: name,
+                displayName: name+'isUnknown',
             }).then(function() {
                 console.log("Document successfully written!");
             })
@@ -75,7 +75,7 @@ signUpformSmall.on('submit',function(event){
         console.log(cred.user);
          toastr["success"]("you are good to go!", "Successfully signed up")
          firebase.firestore().collection("users").doc(email).set({
-            displayName: name,
+            displayName: name+'isUnknown',
             // state: "CA",
             // country: "USA"
         }).then(function() {

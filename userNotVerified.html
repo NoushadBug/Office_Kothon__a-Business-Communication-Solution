@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/unverified.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>unverified</title>
 </head>
 
@@ -111,7 +113,7 @@
 
     const db = firebase.firestore();
 
-    firebase.auth().onAuthStateChanged(function (user) {
+    auth.onAuthStateChanged(function (user) {
         if (!user) {
             window.location.replace('./index.html');
         }
@@ -119,8 +121,8 @@
             if (user.displayName == 'admin') {
                 window.location.replace('./admin.html');
             }
-            if (user.displayName != 'unknown') {
-                window.location.replace('./dashboard.html');
+            if ((user.displayName.indexOf('isUnknown') == -1) && user.displayName != 'admin') {
+               window.location.replace('./dashboard.html');
             }
             else{
               $('.loader').fadeOut('slow');
