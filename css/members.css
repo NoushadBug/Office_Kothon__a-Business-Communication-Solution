@@ -2,10 +2,73 @@
     font-family: 'Montserrat', sans-serif !important;
   }
   
-  link {}
+
   body {
     background: #1e2025;
   }
+  .usersListDiv{
+    overflow-y: scroll;
+  }
+  
+  .scrollbar {
+  height: 300px;
+  background: #576075;
+  overflow-y: scroll;
+}
+#force-overflow {
+  min-height: 65%;
+}
+#force-overflow::-webkit-scrollbar-track {
+  /*-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  */
+    border-radius: 50%;
+   background-color: transparent;
+  -webkit-border-radius: 10p;
+  -moz-border-radius: 10p;
+  -ms-border-radius: 10p;
+  -o-border-radius: 10p;
+}
+
+#force-overflow::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+#force-overflow::-webkit-scrollbar {
+  max-width: 5px !important;
+}
+
+#force-overflow::-webkit-scrollbar-thumb {
+  height: 2px !important;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.342);
+  background-color: #4a505f;
+}
+  
+.feed-bar scrollbar .panel {
+  border-radius: 1.5em;
+  -webkit-border-radius: 1.5em;
+  -moz-border-radius: 1.5em;
+  -ms-border-radius: 1.5em;
+  -o-border-radius: 1.5em;
+}
+  
+  .card img{
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  -ms-border-radius: 50% !important;
+  -o-border-radius: 50% !important;
+  }
+  
+  .dfeed-bar .card
+  {
+    border-radius: 20px;
+  }
+  
+  
+  
+  
   .dashboard-container1 {
     background: #393c45;
     border-top-right-radius: 6em;
