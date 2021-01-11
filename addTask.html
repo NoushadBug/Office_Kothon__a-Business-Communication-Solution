@@ -100,13 +100,24 @@
                     <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
                         placeholder="add task title" id="taskName" required />
                     <div class="form-group ">
-                        <input id="startDate" name="startDate" type="text"
+                        <div class="d-flex">
+                            <input id="startDate" name="startDate" type="text"
                             class="form-control bg-dark shadow-lg text-light  border-info"
                             placeholder="select start date" required />
+                            <input id="startTime" name="startTime" type="time" value="09:00"
+                            class="form-control text-light border-0" placeholder="select end time"
+                            required />
+                        </div>
                         &nbsp;
-                        <input id="endDate" name="endDate" type="text"
+                        <div class="d-flex">
+                            <input id="endDate" name="endDate" type="text"
                             class="form-control bg-dark shadow-lg text-light  border-info" placeholder="select end date"
                             required />
+                            <input id="endTime" name="endTime" type="time" value="10:00"
+                            class="form-control text-light border-0" placeholder="select end time"
+                            required />
+                        </div>
+
                     </div>
                     <textarea id="taskDetails" class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
                         id="exampleFormControlTextarea1" rows="3" placeholder="add task details...."></textarea>
@@ -177,7 +188,7 @@
                 <div class="col-md-12"></div>
                 <div class=" text-light mx-auto  text-center"><small>Deadline Crossed: </small><small
                         id="deadlineCrossed" class="text-info font-weight-bold">10</small> </div>
-                <div class=" text-light mx-auto  text-center"><small>Status: </small><small id="status"
+                <div class=" text-light mx-auto  text-center"><small>User Status: </small><small id="status"
                         class="text-info font-weight-bold">good</small> </div>
             </div>
 
