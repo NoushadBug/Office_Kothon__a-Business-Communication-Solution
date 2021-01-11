@@ -2,7 +2,10 @@
   font-family: 'Montserrat', sans-serif !important;
 }
 
-link {}
+select, #startDate{
+  font-size: 81.8% !important;
+}
+
 body {
   background: #1e2025;
 }
