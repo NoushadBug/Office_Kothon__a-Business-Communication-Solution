@@ -8,11 +8,7 @@ document.getElementById('signout').addEventListener('click', () => {
   });
 
 $(document).ready(function () {
-  $(".form-group").fadeTo(1, 0.0); 
-
-  
-
-
+  $(".picker").hide(); 
   db.collection("users").onSnapshot(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
       if (doc.id == auth.currentUser.email) {
@@ -31,10 +27,10 @@ $(document).ready(function () {
 
   $("#add_fields_placeholder").change(function() {
     if($(this).val() == "Event") {
-        $(".form-group").fadeTo(1, 1.0); 
+        $(".picker").show(); 
     }
     else {
-        $(".form-group").fadeTo(1, 0.0); 
+        $(".picker").hide(); 
     }
 });
 })

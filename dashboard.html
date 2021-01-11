@@ -685,6 +685,9 @@
             if(user.displayName == 'admin'){
                 window.location.replace('./admin.html');
             }
+            if(user.displayName == 'unknown'){
+                window.location.replace('./userNotVerified.html');
+            }
         }
     });
     $('#signup-form').hide('slow');
