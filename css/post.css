@@ -272,4 +272,9 @@ label {
   {
     border-radius: 1em;
   }
+  .card
+  {
+    background: currentColor;
+    border-radius: 2em;
+  }
  
