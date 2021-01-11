@@ -5,23 +5,25 @@
     <title>Post Feed</title>
     <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-     <link rel="stylesheet" type="text/css"  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
-     <link rel="stylesheet" type="text/css"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-     <link rel="stylesheet" type="text/css"  href="https://unpkg.com/microtip/microtip.css" />
-     <link rel="stylesheet" type="text/css"  href="./toaster/toastr.min.css" />
-     <link rel="stylesheet" type="text/css"  href="./clndr/mini-event-calendar.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/microtip/microtip.css" />
+    <link rel="stylesheet" type="text/css" href="./toaster/toastr.min.css" />
+    <link rel="stylesheet" type="text/css" href="./clndr/mini-event-calendar.css">
 
-     <link rel="stylesheet" type="text/css"  href="./css/month.css" >
-     <link rel="stylesheet" type="text/css"  href="./css/week.css">
-     <link rel="stylesheet" type="text/css"  href="./css/datePicker.css">
+    <link rel="stylesheet" type="text/css" href="./css/month.css">
+    <link rel="stylesheet" type="text/css" href="./css/week.css">
+    <link rel="stylesheet" type="text/css" href="./css/datePicker.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-     <link rel="stylesheet" type="text/css"  href="./css/post.css">
+    <link rel="stylesheet" type="text/css" href="./css/post.css">
 
 </head>
 
@@ -67,7 +69,8 @@
             <div class="content col-md-10 my-4" id="frame">
                 <div class="row container m-auto hello-bar shadow-lg border border-info">
                     <div class="profile-card-4 col-md-3 ">
-                        <img id="userImage" class="col-md-12 rounded-circle mb-3" alt="" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png">
+                        <img id="userImage" class="col-md-12 rounded-circle mb-3" alt=""
+                            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png">
                         <!-- Modal -->
                         <div class="form-group file-upload  mx-auto">
                             <input type="file">
@@ -137,6 +140,18 @@
 
 
                 </div>
+                <div class="row ">
+                    <div class="chart card bg-dark col-md-5 my-5 mx-auto shadow-lg border border-secondary  ">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="chart card bg-dark col-md-5 my-5 mx-auto shadow-lg border border-secondary">
+                        <canvas id="myChart1"></canvas>
+                    </div>
+
+                </div>
+
+
+
 
 
 
@@ -148,8 +163,7 @@
 
             <div class="feed-bar scrollbar" id="force-overflow">
                 <div class="panel-group" id="accordion">
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse1" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -164,8 +178,8 @@
                                     <span aria-label="High" data-microtip-position="left" role="tooltip"><span
                                             aria-label="High" data-microtip-position="left" role="tooltip"><i
                                                 class="fa fa-bolt text-warning"></i></span>
-                                    <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
+                                        <a href=""><i class="fa fa-pencil text-secondary "></i></a>
+                                        <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
                             </div>
 
@@ -194,8 +208,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse2" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -206,15 +219,17 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
-                                    <span aria-label="Low" data-microtip-position="left" role="tooltip"><i class="fa fa-bolt text-info"></i></span>
-                                <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="Low" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-info"></i></span>
+                                    <a href=""><i class="fa fa-pencil text-secondary "></i></a>
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
                         </div>
-                        <div id="collapse2" class="panel-collapse in collapse" >
+                        <div id="collapse2" class="panel-collapse in collapse">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Nov 25 ,2020</p>
@@ -251,8 +266,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse3" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -262,10 +276,12 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
-                                    <span aria-label="Moderate" data-microtip-position="left" role="tooltip"><i class="fa fa-bolt text-success"></i></span>
-                                <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="Moderate" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-success"></i></span>
+                                    <a href=""><i class="fa fa-pencil text-secondary "></i></a>
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
@@ -316,8 +332,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse4" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -327,20 +342,17 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
-            border-radius: 2em;
-        ">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-warning"></i></span>
                                     <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
-                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
-                                                class="m-0 fa fa-bolt"></i></span>
-                                    
-
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
                         </div>
-                        <div id="collapse4" class="panel-collapse in collapse" >
+                        <div id="collapse4" class="panel-collapse in collapse">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Nov 25 ,2020</p>
@@ -383,8 +395,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse5" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -394,20 +405,17 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
-            border-radius: 2em;
-        ">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="Moderate" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-success"></i></span>
                                     <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
-                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
-                                                class="m-0 fa fa-bolt"></i></span>
-                                    
-
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
                         </div>
-                        <div id="collapse5" class="panel-collapse in collapse" >
+                        <div id="collapse5" class="panel-collapse in collapse">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Dec 5 ,2020</p>
@@ -438,8 +446,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse6" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -449,20 +456,17 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
-            border-radius: 2em;
-        ">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-warning"></i></span>
                                     <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
-                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
-                                                class="m-0 fa fa-bolt"></i></span>
-                                    
-
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
                         </div>
-                        <div id="collapse6" class="panel-collapse in collapse" >
+                        <div id="collapse6" class="panel-collapse in collapse">
                             <div class="collapse-header row mt-3 mx-auto">
                                 <div class="col-4">
                                     <p> Dec 16 ,2020</p>
@@ -523,8 +527,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse7" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -534,13 +537,12 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
-            border-radius: 2em;
-        ">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="Low" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-info"></i></span>
                                     <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
-                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
-                                                class="m-0 fa fa-bolt"></i></span>
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
@@ -574,8 +576,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse8" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -585,13 +586,12 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
-            border-radius: 2em;
-        ">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="Low" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-info"></i></span>
                                     <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
-                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
-                                                class="m-0 fa fa-bolt"></i></span>
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
@@ -627,8 +627,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg"
-                        >
+                    <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg">
                         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse9" data-toggle="collapse"
                             data-parent="#accordion" aria-expanded="false">
                             <div class="title-header col-6">
@@ -638,15 +637,12 @@
                                 </h6>
                             </div>
                             <div class="header-side col-6 m-auto">
-                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="
-            border-radius: 2em;
-        ">
+                                <div class=" shadow-lg border  border-info d-inline  px-3 py-1"
+                                    style="border-radius: 2em;">
+                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><i
+                                            class="fa fa-bolt text-warning"></i></span>
                                     <a href=""><i class="fa fa-pencil text-secondary "></i></a>
-                                    <span aria-label="High" data-microtip-position="left" role="tooltip"><span
-                                            aria-label="High" data-microtip-position="left" role="tooltip"><i
-                                                class="m-0 fa fa-bolt"></i></span>
-                                    
-
+                                    <a href=""><i class="fa fa-trash text-secondary m-0 "></i></a>
                                 </div>
 
                             </div>
@@ -743,5 +739,5 @@
 <script src="./toaster/toastr.min.js"></script>
 <script src="./js/jqDatePicker.min.js"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="./js/post.js"></script>

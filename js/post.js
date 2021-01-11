@@ -35,6 +35,116 @@ $(document).ready(function () {
 });
 })
 
+// chart js implementation
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'horizontalBar',
+
+    // The data for our dataset
+    data: {
+        labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
+        datasets: [{
+           
+            backgroundColor: ['#8bb684','#ff577f','#fff3e6'],
+           
+            data: [15,10,5 ,2 , 0],
+          
+        }]
+    },
+ 
+
+    // Configuration options go here
+    options: {
+      title: {
+        display: true,
+        text: 'Current Month',
+        fontColor: "white",
+                fontSize: 19,
+    },
+      
+      legend: {
+        display : false,
+         
+      },
+      scales: {
+        yAxes: [{
+            ticks: {
+                fontColor: "white",
+                fontSize: 12,
+              
+                beginAtZero: true
+            }
+        }],
+        xAxes: [{
+            ticks: {
+                fontColor: "white",
+                fontSize: 14,
+               
+                beginAtZero: true
+            }
+        }]
+    }
+
+  }
+   
+});
+// chart js implementation
+var ctx = document.getElementById('myChart1').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'horizontalBar',
+
+    // The data for our dataset
+    data: {
+        labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
+        datasets: [{
+            
+            backgroundColor: ['#a3ddcb','#fff3b2','#adeecf'],
+            borderWidth:1,
+            borderColor: '#212529',
+           
+            data: [15,10,5 ,2 , 0],
+        }]
+    },
+
+    options: {
+      title: {
+        display: true,
+        text: 'Previous Month',
+        fontColor: "white",
+                fontSize: 19,
+    },
+      
+      legend: {
+        display : false,
+         
+      },
+      scales: {
+        yAxes: [{
+            ticks: {
+              reverse: true,
+         
+                fontColor: "white",
+                fontSize: 12,
+              
+                beginAtZero: true
+            }
+        }],
+        xAxes: [{
+            ticks: {
+              reverse: true,
+                fontColor: "white",
+                fontSize: 14,
+               
+                beginAtZero: true
+            }
+        }]
+    }
+
+  }
+});
+
 
 
 $("#myInput").on("keyup", function() {
