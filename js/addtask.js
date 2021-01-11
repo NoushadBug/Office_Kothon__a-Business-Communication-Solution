@@ -1,9 +1,9 @@
-
 var assignedTo;
 var docLinks;
 var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
+
 $(document).ready(function(){
   $('.taskListDiv').hide();
   $('.uploader').fadeOut();
@@ -399,6 +399,9 @@ document.getElementById('signout').addEventListener('click', () => {
       case 'assignedTasks':
         $("#taskHeading").text('Your assigned tasks');
         break;
+      case 'tasksApproval':
+        $("#taskHeading").text('Unapproved tasks');
+        break;
       default:
         $("#taskHeading").text('...');
     }
@@ -494,8 +497,10 @@ document.getElementById('signout').addEventListener('click', () => {
   $('#taskForm').on('submit',function(e){
     e.preventDefault();
     let taskName = $('#taskName').val();
-    let startDate = $('#startDate').val();
-    let endDate = $('#endDate').val();
+    let startTime = $('#startTime').val();
+    let startDate = new Date($('#startDate').val()+' '+startTime).getTime();
+    let endTime = $('#endTime').val();
+    let endDate = new Date($('#endDate').val()+' '+endTime).getTime();
     let taskDetails = $('#taskDetails').val();
     let taskPriority = $('#inlineFormCustomSelect').val();
     let timestamp = new Date().getTime();
@@ -503,15 +508,12 @@ document.getElementById('signout').addEventListener('click', () => {
     if( $("#customFile")[0].files.length == 0 ){
           // Add a new document in collection "tasks"
           $('.uploader').fadeIn('slow');
-          db.collection("tasks").doc(assignedTo).set({
-            [timestamp]: {
-            assignedBy: auth.currentUser.email,
+          db.collection("tasks").doc(auth.currentUser.email+':'+assignedTo+','+endDate).set({
             description: taskDetails,
-            end: endDate,
             start: startDate,
             name: taskName,
             doc: 'null',
-            priority: taskPriority}
+            priority: taskPriority
           })
           .then(function() {
             $('.uploader').fadeOut('slow');
@@ -555,16 +557,13 @@ document.getElementById('signout').addEventListener('click', () => {
                   count++;
                     if(count == $("#customFile")[0].files.length){
                         // Add a new document in collection "tasks"
-                        db.collection("tasks").doc(assignedTo).set({
-                        [timestamp]: {
-                          assignedBy: auth.currentUser.email,
+                        db.collection("tasks").doc(auth.currentUser.email+':'+assignedTo+','+endDate).set({
                           description: taskDetails,
-                          end: endDate,
                           start: startDate,
                           name: taskName,
                           doc: docLinks,
                           priority: taskPriority
-                        }})
+                        })
                         .then(function() {
                           $('.uploader').fadeOut('slow');
                           toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTo);
@@ -585,7 +584,6 @@ document.getElementById('signout').addEventListener('click', () => {
     });
 
     $('#taskformbar').hide();
-    
  });
 
 
