@@ -59,8 +59,9 @@ var chart = new Chart(ctx, {
       title: {
         display: true,
         text: 'Current Month',
-        fontColor: "white",
-                fontSize: 19,
+        fontColor: "cyan",
+        fontSize: 19,
+        fontFamily: "Montserrat",
     },
       
       legend: {
@@ -72,7 +73,7 @@ var chart = new Chart(ctx, {
             ticks: {
                 fontColor: "white",
                 fontSize: 10,
-              
+                fontFamily: "Montserrat",
                 beginAtZero: true
             }
         }],
@@ -80,7 +81,7 @@ var chart = new Chart(ctx, {
             ticks: {
                 fontColor: "white",
                 fontSize: 11,
-               
+                fontFamily: "Montserrat",
                 beginAtZero: true
             }
         }]
@@ -101,7 +102,7 @@ var chart = new Chart(ctx, {
         labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
         datasets: [{
             
-            backgroundColor: ['#2a4fa6','#bf545d','#adeecf'],
+            backgroundColor: ['#6252E9','#F74301','#d1da1e'],
             borderWidth:1,
             borderColor: '#212529',
            
@@ -119,8 +120,9 @@ var chart = new Chart(ctx, {
       title: {
         display: true,
         text: 'Previous Month',
-        fontColor: "white",
-                fontSize: 19,
+        fontFamily: "Montserrat",
+        fontColor: "cyan",
+        fontSize: 19,
     },
       
       legend: {
@@ -131,7 +133,7 @@ var chart = new Chart(ctx, {
         yAxes: [{
             ticks: {
               reverse: true,
-         
+                fontFamily: "Montserrat",
                 fontColor: "white",
                 fontSize: 10,
               
@@ -141,6 +143,7 @@ var chart = new Chart(ctx, {
         xAxes: [{
             ticks: {
               reverse: true,
+                fontFamily: "Montserrat",
                 fontColor: "white",
                 fontSize: 11,
                
