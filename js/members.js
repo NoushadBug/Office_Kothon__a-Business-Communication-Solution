@@ -18,8 +18,9 @@ var renderedChats = [];
 // TODO:global variables
 
 $(document).ready(function(){
-    $("#myselect .edit").click(function(){
-        $("#myModal").modal('show');
+    $(".edit").click(function(){
+        alert('hi ');
+        $("#exampleModalCenter").modal('show');
     });
 
     db.collection("users").get()
@@ -46,17 +47,17 @@ $(document).ready(function(){
                     <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
                     <small class="text-info m-0">${doc.data().designation}</small>
                    
-                    <div class="dropdown-menu bg-secondary text-center" aria-labelledby="dropdownMenuButton" id="myselect">
+                    <div class="dropdown-menu bg-dark shadow-lg text-center" aria-labelledby="dropdownMenuButton" id="myselect">
 
-    <li class="text-light" ><i class="fa fa-pencil text-warning mr-2 edit "></i> Edit</li>
-    <li class="text-light" ><i class="fa fa-trash text-danger mr-2 delete" ></i> Delete</li>
+    <li class="text-light edit " ><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
+    <li class="text-light delete" ><i class="fa fa-trash text-info mr-2 " ></i> Delete</li>
     
   </div>
   </div>
   <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
    
 
-   
+
 
             </div>`).appendTo('#force-overflow');
             }
