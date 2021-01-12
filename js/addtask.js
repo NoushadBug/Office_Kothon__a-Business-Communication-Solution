@@ -1,4 +1,3 @@
-var assignedTo;
 var docLinks;
 var taskSnapshot = null;
 var offlineDB= {};
@@ -49,112 +48,115 @@ function updationFromDB(){
   myCompleted= {};
   myIncompleted= {};
   myAssigned= {};
-
-  if(taskSnapshot != null){
-    taskSnapshot.docChanges().forEach(function(change) {
-      let data = change.doc.data()
-      offlineDB[change.doc.id]= {data};
-      var assignedBy;
-      var docSplitter = change.doc.id.split(",");
-       if(change.doc.id == 'crnt_month'){
-         currentMonthInfo = {
-           "month":change.doc.data().month,
-           "totalCompleted":change.doc.data().totalCompleted,
-           "totalDeadlineCrossed":change.doc.data().totalDeadlineCrossed,
-           "totalIncompleted":change.doc.data().totalIncompleted,
-           "totalTasks":change.doc.data().totalTasks
-          };
-       }
-       if(change.doc.id == 'prev_month'){
-         prevMonthInfo = {
-           "month":change.doc.data().month,
-           "totalCompleted":change.doc.data().totalCompleted,
-           "totalDeadlineCrossed":change.doc.data().totalDeadlineCrossed,
-           "totalIncompleted":change.doc.data().totalIncompleted,
-           "totalTasks":change.doc.data().totalTasks
-          };
-       }
-
-       if(change.doc.id != 'prev_month' && change.doc.id != 'crnt_month'){
-          // collect incompleted and assigned tasks
-          if(change.doc.id.indexOf(':') !== -1){
-            assignedBy = docSplitter[0].split(":")[0];
-            assignedTo = docSplitter[0].split(":")[1];
-            if(assignedBy == auth.currentUser.email){
-                myAssigned[change.doc.id]= {data};
-            }
-            if(assignedTo == auth.currentUser.email){
-                myIncompleted[change.doc.id]= {data};
-            }
+  db.collection("tasks").get().then(function(snap) {
+    taskSnapshot = snap;}).then(function() {
+      if(taskSnapshot != null){
+        console.log(taskSnapshot.docChanges())
+        taskSnapshot.docChanges().forEach(function(change) {
+          let data = change.doc.data()
+          offlineDB[change.doc.id]= {data};
+          var assignedBy;
+          var docSplitter = change.doc.id.split(",");
+           if(change.doc.id == 'crnt_month'){
+             currentMonthInfo = {
+               "month":change.doc.data().month,
+               "totalCompleted":change.doc.data().totalCompleted,
+               "totalDeadlineCrossed":change.doc.data().totalDeadlineCrossed,
+               "totalIncompleted":change.doc.data().totalIncompleted,
+               "totalTasks":change.doc.data().totalTasks
+              };
+           }
+           if(change.doc.id == 'prev_month'){
+             prevMonthInfo = {
+               "month":change.doc.data().month,
+               "totalCompleted":change.doc.data().totalCompleted,
+               "totalDeadlineCrossed":change.doc.data().totalDeadlineCrossed,
+               "totalIncompleted":change.doc.data().totalIncompleted,
+               "totalTasks":change.doc.data().totalTasks
+              };
+           }
+    
+           if(change.doc.id != 'prev_month' && change.doc.id != 'crnt_month'){
+              // collect incompleted and assigned tasks
+              if(change.doc.id.indexOf(':') !== -1){
+                assignedBy = docSplitter[0].split(":")[0];
+                var assignedTo = docSplitter[0].split(":")[1];
+                if(assignedBy == auth.currentUser.email){
+                    myAssigned[change.doc.id]= {data};
+                }
+                if(assignedTo == auth.currentUser.email){
+                    myIncompleted[change.doc.id]= {data};
+                }
+              }
+              // collect completed tasks
+              if(change.doc.id.indexOf('>') !== -1){
+                assignedTo = docSplitter[0].split(">")[1];
+                if(assignedTo == auth.currentUser.email){
+                    myCompleted[change.doc.id]= {data};
+                }
+              }
+              // collect deadline crossed tasks
+              if(change.doc.id.indexOf('<') !== -1){
+                assignedTo = docSplitter[0].split("<")[1];
+                if(assignedTo == auth.currentUser.email){
+                    myDeadlineCrossed[change.doc.id]= {data};
+                }
+              }
+              // collect tasks that you have unapproved
+              if(change.doc.id.indexOf('!') !== -1){
+                assignedBy = docSplitter[0].split("!")[0];
+                if(assignedBy == auth.currentUser.email){
+                    myUnapproved[change.doc.id]= {data};
+                }
+              }
           }
-          // collect completed tasks
-          if(change.doc.id.indexOf('>') !== -1){
-            assignedTo = docSplitter[0].split(">")[1];
-            if(assignedTo == auth.currentUser.email){
-                myCompleted[change.doc.id]= {data};
-            }
-          }
-          // collect deadline crossed tasks
-          if(change.doc.id.indexOf('<') !== -1){
-            assignedTo = docSplitter[0].split("<")[1];
-            if(assignedTo == auth.currentUser.email){
-                myDeadlineCrossed[change.doc.id]= {data};
-            }
-          }
-          // collect tasks that you have unapproved
-          if(change.doc.id.indexOf('!') !== -1){
-            assignedBy = docSplitter[0].split("!")[0];
-            if(assignedBy == auth.currentUser.email){
-                myUnapproved[change.doc.id]= {data};
-            }
-          }
+        });
+        resetOldTasks();
+        renderIncompleted()
       }
-    });
-  }
+
+  }).catch(function(error) {
+    console.log("Error getting document:", error);});
+
 }
 
 function renderIncompleted(){
-
-  //var docSplitter = change.doc.id.split(",");
-  // var time = docSplitter[1];
-  //    var assignedBy = docSplitter[0].split(":")[0];
-  //    assignedTo = docSplitter[0].split(":")[1];
-  //    if(assignedBy == auth.currentUser.email){
-  //      //myAssigned.push(change.doc.id:{change.doc.data()})
-
-  //    }
-  //    if(assignedTo == auth.currentUser.email){
-  //      //myIncompleted.push()
-  //    }
+  $('#scrollbar').empty();
   Object.keys(myIncompleted).forEach(function(key) {
-    console.log( key);
+    var docSplitter = key.split(",");
+    var time = docSplitter[1];
+    var assignedBy = docSplitter[0].split(":")[0];
+  $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+    <div class="row m-auto">
+      <img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" class="col-md-3 rounded" alt="">
+      <div class="col-md-6 pl-0 m-auto">
+        <h6 class="text-light d-block m-0">${myIncompleted[key].data.name}</h6>
+        <small class="text-secondary m-0">Deadline: </small><br>
+        <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+      </div>
+    <a href="#0" class=" m-auto"> <i class="fa fa-check col-md-2 text-info font-weight-bold" aria-hidden="true"></i></a></div>
+  </div>`).appendTo('#scrollbar');
   });
-
 }
 
-if( $('#filterTask').val() ) {
- 
-  switch($('#filterTask').val()) {
-    case 'incompleted':
-      renderIncompleted();
-      break;
-    case 'completed':
-      renderCompleted();
-      break;
-    case 'deadlineCrossed':
-      renderDeadlineCrossed();
-      break;
-    case 'assignedTasks':
-      renderAssignedTasks();
-      break;
-    case 'tasksApproval':
-      renderTasksApproval();
-      break;
-    default:
-      // code block
-  }
-
+function renderAssignedTasks(){
+  $('#scrollbar').empty();
+  Object.keys(myAssigned).forEach(function(key) {
+    var docSplitter = key.split(",");
+    var time = docSplitter[1];
+    var assignedTo = docSplitter[0].split(":")[1];
+  $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+    <div class="row m-auto">
+      <img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" class="col-md-3 rounded" alt="">
+      <div class="col-md-6 pl-0 ml-3 my-auto">
+        <h6 class="text-light d-block m-0">${myAssigned[key].data.name}</h6>
+        <small class="text-secondary m-0">Deadline: </small><br>
+        <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+      </div></div>
+  </div>`).appendTo('#scrollbar');
+  });
 }
+
 $("#filterTask").change(function () {
 
   switch($('#filterTask').val()) {
@@ -214,7 +216,8 @@ $(document).ready(function(){
           //console.log(doc.id, " => ", doc.data());
       });
       $('.loader').fadeOut('slow');
-      $(".card").on("click", function () {
+      renderIncompleted();
+      $("#force-overflow .card").on("click", function () {
           //$(".rightbar-div").after(taskForm).fadeIn('slow');
           //$('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
           $('#taskformbar').show()
@@ -234,7 +237,7 @@ $(document).ready(function(){
 
   $("#myInput").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-    $(".dfeed-bar .card").filter(function() {
+    $("#force-overflow .card").filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
 });
@@ -769,7 +772,5 @@ document.getElementById('signout').addEventListener('click', () => {
 
 // snap on task database changes
 db.collection("tasks").onSnapshot(function(snapshot) {
-  taskSnapshot = snapshot;
   updationFromDB();
-  resetOldTasks();
 });
