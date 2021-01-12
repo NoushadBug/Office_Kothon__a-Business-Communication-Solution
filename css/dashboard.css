@@ -181,10 +181,10 @@ $-Styles
   background: #576075;
   overflow-y: scroll;
 }
-#force-overflow {
+.scrollbar {
   min-height: 65%;
 }
-#force-overflow::-webkit-scrollbar-track {
+.scrollbar::-webkit-scrollbar-track {
   /*-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   */
     border-radius: 50%;
@@ -195,16 +195,16 @@ $-Styles
   -o-border-radius: 10p;
 }
 
-#force-overflow::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
   width: 8px;
   background-color: transparent;
 }
 
-#force-overflow::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
   max-width: 5px !important;
 }
 
-#force-overflow::-webkit-scrollbar-thumb {
+.scrollbar::-webkit-scrollbar-thumb {
   height: 2px !important;
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.342);
