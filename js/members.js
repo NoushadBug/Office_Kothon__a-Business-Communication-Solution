@@ -18,6 +18,9 @@ var renderedChats = [];
 // TODO:global variables
 
 $(document).ready(function(){
+    $("#myselect .edit").click(function(){
+        $("#myModal").modal('show');
+    });
 
     db.collection("users").get()
     .then(function(querySnapshot) {
@@ -39,12 +42,22 @@ $(document).ready(function(){
                 $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
                 <div class="row m-auto">
                   <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
-                  <div class="col-md-8 pl-0 m-auto">
+                  <div class="col-md-6 pl-0 m-auto">
                     <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
                     <small class="text-info m-0">${doc.data().designation}</small>
-                    <i class="fa fa-ellipsis-v text-secondary "></i>
-                  </div>
-                </div>
+                   
+                    <div class="dropdown-menu bg-secondary text-center" aria-labelledby="dropdownMenuButton" id="myselect">
+
+    <li class="text-light" ><i class="fa fa-pencil text-warning mr-2 edit "></i> Edit</li>
+    <li class="text-light" ><i class="fa fa-trash text-danger mr-2 delete" ></i> Delete</li>
+    
+  </div>
+  </div>
+  <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+   
+
+   
+
             </div>`).appendTo('#force-overflow');
             }
         }
@@ -55,6 +68,7 @@ $(document).ready(function(){
     .catch(function(error) {
         toastr['error']('Error getting documents: ', error);
     });
+  
 
     $("#myInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();
