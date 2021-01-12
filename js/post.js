@@ -24,18 +24,7 @@ $(document).ready(function () {
       }
   });
   $('.loader').fadeOut('slow');
-
-  $("#add_fields_placeholder").change(function() {
-    if($(this).val() == "Event") {
-        $(".picker").show(); 
-    }
-    else {
-        $(".picker").hide(); 
-    }
-});
-})
-
-// chart js implementation
+  // chart js implementation
 var ctx = document.getElementById('myChart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
@@ -46,7 +35,7 @@ var chart = new Chart(ctx, {
         labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
         datasets: [{
            
-            backgroundColor: ['#8bb684','#ff577f','#fff3e6'],
+            backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
            
             data: [15,10,5 ,2 , 0],
           
@@ -56,6 +45,17 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {
+      animation: 
+      {
+       duration : 2000,
+         
+      },
+   
+      
+      
+ 
+
+      
       title: {
         display: true,
         text: 'Current Month',
@@ -71,7 +71,7 @@ var chart = new Chart(ctx, {
         yAxes: [{
             ticks: {
                 fontColor: "white",
-                fontSize: 12,
+                fontSize: 10,
               
                 beginAtZero: true
             }
@@ -79,12 +79,13 @@ var chart = new Chart(ctx, {
         xAxes: [{
             ticks: {
                 fontColor: "white",
-                fontSize: 14,
+                fontSize: 11,
                
                 beginAtZero: true
             }
         }]
     }
+    
 
   }
    
@@ -100,7 +101,7 @@ var chart = new Chart(ctx, {
         labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
         datasets: [{
             
-            backgroundColor: ['#a3ddcb','#fff3b2','#adeecf'],
+            backgroundColor: ['#2a4fa6','#bf545d','#adeecf'],
             borderWidth:1,
             borderColor: '#212529',
            
@@ -109,6 +110,12 @@ var chart = new Chart(ctx, {
     },
 
     options: {
+      
+      animation: 
+      {
+       duration : 2000,
+         
+      },
       title: {
         display: true,
         text: 'Previous Month',
@@ -126,7 +133,7 @@ var chart = new Chart(ctx, {
               reverse: true,
          
                 fontColor: "white",
-                fontSize: 12,
+                fontSize: 10,
               
                 beginAtZero: true
             }
@@ -135,7 +142,7 @@ var chart = new Chart(ctx, {
             ticks: {
               reverse: true,
                 fontColor: "white",
-                fontSize: 14,
+                fontSize: 11,
                
                 beginAtZero: true
             }
@@ -144,6 +151,18 @@ var chart = new Chart(ctx, {
 
   }
 });
+
+
+
+  $("#add_fields_placeholder").change(function() {
+    if($(this).val() == "Event") {
+        $(".picker").show(); 
+    }
+    else {
+        $(".picker").hide(); 
+    }
+});
+})
 
 
 

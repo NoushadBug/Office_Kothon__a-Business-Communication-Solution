@@ -277,4 +277,8 @@ label {
     background: currentColor;
     border-radius: 2em;
   }
+  .card .border
+  {
+    border: 0.2em solid cyan !important;
+  }
  
