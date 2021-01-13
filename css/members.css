@@ -123,12 +123,20 @@ border-radius: 50% !important;
 {
   background: #2e3035;
   border-radius: 2em;
-  height: 57%;
+  height: 100%;
+  width: 29vw;
+  display: -webkit-inline-box;
+}
+.taskForm2
+{
+  background: #2e3035;
+  border-radius: 2em;
+  height: 41%;
   width: 29vw;
   display: -webkit-inline-box;
 }
 
-.taskForm1 label
+.taskForm1 label,.taskForm2 label
 {
   margin: 0 !important;
   font-size: 0.8em !important;
@@ -139,7 +147,7 @@ border-radius: 50% !important;
 
 
 }
-.taskForm1 input {
+.taskForm1 input, .taskForm2 input{
   border-radius: 1em !important;
   font-size: 0.8em !important;
 }
