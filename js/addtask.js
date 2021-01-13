@@ -93,12 +93,12 @@ function updationFromDB(){
                "totalTasks":change.doc.data().totalTasks
               };
            }
-    
+
            if(change.doc.id != 'prev_month' && change.doc.id != 'crnt_month'){
               // collect incompleted and assigned tasks
               if(change.doc.id.indexOf(':') !== -1){
                 assignedBy = docSplitter[0].split(":")[0];
-                var assignedTo = docSplitter[0].split(":")[1];
+                assignedTo = docSplitter[0].split(":")[1];
                 if(assignedBy == auth.currentUser.email){
                     myAssigned[change.doc.id]= {data};
                 }
@@ -354,7 +354,7 @@ function renderTasksApproval(){
   Object.keys(myUnapproved).forEach(function(key,index) {
     var docSplitter = key.split(",");
     var time = docSplitter[1];
-    var assignedTo = docSplitter[0].split("|")[1];
+    assignedTo = docSplitter[0].split("|")[1];
     $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
     <div class="row mt-auto mb-2 mx-0">
       <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
@@ -425,7 +425,7 @@ function renderAssignedTasks(){
   Object.keys(myAssigned).forEach(function(key,index) {
     var docSplitter = key.split(",");
     var time = docSplitter[1];
-    var assignedTo = docSplitter[0].split(":")[1];
+    assignedTo = docSplitter[0].split(":")[1];
     $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
     <div class="row my-auto mx-0">
       <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
@@ -526,7 +526,7 @@ $(document).ready(function(){
           //console.log(doc.id, " => ", doc.data());
       });
       $('.loader').fadeOut('slow');
-
+      
       $("#filterTask").change(function () {
 
         switch($('#filterTask').val()) {
