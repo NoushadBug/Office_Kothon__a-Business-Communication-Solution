@@ -100,7 +100,7 @@
                     <div class="form-group ">
                         <div class="d-flex">
                             <input id="startDate" name="startDate" type="text"
-                            class="form-control bg-dark shadow-lg text-light  border-info"
+                            class="form-control bg-dark shadow-lg text-light datePicker border-info"
                             placeholder="select start date" required />
                             <input id="startTime" name="startTime" type="time" value="09:00"
                             class="form-control text-light border-0" placeholder="select end time"
@@ -109,7 +109,7 @@
                         &nbsp;
                         <div class="d-flex">
                             <input id="endDate" name="endDate" type="text"
-                            class="form-control bg-dark shadow-lg text-light  border-info" placeholder="select end date"
+                            class="form-control bg-dark shadow-lg text-light datePicker border-info" placeholder="select end date"
                             required />
                             <input id="endTime" name="endTime" type="time" value="10:00"
                             class="form-control text-light border-0" placeholder="select end time"
@@ -160,10 +160,11 @@
                             <select class="my-auto col-md-10 form-control bg-dark d-inline text-light border-0 custom-select-sm" id="filterTask">
                                 <option value="incompleted" selected="">Incompleted</option>
                                 <option value="completed">Completed</option>
+                                <option value="unapproved">Unapproved Tasks</option>
                                 <option value="deadlineCrossed">Deadline Crossed</option>
                                 <option value="" disabled="">Tasks you've assigned ——</option>
-                                <option value="assignedTasks">assigned tasks</option>
-                                <option value="tasksApproval">unapproved tasks</option>
+                                <option value="assignedTasks">Assigned tasks</option>
+                                <option value="tasksApproval">Approve tasks</option>
                               </select>
                         </div>
 
