@@ -30,21 +30,21 @@ function getNotified(snapshot){
           assignedBy = docSplitter[0].split(":")[0];
           assignedTo = docSplitter[0].split(":")[1];
           if(assignedTo == auth.currentUser.email){
-            toastr['info'](assignedBy+' have assigned you a task','New task arrived');
+            toastr['info']($("[data='"+assignedBy+"'] h6").text()+' have assigned you a task','New task arrived');
           }
         }
         // collect completed tasks
         if(change.doc.id.indexOf('>') !== -1){
           assignedTo = docSplitter[0].split(">")[1];
           if(assignedTo == auth.currentUser.email){
-            toastr['success'](assignedBy+' have approved your task','Your task is approved');
+            toastr['success']($("[data='"+assignedBy+"'] h6").text()+' have approved your task','Your task is approved');
           }
         }
         // collect deadline crossed tasks
         if(change.doc.id.indexOf('<') !== -1){
           assignedTo = docSplitter[0].split("<")[1];
           if(assignedTo == auth.currentUser.email){
-            toastr['error'](assignedBy+"'s given task crossed the deadline','Your task deadline expired");
+            toastr['error']($("[data='"+assignedBy+"'] h6").text()+"'s given task crossed the deadline','Your task deadline expired");
           }
         }
         // collect tasks that you have unapproved
@@ -52,10 +52,10 @@ function getNotified(snapshot){
           assignedBy = docSplitter[0].split("|")[0];
           assignedTo = docSplitter[0].split("|")[1];
           if(assignedBy == auth.currentUser.email){
-            toastr['info'](assignedTo+" has requested the task to approve','New assigned task is waiting for approval");
+            toastr['info']($("[data='"+assignedTo+"'] h6").text()+" has requested a task to approve","New assigned task is waiting for approval");
           }
           if(assignedTo == auth.currentUser.email){
-            toastr['info']('please wait for '+assignedBy+"'s approval','Your task is in review");
+            toastr['info']('please wait for '+$("[data='"+assignedBy+"'] h6").text()+"'s approval","Your task is in review");
           }
         }
       }
