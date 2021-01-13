@@ -18,11 +18,18 @@ var renderedChats = [];
 // TODO:global variables
 
 $(document).ready(function(){
-  
+
+    // $('#approve_form').h6.val("");
+   
+    
     db.collection("users").get()
     .then(function(querySnapshot) {
+
         $('.loader').fadeOut('slow');
-      
+   $('#force-overflow1 .card').click(function(){
+         
+             $('#selected_name').text($(this).first('h6').text())
+             });   
     
         querySnapshot.forEach(function(doc) {
             if(doc.id === auth.currentUser.email){
