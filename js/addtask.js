@@ -1,5 +1,6 @@
 var docLinks;
 var assignedTo;
+var firstEntered = false;
 var taskSnapshot = null;
 var offlineDB= {};
 var currentMonthInfo;
@@ -9,6 +10,7 @@ var completedTaskLists = [];
 var deadlineCrossedTaskLists = [];
 var unapprovedTaskLists = [];
 var myUnapproved= {};
+var myClicked= {};
 var myDeadlineCrossed= {};
 var myCompleted= {};
 var myIncompleted= {};
@@ -17,6 +19,57 @@ var myAssigned= {};
 var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
+
+function getNotified(snapshot){
+  snapshot.docChanges().forEach(function(change) {
+    var docSplitter = change.doc.id.split(",");
+    var assignedBy;
+      // collect incompleted and assigned tasks
+      if(change.type == 'added'){
+        if(change.doc.id.indexOf(':') !== -1){
+          assignedBy = docSplitter[0].split(":")[0];
+          assignedTo = docSplitter[0].split(":")[1];
+          if(assignedTo == auth.currentUser.email){
+            toastr['info'](assignedBy+' have assigned you a task','New task arrived');
+          }
+        }
+        // collect completed tasks
+        if(change.doc.id.indexOf('>') !== -1){
+          assignedTo = docSplitter[0].split(">")[1];
+          if(assignedTo == auth.currentUser.email){
+            toastr['success'](assignedBy+' have approved your task','Your task is approved');
+          }
+        }
+        // collect deadline crossed tasks
+        if(change.doc.id.indexOf('<') !== -1){
+          assignedTo = docSplitter[0].split("<")[1];
+          if(assignedTo == auth.currentUser.email){
+            toastr['error'](assignedBy+"'s given task crossed the deadline','Your task deadline expired");
+          }
+        }
+        // collect tasks that you have unapproved
+        if(change.doc.id.indexOf('|') !== -1){
+          assignedBy = docSplitter[0].split("|")[0];
+          assignedTo = docSplitter[0].split("|")[1];
+          if(assignedBy == auth.currentUser.email){
+            toastr['info'](assignedTo+" has requested the task to approve','New assigned task is waiting for approval");
+          }
+          if(assignedTo == auth.currentUser.email){
+            toastr['info']('please wait for '+assignedBy+"'s approval','Your task is in review");
+          }
+        }
+      }
+
+  });
+}
+
+function copyToTemp(selectedID){
+  for (let i = 0; i < taskSnapshot.docs.length; i++) {
+    if(selectedID == taskSnapshot.docs[i].id){
+      return taskSnapshot.docs[i].data();
+    }
+  }
+}
 
 function showTaskFiles(fileData){
   if(fileData == 'null'){
@@ -61,6 +114,7 @@ var resetOldTasks = function() {
 }
 
 function updationFromDB(){
+  firstEntered = true;
   myUnapproved= {};
   myDeadlineCrossed= {};
   myCompleted= {};
@@ -123,14 +177,41 @@ function updationFromDB(){
               // collect tasks that you have unapproved
               if(change.doc.id.indexOf('|') !== -1){
                 assignedBy = docSplitter[0].split("|")[0];
+                assignedTo = docSplitter[0].split("|")[1];
                 if(assignedBy == auth.currentUser.email){
                     myUnapproved[change.doc.id]= {data};
+                }
+                if(assignedTo == auth.currentUser.email){
+                    myClicked[change.doc.id]= {data};
                 }
               }
           }
         });
         resetOldTasks();
-        //renderIncompleted()
+        if($("#filterTask").val()){
+            switch($('#filterTask').val()) {
+              case 'incompleted':
+                renderIncompleted();
+                  break;
+                case 'completed':
+                  renderCompleted();
+                  break;
+                case 'deadlineCrossed':
+                  renderDeadlineCrossed();
+                  break;
+                case 'unapproved':
+                  renderUnapproved();
+                  break;
+                case 'assignedTasks':
+                  renderAssignedTasks();
+                  break;
+                case 'tasksApproval':
+                  renderTasksApproval();
+                  break;
+                default:
+                  // code block
+              }
+        }
       }
 
   }).catch(function(error) {
@@ -152,7 +233,7 @@ function renderIncompleted(){
         <small class="text-secondary m-0">Deadline: </small><br>
         <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
       </div>
-      <div class="m-auto"><a href="#0" id="clickToComplete" class="mx-1"> <i class="fa fa-check text-info font-weight-bold" aria-hidden="true"></i></a>
+      <div class="m-auto"><a href="#0" class="clickToComplete" class="mx-1"> <i class="fa fa-check text-info font-weight-bold" aria-hidden="true"></i></a>
 <a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
     </div>
     <!-- Modal -->
@@ -207,6 +288,35 @@ function renderIncompleted(){
   </div>
   </div>`).appendTo('#scrollbar');
   });
+
+
+  $(".clickToComplete").on("click", function(){
+      var clickedTaskId =  $(this).closest(".card").attr('data');
+      var docSplitter = clickedTaskId.split(",");
+      var time = docSplitter[1];
+      var tempdata = copyToTemp(clickedTaskId);
+      var assignedBy = docSplitter[0].split(":")[0];
+      assignedTo = docSplitter[0].split(":")[1];
+      //console.log(copyToTemp(clickedTaskId).name) 
+      db.collection("tasks").doc(clickedTaskId).delete().then(function() {
+        db.collection("tasks").doc(assignedBy+'|'+assignedTo+','+time).set({
+          description: tempdata.description,
+          start: tempdata.start,
+          name: tempdata.name,
+          doc: tempdata.doc,
+          priority: tempdata.priority
+        })
+        .then(function() {
+        
+        })
+        .catch(function(error) {
+          console.error("Error writing document: ", error);
+        });
+      }).catch(function(error) {
+        console.error("Error removing document: ", error);
+      });
+  });
+
 }
 
 function renderCompleted(){
@@ -349,6 +459,76 @@ function renderDeadlineCrossed(){
   });
 }
 
+function renderUnapproved(){
+  $('#scrollbar').empty();
+  Object.keys(myClicked).forEach(function(key,index) {
+    var docSplitter = key.split(",");
+    var time = docSplitter[1];
+    var assignedBy = docSplitter[0].split("|")[0];
+    $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+    <div class="row my-auto mx-0">
+      <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+      <div class="col-md-8 pl-0 mx-0 my-auto">
+        <h6 class="text-light d-block m-0">${myClicked[key].data.name}</h6>
+        <small class="text-secondary m-0">Deadline: </small><br>
+        <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+      </div>
+      <div class="my-auto"><a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+    </div>
+    <!-- Modal -->
+<div class="modal fade" id="task${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content bg-dark" style="border-radius: 2em;">
+    <div class="modal-header border-0 shadow-lg text-secondary">
+      <h5 class="modal-title" id="exampleModalCenterTitle">Task Details</h5>
+      <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body text-light">
+      <div class="row">
+        <div class="col-md-6 my-auto">
+        <div class="container">
+         <small class="text-info mb-0">Name</small>
+         <p style="font-size: 0.9em;">${myClicked[key].data.name}</p>
+         </div>
+         <div class="container">
+         <small class="text-info mb-0">Description</small>
+         <p style="font-size: 0.9em;">${myClicked[key].data.description}</p>
+         </div>
+         <div class="container">
+         <small class="text-info mb-0">Priority</small>
+         <p style="font-size: 0.9em;">${myClicked[key].data.priority}</p>
+         </div>
+         <div class="container" id="docLinksList">
+         <small class="text-info mb-0">attached files</small>
+         ${showTaskFiles(myClicked[key].data.doc)}
+         </div>
+    </div>
+    <div class="col-md-6 my-auto text-right">
+    <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
+    <small class="text-info mb-0 container">Assigned by:</small>
+      <p style="font-size: 0.9em;" class="container">${$("[data='"+assignedBy+"'] h6").text()}</p>
+
+    <div class="container">
+      <small class="text-info mb-0">Start Time</small>
+      <p style="font-size: 0.9em;">${new Date(parseInt(myClicked[key].data.start)).toLocaleString()}</p>
+     </div>
+    <div class="container">
+      <small class="text-info mb-0">Deadline</small>
+      <p style="font-size: 0.9em;">${new Date(parseInt(time)).toLocaleString()}</p>
+    </div>
+    </div>
+    </div>
+    <div class="modal-footer border-0 m-0 p-0 shadow-lg rounded-pill">
+      <button type="button" class="shadow-lg btn btn-info container rounded-pill" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  </div>
+  </div>`).appendTo('#scrollbar');
+  });
+}
+
 function renderTasksApproval(){
   $('#scrollbar').empty();
   Object.keys(myUnapproved).forEach(function(key,index) {
@@ -365,7 +545,7 @@ function renderTasksApproval(){
       </div>
       <div class="my-auto"><a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
     </div>
-    <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill" style="font-size: 0.8em;" id="clickToApprove">approve</div>
+    <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill" style="font-size: 0.8em;" id="clickToApprove${index}">approve</div>
     <!-- Modal -->
 <div class="modal fade" id="task${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -539,6 +719,9 @@ $(document).ready(function(){
             case 'deadlineCrossed':
               renderDeadlineCrossed();
               break;
+            case 'unapproved':
+              renderUnapproved();
+              break;
             case 'assignedTasks':
               renderAssignedTasks();
               break;
@@ -614,11 +797,11 @@ document.getElementById('signout').addEventListener('click', () => {
     toastr['info']('You are signed out! ', 'see you soon');
       });
       window.location.replace("./index.html");
-  });
+});
 
 
 
-  $('#startDate').datePicker({
+  $('.datePicker').datePicker({
 
     // use cache
     useCache: false,
@@ -758,148 +941,7 @@ document.getElementById('signout').addEventListener('click', () => {
     rangeEndAttribute: 'data-to'
     
   });
-  //endDate
 
-  $('#endDate').datePicker({
-  
-    // use cache
-    useCache: false,
-  
-    // the selector for the input fields
-    elements: [],
-  
-    // element the picker should be depended on
-    body: document.body,
-  
-    // attribute used for internal date transfer
-    pickerAttribute: 'data-picker',
-  
-    // class name of the datePicker wrapper
-    datePickerClass: 'date-picker',
-  
-    // class name for date representing the value of input field
-    selectedDayClass: 'selected-day',
-  
-    // class name for disabled events
-    disabledClass: 'disabled',
-  
-    // called right after datePicker is instantiated
-    initCallback: function(elements) {},
-  
-    // called every time the picker gets toggled or redrawn
-    renderCallback: function(container, element, toggled) {
-      var bounds = element.getBoundingClientRect();
-  
-      container.style.cssText = !this.isOpen ? 'display: none' :
-        'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-        'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
-    },
-  
-    // when date is picked, the value needs to be transferred to input
-    renderValue: function(container, element, value) {
-      element.value = value;
-    },
-  
-    // when toggling the datePicker, this will pick up the value of the input field
-    readValue: function(element) {
-      return element.value;
-    },
-  
-  
-    // the HTML rendered before the display of the month. The following strings will be replaced:
-    // {{disable-prev}}, {{prev}}, {{disable-next}}, {{next}}, {{day}}, {{month}}, {{months}}, {{year}}, {{years}}
-    // look at the code (original option HTML) and it's clear what all those placeholders mean
-    header:
-      '<div class="dp-title">' +
-        '<button class="dp-prev" type="button"{{disable-prev}}>{{prev}}</button>' +
-        '<button class="dp-next" type="button"{{disable-next}}>{{next}}</button>' +
-        '<div class="dp-label dp-label-month">{{month}}' +
-          '<select class="dp-select dp-select-month" tabindex="-1">' +
-            '{{months}}' +
-          '</select>' +
-        '</div>' +
-        '<div class="dp-label dp-label-year">{{year}}' +
-          '<select class="dp-select dp-select-year" tabindex="-1">' +
-            '{{years}}' +
-          '</select>' +
-        '</div>' +
-      '</div>',
-  
-    // label text for next month
-    nextLabel: 'Next month',
-  
-    // label tetx for previous month
-    prevLabel: 'Previous month',
-  
-    // min / max dates
-    minDate: '1969-01-01',
-    maxDate: '2050-12-31',
-  
-    // data attributes for min/max dates
-    minDateAttribute: 'data-mindate',
-    maxDateAttribute: 'data-maxdate',
-  
-    // classes for event listeners
-    nextButtonClass: 'dp-next',
-    prevButtonClass: 'dp-prev',
-    selectYearClass: 'dp-select-year',
-    selectMonthClass: 'dp-select-month',
-  
-    // the HTML rendered after the display of the month. The following strings will be replaced:
-    // {{hour}}, {{hours}}, {{minute}}, {{minutes}}, {{second}}, {{seconds}}, {{am-pm}}, {{am-pms}}
-    footer:
-      '<div class="dp-footer">' +
-        '<div class="dp-label">{{hour}}' +
-          '<select class="dp-select dp-select-hour" tabindex="-1">' +
-            '{{hours}}' +
-          '</select>' +
-        '</div>' +
-        '<div class="dp-label">{{minute}}' +
-          '<select class="dp-select dp-select-minute" tabindex="-1">' +
-            '{{minutes}}' +
-          '</select>' +
-        '</div>' +
-        '<div class="dp-label">{{second}}' +
-          '<select class="dp-select dp-select-second" tabindex="-1">' +
-            '{{seconds}}' +
-          '</select>' +
-        '</div>' +
-        '<div class="dp-label">{{am-pm}}' +
-          '<select class="dp-select dp-select-am-pm" tabindex="-1">' +
-            '{{am-pms}}' +
-          '</select>' +
-        '</div>' +
-      '</div>',
-  
-    // HH:MM:SS AM, HH:MM AM, HH:MM:SS or HH:MM 
-    timeFormat: '',
-  
-    // data attribute for time format
-    timeFormatAttribute:'data-timeformat',
-  
-    // switch for standard AM / PM rendering
-    doAMPM: false,
-  
-    // steps of minutes displayed as options in
-    minuteSteps: 5,
-  
-    // steps of seconds displayed as options in
-    secondSteps: 10,
-  
-    // rendered strings in picker options and input fields
-    AMPM: ['AM', 'PM'],
-  
-    // classes for event listeners
-    selectHourClass: 'dp-select-hour',
-    selectMinuteClass: 'dp-select-minute',
-    selectSecondClass: 'dp-select-second',
-    selectAMPMClass: 'dp-select-am-pm',
-  
-    // data attributes for rangeStart & rangeEnd
-    rangeStartAttribute: 'data-from',
-    rangeEndAttribute: 'data-to'
-    
-  });
 
   $("#filterTask").click(function(){
     switch(this.value) {
@@ -916,7 +958,10 @@ document.getElementById('signout').addEventListener('click', () => {
         $("#taskHeading").text('Your assigned tasks');
         break;
       case 'tasksApproval':
-        $("#taskHeading").text('Unapproved tasks');
+        $("#taskHeading").text('Approve assigned tasks');
+        break;
+      case 'unapproved':
+        $("#taskHeading").text('Your unapproved tasks');
         break;
       default:
         $("#taskHeading").text('...');
@@ -988,7 +1033,7 @@ document.getElementById('signout').addEventListener('click', () => {
 
   })
 
-
+// TODO: file size not more than 10mb
   // File validation
   $("#customFile").change(function() {
     if ($("#customFile")[0].files.length > 3) {
@@ -1110,5 +1155,8 @@ document.getElementById('signout').addEventListener('click', () => {
 
 // snap on task database changes
 db.collection("tasks").onSnapshot(function(snapshot) {
+  if(firstEntered != false){
+    getNotified(snapshot);
+  }
   updationFromDB();
 });
