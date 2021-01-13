@@ -526,7 +526,7 @@ $(document).ready(function(){
           //console.log(doc.id, " => ", doc.data());
       });
       $('.loader').fadeOut('slow');
-
+      
       $("#filterTask").change(function () {
 
         switch($('#filterTask').val()) {
