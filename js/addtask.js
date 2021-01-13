@@ -1,5 +1,4 @@
 var docLinks;
-var assignedTo;
 var firstEntered = false;
 var taskSnapshot = null;
 var offlineDB= {};
@@ -28,7 +27,7 @@ function getNotified(snapshot){
       if(change.type == 'added'){
         if(change.doc.id.indexOf(':') !== -1){
           assignedBy = docSplitter[0].split(":")[0];
-          assignedTo = docSplitter[0].split(":")[1];
+          var assignedTo = docSplitter[0].split(":")[1];
           if(assignedTo == auth.currentUser.email){
             toastr['info']($("[data='"+assignedBy+"'] h6").text()+' have assigned you a task','New task arrived');
           }
@@ -152,7 +151,7 @@ function updationFromDB(){
               // collect incompleted and assigned tasks
               if(change.doc.id.indexOf(':') !== -1){
                 assignedBy = docSplitter[0].split(":")[0];
-                assignedTo = docSplitter[0].split(":")[1];
+                var assignedTo = docSplitter[0].split(":")[1];
                 if(assignedBy == auth.currentUser.email){
                     myAssigned[change.doc.id]= {data};
                 }
@@ -296,7 +295,7 @@ function renderIncompleted(){
       var time = docSplitter[1];
       var tempdata = copyToTemp(clickedTaskId);
       var assignedBy = docSplitter[0].split(":")[0];
-      assignedTo = docSplitter[0].split(":")[1];
+      var assignedTo = docSplitter[0].split(":")[1];
       //console.log(copyToTemp(clickedTaskId).name) 
       db.collection("tasks").doc(clickedTaskId).delete().then(function() {
         db.collection("tasks").doc(assignedBy+'|'+assignedTo+','+time).set({
@@ -534,7 +533,7 @@ function renderTasksApproval(){
   Object.keys(myUnapproved).forEach(function(key,index) {
     var docSplitter = key.split(",");
     var time = docSplitter[1];
-    assignedTo = docSplitter[0].split("|")[1];
+    var assignedTo = docSplitter[0].split("|")[1];
     $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
     <div class="row mt-auto mb-2 mx-0">
       <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
@@ -605,7 +604,7 @@ function renderAssignedTasks(){
   Object.keys(myAssigned).forEach(function(key,index) {
     var docSplitter = key.split(",");
     var time = docSplitter[1];
-    assignedTo = docSplitter[0].split(":")[1];
+    var assignedTo = docSplitter[0].split(":")[1];
     $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
     <div class="row my-auto mx-0">
       <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
@@ -743,7 +742,7 @@ $(document).ready(function(){
           $("#fileLabel").text('choose upto 3 files');
           var cardName = $("[data='"+$(this).attr('data')+"'] h6").text();
           $("form h4").text("Task for "+cardName)
-          assignedTo = ($(this).attr('data'));
+          var assignedTo = ($(this).attr('data'));
           $('#taskName').val('');
           $('#startDate').val('');
           $('#endDate').val('');
