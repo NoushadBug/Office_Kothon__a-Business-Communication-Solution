@@ -1,4 +1,5 @@
 var docLinks;
+var assignedTO;
 var firstEntered = false;
 var taskSnapshot = null;
 var offlineDB= {};
@@ -742,7 +743,7 @@ $(document).ready(function(){
           $("#fileLabel").text('choose upto 3 files');
           var cardName = $("[data='"+$(this).attr('data')+"'] h6").text();
           $("form h4").text("Task for "+cardName)
-          var assignedTo = ($(this).attr('data'));
+          assignedTO = ($(this).attr('data'));
           $('#taskName').val('');
           $('#startDate').val('');
           $('#endDate').val('');
@@ -1073,7 +1074,7 @@ document.getElementById('signout').addEventListener('click', () => {
     if( $("#customFile")[0].files.length == 0 ){
           // Add a new document in collection "tasks"
           $('.uploader').fadeIn('slow');
-          db.collection("tasks").doc(auth.currentUser.email+':'+assignedTo+','+endDate).set({
+          db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate).set({
             description: taskDetails,
             start: startDate,
             name: taskName,
