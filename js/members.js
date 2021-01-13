@@ -18,11 +18,7 @@ var renderedChats = [];
 // TODO:global variables
 
 $(document).ready(function(){
-    $(".edit").click(function(){
-        alert('hi ');
-        $("#exampleModalCenter").modal('show');
-    });
-
+  
     db.collection("users").get()
     .then(function(querySnapshot) {
         $('.loader').fadeOut('slow');
