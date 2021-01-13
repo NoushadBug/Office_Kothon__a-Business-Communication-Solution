@@ -130,7 +130,7 @@ function updationFromDB(){
           }
         });
         resetOldTasks();
-        renderIncompleted()
+        //renderIncompleted()
       }
 
   }).catch(function(error) {
@@ -526,7 +526,7 @@ $(document).ready(function(){
           //console.log(doc.id, " => ", doc.data());
       });
       $('.loader').fadeOut('slow');
-      
+
       $("#filterTask").change(function () {
 
         switch($('#filterTask').val()) {
@@ -586,6 +586,7 @@ $('#closeForm').on("click", function(event){
       //$('#taskformbar').hide();
       $('.svg-div').remove();
       $('.taskListDiv').show();
+      renderIncompleted();
     });
   });
 });
@@ -597,12 +598,14 @@ $('#closeLists').on("click", function(event){
       //$('#taskformbar').hide();
       $('.svg-div').remove();
       $('.taskListDiv').show();
+      renderIncompleted();
     });
   });
 });
 $('#viewTasksBtn').on("click", function(){
   $('.svg-div').remove();
   $('.taskListDiv').show();
+  renderIncompleted();
 });
 
 document.getElementById('signout').addEventListener('click', () => {
