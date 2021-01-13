@@ -32,6 +32,9 @@ function getNotified(snapshot){
           if(assignedTo == auth.currentUser.email){
             toastr['info']($("[data='"+assignedBy+"'] h6").text()+' have assigned you a task','New task arrived');
           }
+          if(assignedBy == auth.currentUser.email){
+            toastr['success']('you have assigned '+$("[data='"+assignedTo+"'] h6").text()+' a task','Task assignment succeed');
+          }
         }
         // collect completed tasks
         if(change.doc.id.indexOf('>') !== -1){
