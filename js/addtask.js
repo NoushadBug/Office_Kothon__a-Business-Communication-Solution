@@ -17,6 +17,29 @@ var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
 
+function viewTaskDetails(){
+  
+// <!-- Modal -->
+// <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+//   <div class="modal-dialog modal-dialog-centered" role="document">
+//     <div class="modal-content">
+//       <div class="modal-header">
+//         <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+//         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+//           <span aria-hidden="true">&times;</span>
+//         </button>
+//       </div>
+//       <div class="modal-body">
+//         ...
+//       </div>
+//       <div class="modal-footer">
+//         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+//         <button type="button" class="btn btn-primary">Save changes</button>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+}
 
 // while the new month arrives delete the previous infos from db
 var resetOldTasks = function() {
@@ -103,8 +126,8 @@ function updationFromDB(){
                 }
               }
               // collect tasks that you have unapproved
-              if(change.doc.id.indexOf('!') !== -1){
-                assignedBy = docSplitter[0].split("!")[0];
+              if(change.doc.id.indexOf('|') !== -1){
+                assignedBy = docSplitter[0].split("|")[0];
                 if(assignedBy == auth.currentUser.email){
                     myUnapproved[change.doc.id]= {data};
                 }
@@ -127,14 +150,76 @@ function renderIncompleted(){
     var time = docSplitter[1];
     var assignedBy = docSplitter[0].split(":")[0];
   $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
-    <div class="row m-auto">
-      <img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" class="col-md-3 rounded" alt="">
-      <div class="col-md-6 pl-0 m-auto">
+    <div class="row my-auto mx-0">
+      <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+      <div class="col-md-6 pl-0 mx-0 my-auto">
         <h6 class="text-light d-block m-0">${myIncompleted[key].data.name}</h6>
         <small class="text-secondary m-0">Deadline: </small><br>
         <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
       </div>
-    <a href="#0" class=" m-auto"> <i class="fa fa-check col-md-2 text-info font-weight-bold" aria-hidden="true"></i></a></div>
+      <div class="m-auto"><a href="#0" id="clickToComplete" class="mx-1"> <i class="fa fa-check text-info font-weight-bold" aria-hidden="true"></i></a>
+<a href="#0" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+  </div>`).appendTo('#scrollbar');
+  });
+}
+
+function renderCompleted(){
+  $('#scrollbar').empty();
+  Object.keys(myCompleted).forEach(function(key) {
+    var docSplitter = key.split(",");
+    var time = docSplitter[1];
+    var assignedBy = docSplitter[0].split(">")[0];
+  $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+    <div class="row my-auto mx-0">
+      <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+      <div class="col-md-8 pl-0 mx-0 my-auto">
+        <h6 class="text-light d-block m-0">${myCompleted[key].data.name}</h6>
+        <small class="text-secondary m-0">Deadline: </small><br>
+        <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+      </div>
+      <div class="my-auto"><a href="#0" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+    </div>
+  </div>`).appendTo('#scrollbar');
+  });
+}
+
+function renderDeadlineCrossed(){
+  $('#scrollbar').empty();
+  Object.keys(myDeadlineCrossed).forEach(function(key) {
+    var docSplitter = key.split(",");
+    var time = docSplitter[1];
+    var assignedBy = docSplitter[0].split(">")[0];
+  $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+    <div class="row my-auto mx-0">
+      <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+      <div class="col-md-8 pl-0 mx-0 my-auto">
+        <h6 class="text-light d-block m-0">${myDeadlineCrossed[key].data.name}</h6>
+        <small class="text-secondary m-0">Deadline: </small><br>
+        <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+      </div>
+      <div class="my-auto"><a href="#0" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+    </div>
+  </div>`).appendTo('#scrollbar');
+  });
+}
+
+function renderTasksApproval(){
+  $('#scrollbar').empty();
+  Object.keys(myUnapproved).forEach(function(key) {
+    var docSplitter = key.split(",");
+    var time = docSplitter[1];
+    var assignedTo = docSplitter[0].split("|")[1];
+  $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+    <div class="row mt-auto mb-2 mx-0">
+      <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+      <div class="col-md-8 pl-0 mx-0 my-auto">
+        <h6 class="text-light d-block m-0">${myUnapproved[key].data.name}</h6>
+        <small class="text-secondary m-0">Deadline: </small><br>
+        <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+      </div>
+      <div class="my-auto"><a href="#0" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+    </div>
+    <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill" style="font-size: 0.8em;" id="clickToApprove">approve</div>
   </div>`).appendTo('#scrollbar');
   });
 }
@@ -146,16 +231,19 @@ function renderAssignedTasks(){
     var time = docSplitter[1];
     var assignedTo = docSplitter[0].split(":")[1];
   $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
-    <div class="row m-auto">
-      <img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" class="col-md-3 rounded" alt="">
-      <div class="col-md-6 pl-0 ml-3 my-auto">
+    <div class="row my-auto mx-0">
+      <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+      <div class="col-md-8 pl-0 mx-0 my-auto">
         <h6 class="text-light d-block m-0">${myAssigned[key].data.name}</h6>
         <small class="text-secondary m-0">Deadline: </small><br>
         <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
-      </div></div>
+      </div>
+      <div class="my-auto"><a href="#0" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+      </div>
   </div>`).appendTo('#scrollbar');
   });
 }
+
 
 $("#filterTask").change(function () {
 
@@ -178,7 +266,6 @@ $("#filterTask").change(function () {
     default:
       // code block
   }
-
 });
 
 $(document).ready(function(){
@@ -216,7 +303,30 @@ $(document).ready(function(){
           //console.log(doc.id, " => ", doc.data());
       });
       $('.loader').fadeOut('slow');
-      renderIncompleted();
+
+      $("#filterTask").change(function () {
+
+        switch($('#filterTask').val()) {
+          case 'incompleted':
+            renderIncompleted();
+              break;
+            case 'completed':
+              renderCompleted();
+              break;
+            case 'deadlineCrossed':
+              renderDeadlineCrossed();
+              break;
+            case 'assignedTasks':
+              renderAssignedTasks();
+              break;
+            case 'tasksApproval':
+              renderTasksApproval();
+              break;
+            default:
+              // code block
+          }
+      });
+
       $("#force-overflow .card").on("click", function () {
           //$(".rightbar-div").after(taskForm).fadeIn('slow');
           //$('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
@@ -241,6 +351,7 @@ $(document).ready(function(){
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
 });
+
 })
 
 $('#closeForm').on("click", function(event){
