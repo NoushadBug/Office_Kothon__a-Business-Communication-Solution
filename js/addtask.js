@@ -1,4 +1,5 @@
 var docLinks;
+var assignedTo;
 var taskSnapshot = null;
 var offlineDB= {};
 var currentMonthInfo;
@@ -16,6 +17,24 @@ var myAssigned= {};
 var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
+
+function showTaskFiles(fileData){
+  if(fileData == 'null'){
+    return `<p style="font-size: 0.8em;" class="text-light font-italic">no file is attached</p>`;
+  }
+  else{
+    var returnedElement,
+    res = fileData.split("`");
+    for (let index = 1; index < res.length; index++) {
+      if(index%2 != 0){
+        if(index == 1){returnedElement = `<br><i class="fa fa-circle mr-1 text-secondary" style="font-size: 0.75em !important;"></i><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><u>${res[index]}</u></a>`;}
+      else{returnedElement = returnedElement + `<br><i class="fa fa-circle mr-1 text-secondary" style="font-size: 0.75em !important;"></i><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank"><u>${res[index]}</u></a>`;}
+      }
+         //console.log(index + " => "+ returnedElement)
+    }
+    return returnedElement;
+  }
+}
 
 // while the new month arrives delete the previous infos from db
 var resetOldTasks = function() {
@@ -161,6 +180,10 @@ function renderIncompleted(){
          <small class="text-info mb-0">Priority</small>
          <p style="font-size: 0.9em;">${myIncompleted[key].data.priority}</p>
          </div>
+         <div class="container" id="docLinksList">
+         <small class="text-info mb-0">attached files</small>
+         ${showTaskFiles(myIncompleted[key].data.doc)}
+         </div>
     </div>
     <div class="col-md-6 my-auto text-right">
     <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
@@ -227,6 +250,10 @@ function renderCompleted(){
          <small class="text-info mb-0">Priority</small>
          <p style="font-size: 0.9em;">${myCompleted[key].data.priority}</p>
          </div>
+         <div class="container" id="docLinksList">
+         <small class="text-info mb-0">attached files</small>
+         ${showTaskFiles(myCompleted[key].data.doc)}
+         </div>
     </div>
     <div class="col-md-6 my-auto text-right">
     <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
@@ -292,6 +319,10 @@ function renderDeadlineCrossed(){
          <div class="container">
          <small class="text-info mb-0">Priority</small>
          <p style="font-size: 0.9em;">${myDeadlineCrossed[key].data.priority}</p>
+         </div>
+         <div class="container" id="docLinksList">
+         <small class="text-info mb-0">attached files</small>
+         ${showTaskFiles(myDeadlineCrossed[key].data.doc)}
          </div>
     </div>
     <div class="col-md-6 my-auto text-right">
@@ -360,6 +391,10 @@ function renderTasksApproval(){
          <small class="text-info mb-0">Priority</small>
          <p style="font-size: 0.9em;">${myUnapproved[key].data.priority}</p>
          </div>
+         <div class="container" id="docLinksList">
+         <small class="text-info mb-0">attached files</small>
+         ${showTaskFiles(myUnapproved[key].data.doc)}
+         </div>
     </div>
     <div class="col-md-6 my-auto text-right">
     <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
@@ -425,6 +460,10 @@ function renderAssignedTasks(){
          <div class="container">
          <small class="text-info mb-0">Priority</small>
          <p style="font-size: 0.9em;">${myAssigned[key].data.priority}</p>
+         </div>
+         <div class="container" id="docLinksList">
+         <small class="text-info mb-0">attached files</small>
+         ${showTaskFiles(myAssigned[key].data.doc)}
          </div>
     </div>
     <div class="col-md-6 my-auto text-right">
@@ -518,6 +557,7 @@ $(document).ready(function(){
           $('.taskListDiv').hide();
           $('.svg-div').remove();
           $("#customFile")[0].value = null;
+          $("#fileLabel").text('choose upto 3 files');
           var cardName = $("[data='"+$(this).attr('data')+"'] h6").text();
           $("form h4").text("Task for "+cardName)
           assignedTo = ($(this).attr('data'));
@@ -971,7 +1011,7 @@ document.getElementById('signout').addEventListener('click', () => {
 
 
 
-  // TODO: assign a task
+  // assign a task
   $('#taskForm').on('submit',function(e){
     e.preventDefault();
     let taskName = $('#taskName').val();
@@ -1031,7 +1071,7 @@ document.getElementById('signout').addEventListener('click', () => {
                     toastr['error']('Error uploading files', error.code);
               }, function() {
                 uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                  docLinks == undefined? docLinks = downloadURL : docLinks += downloadURL+",";
+                  docLinks == undefined? docLinks = "`"+file.name+"`"+downloadURL : docLinks += "`"+file.name+"`"+downloadURL;
                   count++;
                     if(count == $("#customFile")[0].files.length){
                         // Add a new document in collection "tasks"
