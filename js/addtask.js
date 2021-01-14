@@ -269,9 +269,9 @@ function updationFromDB(){
           }
         });
         resetOldTasks();
-        if((Object.keys(myCompleted).length != Object.keys(copyCompleted).length) || (Object.keys(myIncompleted).length != Object.keys(copyIncompleted).length) || (Object.keys(myDeadlineCrossed).length != Object.keys(copyDeadlineCrossed).length) ){
+        // if((Object.keys(myCompleted).length != Object.keys(copyCompleted).length) || (Object.keys(myIncompleted).length != Object.keys(copyIncompleted).length) || (Object.keys(myDeadlineCrossed).length != Object.keys(copyDeadlineCrossed).length) ){
           updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
-        }
+        // }
         if($("#filterTask").val()){
             switch($('#filterTask').val()) {
               case 'incompleted':
@@ -300,6 +300,7 @@ function updationFromDB(){
 
   }).catch(function(error) {
     console.log("Error getting document:", error);});
+
 }
 
 function renderIncompleted(){
