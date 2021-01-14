@@ -14,6 +14,9 @@ var myClicked= {};
 var myDeadlineCrossed= {};
 var myCompleted= {};
 var myIncompleted= {};
+var copyDeadlineCrossed= {};
+var copyCompleted= {};
+var copyIncompleted= {};
 var myAssigned= {};
 
 var svgClone = $(".svg-div").clone(); // making zeh' clones!
@@ -21,7 +24,7 @@ var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
 
 
-function updateChart(completed,incompleted,deadlineCrossed){
+var updateChart = function(completed,incompleted,deadlineCrossed){
   $('#completedTask').text(completed);
   $('#incompletedTask').text(incompleted);
   $('#deadlineCrossed').text(deadlineCrossed);
@@ -189,7 +192,6 @@ var resetOldTasks = function() {
 }
 
 function updationFromDB(){
-  firstEntered = true;
   myUnapproved= {};
   myDeadlineCrossed= {};
   myCompleted= {};
@@ -233,6 +235,7 @@ function updationFromDB(){
                 }
                 if(assignedTo == auth.currentUser.email){
                     myIncompleted[change.doc.id]= {data};
+                    copyIncompleted[change.doc.id]= {data};
                 }
               }
               // collect completed tasks
@@ -240,6 +243,7 @@ function updationFromDB(){
                 assignedTo = docSplitter[0].split(">")[1];
                 if(assignedTo == auth.currentUser.email){
                     myCompleted[change.doc.id]= {data};
+                    copyCompleted[change.doc.id]= {data};
                 }
               }
               // collect deadline crossed tasks
@@ -247,6 +251,7 @@ function updationFromDB(){
                 assignedTo = docSplitter[0].split("<")[1];
                 if(assignedTo == auth.currentUser.email){
                     myDeadlineCrossed[change.doc.id]= {data};
+                    copyDeadlineCrossed[change.doc.id]= {data};
                 }
               }
               // collect tasks that you have unapproved
@@ -263,7 +268,10 @@ function updationFromDB(){
           }
         });
         resetOldTasks();
-        updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
+        if(firstEntered == false || (Object.keys(myCompleted).length != Object.keys(copyCompleted).length) || (Object.keys(myIncompleted).length != Object.keys(copyIncompleted).length) || (Object.keys(myDeadlineCrossed).length != Object.keys(copyDeadlineCrossed).length) ){
+          updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
+        }
+        firstEntered = true;
         if($("#filterTask").val()){
             switch($('#filterTask').val()) {
               case 'incompleted':
@@ -292,7 +300,6 @@ function updationFromDB(){
 
   }).catch(function(error) {
     console.log("Error getting document:", error);});
-
 }
 
 function renderIncompleted(){
