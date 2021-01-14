@@ -198,72 +198,74 @@ function updationFromDB(){
   myCompleted= {};
   myIncompleted= {};
   myAssigned= {};
+  myClicked= {};
+
   db.collection("tasks").get().then(function(snap) {
     taskSnapshot = snap;}).then(function() {
       if(taskSnapshot != null){
         console.log(taskSnapshot.docChanges())
-        taskSnapshot.docChanges().forEach(function(change) {
-          let data = change.doc.data()
-          offlineDB[change.doc.id]= {data};
+        taskSnapshot.forEach(function(doc) {
+          let data = doc.data()
+          offlineDB[doc.id]= {data};
           var assignedBy;
-          var docSplitter = change.doc.id.split(",");
-           if(change.doc.id == 'crnt_month'){
+          var docSplitter = doc.id.split(",");
+           if(doc.id == 'crnt_month'){
              currentMonthInfo = {
-               "month":change.doc.data().month,
-               "totalCompleted":change.doc.data().totalCompleted,
-               "totalDeadlineCrossed":change.doc.data().totalDeadlineCrossed,
-               "totalIncompleted":change.doc.data().totalIncompleted,
-               "totalTasks":change.doc.data().totalTasks
+               "month":doc.data().month,
+               "totalCompleted":doc.data().totalCompleted,
+               "totalDeadlineCrossed":doc.data().totalDeadlineCrossed,
+               "totalIncompleted":doc.data().totalIncompleted,
+               "totalTasks":doc.data().totalTasks
               };
            }
-           if(change.doc.id == 'prev_month'){
+           if(doc.id == 'prev_month'){
              prevMonthInfo = {
-               "month":change.doc.data().month,
-               "totalCompleted":change.doc.data().totalCompleted,
-               "totalDeadlineCrossed":change.doc.data().totalDeadlineCrossed,
-               "totalIncompleted":change.doc.data().totalIncompleted,
-               "totalTasks":change.doc.data().totalTasks
+               "month":doc.data().month,
+               "totalCompleted":doc.data().totalCompleted,
+               "totalDeadlineCrossed":doc.data().totalDeadlineCrossed,
+               "totalIncompleted":doc.data().totalIncompleted,
+               "totalTasks":doc.data().totalTasks
               };
            }
 
-           if(change.doc.id != 'prev_month' && change.doc.id != 'crnt_month'){
+           if(doc.id != 'prev_month' && doc.id != 'crnt_month'){
               // collect incompleted and assigned tasks
-              if(change.doc.id.indexOf(':') !== -1){
+              if(doc.id.indexOf(':') !== -1){
                 assignedBy = docSplitter[0].split(":")[0];
                 var assignedTo = docSplitter[0].split(":")[1];
                 if(assignedBy == auth.currentUser.email){
-                    myAssigned[change.doc.id]= {data};
+                    myAssigned[doc.id]= {data};
                 }
                 if(assignedTo == auth.currentUser.email){
-                    myIncompleted[change.doc.id]= {data};
-                    copyIncompleted[change.doc.id]= {data};
+                    myIncompleted[doc.id]= {data};
+                    copyIncompleted[doc.id]= {data};
                 }
               }
               // collect completed tasks
-              if(change.doc.id.indexOf('>') !== -1){
+              if(doc.id.indexOf('>') !== -1){
                 assignedTo = docSplitter[0].split(">")[1];
                 if(assignedTo == auth.currentUser.email){
-                    myCompleted[change.doc.id]= {data};
-                    copyCompleted[change.doc.id]= {data};
+                    myCompleted[doc.id]= {data};
+                    copyCompleted[doc.id]= {data};
                 }
               }
               // collect deadline crossed tasks
-              if(change.doc.id.indexOf('<') !== -1){
+              if(doc.id.indexOf('<') !== -1){
                 assignedTo = docSplitter[0].split("<")[1];
                 if(assignedTo == auth.currentUser.email){
-                    myDeadlineCrossed[change.doc.id]= {data};
-                    copyDeadlineCrossed[change.doc.id]= {data};
+                    myDeadlineCrossed[doc.id]= {data};
+                    copyDeadlineCrossed[doc.id]= {data};
                 }
               }
               // collect tasks that you have unapproved
-              if(change.doc.id.indexOf('|') !== -1){
+              if(doc.id.indexOf('|') !== -1){
                 assignedBy = docSplitter[0].split("|")[0];
                 assignedTo = docSplitter[0].split("|")[1];
                 if(assignedBy == auth.currentUser.email){
-                    myUnapproved[change.doc.id]= {data};
+                    myUnapproved[doc.id]= {data};
                 }
                 if(assignedTo == auth.currentUser.email){
-                    myClicked[change.doc.id]= {data};
+                    myClicked[doc.id]= {data};
                 }
               }
           }
@@ -273,31 +275,28 @@ function updationFromDB(){
           updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
         // }
         if($("#filterTask").val()){
-            switch($('#filterTask').val()) {
-              case 'incompleted':
-                renderIncompleted();
-                  break;
-                case 'completed':
-                  renderCompleted();
-                  break;
-                case 'deadlineCrossed':
-                  renderDeadlineCrossed();
-                  break;
-                case 'unapproved':
-                  renderUnapproved();
-                  break;
-                case 'assignedTasks':
-                  renderAssignedTasks();
-                  break;
-                case 'tasksApproval':
-                  renderTasksApproval();
-                  break;
-                case 'unapproved':
-                  $("#taskHeading").text('Your unapproved tasks');
-                  break;
-                default:
-                  // code block
-              }
+          switch($('#filterTask').val()) {
+            case 'incompleted':
+              renderIncompleted();
+                break;
+              case 'completed':
+                renderCompleted();
+                break;
+              case 'deadlineCrossed':
+                renderDeadlineCrossed();
+                break;
+              case 'unapproved':
+                renderUnapproved();
+                break;
+              case 'assignedTasks':
+                renderAssignedTasks();
+                break;
+              case 'tasksApproval':
+                renderTasksApproval();
+                break;
+              default:
+                // code block
+            }
         }
       }
 
