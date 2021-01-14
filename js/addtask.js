@@ -40,8 +40,7 @@ function updateChart(completed,incompleted,deadlineCrossed){
   else{
     $('#status').text('average')
   }
-
-  let myChart = new Chart(ctx,{
+  new Chart(ctx,{
 
     type: 'doughnut',
     data:{
@@ -110,6 +109,7 @@ function getNotified(snapshot){
         // collect completed tasks
         if(change.doc.id.indexOf('>') !== -1){
           assignedTo = docSplitter[0].split(">")[1];
+          assignedBy = docSplitter[0].split(">")[0];
           if(assignedTo == auth.currentUser.email){
             toastr['success']($("[data='"+assignedBy+"'] h6").text()+' have approved your task','Your task is approved');
           }
@@ -117,6 +117,7 @@ function getNotified(snapshot){
         // collect deadline crossed tasks
         if(change.doc.id.indexOf('<') !== -1){
           assignedTo = docSplitter[0].split("<")[1];
+          assignedBy = docSplitter[0].split("<")[0];
           if(assignedTo == auth.currentUser.email){
             toastr['error']($("[data='"+assignedBy+"'] h6").text()+"'s given task crossed the deadline','Your task deadline expired");
           }
@@ -677,8 +678,29 @@ function renderTasksApproval(){
 
   $(".clickToApprove").on("click", function(){
     var clickedTaskId =  $(this).closest(".card").attr('data');
-alert(clickedTaskId)
-});
+    var docSplitter = clickedTaskId.split(",");
+      var time = docSplitter[1];
+      var tempdata = copyToTemp(clickedTaskId);
+      var assignedBy = docSplitter[0].split("|")[0];
+      var assignedTo = docSplitter[0].split("|")[1];
+      //console.log(copyToTemp(clickedTaskId).name) 
+      db.collection("tasks").doc(clickedTaskId).delete().then(function() {
+        db.collection("tasks").doc(assignedBy+'>'+assignedTo+','+time).set({
+          description: tempdata.description,
+          start: tempdata.start,
+          name: tempdata.name,
+          doc: tempdata.doc,
+          priority: tempdata.priority
+        })
+        .then(function() {
+        })
+        .catch(function(error) {
+          console.error("Error writing document: ", error);
+        });
+      }).catch(function(error) {
+        console.error("Error removing document: ", error);
+      });
+  });
 }
 
 function renderAssignedTasks(){
