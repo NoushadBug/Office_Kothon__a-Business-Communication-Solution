@@ -192,6 +192,7 @@ var resetOldTasks = function() {
 }
 
 function updationFromDB(){
+  firstEntered = true;
   myUnapproved= {};
   myDeadlineCrossed= {};
   myCompleted= {};
@@ -268,10 +269,9 @@ function updationFromDB(){
           }
         });
         resetOldTasks();
-        if(firstEntered == false || (Object.keys(myCompleted).length != Object.keys(copyCompleted).length) || (Object.keys(myIncompleted).length != Object.keys(copyIncompleted).length) || (Object.keys(myDeadlineCrossed).length != Object.keys(copyDeadlineCrossed).length) ){
+        if((Object.keys(myCompleted).length != Object.keys(copyCompleted).length) || (Object.keys(myIncompleted).length != Object.keys(copyIncompleted).length) || (Object.keys(myDeadlineCrossed).length != Object.keys(copyDeadlineCrossed).length) ){
           updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
         }
-        firstEntered = true;
         if($("#filterTask").val()){
             switch($('#filterTask').val()) {
               case 'incompleted':
