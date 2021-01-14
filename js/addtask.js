@@ -292,6 +292,9 @@ function updationFromDB(){
                 case 'tasksApproval':
                   renderTasksApproval();
                   break;
+                case 'unapproved':
+                  $("#taskHeading").text('Your unapproved tasks');
+                  break;
                 default:
                   // code block
               }
