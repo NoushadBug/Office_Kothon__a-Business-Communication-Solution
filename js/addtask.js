@@ -20,6 +20,77 @@ var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
 
+
+function updateChart(completed,incompleted,deadlineCrossed){
+  $('#completedTask').text(completed);
+  $('#incompletedTask').text(incompleted);
+  $('#deadlineCrossed').text(deadlineCrossed);
+  Chart.defaults.global.legend.labels.usePointStyle = true; 
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let labels = ['completed','incompleted','deadline cross'];
+  let colorHex = ['#253D5B','#EFCA08','#FB3640'];
+  let total = parseInt($('#completedTask').text())+parseInt($('#incompletedTask').text())+parseInt($('#deadlineCrossed').text())
+  let completedTask = Math.round(parseInt($('#completedTask').text()) / total * 100);
+  if(completedTask>50) {
+    $('#status').text('good')
+  }
+  else if(completedTask<30) {
+    $('#status').text('bad')
+  }
+  else{
+    $('#status').text('average')
+  }
+
+  let myChart = new Chart(ctx,{
+
+    type: 'doughnut',
+    data:{
+      datasets:[
+        {
+          data:[$('#completedTask').text(),$('#incompletedTask').text(),$('#deadlineCrossed').text()],
+          backgroundColor:colorHex,
+          borderColor: '#393c45'
+        }
+      ],
+      labels:labels,
+      
+    },
+    options:{
+      responsive: true,
+      maintainAspectRatio: true,
+      circular: true,
+      legend:{
+        display: true,
+        position: 'bottom',
+        usePointStyle: true,
+        pointStyle: 'd'
+      },
+       plugins:{
+       datalabels:{
+         color : 'white',
+         anchor:'end',
+         align:'start',
+         offset:-10,
+         borderWidth:2,
+         borderColor:'#2e3035',
+         borderRadius:25,
+         backgroundColor:(context)=>{
+           return 'darkslategrey';
+         },
+         font:{
+           weight:'bold',
+           size:'13'
+         },
+         formatter:(value)=>{
+           return Math.round(value / total * 100) + ' %';
+         }
+       }
+     }
+    }
+
+  })
+}
+
 function getNotified(snapshot){
   snapshot.docChanges().forEach(function(change) {
     var docSplitter = change.doc.id.split(",");
@@ -191,6 +262,7 @@ function updationFromDB(){
           }
         });
         resetOldTasks();
+        updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
         if($("#filterTask").val()){
             switch($('#filterTask').val()) {
               case 'incompleted':
@@ -548,7 +620,7 @@ function renderTasksApproval(){
       </div>
       <div class="my-auto"><a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
     </div>
-    <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill" style="font-size: 0.8em;" id="clickToApprove${index}">approve</div>
+    <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill clickToApprove" style="font-size: 0.8em;">approve</div>
     <!-- Modal -->
 <div class="modal fade" id="task${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -601,6 +673,12 @@ function renderTasksApproval(){
   </div>
   </div>`).appendTo('#scrollbar');
   });
+
+
+  $(".clickToApprove").on("click", function(){
+    var clickedTaskId =  $(this).closest(".card").attr('data');
+alert(clickedTaskId)
+});
 }
 
 function renderAssignedTasks(){
@@ -971,70 +1049,6 @@ document.getElementById('signout').addEventListener('click', () => {
     }
     
   });
-
-  Chart.defaults.global.legend.labels.usePointStyle = true; 
-  let ctx = document.getElementById('myChart').getContext('2d');
-  let labels = ['completed','incompleted','deadline cross'];
-  let colorHex = ['#253D5B','#EFCA08','#FB3640'];
-  let total = parseInt($('#completedTask').text())+parseInt($('#incompletedTask').text())+parseInt($('#deadlineCrossed').text())
-  let completedTask = Math.round(parseInt($('#completedTask').text()) / total * 100);
-  if(completedTask>50) {
-    $('#status').text('good')
-  }
-  else if(completedTask<30) {
-    $('#status').text('bad')
-  }
-  else{
-    $('#status').text('average')
-  }
-
-  let myChart = new Chart(ctx,{
-
-    type: 'doughnut',
-    data:{
-      datasets:[
-        {
-          data:[$('#completedTask').text(),$('#incompletedTask').text(),$('#deadlineCrossed').text()],
-          backgroundColor:colorHex,
-          borderColor: '#393c45'
-        }
-      ],
-      labels:labels,
-      
-    },
-    options:{
-      responsive: false,
-      circular: true,
-      legend:{
-        display: true,
-        position: 'bottom',
-        usePointStyle: true,
-        pointStyle: 'd'
-      },
-       plugins:{
-       datalabels:{
-         color : 'white',
-         anchor:'end',
-         align:'start',
-         offset:-10,
-         borderWidth:2,
-         borderColor:'#2e3035',
-         borderRadius:25,
-         backgroundColor:(context)=>{
-           return 'darkslategrey';
-         },
-         font:{
-           weight:'bold',
-           size:'13'
-         },
-         formatter:(value)=>{
-           return Math.round(value / total * 100) + ' %';
-         }
-       }
-     }
-    }
-
-  })
 
 // TODO: file size not more than 10mb
   // File validation
