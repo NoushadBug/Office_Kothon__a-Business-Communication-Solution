@@ -2,7 +2,6 @@
   font-family: 'Montserrat', sans-serif !important;
 }
 body{
-  overflow: hidden;
 }
 .typewriter {
   --blue: #5C86FF;
@@ -385,11 +384,11 @@ margin-top: 4vh;
   margin: 0 auto;
 
 }
-#myChart
+/* #myChart
 {
-  width: 180%;
-  margin-left: -39.5%;
-}
+  width: 160%;
+  margin-left: -28.5%;
+} */
 
 .card img{
   border-radius: 50% !important;

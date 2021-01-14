@@ -14,11 +14,84 @@ var myClicked= {};
 var myDeadlineCrossed= {};
 var myCompleted= {};
 var myIncompleted= {};
+var copyDeadlineCrossed= {};
+var copyCompleted= {};
+var copyIncompleted= {};
 var myAssigned= {};
 
 var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
+
+
+var updateChart = function(completed,incompleted,deadlineCrossed){
+  $('#completedTask').text(completed);
+  $('#incompletedTask').text(incompleted);
+  $('#deadlineCrossed').text(deadlineCrossed);
+  Chart.defaults.global.legend.labels.usePointStyle = true; 
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let labels = ['completed','incompleted','deadline cross'];
+  let colorHex = ['#253D5B','#EFCA08','#FB3640'];
+  let total = parseInt($('#completedTask').text())+parseInt($('#incompletedTask').text())+parseInt($('#deadlineCrossed').text())
+  let completedTask = Math.round(parseInt($('#completedTask').text()) / total * 100);
+  if(completedTask>50) {
+    $('#status').text('good')
+  }
+  else if(completedTask<30) {
+    $('#status').text('bad')
+  }
+  else{
+    $('#status').text('average')
+  }
+  new Chart(ctx,{
+
+    type: 'doughnut',
+    data:{
+      datasets:[
+        {
+          data:[$('#completedTask').text(),$('#incompletedTask').text(),$('#deadlineCrossed').text()],
+          backgroundColor:colorHex,
+          borderColor: '#393c45'
+        }
+      ],
+      labels:labels,
+      
+    },
+    options:{
+      responsive: true,
+      maintainAspectRatio: true,
+      circular: true,
+      legend:{
+        display: true,
+        position: 'bottom',
+        usePointStyle: true,
+        pointStyle: 'd'
+      },
+       plugins:{
+       datalabels:{
+         color : 'white',
+         anchor:'end',
+         align:'start',
+         offset:-10,
+         borderWidth:2,
+         borderColor:'#2e3035',
+         borderRadius:25,
+         backgroundColor:(context)=>{
+           return 'darkslategrey';
+         },
+         font:{
+           weight:'bold',
+           size:'13'
+         },
+         formatter:(value)=>{
+           return Math.round(value / total * 100) + ' %';
+         }
+       }
+     }
+    }
+
+  })
+}
 
 function getNotified(snapshot){
   snapshot.docChanges().forEach(function(change) {
@@ -39,6 +112,7 @@ function getNotified(snapshot){
         // collect completed tasks
         if(change.doc.id.indexOf('>') !== -1){
           assignedTo = docSplitter[0].split(">")[1];
+          assignedBy = docSplitter[0].split(">")[0];
           if(assignedTo == auth.currentUser.email){
             toastr['success']($("[data='"+assignedBy+"'] h6").text()+' have approved your task','Your task is approved');
           }
@@ -46,6 +120,7 @@ function getNotified(snapshot){
         // collect deadline crossed tasks
         if(change.doc.id.indexOf('<') !== -1){
           assignedTo = docSplitter[0].split("<")[1];
+          assignedBy = docSplitter[0].split("<")[0];
           if(assignedTo == auth.currentUser.email){
             toastr['error']($("[data='"+assignedBy+"'] h6").text()+"'s given task crossed the deadline','Your task deadline expired");
           }
@@ -117,7 +192,6 @@ var resetOldTasks = function() {
 }
 
 function updationFromDB(){
-  firstEntered = true;
   myUnapproved= {};
   myDeadlineCrossed= {};
   myCompleted= {};
@@ -161,6 +235,7 @@ function updationFromDB(){
                 }
                 if(assignedTo == auth.currentUser.email){
                     myIncompleted[change.doc.id]= {data};
+                    copyIncompleted[change.doc.id]= {data};
                 }
               }
               // collect completed tasks
@@ -168,6 +243,7 @@ function updationFromDB(){
                 assignedTo = docSplitter[0].split(">")[1];
                 if(assignedTo == auth.currentUser.email){
                     myCompleted[change.doc.id]= {data};
+                    copyCompleted[change.doc.id]= {data};
                 }
               }
               // collect deadline crossed tasks
@@ -175,6 +251,7 @@ function updationFromDB(){
                 assignedTo = docSplitter[0].split("<")[1];
                 if(assignedTo == auth.currentUser.email){
                     myDeadlineCrossed[change.doc.id]= {data};
+                    copyDeadlineCrossed[change.doc.id]= {data};
                 }
               }
               // collect tasks that you have unapproved
@@ -191,6 +268,10 @@ function updationFromDB(){
           }
         });
         resetOldTasks();
+        if(firstEntered == false || (Object.keys(myCompleted).length != Object.keys(copyCompleted).length) || (Object.keys(myIncompleted).length != Object.keys(copyIncompleted).length) || (Object.keys(myDeadlineCrossed).length != Object.keys(copyDeadlineCrossed).length) ){
+          updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
+        }
+        firstEntered = true;
         if($("#filterTask").val()){
             switch($('#filterTask').val()) {
               case 'incompleted':
@@ -219,7 +300,6 @@ function updationFromDB(){
 
   }).catch(function(error) {
     console.log("Error getting document:", error);});
-
 }
 
 function renderIncompleted(){
@@ -548,7 +628,7 @@ function renderTasksApproval(){
       </div>
       <div class="my-auto"><a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
     </div>
-    <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill" style="font-size: 0.8em;" id="clickToApprove${index}">approve</div>
+    <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill clickToApprove" style="font-size: 0.8em;">approve</div>
     <!-- Modal -->
 <div class="modal fade" id="task${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -600,6 +680,33 @@ function renderTasksApproval(){
   </div>
   </div>
   </div>`).appendTo('#scrollbar');
+  });
+
+
+  $(".clickToApprove").on("click", function(){
+    var clickedTaskId =  $(this).closest(".card").attr('data');
+    var docSplitter = clickedTaskId.split(",");
+      var time = docSplitter[1];
+      var tempdata = copyToTemp(clickedTaskId);
+      var assignedBy = docSplitter[0].split("|")[0];
+      var assignedTo = docSplitter[0].split("|")[1];
+      //console.log(copyToTemp(clickedTaskId).name) 
+      db.collection("tasks").doc(clickedTaskId).delete().then(function() {
+        db.collection("tasks").doc(assignedBy+'>'+assignedTo+','+time).set({
+          description: tempdata.description,
+          start: tempdata.start,
+          name: tempdata.name,
+          doc: tempdata.doc,
+          priority: tempdata.priority
+        })
+        .then(function() {
+        })
+        .catch(function(error) {
+          console.error("Error writing document: ", error);
+        });
+      }).catch(function(error) {
+        console.error("Error removing document: ", error);
+      });
   });
 }
 
@@ -971,70 +1078,6 @@ document.getElementById('signout').addEventListener('click', () => {
     }
     
   });
-
-  Chart.defaults.global.legend.labels.usePointStyle = true; 
-  let ctx = document.getElementById('myChart').getContext('2d');
-  let labels = ['completed','incompleted','deadline cross'];
-  let colorHex = ['#253D5B','#EFCA08','#FB3640'];
-  let total = parseInt($('#completedTask').text())+parseInt($('#incompletedTask').text())+parseInt($('#deadlineCrossed').text())
-  let completedTask = Math.round(parseInt($('#completedTask').text()) / total * 100);
-  if(completedTask>50) {
-    $('#status').text('good')
-  }
-  else if(completedTask<30) {
-    $('#status').text('bad')
-  }
-  else{
-    $('#status').text('average')
-  }
-
-  let myChart = new Chart(ctx,{
-
-    type: 'doughnut',
-    data:{
-      datasets:[
-        {
-          data:[$('#completedTask').text(),$('#incompletedTask').text(),$('#deadlineCrossed').text()],
-          backgroundColor:colorHex,
-          borderColor: '#393c45'
-        }
-      ],
-      labels:labels,
-      
-    },
-    options:{
-      responsive: false,
-      circular: true,
-      legend:{
-        display: true,
-        position: 'bottom',
-        usePointStyle: true,
-        pointStyle: 'd'
-      },
-       plugins:{
-       datalabels:{
-         color : 'white',
-         anchor:'end',
-         align:'start',
-         offset:-10,
-         borderWidth:2,
-         borderColor:'#2e3035',
-         borderRadius:25,
-         backgroundColor:(context)=>{
-           return 'darkslategrey';
-         },
-         font:{
-           weight:'bold',
-           size:'13'
-         },
-         formatter:(value)=>{
-           return Math.round(value / total * 100) + ' %';
-         }
-       }
-     }
-    }
-
-  })
 
 // TODO: file size not more than 10mb
   // File validation
