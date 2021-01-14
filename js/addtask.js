@@ -1,5 +1,6 @@
 var docLinks;
 var assignedTO;
+var deadlineCrossedDatas= {};
 var firstEntered = false;
 var reloadChart = true;
 var taskSnapshot = null;
@@ -24,6 +25,31 @@ var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
 
+function updateDealineCrossedTask(){
+  Object.keys(deadlineCrossedDatas).forEach(function(doc) {
+   // alert(doc+' => ' +deadlineCrossedDatas[doc].data.name)
+   var docSplitter = doc.split(",");
+   var assignedTo = docSplitter[0].split(">")[1];
+   var assignedBy = docSplitter[0].split(">")[0];
+   db.collection("tasks").doc(doc).delete().then(function() {
+    db.collection("tasks").doc(assignedBy+'<'+assignedTo+','+time).set({
+      description: deadlineCrossedDatas[doc].data.description,
+      start: deadlineCrossedDatas[doc].data.start,
+      name: deadlineCrossedDatas[doc].data.name,
+      doc: deadlineCrossedDatas[doc].data.doc,
+      priority: deadlineCrossedDatas[doc].data.priority
+    })
+    .then(function() {
+    
+    })
+    .catch(function(error) {
+      console.error("Error writing document: ", error);
+    });
+  }).catch(function(error) {
+    console.error("Error removing document: ", error);
+  });
+  });
+}
 
 var updateChart = function(completed,incompleted,deadlineCrossed){
   $('#completedTask').text(completed);
@@ -199,6 +225,7 @@ function updationFromDB(){
   myIncompleted= {};
   myAssigned= {};
   myClicked= {};
+  deadlineCrossedDatas= {};
 
   db.collection("tasks").get().then(function(snap) {
     taskSnapshot = snap;}).then(function() {
@@ -206,15 +233,13 @@ function updationFromDB(){
         console.log(taskSnapshot.docChanges())
         taskSnapshot.forEach(function(doc) {
           if((Object.keys(myCompleted).length != Object.keys(copyCompleted).length) || (Object.keys(myIncompleted).length != Object.keys(copyIncompleted).length) || (Object.keys(myDeadlineCrossed).length != Object.keys(copyDeadlineCrossed).length) ){
-            reloadChart = true;
-          }
-          else{
-            reloadChart = false;
-          }
+            reloadChart = true;}else{reloadChart = false;}
           let data = doc.data()
           offlineDB[doc.id]= {data};
           var assignedBy;
           var docSplitter = doc.id.split(",");
+          var time = new Date(parseInt(docSplitter[1])).getTime();
+          if(new Date() > time){ deadlineCrossedDatas[doc.id]= {data}; }
            if(doc.id == 'crnt_month'){
              currentMonthInfo = {
                "month":doc.data().month,
@@ -276,6 +301,7 @@ function updationFromDB(){
               }
           }
         });
+        if(Object.keys(deadlineCrossedDatas).length>0) {updateDealineCrossedTask();}
         resetOldTasks();
         if(firstEntered == false || reloadChart){
           updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
@@ -1271,6 +1297,9 @@ document.getElementById('signout').addEventListener('click', () => {
 db.collection("tasks").onSnapshot(function(snapshot) {
   if(firstEntered != false){
     getNotified(snapshot);
+  }
+  else{
+    //alert('sd')
   }
   updationFromDB();
 });
