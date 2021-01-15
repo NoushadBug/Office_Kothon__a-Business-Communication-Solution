@@ -34,26 +34,10 @@ function dateDiffInDays(a, b) {
   return diffDays;
 }
 
-
 function deleteOldTasks(){
   Object.keys(deletableTasks).forEach(function(doc) {
    // alert(doc+' => ' +deletableTasks[doc].data.name)
-   var docSplitter = doc.split(",");
-   var assignedTo = docSplitter[0].split(">")[1];
-   var assignedBy = docSplitter[0].split(">")[0];
    db.collection("tasks").doc(doc).delete().then(function() {
-    db.collection("tasks").doc(assignedBy+'<'+assignedTo+','+time).set({
-      description: deletableTasks[doc].data.description,
-      start: deletableTasks[doc].data.start,
-      name: deletableTasks[doc].data.name,
-      doc: deletableTasks[doc].data.doc,
-      priority: deletableTasks[doc].data.priority
-    })
-    .then(function() {
-    })
-    .catch(function(error) {
-      console.error("Error writing document: ", error);
-    });
   }).catch(function(error) {
     console.error("Error removing document: ", error);
   });
@@ -249,7 +233,7 @@ function updationFromDB(){
           var time = new Date(parseInt(docSplitter[1])).getTime();
 
 
-          if(doc.id.indexOf('>') !== -1 || doc.id.indexOf('|') !== -1){
+          if(doc.id.indexOf('>') !== -1 || doc.id.indexOf('<') !== -1){
             if(dateDiffInDays(new Date(),time) > 15){ deletableTasks[doc.id]= {data}; }
           }
            if(doc.id == 'crnt_month'){
