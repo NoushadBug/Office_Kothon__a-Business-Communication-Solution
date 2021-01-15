@@ -1,11 +1,7 @@
-function renderList()
+function renderList(snapshot)
 {
-  $('#accordion').empty();
-  db.collection("notice").get()
-  .then(function(querySnapshot)
-  {
     var index = -1;
-    querySnapshot.forEach(function(doc)
+    snapshot.forEach(function(doc)
     {
       index++;
       $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${doc.id}" style="">
@@ -19,9 +15,9 @@ function renderList()
         <div class="header-side col-6 m-auto">
           <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
             <i class="fa fa-paperclip text-secondary "></i>
-            <span aria-label="High" data-microtip-position="left" role="tooltip"><span aria-label="High"
+            <span aria-label="${doc.data().priority}"
                 data-microtip-position="left" role="tooltip"><i
-                  class="fa fa-bolt text-warning"></i></span></span>
+                  class="fa fa-bolt text-warning"></i></span>
             <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
 
           </div>
@@ -50,7 +46,6 @@ function renderList()
     </div>`).appendTo('#accordion');
     });
   $('.loader').fadeOut('slow');
-  })
 
 }
 
@@ -66,7 +61,6 @@ $(document).ready(function () {
   $(".picker").hide(); 
   $('#taskformbar').on('submit',function(e){
     e.preventDefault();
-    alert('button press');
     let tasktitle = $('#taskName').val();
     let taskdetails = $('#taskDetails').val();
     let posttype = $('#add_fields_placeholder').val();
@@ -385,9 +379,6 @@ $('#startDate').datePicker({
 
 
 db.collection("notice").onSnapshot(function(snapshot) {
-  renderList();
+  renderList(snapshot);
 });
-
-
-  
 })
