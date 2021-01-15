@@ -1,52 +1,217 @@
-function renderList(snapshot)
+var totalEvent;
+var totalMeeting;
+var totalNotice;
+var totalLow;
+var totalHard;
+var totalModerate;
+
+function updateCharts(){
+  // chart js implementation
+var ctx = document.getElementById('myChart').getContext('2d');
+new Chart(ctx, {
+   // The type of chart we want to create
+   type: 'horizontalBar',
+
+   // The data for our dataset
+   data: {
+       labels: ['Event', 'Meeting', 'Notice' ],
+       datasets: [{
+          
+           backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
+          
+           data: [totalEvent, totalMeeting, totalNotice],
+         
+       }]
+   },
+
+
+   // Configuration options go here
+   options: {
+     animation: 
+     {
+      duration : 2000,
+        
+     },
+  
+     
+     
+
+
+     
+     title: {
+       display: true,
+       text: 'Notice Types',
+       fontColor: "cyan",
+       fontSize: 19,
+       
+   },
+     
+     legend: {
+       display : false,
+        
+     },
+     scales: {
+       yAxes: [{
+           ticks: {
+               fontColor: "white",
+               fontSize: 10,
+               
+               beginAtZero: true
+           }
+       }],
+       xAxes: [{
+           ticks: {
+               fontColor: "white",
+               fontSize: 11,
+               
+               beginAtZero: true
+           }
+       }]
+   }
+   
+
+ }
+  
+});
+// chart js implementation
+var ctx1 = document.getElementById('myChart1').getContext('2d');
+new Chart(ctx1, {
+   // The type of chart we want to create
+   type: 'horizontalBar',
+
+   // The data for our dataset
+   data: {
+       labels: ['Hard', 'Moderate', 'Low', ],
+       datasets: [{
+           
+           backgroundColor: ['#6252E9','#F74301','#d1da1e'],
+           data: [totalHard, totalModerate, totalLow],
+       }]
+   },
+
+   options: {
+     
+     animation: 
+     {
+      duration : 2000,
+        
+     },
+     title: {
+       display: true,
+       text: 'Notice Priorities',
+       
+       fontColor: "cyan",
+       fontSize: 19,
+   },
+     
+     legend: {
+       display : false,
+        
+     },
+     scales: {
+       yAxes: [{
+           ticks: {
+             reverse: true,
+               
+               fontColor: "white",
+               fontSize: 10,
+             
+               beginAtZero: true
+           }
+       }],
+       xAxes: [{
+           ticks: {
+             reverse: true,
+               
+               fontColor: "white",
+               fontSize: 11,
+              
+               beginAtZero: true
+           }
+       }]
+   }
+
+ }
+});
+}
+
+function renderList(docs)
 {
-    var index = -1;
-    snapshot.forEach(function(doc)
-    {
-      index++;
-      $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${doc.id}" style="">
-      <div class="panel-heading p-3 row p-3 collapsed" href="#collapse${index}" data-toggle="collapse"
-        data-parent="#accordion" aria-expanded="false">
-        <div class="title-header col-6">
-          <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-          ${doc.data().title}
-          </h6>
-        </div>
-        <div class="header-side col-6 m-auto">
-          <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
-            <i class="fa fa-paperclip text-secondary "></i>
-            <span aria-label="${doc.data().priority}"
-                data-microtip-position="left" role="tooltip"><i
-                  class="fa fa-bolt text-warning"></i></span>
-            <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+    totalEvent = 0;
+    totalMeeting = 0;
+    totalNotice = 0;
+    totalLow = 0;
+    totalHard = 0;
+    totalModerate = 0;
 
+    $('#accordion').empty();
+      docs.forEach(function(doc, index)
+      {
+        switch(doc.data().postType.toLowerCase()){
+          case 'meeting':
+            totalMeeting++;
+          break;
+          case 'notice':
+            totalNotice++;
+          break;
+          case 'event':
+            totalEvent++;
+          break;
+        }
+
+        switch(doc.data().priority.toLowerCase()){
+          case 'low':
+            totalLow++;
+          break;
+          case 'moderate':
+            totalModerate++;
+          break;
+          case 'hard':
+            totalHard++;
+          break;
+        }
+
+        $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${doc.id}" style="">
+        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse${index}" data-toggle="collapse"
+          data-parent="#accordion" aria-expanded="false">
+          <div class="title-header col-6">
+            <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
+            ${doc.data().title}
+            </h6>
           </div>
-
+          <div class="header-side col-6 m-auto">
+            <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
+              <i class="fa fa-paperclip text-secondary "></i>
+              <span aria-label="${doc.data().priority}"
+                  data-microtip-position="left" role="tooltip"><i
+                    class="fa fa-bolt text-warning"></i></span>
+              <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+            </div>
+          </div>
+        </div>
+        <div id="collapse${index}" class="panel-collapse collapse in">
+          <div class="collapse-header row mt-3 mx-auto">
+            <div class="col-4">
+              <p> ${new Date(parseInt(doc.data().date)).toLocaleString()}</p>
+            </div>
+            <div class="status col-4">
+              <i class="fa fa-circle"></i>
+              <p class="d-inline"> ${doc.data().postType}</p>
+            </div>
+            <div class="view-button col-4">
+              <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
+            </div>
+          </div>
+          <div class="panel-body row mx-3 pb-3">
+          ${doc.data().description}
+          </div>
         </div>
       </div>
-      <div id="collapse${index}" class="panel-collapse collapse in">
-        <div class="collapse-header row mt-3 mx-auto">
-          <div class="col-4">
-            <p> ${new Date(parseInt(doc.data().date)).toLocaleString()}</p>
-          </div>
-          <div class="status col-4">
-            <i class="fa fa-circle"></i>
-            <p class="d-inline"> ${doc.data().postType}</p>
-          </div>
-          <div class="view-button col-4">
-            <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
-          </div>
-        </div>
-        <div class="panel-body row mx-3 pb-3">
-        ${doc.data().description}
-        </div>
-      </div>
-    </div>
-    
-    </div>`).appendTo('#accordion');
-    });
-  $('.loader').fadeOut('slow');
-
+      
+      </div>`).appendTo('#accordion');
+      });
+      $('.loader').fadeOut('slow');
+      updateCharts();
 }
 
 document.getElementById('signout').addEventListener('click', () => {
@@ -68,147 +233,37 @@ $(document).ready(function () {
     let EventDate = $('#startDate').val();
     // let FileUpload = $('.fileUpload').val();
     var docRef = db.collection("notice").doc();
-    docRef.set({
-      title: tasktitle,
-      description: taskdetails,
-      postType: posttype,
-      priority: selectedPriority,
-      file: 'null',
-      date : EventDate
-    }) .then(function() {
-      toastr['success']('Post created sucessfully');
-    }).catch(function(error) {
-      toastr['error']('Fail to create post', error.code);
-    });
-  })
+    if(posttype == 'Event'){
+      docRef.set({
+        title: tasktitle,
+        description: taskdetails,
+        postType: posttype,
+        priority: selectedPriority,
+        file: 'null',
+        EventDate: EventDate,
+        date : new Date().getTime()
+      }) .then(function() {
+        toastr['success']('Post created sucessfully');
+      }).catch(function(error) {
+        toastr['error']('Fail to create post', error.code);
+      });
+    }
+    else{
+      docRef.set({
+        title: tasktitle,
+        description: taskdetails,
+        postType: posttype,
+        priority: selectedPriority,
+        file: 'null',
+        date : new Date().getTime()
+      }) .then(function() {
+        toastr['success']('Post created sucessfully');
+      }).catch(function(error) {
+        toastr['error']('Fail to create post', error.code);
+      });
+    }
 
- // chart js implementation
- var ctx = document.getElementById('myChart').getContext('2d');
- new Chart(ctx, {
-     // The type of chart we want to create
-     type: 'horizontalBar',
- 
-     // The data for our dataset
-     data: {
-         labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
-         datasets: [{
-            
-             backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
-            
-             data: [15,10,5 ,2 , 0],
-           
-         }]
-     },
-  
- 
-     // Configuration options go here
-     options: {
-       animation: 
-       {
-        duration : 2000,
-          
-       },
-    
-       
-       
-  
- 
-       
-       title: {
-         display: true,
-         text: 'Current Month',
-         fontColor: "cyan",
-         fontSize: 19,
-         
-     },
-       
-       legend: {
-         display : false,
-          
-       },
-       scales: {
-         yAxes: [{
-             ticks: {
-                 fontColor: "white",
-                 fontSize: 10,
-                 
-                 beginAtZero: true
-             }
-         }],
-         xAxes: [{
-             ticks: {
-                 fontColor: "white",
-                 fontSize: 11,
-                 
-                 beginAtZero: true
-             }
-         }]
-     }
-     
- 
-   }
-    
- });
- // chart js implementation
- var ctx1 = document.getElementById('myChart1').getContext('2d');
- new Chart(ctx1, {
-     // The type of chart we want to create
-     type: 'horizontalBar',
- 
-     // The data for our dataset
-     data: {
-         labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
-         datasets: [{
-             
-             backgroundColor: ['#6252E9','#F74301','#d1da1e'],
-             data: [15,10,5 ,2 , 0],
-         }]
-     },
- 
-     options: {
-       
-       animation: 
-       {
-        duration : 2000,
-          
-       },
-       title: {
-         display: true,
-         text: 'Previous Month',
-         
-         fontColor: "cyan",
-         fontSize: 19,
-     },
-       
-       legend: {
-         display : false,
-          
-       },
-       scales: {
-         yAxes: [{
-             ticks: {
-               reverse: true,
-                 
-                 fontColor: "white",
-                 fontSize: 10,
-               
-                 beginAtZero: true
-             }
-         }],
-         xAxes: [{
-             ticks: {
-               reverse: true,
-                 
-                 fontColor: "white",
-                 fontSize: 11,
-                
-                 beginAtZero: true
-             }
-         }]
-     }
- 
-   }
- });
+  })
 
 $("#add_fields_placeholder").change(function() {
      if($(this).val() == "Event") {
@@ -379,6 +434,8 @@ $('#startDate').datePicker({
 
 
 db.collection("notice").onSnapshot(function(snapshot) {
-  renderList(snapshot);
+  console.log(snapshot)
+  renderList(snapshot.docs);
 });
+
 })
