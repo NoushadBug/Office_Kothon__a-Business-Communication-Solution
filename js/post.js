@@ -32,33 +32,14 @@ $(document).ready(function () {
       toastr['error']('Fail to create post', error.code);
     });
   }),
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   db.collection("notice").get()
   .then(function(querySnapshot)
   {
-    querySnapshot.forEach(function(doc ,index)
+    var index = -1;
+    querySnapshot.forEach(function(doc)
     {
-      $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" style="">
+      index++;
+      $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${doc.id}" style="">
       <div class="panel-heading p-3 row p-3 collapsed" href="#collapse${index}" data-toggle="collapse"
         data-parent="#accordion" aria-expanded="false">
         <div class="title-header col-6">
