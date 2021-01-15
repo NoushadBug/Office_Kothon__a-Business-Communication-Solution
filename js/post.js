@@ -1,37 +1,5 @@
-
-document.getElementById('signout').addEventListener('click', () => {
-  firebase.auth().signOut().then(() => {
-      localStorage.clear();
-      toastr['info']('You are signed out! ', 'see you soon');
-      });
-      window.location.replace("./index.html");
-  });
-
-$(document).ready(function () {
-  $(".picker").hide(); 
-  $('#postSubmit').on('submit',function(e){
-    e.preventDefault();
-    let tasktitle = $('#taskName').val();
-    let taskdetails = $('#taskDetails').val();
-    let posttype = $('#add_fields_placeholder:selected').text();
-    let selectedPriority = $('#selectedPriority:selected').text();
-    let EventDate = $('#startDate:selected').text();
-    let FileUpload = $('.fileUpload').val();
-    db.collection("notice").document().set({
-      title: tasktitle,
-      description: taskdetails,
-      postType: posttype,
-      priority: selectedPriority,
-      file: FileUpload,
-      date : EventDate
-    }) .then(function() {
-
-      toastr['success']('Post created sucessfully');
-  
-    }).catch(function(error) {
-      toastr['error']('Fail to create post', error.code);
-    });
-  }),
+function renderList()
+{
   db.collection("notice").get()
   .then(function(querySnapshot)
   {
@@ -82,21 +50,51 @@ $(document).ready(function () {
 
 
     });
-  }),
+  })
      
+
+}
+
+
+
+
+document.getElementById('signout').addEventListener('click', () => {
+  firebase.auth().signOut().then(() => {
+      localStorage.clear();
+      toastr['info']('You are signed out! ', 'see you soon');
+      });
+      window.location.replace("./index.html");
+  });
+
+$(document).ready(function () {
+  $('.loader').fadeOut('slow');
+  $(".picker").hide(); 
+  $('#taskformbar').on('submit',function(e){
+   
+    e.preventDefault();
+    alert('button press');
+    let tasktitle = $('#taskName').val();
+    let taskdetails = $('#taskDetails').val();
+    let posttype = $('#add_fields_placeholder').val();
+    let selectedPriority = $('#selectedPriority').val();
+    let EventDate = $('#startDate').val();
+    // let FileUpload = $('.fileUpload').val();
+    var docRef = db.collection("notice").doc();
+    docRef.set({
+      title: tasktitle,
+      description: taskdetails,
+      postType: posttype,
+      priority: selectedPriority,
+      file: 'null',
+      date : EventDate
+    }) .then(function() {
+
+      toastr['success']('Post created sucessfully');
   
-
-
-
-
-
-
-
-
-
-
-
-
+    }).catch(function(error) {
+      toastr['error']('Fail to create post', error.code);
+    });
+  }),
 
 
   db.collection("users").onSnapshot(function(querySnapshot) {
@@ -113,148 +111,149 @@ $(document).ready(function () {
         userDesignation = doc.data().designation;
       }
   });
-  $('.loader').fadeOut('slow');
-  // chart js implementation
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'horizontalBar',
-
-    // The data for our dataset
-    data: {
-        labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
-        datasets: [{
-           
-            backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
-           
-            data: [15,10,5 ,2 , 0],
-          
-        }]
-    },
+  
  
 
-    // Configuration options go here
-    options: {
-      animation: 
-      {
-       duration : 2000,
-         
-      },
-   
-      
-      
- 
-
-      
-      title: {
-        display: true,
-        text: 'Current Month',
-        fontColor: "cyan",
-        fontSize: 19,
-        
-    },
-      
-      legend: {
-        display : false,
-         
-      },
-      scales: {
-        yAxes: [{
-            ticks: {
-                fontColor: "white",
-                fontSize: 10,
-                
-                beginAtZero: true
-            }
-        }],
-        xAxes: [{
-            ticks: {
-                fontColor: "white",
-                fontSize: 11,
-                
-                beginAtZero: true
-            }
-        }]
-    }
-    
-
-  }
-   
-});
-// chart js implementation
-var ctx = document.getElementById('myChart1').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'horizontalBar',
-
-    // The data for our dataset
-    data: {
-        labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
-        datasets: [{
-            
-            backgroundColor: ['#6252E9','#F74301','#d1da1e'],
-            data: [15,10,5 ,2 , 0],
-        }]
-    },
-
-    options: {
-      
-      animation: 
-      {
-       duration : 2000,
-         
-      },
-      title: {
-        display: true,
-        text: 'Previous Month',
-        
-        fontColor: "cyan",
-        fontSize: 19,
-    },
-      
-      legend: {
-        display : false,
-         
-      },
-      scales: {
-        yAxes: [{
-            ticks: {
-              reverse: true,
-                
-                fontColor: "white",
-                fontSize: 10,
-              
-                beginAtZero: true
-            }
-        }],
-        xAxes: [{
-            ticks: {
-              reverse: true,
-                
-                fontColor: "white",
-                fontSize: 11,
-               
-                beginAtZero: true
-            }
-        }]
-    }
-
-  }
-});
-
-
-
-  $("#add_fields_placeholder").change(function() {
-    if($(this).val() == "Event") {
-        $(".picker").show(); 
-    }
-    else {
-        $(".picker").hide(); 
-    }
-});
 })
 
-
+ // chart js implementation
+ var ctx = document.getElementById('myChart').getContext('2d');
+ var chart = new Chart(ctx, {
+     // The type of chart we want to create
+     type: 'horizontalBar',
+ 
+     // The data for our dataset
+     data: {
+         labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
+         datasets: [{
+            
+             backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
+            
+             data: [15,10,5 ,2 , 0],
+           
+         }]
+     },
+  
+ 
+     // Configuration options go here
+     options: {
+       animation: 
+       {
+        duration : 2000,
+          
+       },
+    
+       
+       
+  
+ 
+       
+       title: {
+         display: true,
+         text: 'Current Month',
+         fontColor: "cyan",
+         fontSize: 19,
+         
+     },
+       
+       legend: {
+         display : false,
+          
+       },
+       scales: {
+         yAxes: [{
+             ticks: {
+                 fontColor: "white",
+                 fontSize: 10,
+                 
+                 beginAtZero: true
+             }
+         }],
+         xAxes: [{
+             ticks: {
+                 fontColor: "white",
+                 fontSize: 11,
+                 
+                 beginAtZero: true
+             }
+         }]
+     }
+     
+ 
+   }
+    
+ });
+ // chart js implementation
+ var ctx = document.getElementById('myChart1').getContext('2d');
+ var chart = new Chart(ctx, {
+     // The type of chart we want to create
+     type: 'horizontalBar',
+ 
+     // The data for our dataset
+     data: {
+         labels: ['Completed', 'Deadline-cross', 'Incompleted', ],
+         datasets: [{
+             
+             backgroundColor: ['#6252E9','#F74301','#d1da1e'],
+             data: [15,10,5 ,2 , 0],
+         }]
+     },
+ 
+     options: {
+       
+       animation: 
+       {
+        duration : 2000,
+          
+       },
+       title: {
+         display: true,
+         text: 'Previous Month',
+         
+         fontColor: "cyan",
+         fontSize: 19,
+     },
+       
+       legend: {
+         display : false,
+          
+       },
+       scales: {
+         yAxes: [{
+             ticks: {
+               reverse: true,
+                 
+                 fontColor: "white",
+                 fontSize: 10,
+               
+                 beginAtZero: true
+             }
+         }],
+         xAxes: [{
+             ticks: {
+               reverse: true,
+                 
+                 fontColor: "white",
+                 fontSize: 11,
+                
+                 beginAtZero: true
+             }
+         }]
+     }
+ 
+   }
+ });
+ 
+ 
+ 
+   $("#add_fields_placeholder").change(function() {
+     if($(this).val() == "Event") {
+         $(".picker").show(); 
+     }
+     else {
+         $(".picker").hide(); 
+     }
+ });
 
 $("#myInput").on("keyup", function() {
   var value = $(this).val().toLowerCase();

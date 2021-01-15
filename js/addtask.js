@@ -555,8 +555,6 @@ function renderAssignedTasks(){
   }
 
 }
-
-
 $(document).ready(function(){
   $('.taskListDiv').hide();
   $('.uploader').fadeOut();
@@ -830,7 +828,6 @@ document.getElementById('signout').addEventListener('click', () => {
     
   });
 
-
   $("#filterTask").click(function(){
     switch(this.value) {
       case 'incompleted':
@@ -880,9 +877,6 @@ document.getElementById('signout').addEventListener('click', () => {
       }
     }
   });
-
-
-
   // assign a task
   $('#taskForm').on('submit',function(e){
     e.preventDefault();
