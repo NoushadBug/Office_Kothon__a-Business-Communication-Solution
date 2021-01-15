@@ -1,6 +1,9 @@
 var docLinks;
 var assignedTO;
-var deadlineCrossedDatas= {};
+var totalCompleted;
+var totalIncompleted;
+var totalDeadlineCrossed;
+var deletableTasks= {};
 var firstEntered = false;
 var reloadChart = true;
 var taskSnapshot = null;
@@ -25,22 +28,28 @@ var svgClone = $(".svg-div").clone(); // making zeh' clones!
 var taskListDiv = $(".taskListDiv").clone();
 var taskForm = $('#taskformbar').clone();
 
-function updateDealineCrossedTask(){
-  Object.keys(deadlineCrossedDatas).forEach(function(doc) {
-   // alert(doc+' => ' +deadlineCrossedDatas[doc].data.name)
+function dateDiffInDays(a, b) {
+  var diffTime = Math.abs(a - b);
+  var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  return diffDays;
+}
+
+
+function deleteOldTasks(){
+  Object.keys(deletableTasks).forEach(function(doc) {
+   // alert(doc+' => ' +deletableTasks[doc].data.name)
    var docSplitter = doc.split(",");
    var assignedTo = docSplitter[0].split(">")[1];
    var assignedBy = docSplitter[0].split(">")[0];
    db.collection("tasks").doc(doc).delete().then(function() {
     db.collection("tasks").doc(assignedBy+'<'+assignedTo+','+time).set({
-      description: deadlineCrossedDatas[doc].data.description,
-      start: deadlineCrossedDatas[doc].data.start,
-      name: deadlineCrossedDatas[doc].data.name,
-      doc: deadlineCrossedDatas[doc].data.doc,
-      priority: deadlineCrossedDatas[doc].data.priority
+      description: deletableTasks[doc].data.description,
+      start: deletableTasks[doc].data.start,
+      name: deletableTasks[doc].data.name,
+      doc: deletableTasks[doc].data.doc,
+      priority: deletableTasks[doc].data.priority
     })
     .then(function() {
-    
     })
     .catch(function(error) {
       console.error("Error writing document: ", error);
@@ -197,23 +206,19 @@ function showTaskFiles(fileData){
 // while the new month arrives delete the previous infos from db
 var resetOldTasks = function() {
   var todaysDate = new Date();
-  if(todaysDate > new Date(currentMonthInfo.month.month, currentMonthInfo.month.year)){
+  if(new Date(todaysDate.getMonth(), todaysDate.getFullYear()) > new Date(currentMonthInfo.month.month, currentMonthInfo.month.year)){
     var tempInfo = currentMonthInfo;
-
+alert(tempInfo)
     db.collection("tasks").doc('crnt_month').set({
-      month: {year:todaysDate.getFullYear(), month: todaysDate.getMonth()}, totalCompleted: 0, totalDeadlineCrossed: 0, totalIncompleted: 0, totalTasks: 0,
+      month: {year:todaysDate.getFullYear(), month: todaysDate.getMonth()}, totalCompleted: 0, totalDeadlineCrossed: 0, totalTasks: 0,
     }, { merge: true })
     .then(function() {
       db.collection("tasks").doc('prev_month').set({
         month: tempInfo.month, totalCompleted: tempInfo.totalCompleted, totalDeadlineCrossed: tempInfo.totalDeadlineCrossed, totalIncompleted: tempInfo.totalIncompleted, totalTasks: tempInfo.totalTasks,
       }, { merge: true }).then(function() {
-          // TODO:delete =>  1.  old deadline crossed
-        //  TODO: 2. old completed tasks
+          toastr['info']( 'see you closer','Welcome to a new month! ');
         })
       })
-    .catch(function(error) {
-
-      });
 
   }
 }
@@ -225,7 +230,10 @@ function updationFromDB(){
   myIncompleted= {};
   myAssigned= {};
   myClicked= {};
-  deadlineCrossedDatas= {};
+  deletableTasks= {};
+  totalIncompleted=0;
+  totalCompleted=0;
+  totalDeadlineCrossed=0;
 
   db.collection("tasks").get().then(function(snap) {
     taskSnapshot = snap;}).then(function() {
@@ -239,7 +247,11 @@ function updationFromDB(){
           var assignedBy;
           var docSplitter = doc.id.split(",");
           var time = new Date(parseInt(docSplitter[1])).getTime();
-          if(new Date() > time){ deadlineCrossedDatas[doc.id]= {data}; }
+
+
+          if(doc.id.indexOf('>') !== -1 || doc.id.indexOf('|') !== -1){
+            if(dateDiffInDays(new Date(),time) > 15){ deletableTasks[doc.id]= {data}; }
+          }
            if(doc.id == 'crnt_month'){
              currentMonthInfo = {
                "month":doc.data().month,
@@ -262,6 +274,7 @@ function updationFromDB(){
            if(doc.id != 'prev_month' && doc.id != 'crnt_month'){
               // collect incompleted and assigned tasks
               if(doc.id.indexOf(':') !== -1){
+                totalIncompleted++;
                 assignedBy = docSplitter[0].split(":")[0];
                 var assignedTo = docSplitter[0].split(":")[1];
                 if(assignedBy == auth.currentUser.email){
@@ -274,6 +287,7 @@ function updationFromDB(){
               }
               // collect completed tasks
               if(doc.id.indexOf('>') !== -1){
+                totalCompleted++;
                 assignedTo = docSplitter[0].split(">")[1];
                 if(assignedTo == auth.currentUser.email){
                     myCompleted[doc.id]= {data};
@@ -282,6 +296,7 @@ function updationFromDB(){
               }
               // collect deadline crossed tasks
               if(doc.id.indexOf('<') !== -1){
+                totalDeadlineCrossed++;
                 assignedTo = docSplitter[0].split("<")[1];
                 if(assignedTo == auth.currentUser.email){
                     myDeadlineCrossed[doc.id]= {data};
@@ -301,7 +316,13 @@ function updationFromDB(){
               }
           }
         });
-        if(Object.keys(deadlineCrossedDatas).length>0) {updateDealineCrossedTask();}
+        db.collection("tasks").doc('crnt_month').set({
+          totalTasks: Object.keys(offlineDB).length-2,
+          totalIncompleted: totalIncompleted,
+          totalCompleted: totalCompleted,
+          totalDeadlineCrossed: totalDeadlineCrossed,
+        }, { merge: true })
+        if(Object.keys(deletableTasks).length>0) {deleteOldTasks();}
         resetOldTasks();
         if(firstEntered == false || reloadChart){
           updateChart(Object.keys(myCompleted).length,Object.keys(myIncompleted).length,Object.keys(myDeadlineCrossed).length);
@@ -434,7 +455,6 @@ function renderIncompleted(){
             priority: tempdata.priority
           })
           .then(function() {
-          
           })
           .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -783,6 +803,9 @@ function renderTasksApproval(){
             priority: tempdata.priority
           })
           .then(function() {
+            db.collection("tasks").doc('crnt_month').set({
+              totalCompleted: currentMonthInfo.totalCompleted++,
+            }, { merge: true })
           })
           .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -940,6 +963,7 @@ $(document).ready(function(){
       $("#force-overflow .card").on("click", function () {
           //$(".rightbar-div").after(taskForm).fadeIn('slow');
           //$('.taskForm').fadeOut(function(){$(this).fadeIn(400);})
+          $('#filterTask').val('incompleted').trigger('click');
           $('#taskformbar').show()
           $('.taskListDiv').hide();
           $('.svg-div').remove();
@@ -970,7 +994,7 @@ $('#closeForm').on("click", function(event){
   $('#taskformbar').hide();
   $(".rightbar-div").after(svgClone).fadeIn('slow', function(){
     $('#viewTasksBtn').on("click", function(){
-      //$('#taskformbar').hide();
+      $('#filterTask').val('incompleted').trigger('click');
       $('.svg-div').remove();
       $('.taskListDiv').show();
       renderIncompleted();
@@ -982,7 +1006,7 @@ $('#closeLists').on("click", function(event){
   $('.taskListDiv').hide();
   $(".rightbar-div").after(svgClone).fadeIn('slow', function(){
     $('#viewTasksBtn').on("click", function(){
-      //$('#taskformbar').hide();
+      $('#filterTask').val('incompleted').trigger('click');
       $('.svg-div').remove();
       $('.taskListDiv').show();
       renderIncompleted();
@@ -990,6 +1014,7 @@ $('#closeLists').on("click", function(event){
   });
 });
 $('#viewTasksBtn').on("click", function(){
+  $('#filterTask').val('incompleted').trigger('click');
   $('.svg-div').remove();
   $('.taskListDiv').show();
   renderIncompleted();
@@ -1222,8 +1247,11 @@ document.getElementById('signout').addEventListener('click', () => {
             priority: taskPriority
           })
           .then(function() {
+            db.collection("tasks").doc('crnt_month').set({
+              totalIncompleted: currentMonthInfo.totalIncompleted++,
+            }, { merge: true })
             $('.uploader').fadeOut('slow');
-            toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTo);
+            toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
             console.log("");
           })
           .catch(function(error) {
@@ -1284,6 +1312,7 @@ document.getElementById('signout').addEventListener('click', () => {
     }
     $(".rightbar-div").after(svgClone).fadeIn('slow', function(){
       $('#viewTasksBtn').on("click", function(){
+        $('#filterTask').val('incompleted').trigger('click');
         $('.svg-div').remove();
         $('.taskListDiv').show();
       });
