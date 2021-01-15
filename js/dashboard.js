@@ -1,4 +1,57 @@
 $(document).ready(function () {
+  db.collection("notice").get()
+  .then(function(querySnapshot)
+  {
+    var index = -1;
+    querySnapshot.forEach(function(doc)
+    {
+      index++;
+      console.log(index);
+      $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" style="">
+      <div class="panel-heading p-3 row p-3 collapsed" href="#collapse${index}" data-toggle="collapse"
+        data-parent="#accordion" aria-expanded="false">
+        <div class="title-header col-6">
+          <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
+          ${doc.data().title}
+          </h6>
+        </div>
+        <div class="header-side col-6 m-auto">
+          <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
+            <i class="fa fa-paperclip text-secondary "></i>
+            <span aria-label="${doc.data().priority}" data-microtip-position="left" role="tooltip"><span aria-label="${doc.data().priority}"
+                data-microtip-position="left" role="tooltip"><i
+                  class="fa fa-bolt text-warning"></i></span></span>
+            <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+
+          </div>
+
+        </div>
+      </div>
+      <div id="collapse${index}" class="panel-collapse collapse in">
+        <div class="collapse-header row mt-3 mx-auto">
+          <div class="col-4">
+            <p> ${new Date(parseInt(doc.data().date)).toLocaleString()}</p>
+          </div>
+          <div class="status col-4">
+            <i class="fa fa-circle"></i>
+            <p class="d-inline"> ${doc.data().postType}</p>
+          </div>
+          <div class="view-button col-4">
+            <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
+          </div>
+        </div>
+        <div class="panel-body row mx-3 pb-3">
+        ${doc.data().description}
+        </div>
+      </div>
+    </div>
+    
+    </div>`).appendTo('#accordion');
+
+
+    });
+  }),
+     
 
 
 

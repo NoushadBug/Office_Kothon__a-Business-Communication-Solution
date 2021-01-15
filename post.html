@@ -73,7 +73,7 @@
                             src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png">
                         <!-- Modal -->
                         <div class="form-group file-upload  mx-auto">
-                            <input type="file">
+                            <input type="file" class="fileUpload">
                             <i class="fa fa-upload"></i>
                         </div>
                         <div class=" priority mb-2 ">
@@ -89,7 +89,7 @@
                         <div class=" priority mb-2 ">
                             <label class="mr-sm-2 sr-only  " for="inlineFormCustomSelect">Preference</label>
                             <select class="custom-select mr-sm-2 bg-dark shadow-lg text-secondary  border-dark"
-                                required="">
+                                id="selectedPriority" required="">
                                 <option selected="" class="choose">Select Priority</option>
                                 <option value="easy">Low</option>
                                 <option value="moderate">Moderate</option>
@@ -121,7 +121,8 @@
                                     class="form-control mb-3 bg-dark shadow-lg text-light  border-dark"></textarea>
 
 
-                                <input class="form-control shadow-lg btn-secondary  " type="submit" value="Post">
+                                <input class="form-control shadow-lg btn-secondary  " type="submit" value="Post"
+                                    id="postSubmit">
 
 
 
