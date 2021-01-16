@@ -277,7 +277,7 @@ document.getElementById('signout').addEventListener('click', () => {
     $('#taskName').val('');
     $('#taskDetails').val('');
     $('#add_fields_placeholder').val('');
-    $('#selectedPriority').val('');
+    $('#selectedPriority').val('selectedPriority');
     $('#startDate').val('');
     $('#eventLink').val('');
   }
