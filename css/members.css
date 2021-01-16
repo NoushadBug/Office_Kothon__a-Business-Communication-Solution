@@ -11,9 +11,7 @@ body {
 }
 
 .scrollbar {overflow-x: hidden;height: 300px;background: #576075;overflow-y: scroll;}
-#force-overflow,#force-overflow1 {
-min-height: 65%;
-}
+#force-overflow,#force-overflow1 {border-radius: 2em;min-height: 65%;}
 #force-overflow::-webkit-scrollbar-track,#force-overflow1::-webkit-scrollbar-track {
 /*-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 */
@@ -123,7 +121,6 @@ border-radius: 50% !important;
 {
   background: #2e3035;
   border-radius: 2em;
-  height: 85%;
   width: 29vw;
   display: -webkit-inline-box;
 }
@@ -131,7 +128,7 @@ border-radius: 50% !important;
 {
   background: #2e3035;
   border-radius: 2em;
-  height: 41%;
+  height: 34%;
   width: 29vw;
   display: -webkit-inline-box;
 }
@@ -168,6 +165,13 @@ border-radius: 50% !important;
 {
 
 font-size: 90%;
+}
+.unapprove
+{
+  background: #2e3035;
+  border-radius: 2em;
+  height: 98%;
+  width: 29vw;
 }
 
 

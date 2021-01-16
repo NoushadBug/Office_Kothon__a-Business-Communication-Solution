@@ -309,8 +309,6 @@ document.getElementById('signout').addEventListener('click', () => {
       });
       window.location.replace("./index.html");
   });
-<<<<<<< HEAD
-=======
 
   function cleanValues(){
     $('#taskName').val('');
@@ -321,7 +319,6 @@ document.getElementById('signout').addEventListener('click', () => {
     $('#eventLink').val('');
   }
 
->>>>>>> a9ef32a95807fa783573b15ae88059aca59287fc
 $(document).ready(function () {
   $(".picker").hide(); 
   $('#taskformbar').on('submit',function(e){
