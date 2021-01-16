@@ -29,7 +29,6 @@ signUpform.on('submit',function(event){
                     designation: 'unknown',
                     photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                 }).then(function() {
-                    console.log("Document successfully written!");
                     auth.signOut().then(() => {
                         console.log('user has been logged out');
                     })
