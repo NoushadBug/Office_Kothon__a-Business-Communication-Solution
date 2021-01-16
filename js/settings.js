@@ -301,6 +301,7 @@ $fileInput.on('change', function() {
           }
         })
         .catch((error) => {
+          $('.uploader').fadeOut()
           toastr['error']('Your provided current password may not matched', "Profile updation irterrupted");
         });
    });

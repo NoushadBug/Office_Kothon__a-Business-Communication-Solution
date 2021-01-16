@@ -45,15 +45,9 @@ $(document).ready(function () {
         </div>
       </div>
     </div>
-    
     </div>`).appendTo('#accordion');
-
-
     });
-  }),
-     
-
-
+  })
 
   db.collection("users").get()
   .then(function (querySnapshot) {
@@ -88,10 +82,7 @@ $(document).ready(function () {
         showMethod: 'fadeIn',
         hideMethod: 'fadeOut',
       };
-    
-    
-     
-     
+
 
 
       $("#myInput").on("keyup", function() {

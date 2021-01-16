@@ -944,7 +944,7 @@ document.getElementById('signout').addEventListener('click', () => {
                   count++;
                     if(count == $("#customFile")[0].files.length){
                         // Add a new document in collection "tasks"
-                        db.collection("tasks").doc(auth.currentUser.email+':'+assignedTo+','+endDate).set({
+                        db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate).set({
                           description: taskDetails,
                           start: startDate,
                           name: taskName,

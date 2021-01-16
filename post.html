@@ -19,10 +19,8 @@
     <link rel="stylesheet" type="text/css" href="./css/datePicker.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-        crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="./css/post.css">
 
 </head>
@@ -31,7 +29,6 @@
     <div class="loader" style="position: fixed;z-index: 99;top: 0;left: 0;width: 100%;height: 100%;display: flex;background: #101011;justify-content: center;align-items: center;">
         <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
     </div>
-
     <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
         <div class="dashboard-container row col-md-9 mr-1 " style="height: inherit;">
             <!-- leftbar container -->
@@ -85,6 +82,9 @@
                             <input id="startDate" name="startDate" type="text"
                                 class="form-control bg-dark shadow-lg text-light  border-dark"
                                 placeholder="select event date" required="">
+                            <input id="eventLink" type="text"
+                                class="form-control bg-dark shadow-lg text-light  border-dark"
+                                placeholder="Enter event link">
                         </div>
                     </div>
                     <form class="taskForm  my-3 mb-1 col-md-9 shadow-lg " id="taskformbar">
@@ -212,8 +212,8 @@
     db.settings({ timestampsInSnapshots: true });
 
 </script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <script src="./toaster/toastr.min.js"></script>
 <script src="./js/jqDatePicker.min.js"></script>
 
