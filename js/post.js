@@ -130,6 +130,28 @@ new Chart(ctx1, {
 });
 }
 
+function renderPriorities(priority){
+  var returnedCode;
+  switch(priority){
+    case 'low':
+      totalLow++;
+      returnedCode =  `<i class="fa fa-bolt text-info"></i>`;
+    break;
+    case 'moderate':
+      totalModerate++;
+      returnedCode = `<i class="fa fa-bolt text-danger"></i>`;
+    break;
+    case 'hard':
+      totalHard++;
+      returnedCode =  `<i class="fa fa-bolt text-warning"></i>`;
+    break;
+    default:
+      returnedCode =   `<i class="fa fa-bolt text-light"></i>`;
+    break;
+  }
+return returnedCode;
+}
+
 function renderList(docs)
 {
     totalEvent = 0;
@@ -138,7 +160,6 @@ function renderList(docs)
     totalLow = 0;
     totalHard = 0;
     totalModerate = 0;
-
     $('#accordion').empty();
       docs.forEach(function(doc, index)
       {
@@ -154,20 +175,8 @@ function renderList(docs)
           break;
         }
 
-        switch(doc.data().priority.toLowerCase()){
-          case 'low':
-            totalLow++;
-          break;
-          case 'moderate':
-            totalModerate++;
-          break;
-          case 'hard':
-            totalHard++;
-          break;
-        }
-
-        $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${doc.id}" style="">
-        <div class="panel-heading p-3 row p-3 collapsed" href="#collapse${index}" data-toggle="collapse"
+        $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" style="">
+        <div class="panel-heading p-3 row p-3 collapsed" href="#panel${doc.id}" data-toggle="collapse"
           data-parent="#accordion" aria-expanded="false">
           <div class="title-header col-6">
             <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
@@ -176,15 +185,14 @@ function renderList(docs)
           </div>
           <div class="header-side col-6 m-auto">
             <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
-              <i class="fa fa-paperclip text-secondary "></i>
               <span aria-label="${doc.data().priority}"
-                  data-microtip-position="left" role="tooltip"><i
-                    class="fa fa-bolt text-warning"></i></span>
-              <a href="#0"><i class="fa fa-bell text-secondary mr-0"></i></a>
+                  data-microtip-position="left" role="tooltip">${renderPriorities(doc.data().priority.toLowerCase())}</span>
+              <a href="#0"><i class="fa fa-pencil text-secondary "></i></a>
+              <a id="${doc.id}" class="deleteNotice"><i class="fa fa-trash text-secondary mr-0"></i></a>
             </div>
           </div>
         </div>
-        <div id="collapse${index}" class="panel-collapse collapse in">
+        <div id="panel${doc.id}" class="panel-collapse collapse in">
           <div class="collapse-header row mt-3 mx-auto">
             <div class="col-4">
               <p> ${new Date(parseInt(doc.data().date)).toLocaleString()}</p>
@@ -203,8 +211,51 @@ function renderList(docs)
         </div>
       </div>
       
-      </div>`).appendTo('#accordion');
+      `).appendTo('#accordion');
+
       });
+
+      $('.deleteNotice').on( "click",function(e) {
+        e.preventDefault();
+        if($('#myModal').length == 0){
+          $(`<!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                    <div class="modal-header shadow-lg" style="border: 0;">
+                        <h6 class="modal-title" id="exampleModalLongTitle">Confirm Deletion</h6>
+                        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body shadow-lg ">
+                        <p class="text-center text-light m-auto">are you sure you want to delete?</p>
+                    </div>
+                    <div class="modal-footer shadow-lg" style="border: 0;">
+                        <button type="button" id="deleteBtn" class="deleteBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >yes</button>
+                        <button type="button" data-dismiss="modal" class="mr-auto btn px-5 btn-secondary rounded-pill shadow-lg">no</button>
+                    </div>
+                </div>
+              </div>
+              </div>
+        </div>`).appendTo('body');
+        }
+        console.log($(this).attr('id'));
+        let $modal = $('#myModal'), id = $(this).attr('id');
+        $modal.modal('show');
+
+        $('#deleteBtn').on( "click",function() {
+          db.collection("notice").doc(id).delete().then(function() {
+            $modal.modal('hide');
+            toastr['success']('Notice deleted successfully');
+          }).catch((error) => {
+            $modal.modal('hide');
+            toastr['error'](error, "Notice deletion interrupted");
+          });
+        })
+      });
+
+
       $('.loader').fadeOut('slow');
       updateCharts();
 }
@@ -216,6 +267,19 @@ document.getElementById('signout').addEventListener('click', () => {
       });
       window.location.replace("./index.html");
   });
+<<<<<<< HEAD
+=======
+
+  function cleanValues(){
+    $('#taskName').val('');
+    $('#taskDetails').val('');
+    $('#add_fields_placeholder').val('');
+    $('#selectedPriority').val('selectedPriority');
+    $('#startDate').val('');
+    $('#eventLink').val('');
+  }
+
+>>>>>>> a9ef32a95807fa783573b15ae88059aca59287fc
 $(document).ready(function () {
   $(".picker").hide(); 
   $('#taskformbar').on('submit',function(e){
@@ -225,6 +289,7 @@ $(document).ready(function () {
     let posttype = $('#add_fields_placeholder').val();
     let selectedPriority = $('#selectedPriority').val();
     let EventDate = $('#startDate').val();
+    let EventLink =     $('#eventLink').val();
     // let FileUpload = $('.fileUpload').val();
     var docRef = db.collection("notice").doc();
     if(posttype == 'Event'){
@@ -235,14 +300,18 @@ $(document).ready(function () {
         priority: selectedPriority,
         file: 'null',
         EventDate: EventDate,
+        EventLink: EventLink,
         date : new Date().getTime()
       }) .then(function() {
+        cleanValues()
         toastr['success']('Post created sucessfully');
       }).catch(function(error) {
+        cleanValues()
         toastr['error']('Fail to create post', error.code);
       });
     }
     else{
+      $('#startDate').val('');
       docRef.set({
         title: tasktitle,
         description: taskdetails,
@@ -251,8 +320,10 @@ $(document).ready(function () {
         file: 'null',
         date : new Date().getTime()
       }) .then(function() {
+        cleanValues()
         toastr['success']('Post created sucessfully');
       }).catch(function(error) {
+        cleanValues()
         toastr['error']('Fail to create post', error.code);
       });
     }
@@ -428,7 +499,6 @@ $('#startDate').datePicker({
 
 
 db.collection("notice").onSnapshot(function(snapshot) {
-  console.log(snapshot)
   renderList(snapshot.docs);
 });
 

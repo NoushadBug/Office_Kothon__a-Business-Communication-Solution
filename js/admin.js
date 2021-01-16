@@ -61,7 +61,6 @@ $fileInput.on('change', function() {
 });
 // time js
 
-})
 
     function startTime() {
       let days = [
@@ -159,7 +158,7 @@ $fileInput.on('change', function() {
 
 		canvas.toBlob(function(blob){
       myBlob = blob;
-			let url = URL.createObjectURL(blob);
+			URL.createObjectURL(blob);
 			let reader = new FileReader();
 			reader.readAsDataURL(blob);
 			reader.onloadend = function(){
@@ -173,12 +172,17 @@ $fileInput.on('change', function() {
 		});
   });
 
+  function clearInputs(){
+    $('#userPass').val('');
+    $('#settings-pass').val('');
+    $("#profilePic")[0].value = null;
+  }
+
     $('.taskForm form').on('submit',function(e){
       e.preventDefault();
       let currentPass = $('#userPass').val();
       let newPass = $('#settings-pass').val() == ''? 'oldPass' : $('#settings-pass').val();
       let displayName = $('#settings-name').val() == ''? $('.userName').text() : $('#settings-name').val();
-      let bioDetails = $('#bioDetails').val() == ''? userBio : $('#bioDetails').val();
       let profilePic = $('#profilePic')[0].files;
 
       //console.log(auth);
@@ -195,12 +199,13 @@ $fileInput.on('change', function() {
             else{
               file = blobToFile(myBlob, "profilePicture.jpg");
             }
-            
 
             let storageRef = storage.ref("Users/"+auth.currentUser.email+"/"+'profilePic.jpg');
             let uploadProgress = storageRef.put(file);
 
           uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
+            console.log('asd')
+
                   let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                   console.log('Upload is ' + progress + '% done');
                   switch (snapshot.state) {
@@ -213,13 +218,13 @@ $fileInput.on('change', function() {
                           break;
                   }
                 }, function(error) {
+                    clearInputs();
                     toastr['error']('Error uploading file', error.code);
               }, function() {
                 uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                        // Add a new document in collection "tasks"
+                        $("#profilePic")[0].value = null;
                         db.collection("users").doc(auth.currentUser.email).set({
                           displayName: displayName,
-                          bio: bioDetails,
                           photoURL: downloadURL,
                           designation: userDesignation
                         })
@@ -230,22 +235,26 @@ $fileInput.on('change', function() {
                                     photoURL: downloadURL,
                                   }).then(function() {
                                     $('.uploader').fadeOut('slow');
+                                    clearInputs();
                                     toastr['success']('updated user information sucessfully', 'updated information');
                                   }).catch(function(error) {
+                                    clearInputs();
                                     toastr['error']('Error updating info', error.code);
                                   });
                                 }).catch(function(error) {
+                                  clearInputs();
                                   toastr['error']('Error updating password', error.code);
                                 });
                               }
                               else{
                                 auth.currentUser.updateProfile({
-                                  displayName: displayName,
                                   photoURL: userPhoto,
                                 }).then(function() {
                                   $('.uploader').fadeOut('slow');
+                                  clearInputs();
                                   toastr['success']('updated user information sucessfully', 'updated information');
                                 }).catch(function(error) {
+                                  clearInputs();
                                   toastr['error']('Error updating info', error.code);
                                 });
                               }
@@ -259,7 +268,6 @@ $fileInput.on('change', function() {
           else{
             db.collection("users").doc(auth.currentUser.email).set({
               displayName: displayName,
-              bio: bioDetails,
               photoURL: userPhoto,
               designation: userDesignation
             })
@@ -270,6 +278,7 @@ $fileInput.on('change', function() {
                     photoURL: userPhoto,
                   }).then(function() {
                     $('.uploader').fadeOut('slow');
+                    clearInputs();
                     toastr['success']('updated user information sucessfully', 'updated information');
                   }).catch(function(error) {
                     toastr['error']('Error updating info', error.code);
@@ -280,7 +289,6 @@ $fileInput.on('change', function() {
               }
               else{
                 auth.currentUser.updateProfile({
-                  displayName: displayName,
                   photoURL: userPhoto,
                 }).then(function() {
                   $('.uploader').fadeOut('slow');
@@ -294,10 +302,13 @@ $fileInput.on('change', function() {
               console.error("Error writing document: ", error);
             });
           }
+          clearInputs();
         })
         .catch((error) => {
+          clearInputs();
+          $('.uploader').fadeOut()
           toastr['error']('Your provided current password may not matched', "Profile updation irterrupted");
         });
    });
 
-   
+})

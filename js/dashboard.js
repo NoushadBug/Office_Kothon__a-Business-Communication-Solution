@@ -78,6 +78,7 @@ function renderList(docs)
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       
       </div>`).appendTo('#accordion');
       });
@@ -87,6 +88,12 @@ function renderList(docs)
 
 
 
+=======
+    </div>
+    </div>`).appendTo('#accordion');
+    });
+  })
+>>>>>>> a9ef32a95807fa783573b15ae88059aca59287fc
 
 
 $(document).ready(function () {
@@ -125,10 +132,7 @@ $(document).ready(function () {
         showMethod: 'fadeIn',
         hideMethod: 'fadeOut',
       };
-    
-    
-     
-     
+
 
 
       $("#myInput").on("keyup", function() {
