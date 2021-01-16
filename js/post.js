@@ -33,11 +33,6 @@ new Chart(ctx, {
         
      },
   
-     
-     
-
-
-     
      title: {
        display: true,
        text: 'Notice Types',
@@ -221,7 +216,6 @@ document.getElementById('signout').addEventListener('click', () => {
       });
       window.location.replace("./index.html");
   });
-
 $(document).ready(function () {
   $(".picker").hide(); 
   $('#taskformbar').on('submit',function(e){
