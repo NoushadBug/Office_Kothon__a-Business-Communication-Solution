@@ -192,7 +192,7 @@ function renderList(docs)
             <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
               <span aria-label="${doc.data().priority}"
                   data-microtip-position="left" role="tooltip">${renderPriorities(doc.data().priority.toLowerCase())}</span>
-              <a href="#0"><i class="fa fa-pencil text-secondary "></i></a>
+              <a data-id="${doc.id}" data-value="${JSON.stringify(doc.data())}" class="editNotice"><i class="fa fa-pencil text-secondary "></i></a>
               <a id="${doc.id}" class="deleteNotice"><i class="fa fa-trash text-secondary mr-0"></i></a>
             </div>
           </div>
@@ -215,13 +215,13 @@ function renderList(docs)
           </div>
         </div>
       </div>
-      
       `).appendTo('#accordion');
 
       });
 
       $('.deleteNotice').on( "click",function(e) {
         e.preventDefault();
+        e.stopPropagation();
         if($('#myModal').length == 0){
           $(`<!-- Modal -->
           <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
@@ -260,8 +260,50 @@ function renderList(docs)
         })
       });
 
+      $('.editNotice').on( "click",function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var id = $(this).attr("data-id");
+        var dataObj = $(this).attr("data-value");
+        console.log(dataObj)
+        if($('#myModal'+id).length == 0){
+          $(`<!-- Modal -->
+          <div class="modal fade" id="myModal${id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                    <div class="modal-header shadow-lg" style="border: 0;">
+                        <h6 class="modal-title" id="exampleModalLongTitle">Confirm Deletion</h6>
+                        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body shadow-lg ">
+                        <p class="text-center text-light m-auto">${dataObj}</p>
+                    </div>
+                    <div class="modal-footer shadow-lg" style="border: 0;">
+                        <button type="button" id="deleteBtn" class="deleteBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >yes</button>
+                    </div>
+                </div>
+              </div>
+              </div>
+         </div>`).appendTo('body');
+         }
+         //alert();
+        // console.log($(this).attr('id'));
+         let $modal = $('#myModal'+id);
+         $modal.modal('show');
 
-      $('.loader').fadeOut('slow');
+        // $('#deleteBtn').on( "click",function() {
+        //   db.collection("notice").doc(id).delete().then(function() {
+        //     $modal.modal('hide');
+        //     toastr['success']('Notice deleted successfully');
+        //   }).catch((error) => {
+        //     $modal.modal('hide');
+        //     toastr['error'](error, "Notice deletion interrupted");
+        //   });
+        // })
+      });
+
       updateCharts();
 }
 
@@ -354,8 +396,6 @@ $(".c-link").click(function(){
   $('#taskName').val("");
   $('#taskDetails').val("");
 });
-
-
 
 
 $('#startDate').datePicker({
@@ -499,8 +539,23 @@ $('#startDate').datePicker({
   
 });
 
+db.collection("users").get()
+.then(function (querySnapshot) {
+  querySnapshot.forEach(function (doc) {
+    if (doc.id == auth.currentUser.email) {
+      if(doc.data().designation == 'unknown'){
+        window.location.replace('./userNotVerified.html');
+      }else{
+      $('#userImage').attr("src", `${doc.data().photoURL}`);}
+    }
+  
+});
+$('.loader').fadeOut('slow');
+
+})
 
 db.collection("notice").onSnapshot(function(snapshot) {
+  console.log(snapshot)
   renderList(snapshot.docs);
 });
 
