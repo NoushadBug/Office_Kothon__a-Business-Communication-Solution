@@ -105,7 +105,7 @@ signUpform.on('submit', function (event) {
       <div class="modal-dialog modal-dialog-centered " role="document">
           <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
               <div class="modal-header shadow-lg" style="border: 0;">
-                  <h6 class="modal-title" id="exampleModalLongTitle">Confirm Deletion</h6>
+                  <h6 class="modal-title" id="exampleModalLongTitle">Enter Admin Password</h6>
                   <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">×</span>
                   </button>

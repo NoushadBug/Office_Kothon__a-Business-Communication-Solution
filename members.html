@@ -78,7 +78,7 @@
 
     </div>
 
-    <div class="dashboard-main row m-auto" style="overflow-y: hidden;height: -webkit-fill-available;">
+    <div class="dashboard-main row m-auto" style="height: -webkit-fill-available;">
         <div class="dashboard-container1 row col-md-9 mr-1 " style="height: inherit;">
             <!-- leftbar1 container -->
             <div class="leftbar1 py-5">
@@ -102,68 +102,51 @@
             <div class="content col-md-10  row " id="frame">
                 <div class="row col-md-12 m-auto taskForm2 mx-auto d-inline-block border border-info user_forms-signup">
                     <h5 class="text-center text-light my-3">Register Members</h5>
-                    <form class="col-md-12  row">
-
-
+                    <form class="row">
+                    <div class="col-md-12 m-0 row">
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1">Full Name</label>
                             <input type="text" id="name"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Profile Name" value="">
+                                placeholder="Profile Name" value="" required />
 
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Email</label>
                             <input type="email" id="email"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Enter Email" value="">
+                                placeholder="Enter Email" value="" required />
                         </div>
-                    </form>
-                    <form class="col-md-12 row">
+                    </div>
+                    <div class="col-md-12 m-0 row">
                         <div class="form-group col-md-6 ">
                             <label for="exampleInputPassword1">Designation</label>
                             <input type="text" id="designation"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Enter Designation" value="">
+                                placeholder="Enter Designation" value="" required />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" id="password"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Enter Password" value="">
+                                placeholder="Enter Password" value="" required />
                         </div>
-
-                    </form>
-                    <form class="col-md-12">
+                    </div>
+                    <div class="col-md-12">
                         <button type="submit"
                             class="text-center form-control btn btn-info  rounded-pill border-info shadow-lg mt-2">submit</button>
-
-                    </form>
-
-
-
-
-
-
+                    </div>
+                </form>
                 </div>
-                <div class="row col-md-12   m-auto  ">
+                <div class="row col-md-12  mx-0 my-auto  px-0"">
+                    <div class="col-md-6 unapprove ml-0 mr-auto shadow-lg border border-info">
 
-
-                    <div class="col-md-6 unapprove mx-auto shadow-lg border border-info">
-
-                        <h4 class="text-light text-center mt-2 mr-2">Unapproved Members</h4>
-                        <div class="feed-bar bg-dark border-none scrollbar  " id="force-overflow1" style="
-    /* border-radius: 2em; */
-">
-
-
+                        <h5 class="text-light text-center mt-2 mr-2">Unapproved Members</h5>
+                        <div class="feed-bar bg-dark border-none scrollbar  " id="force-overflow1">
                             <div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2">
                                 <div class="row my-3">
-
-
                                     <div class="col-md-6 pl-2 m-auto  ">
                                         <h6 class="text-light m-0 d-block">Mohammad Ali Shuvo</h6>
-
                                     </div>
                                     <div class="col-md-6  my-auto text-right ">
                                         <i class="fa fa-check mr-2 text-success "></i>
@@ -261,25 +244,13 @@
 
                     </div>
 
-                    <div class="taskForm1 d-inline-block col-md-5 shadow-lg mx-auto p-0 border border-info"
-                        id="approve_form" style="
-">
+                    <div class="taskForm1 d-inline-block col-md-5 shadow-lg ml-auto mr-0 p-0 border border-info"
+                        id="approve_form">
                         <form class="  p-3  my-2">
-                            <h4 class="text-center text-light mb-3 ">Approval Member Form</h4>
-                            <h5 class="text-center text-secondary mb-3 mt-5" id="selected_name">
-
-
-
-
-                                Daniel costa
-
-
-
-
-
-
-
-                            </h5>
+                            <h5 class="text-center text-light mb-3 ">Approval Member Form</h5>
+                            <h6 class="text-center text-secondary mb-3 mt-5" id="selected_name">
+                                Click on any card to give a designation and approve
+                            </h6>
                             <h6 class="text-center text-info mb-5"></h6>
 
 
@@ -317,140 +288,17 @@
 
         </div>
 
-        <div class="rightbar-div col-md-3">
-            <h2 class="text-light text-center pt-5 pb-2 mr-2 mb-5"> Members</h2>
-            <div class="input-group mb-2">
-                <input type="text" id="myInput" class="form-control bg-transparent border-dark"
-                    placeholder="find somebody..." style="border-radius: 20px;">
-            </div>
-            <div class="dfeed-bar bg-transparent border-none scrollbar" id="force-overflow" style="min-height: 73.6vh;">
-                <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="ab123@gmail.com">
-                    <div class="row m-auto">
-                        <div class="col-md-4 rounded my-auto"><img
-                                src="https://firebasestorage.googleapis.com/v0/b/office-kothon.appspot.com/o/Users%2Fab123%40gmail.com%2FprofilePic.jpg?alt=media&amp;token=f48449bf-60ae-4a4a-8584-459f2cbfbc14"
-                                alt="" class="img-responsive" width="100%"></div>
-                        <div class="col-md-6 pl-0 m-auto">
-                            <h6 class="text-light m-0 d-block"> Mohammed Ali </h6>
-                            <small class="text-info m-0">Asst Project Manager</small>
-                            <div class="dropdown-menu bg-dark shadow-lg text-center"
-                                aria-labelledby="dropdownMenuButton" id="myselect">
-                                <li class="text-light edit "><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                                <li class="text-light delete"><i class="fa fa-trash text-info mr-2 "></i> Delete</li>
-                            </div>
-                        </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    </div>
+        <div class="rightbar-div col-md-3 row mx-0">
+            <h2 class="text-light text-center pt-5 pb-2 mx-auto"> Members</h2>
+            <div class="searchAndItems">
+                <div class="input-group mb-2">
+                    <input type="text" id="myInput" class="form-control bg-transparent border-dark"
+                        placeholder="find somebody..." style="border-radius: 20px;">
                 </div>
-                <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="bapo@mailinator.com">
-                    <div class="row m-auto">
-                        <div class="col-md-4 rounded my-auto"><img
-                                src="https://financialallianceforwomen.org/wp-content/uploads/2019/11/IMG_9053.jpg"
-                                alt="" class="img-responsive" width="100%"></div>
-                        <div class="col-md-6 pl-0 m-auto">
-                            <h6 class="text-light m-0 d-block">Rooney Rosales</h6>
-                            <small class="text-info m-0">H.R. manager</small>
-                            <div class="dropdown-menu bg-dark shadow-lg text-center"
-                                aria-labelledby="dropdownMenuButton" id="myselect">
-                                <li class="text-light edit "><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                                <li class="text-light delete"><i class="fa fa-trash text-info mr-2 "></i> Delete</li>
-                            </div>
-                        </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    </div>
-                </div>
-                <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="giwy@mailinator.com">
-                    <div class="row m-auto">
-                        <div class="col-md-4 rounded my-auto"><img
-                                src="https://www.researchgate.net/profile/Niklas_Jakobsson2/publication/271944386/figure/fig1/AS:718558128533509@1548329016702/Profile-picture-color-figure-available-online_Q640.jpg"
-                                alt="" class="img-responsive" width="100%"></div>
-                        <div class="col-md-6 pl-0 m-auto">
-                            <h6 class="text-light m-0 d-block">Blaze Mooney</h6>
-                            <small class="text-info m-0">Designer</small>
-                            <div class="dropdown-menu bg-dark shadow-lg text-center"
-                                aria-labelledby="dropdownMenuButton" id="myselect">
-                                <li class="text-light edit "><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                                <li class="text-light delete"><i class="fa fa-trash text-info mr-2 "></i> Delete</li>
-                            </div>
-                        </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    </div>
-                </div>
-                <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="lusopixomy@mailinator.com">
-                    <div class="row m-auto">
-                        <div class="col-md-4 rounded my-auto"><img
-                                src="https://firebasestorage.googleapis.com/v0/b/office-kothon.appspot.com/o/Users%2Flusopixomy%40mailinator.com%2FprofilePic.jpg?alt=media&amp;token=bd4d4923-d77f-4ce4-93f2-229e3ffddb22"
-                                alt="" class="img-responsive" width="100%"></div>
-                        <div class="col-md-6 pl-0 m-auto">
-                            <h6 class="text-light m-0 d-block">Noushad Bhuiyan</h6>
-                            <small class="text-info m-0">Software Lead</small>
-                            <div class="dropdown-menu bg-dark shadow-lg text-center"
-                                aria-labelledby="dropdownMenuButton" id="myselect">
-                                <li class="text-light edit "><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                                <li class="text-light delete"><i class="fa fa-trash text-info mr-2 "></i> Delete</li>
-                            </div>
-                        </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    </div>
-                </div>
-                <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="mowud@mailinator.com">
-                    <div class="row m-auto">
-                        <div class="col-md-4 rounded my-auto"><img
-                                src="https://firebasestorage.googleapis.com/v0/b/office-kothon.appspot.com/o/Users%2Fmowud%40mailinator.com%2FprofilePic.jpg?alt=media&amp;token=d2075c12-0545-4a38-876f-12f639b45478"
-                                alt="" class="img-responsive" width="100%"></div>
-                        <div class="col-md-6 pl-0 m-auto">
-                            <h6 class="text-light m-0 d-block">Cailin Gilmore</h6>
-                            <small class="text-info m-0">Tester</small>
-                            <div class="dropdown-menu bg-dark shadow-lg text-center"
-                                aria-labelledby="dropdownMenuButton" id="myselect">
-                                <li class="text-light edit "><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                                <li class="text-light delete"><i class="fa fa-trash text-info mr-2 "></i> Delete</li>
-                            </div>
-                        </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    </div>
-                </div>
-                <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="relinybo@mailinator.com">
-                    <div class="row m-auto">
-                        <div class="col-md-4 rounded my-auto"><img
-                                src="https://chanzuckerberg.com/wp-content/uploads/2020/04/Marcelo-Alves-da-Silva-Mori-PhD-Lead.jpg"
-                                alt="" class="img-responsive" width="100%"></div>
-                        <div class="col-md-6 pl-0 m-auto">
-                            <h6 class="text-light m-0 d-block">Jason Reed</h6>
-                            <small class="text-info m-0">Consultant</small>
-                            <div class="dropdown-menu bg-dark shadow-lg text-center"
-                                aria-labelledby="dropdownMenuButton" id="myselect">
-                                <li class="text-light edit "><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                                <li class="text-light delete"><i class="fa fa-trash text-info mr-2 "></i> Delete</li>
-                            </div>
-                        </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    </div>
-                </div>
-                <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="voxidozik@mailinator.com">
-                    <div class="row m-auto">
-                        <div class="col-md-4 rounded my-auto"><img
-                                src="https://firebasestorage.googleapis.com/v0/b/office-kothon.appspot.com/o/Users%2Fvoxidozik%40mailinator.com%2FprofilePic.jpg?alt=media&amp;token=6b0f7ddd-8878-47fe-bb04-44aa79595eed"
-                                alt="" class="img-responsive" width="100%"></div>
-                        <div class="col-md-6 pl-0 m-auto">
-                            <h6 class="text-light m-0 d-block">Adam Gilchrist</h6>
-                            <small class="text-info m-0">Software Engineer</small>
-                            <div class="dropdown-menu bg-dark shadow-lg text-center"
-                                aria-labelledby="dropdownMenuButton" id="myselect">
-                                <li class="text-light edit "><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                                <li class="text-light delete"><i class="fa fa-trash text-info mr-2 "></i> Delete</li>
-                            </div>
-                        </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                    </div>
+                <div class="dfeed-bar bg-transparent border-none scrollbar" id="force-overflow" style="min-height: 73.6vh;"></div>
                 </div>
             </div>
+
         </div>
     </div>
 
