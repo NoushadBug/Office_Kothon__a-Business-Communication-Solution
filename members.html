@@ -312,14 +312,13 @@
 
     //make firebase consts
     const auth = firebase.auth();
-    const auth2 = firebase.auth();
     auth.onAuthStateChanged(function (user) {
         if (!user) {
             window.location.replace('./index.html');
         }
         else {
-            if (user.displayName != 'admin') {
-                window.location.replace('./dashboard.html');
+            if (user.displayName != 'admin' &&  user.displayName.indexOf('isNewUser') == -1) {
+               window.location.replace('./dashboard.html');
             }
             else if (user.displayName == 'unknown') {
                 window.location.replace('./userNotVerified.html');
@@ -332,8 +331,8 @@
     db.settings({ timestampsInSnapshots: true });
 
 </script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 
 <script src="./toaster/toastr.min.js"></script>
