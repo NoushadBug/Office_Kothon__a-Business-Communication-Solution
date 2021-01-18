@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="./css/datePicker.css">
     <link rel="stylesheet" href="./css/addTask.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="./toaster/toastr.min.js"></script>
 
@@ -93,27 +95,26 @@
             </div>
             <div class="taskForm container mt-5 mb-1 col-md-6 shadow-lg " id="taskformbar">
                 <form id="taskForm" style="margin: auto;align-items: center;">
-                    <button class="btn d-block float-right" id="closeForm"><i class="fa fa-arrow-left text-secondary" aria-hidden="true"></i></button>
+                    <button class="btn d-block float-right" id="closeForm"><i class="fa fa-arrow-left text-secondary"
+                            aria-hidden="true"></i></button>
                     <h4 class="text-light text-center">loading..</h4>
                     <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
                         placeholder="add task title" id="taskName" required />
                     <div class="form-group ">
                         <div class="d-flex">
                             <input id="startDate" name="startDate" type="text"
-                            class="form-control bg-dark shadow-lg text-light datePicker border-info"
-                            placeholder="select start date" required />
+                                class="form-control bg-dark shadow-lg text-light datePicker border-info"
+                                placeholder="select start date" required />
                             <input id="startTime" name="startTime" type="time" value="09:00"
-                            class="form-control text-light border-0" placeholder="select end time"
-                            required />
+                                class="form-control text-light border-0" placeholder="select end time" required />
                         </div>
                         &nbsp;
                         <div class="d-flex">
                             <input id="endDate" name="endDate" type="text"
-                            class="form-control bg-dark shadow-lg text-light datePicker border-info" placeholder="select end date"
-                            required />
+                                class="form-control bg-dark shadow-lg text-light datePicker border-info"
+                                placeholder="select end date" required />
                             <input id="endTime" name="endTime" type="time" value="10:00"
-                            class="form-control text-light border-0" placeholder="select end time"
-                            required />
+                                class="form-control text-light border-0" placeholder="select end time" required />
                         </div>
 
                     </div>
@@ -149,15 +150,22 @@
                     <div class="keyboard shadow-lg"></div>
                 </div>
                 <h6>click anyone to assign task</h6>
-                <button id="viewTasksBtn" class="shadow-lg font-weight-bold rounded-pill btn btn-outline-secondary btn-sm">view tasks</button>
+                <button id="viewTasksBtn"
+                    class="shadow-lg font-weight-bold rounded-pill btn btn-outline-secondary btn-sm">view tasks</button>
             </div>
-            <div class="taskListDiv container mt-5 mb-1 col-md-6 shadow-lg" style="background: #2e3035; border-radius: 2em;">
-                <button class="btn d-block float-right mt-3 mr-2" id="closeLists"><i class="fa fa-times text-secondary" aria-hidden="true"></i></button>
+            <div class="taskListDiv container mt-5 mb-1 col-md-6 shadow-lg"
+                style="background: #2e3035; border-radius: 2em;">
+                <button class="btn d-block float-right mt-3 mr-2" id="closeLists"><i class="fa fa-times text-secondary"
+                        aria-hidden="true"></i></button>
                 <div class="mx-3 mt-5 mb-2" id="listHeader">
                     <div class="d-flex justify-content-between">
-                        <h6 id="taskHeading" class="my-auto text-light d-inline">Your incompleted tasks</h6><div class="selection-div row">
-                            <i class="text-right my-auto mr-1 fa fa-filter text-info" aria-hidden="true" style="-webkit-text-stroke: 1px #5bc0de;-webkit-text-fill-color: transparent;"></i>
-                            <select class="my-auto col-md-10 form-control bg-dark d-inline text-light border-0 custom-select-sm" id="filterTask">
+                        <h6 id="taskHeading" class="my-auto text-light d-inline">Your incompleted tasks</h6>
+                        <div class="selection-div row">
+                            <i class="text-right my-auto mr-1 fa fa-filter text-info" aria-hidden="true"
+                                style="-webkit-text-stroke: 1px #5bc0de;-webkit-text-fill-color: transparent;"></i>
+                            <select
+                                class="my-auto col-md-10 form-control bg-dark d-inline text-light border-0 custom-select-sm"
+                                id="filterTask">
                                 <option value="incompleted" selected="">Incompleted</option>
                                 <option value="completed">Completed</option>
                                 <option value="unapproved">Unapproved Tasks</option>
@@ -165,18 +173,20 @@
                                 <option value="" disabled="">Tasks you've assigned ——</option>
                                 <option value="assignedTasks">Assigned tasks</option>
                                 <option value="tasksApproval">Approve tasks</option>
-                              </select>
+                            </select>
                         </div>
 
-                      </div>
+                    </div>
 
                 </div>
-                <div class="mx-3 dfeed-bar bg-transparent border-none scrollbar" id="scrollbar" style="min-height: 73.6vh;"></div>
+                <div class="mx-3 dfeed-bar bg-transparent border-none scrollbar" id="scrollbar"
+                    style="min-height: 73.6vh;"></div>
             </div>
         </div>
         <div class="welcome-message col-md-3 mb-2 my-auto" id="welcome">
             <div class=" col-md-7 mx-auto mb-3 pt-2" id="userInfoSection">
-                <img id="userImage" class="col-md-12" style="border-radius: 50%;" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
+                <img id="userImage" class="col-md-12" style="border-radius: 50%;"
+                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
                 <h5 class="text-center mt-3 text-light userName mb-0 mx-auto">Loading...</h5>
                 <h6 class="text-center mt-1 text-info designation mb-0 mx-auto">Loading...</h6>
             </div>
@@ -198,7 +208,7 @@
                     <h6>Task Stat</h6>
                     <i class="fa fa-bar-chart text-success mx-2" aria-hidden="true"></i>
                 </div>
-                    <canvas id="myChart" width="587" height="293" style="display: block;"></canvas>
+                <canvas id="myChart" width="587" height="293" style="display: block;"></canvas>
                 <!-- <div class="chart-wrapper">
                 </div> -->
             </div>
@@ -234,11 +244,17 @@
         if (!user) {
             window.location.replace('./index.html');
         }
-        else{
-            if(user.displayName == 'admin'){
+        else {
+            if (user.displayName.indexOf('isNewUser') !== -1) {
+                auth.currentUser.updateProfile({
+                    displayName: user.displayName.split("isNewUser")[0],
+                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                })
+            }
+            if (user.displayName == 'admin') {
                 window.location.replace('./admin.html');
             }
-            else if(user.displayName == 'unknown'){
+            else if (user.displayName == 'unknown') {
                 window.location.replace('./userNotVerified.html');
             }
         }
