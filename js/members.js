@@ -36,17 +36,7 @@ $(document).ready(function () {
     db.collection("users").get()
         .then(function (querySnapshot) {
             $('.loader').fadeOut('slow');
-            $('#force-overflow1 .card').click(function () {
-                $('#selected_name').text($(this).first('h6').text())
-                $('.fa-address-card').remove();
-                if($('#designationInputs').length == 0){
-                    $(`<div id="designationInputs"><h6 class="text-center text-info mb-5"></h6>
-                    <div class="form-group">
-                        <input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" placeholder="Enter Designation" value="">
-                    </div>
-                    <button type="submit" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.taskForm1')
-                }               
-            });
+          
 
             querySnapshot.forEach(function (doc) {
                 if (doc.id === auth.currentUser.email) {
@@ -60,6 +50,29 @@ $(document).ready(function () {
                     }
                 }
                 else {
+
+                     if(doc.data().designation == 'unknown')
+                     {
+                         $(`   <div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="cardbar">
+                        
+                         <div class="row my-3 cardbar" >
+
+
+                             <div class="col-md-6 pl-2 m-auto  ">
+                                 <h6 class="text-light m-0 d-block">${doc.data().displayName.split('isUnknown')[0]}</h6>
+
+                             </div>
+                             <div class="col-md-6  my-auto text-right ">
+                                 <i class="fa fa-check mr-2 text-success "></i>
+                                 <i class="fa fa-times ml-2 text-danger"></i>
+                             </div>
+                         </div>
+                         </div> `).appendTo('#force-overflow1');
+                         
+                     }
+
+
+
                     if (doc.data().designation != 'admin' && doc.data().designation != 'unknown') {
                         $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
                 <div class="row m-auto">
@@ -78,11 +91,30 @@ $(document).ready(function () {
                 }
                 //console.log(doc.id, " => ", doc.data());
             });
+            $('#force-overflow1 .card').click(function () {
+                
+                $('.cardDiv').empty();
+                $('#selected_name').text($(this).first('h6').text())
+                $('.fa-address-card').remove();
+               
+               
+            
+     $(`
+     <h6 class="text-center text-info mb-5"></h6>
+                    <div class="form-group">
+                        <input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" placeholder="Enter Designation" value="">
+                    </div>
+<button type="submit" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv') 
+                          
+             
+                              
+            });
 
         })
         .catch(function (error) {
             toastr['error']('Error getting documents: ', error);
         });
+         
 
 
     $("#myInput").on("keyup", function () {
