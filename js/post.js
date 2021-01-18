@@ -4,6 +4,7 @@ var totalNotice;
 var totalLow;
 var totalHard;
 var totalModerate;
+var docResponse = [];
 
 function updateCharts(){
   // chart js implementation
@@ -154,6 +155,7 @@ return returnedCode;
 
 function renderList(docs)
 {
+    docResponse = [];
     totalEvent = 0;
     totalMeeting = 0;
     totalNotice = 0;
@@ -174,7 +176,7 @@ function renderList(docs)
             totalEvent++;
           break;
         }
-
+        docResponse.push(doc.data());
         $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" style="">
         <div class="panel-heading p-3 row p-3 collapsed" href="#panel${doc.id}" data-toggle="collapse"
           data-parent="#accordion" aria-expanded="false">
@@ -187,7 +189,7 @@ function renderList(docs)
             <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
               <span aria-label="${doc.data().priority}"
                   data-microtip-position="left" role="tooltip">${renderPriorities(doc.data().priority.toLowerCase())}</span>
-              <a data-id="${doc.id}" data-value="${JSON.stringify(doc.data())}" class="editNotice"><i class="fa fa-pencil text-secondary "></i></a>
+              <a data-id="${index}" class="editNotice"><i class="fa fa-pencil text-secondary "></i></a>
               <a id="${doc.id}" class="deleteNotice"><i class="fa fa-trash text-secondary mr-0"></i></a>
             </div>
           </div>
@@ -259,8 +261,7 @@ function renderList(docs)
         e.preventDefault();
         e.stopPropagation();
         var id = $(this).attr("data-id");
-        var dataObj = $(this).attr("data-value");
-        console.log(dataObj)
+        console.log(docResponse[id])
         if($('#myModal'+id).length == 0){
           $(`<!-- Modal -->
           <div class="modal fade" id="myModal${id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
@@ -273,18 +274,35 @@ function renderList(docs)
                         </button>
                     </div>
                     <div class="modal-body shadow-lg ">
-                        <p class="text-center text-light m-auto">${dataObj}</p>
+                    <div class="row">
+                    <div class="col-md-6 my-auto">
+                        <div class="form-group">
+                        <small class="text-info mb-0 container">Name</small>
+                        <input type="text" id="postName" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].title}"/>
+                        </div>
+                        <div class="form-group">
+                        <small class="text-info mb-0 container">Description</small>
+                        <textarea class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em;">${docResponse[id].description}</textarea>
+                        </div>
+                        <div class="container">
+                        <small class="text-info mb-0 container">Priority</small>
+                        
+                        </div>
+                        <div class="container" id="docLinksList">
+                        <small class="text-info mb-0">attached files</small>
+                       
                     </div>
-                    <div class="modal-footer shadow-lg" style="border: 0;">
-                        <button type="button" id="deleteBtn" class="deleteBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >yes</button>
+                    </div>
+                    <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
+                        <button type="button" id="updateBtn" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
+                        <button type="button" id="cancel"  data-dismiss="modal" class=" ml-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
                     </div>
                 </div>
               </div>
               </div>
          </div>`).appendTo('body');
          }
-         //alert();
-        // console.log($(this).attr('id'));
+
          let $modal = $('#myModal'+id);
          $modal.modal('show');
 

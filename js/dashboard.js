@@ -1,32 +1,39 @@
 var eventsInfo = [
-  
+
 ];
 function eventcalender(docs)
 {
- 
+
   docs.forEach(function(doc, index)
   {
     if(doc.data().postType == 'Event')
     {
       eventsInfo.push({
-        title: doc.data().title , 
+        title: doc.data().title ,
         date: new Date(doc.data().EventDate) ,
         link:doc.data().EventLink
         });
-       
-      
+
+
 
     }
-   
+
 
   })
 
 $("#calendar").MEC({
-  events: eventsInfo
+  events: eventsInfo,
 });
 
+$('#calLink').on("click", function(){
+console.log(eventsInfo)
+})
 
+ // calLink
 
+// $('#calLink').on("click", function(){
+//   alert('fsd')
+// })
 }
 
 function renderList(docs)
@@ -34,9 +41,6 @@ function renderList(docs)
   $('#accordion').empty();
       docs.forEach(function(doc, index)
       {
-       
-
-       
         $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${doc.id}" style="">
         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse${index}" data-toggle="collapse"
           data-parent="#accordion" aria-expanded="false">
@@ -73,7 +77,7 @@ function renderList(docs)
           </div>
         </div>
       </div>
-      
+
       </div>`).appendTo('#accordion');
       });
       $('.loader').fadeOut('slow');
@@ -85,8 +89,7 @@ function renderList(docs)
 
 
 $(document).ready(function () {
-  // $('#myModal').modal('hide');
- 
+
   db.collection("users").get()
   .then(function (querySnapshot) {
 
@@ -98,11 +101,12 @@ $(document).ready(function () {
               $('#userimage').attr("src", `${doc.data().photoURL}`);
               console.log('photo load ')
             }
-            
-          } 
+
+          }
       });
       console.log('loader fadeout start')
       $('.loader').fadeOut('slow');
+
       toastr.options = {
         closeButton: true,
         debug: false,
@@ -120,10 +124,10 @@ $(document).ready(function () {
         showMethod: 'fadeIn',
         hideMethod: 'fadeOut',
       };
-    
-    
-     
-     
+
+
+
+
 
 
       $("#myInput").on("keyup", function() {
@@ -133,14 +137,11 @@ $(document).ready(function () {
         });
     });
 
-  
-
-
 
 
   $(sliCont).css('width', '0');
   $('[data-toggle="tooltip"]').tooltip();
- 
+
 });
 
 
@@ -163,6 +164,8 @@ $(sliBtn).click(function () {
     searchClicked = false;
   }
 });
+
+
 // weather js
 // api key : 82005d27a116c2880c8f0fcb866998a0
 
@@ -195,7 +198,6 @@ if('geolocation' in navigator){
 function setPosition(position){
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-    
     getWeather(latitude, longitude);
 }
 
@@ -209,7 +211,7 @@ function showError(error){
 // GET WEATHER FROM API PROVIDER
 function getWeather(latitude, longitude){
     let api = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
-    
+
     fetch(api)
         .then(function(response){
             let data = response.json();
@@ -243,11 +245,11 @@ function celsiusToFahrenheit(temperature){
 // WHEN THE USER CLICKS ON THE TEMPERATURE ELEMENET
 tempElement.addEventListener("click", function(){
     if(weather.temperature.value === undefined) return;
-    
+
     if(weather.temperature.unit == "celsius"){
         let fahrenheit = celsiusToFahrenheit(weather.temperature.value);
         fahrenheit = Math.floor(fahrenheit);
-        
+
         tempElement.innerHTML = `${fahrenheit}°<span>F</span>`;
         weather.temperature.unit = "fahrenheit";
     }else{
@@ -259,9 +261,8 @@ tempElement.addEventListener("click", function(){
 
 
 db.collection("notice").onSnapshot(function(snapshot) {
-  console.log(snapshot)
-   eventcalender(snapshot.docs);
-  renderList(snapshot.docs);
-});
-
-  })
+    console.log(snapshot)
+    eventcalender(snapshot.docs);
+    renderList(snapshot.docs);
+  });
+})
