@@ -217,21 +217,21 @@
 
                 </div>
 
-                <div class="row col-md-12 m-auto taskForm2  d-inline-block border border-info">
+                <div class="row col-md-12 m-auto taskForm2  d-inline-block border border-info user_forms-signup">
                     <h5 class="text-center text-light my-3">Register Members</h5>
                     <form class="col-md-12  d-flex">
 
 
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1">Full Name</label>
-                            <input id="settings-name" type="text"
+                            <input type="text" id="name"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
                                 placeholder="Profile Name" value="">
 
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Email</label>
-                            <input type="email"
+                            <input type="email" id="email"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
                                 placeholder="Enter Email" value="">
                         </div>
@@ -239,13 +239,13 @@
                     <form class="col-md-12 d-flex">
                         <div class="form-group col-md-6 ">
                             <label for="exampleInputPassword1">Designation</label>
-                            <input type="text"
+                            <input type="text" id="designation"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
                                 placeholder="Enter Designation" value="">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password"
+                            <input type="password" id="password"
                                 class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
                                 placeholder="Enter Password" value="">
                         </div>
@@ -312,7 +312,8 @@
 
     //make firebase consts
     const auth = firebase.auth();
-    firebase.auth().onAuthStateChanged(function (user) {
+    const auth2 = firebase.auth();
+    auth.onAuthStateChanged(function (user) {
         if (!user) {
             window.location.replace('./index.html');
         }

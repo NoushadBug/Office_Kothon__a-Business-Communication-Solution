@@ -1,21 +1,3 @@
-let userImage;
-let docAvailable;
-let selectedUserName;
-let selectedUserImage;
-let selectedUserDesignation;
-let selectedUserId;
-let animationTriggered = false;
-let selectedReplies= [];
-let loadSvg = true;
-let unreadMessage = 0;
-let unreadThread;
-let serverUpdated = false;
-let docLists = [];
-let selectedDocInfo = [];
-var queryExists;
-var queriedInfo;
-var renderedChats = [];
-// TODO:global variables
 
 $(document).ready(function(){
 
@@ -81,6 +63,44 @@ $(document).ready(function(){
         });
     });
     });
+    
+const signUpform = $('.user_forms-signup')
+
+
+
+signUpform.on('submit',function(event){
+   
+    event.preventDefault();
+    const name = $('.taskForm2 #name').val();
+    const email = $('.taskForm2 #email').val();
+    const designation = $('.taskForm2 #designation').val();
+    const password = $('.taskForm2 #password').val();
+    // sign up the user
+    auth2.createUserWithEmailAndPassword(email, password).then(cred => {
+        var currentUser = auth.currentUser;
+        currentUser.updateProfile({
+            displayName: name, //setting up the user name with account display name
+        })
+        .then(function() {
+            const userCollection = db.collection("users");
+                userCollection.doc(email).set({
+                    displayName: name,
+                    designation: designation,
+                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                }).then(function() {
+                    toastr["success"]("Successfully!", "New member created ")
+                })
+                .catch(function(error) {
+                    console.log("Error writing document: ", error);
+                });
+          });
+         
+    
+
+    }).catch( error => {
+        toastr["error"](error.code, error.message)
+ });
+ });
 
 
     document.getElementById('signout').addEventListener('click', () => {
