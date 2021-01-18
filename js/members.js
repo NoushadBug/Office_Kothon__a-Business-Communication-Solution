@@ -38,6 +38,12 @@ $(document).ready(function () {
             $('.loader').fadeOut('slow');
             $('#force-overflow1 .card').click(function () {
                 $('#selected_name').text($(this).first('h6').text())
+                $('.fa-address-card').remove();
+                $(`<div id="designationInputs"><h6 class="text-center text-info mb-5"></h6>
+                <div class="form-group">
+                    <input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" placeholder="Enter Designation" value="">
+                </div>
+                <button type="submit" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.taskForm1')
             });
 
             querySnapshot.forEach(function (doc) {

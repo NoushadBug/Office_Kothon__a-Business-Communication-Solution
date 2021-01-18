@@ -120,7 +120,8 @@ border-radius: 50% !important;
 .taskForm1
 {
   background: #2e3035;
-  border-radius: 2em;
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
   width: 29vw;
   display: -webkit-inline-box;
 }
