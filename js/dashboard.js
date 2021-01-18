@@ -2,7 +2,7 @@ var eventsInfo = [];
 var events = [];
 
 function checkFileAvailability(str,dec){
-  if(str == 'null'){
+  if(str === 'null'){
   return `<i class="fa fa-paperclip text-secondary${dec}"></i>`;
   }
   else{
