@@ -27,24 +27,17 @@ $(document).ready(function(){
                 if(doc.data().designation != 'admin' && doc.data().designation != 'unknown'){
                 $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
                 <div class="row m-auto">
-                  <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
+                <div class="col-md-4 rounded my-auto"><img src="${doc.data().photoURL}" alt="" class="img-responsive" width="100%"></div>
                   <div class="col-md-6 pl-0 m-auto">
                     <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
                     <small class="text-info m-0">${doc.data().designation}</small>
-                   
                     <div class="dropdown-menu bg-dark shadow-lg text-center" aria-labelledby="dropdownMenuButton" id="myselect">
-
-    <li class="text-light edit " ><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-    <li class="text-light delete" ><i class="fa fa-trash text-info mr-2 " ></i> Delete</li>
-    
-  </div>
-  </div>
-  <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-   
-
-
-
-            </div>`).appendTo('#force-overflow');
+                    <li class="text-light edit " ><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
+                    <li class="text-light delete" ><i class="fa fa-trash text-info mr-2 " ></i> Delete</li>
+                  </div>
+                </div>
+                    <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                </div>`).appendTo('#force-overflow');
             }
         }
             //console.log(doc.id, " => ", doc.data());
