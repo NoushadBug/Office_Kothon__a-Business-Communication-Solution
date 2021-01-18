@@ -49,73 +49,75 @@ $("#calendar").MEC({
   events: eventsInfo,
 });
 
+
 $('#calendar #calLink').on("click", function(){
-  //$('#eventListModal').modal('hide');
-  if($('#eventListModal').length == 0){
-    $(`<!-- Modal -->
-    <div class="modal fade" id="eventListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
-      <div class="modal-dialog modal-dialog-centered " role="document">
-          <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
-              <div class="modal-header shadow-lg" style="border: 0;">
-                  <h6 class="modal-title" id="exampleModalLongTitle">All Events</h6>
-                  <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" onclick="${$('#eventListModal').modal('hide')}" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                  </button>
+  if($('#calendar #calLink').text() != 'VIEW EVENT'){
+    if($('#eventListModal').length == 0){
+      $(`<!-- Modal -->
+      <div class="modal fade" id="eventListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                <div class="modal-header shadow-lg" style="border: 0;">
+                    <h6 class="modal-title" id="exampleModalLongTitle">All Events</h6>
+                    <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" onclick="${$('#eventListModal').modal('hide')}" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body shadow-lg scrollbar" id="eventListDiv" style="background:#2e3035;font-size: 88% !important;">
+  
+                </div>
+                <div class="modal-footer shadow-lg" style="border: 0;">
+                    <button type="button" id="submitPass" data-dismiss="modal" class="submitPass container btn px-5 btn-info rounded-pill shadow-lg" >Close</button>
+                </div>
+            </div>
+          </div>
+          </div>
+    </div>`).appendTo('body');
+  }
+  $('#eventListModal').modal('show');
+  $('#eventListDiv').empty()
+  events.forEach(function(doc, index)
+  {
+    $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${events.id}" style="">
+          <div class="panel-heading p-3 row p-3 collapsed" href="#collapseModal${index}" data-toggle="collapse"
+            data-parent="#accordion" aria-expanded="false">
+            <div class="title-header col-6">
+              <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
+              ${events[index].title}
+              </h6>
+            </div>
+            <div class="header-side col-6 m-auto">
+              <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
+                <span aria-label="${events[index].priority}"
+                    data-microtip-position="left" role="tooltip">${renderPriorities(events[index].priority.toLowerCase())}</span>
+                <a href="#0">${checkFileAvailability(events[index].file, ' mr-0')}</a>
               </div>
-              <div class="modal-body shadow-lg scrollbar" id="eventListDiv" style="background:#2e3035;font-size: 88% !important;">
-
+            </div>
+          </div>
+          <div id="collapseModal${index}" class="panel-collapse collapse in">
+            <div class="collapse-header row mt-3 mx-auto">
+              <div class="col-4">
+                <p> ${new Date(parseInt(events[index].date)).toLocaleString()}</p>
               </div>
-              <div class="modal-footer shadow-lg" style="border: 0;">
-                  <button type="button" id="submitPass" data-dismiss="modal" class="submitPass container btn px-5 btn-info rounded-pill shadow-lg" >Close</button>
+              <div class="status col-4">
+                <i class="fa fa-circle"></i>
+                <p class="d-inline"> ${events[index].postType}</p>
               </div>
-          </div>
-        </div>
-        </div>
-  </div>`).appendTo('body');
-}
-$('#eventListModal').modal('show');
-$('#eventListDiv').empty()
-events.forEach(function(doc, index)
-{
-  $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${events.id}" style="">
-        <div class="panel-heading p-3 row p-3 collapsed" href="#collapseModal${index}" data-toggle="collapse"
-          data-parent="#accordion" aria-expanded="false">
-          <div class="title-header col-6">
-            <h6 class="panel-title d-inline" aria-label="view" data-microtip-position="right" role="tooltip">
-            ${events[index].title}
-            </h6>
-          </div>
-          <div class="header-side col-6 m-auto">
-            <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
-              <span aria-label="${events[index].priority}"
-                  data-microtip-position="left" role="tooltip">${renderPriorities(events[index].priority.toLowerCase())}</span>
-              <a href="#0">${checkFileAvailability(events[index].file, ' mr-0')}</a>
+              <div class="view-button col-4">
+                <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
+              </div>
+            </div>
+            <div class="panel-body row mx-3 pb-3">
+            ${events[index].description}
             </div>
           </div>
         </div>
-        <div id="collapseModal${index}" class="panel-collapse collapse in">
-          <div class="collapse-header row mt-3 mx-auto">
-            <div class="col-4">
-              <p> ${new Date(parseInt(events[index].date)).toLocaleString()}</p>
-            </div>
-            <div class="status col-4">
-              <i class="fa fa-circle"></i>
-              <p class="d-inline"> ${events[index].postType}</p>
-            </div>
-            <div class="view-button col-4">
-              <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
-            </div>
-          </div>
-          <div class="panel-body row mx-3 pb-3">
-          ${events[index].description}
-          </div>
-        </div>
-      </div>
-
-      </div>`).appendTo('#eventListDiv');
-})
-
-console.log(events)
+  
+        </div>`).appendTo('#eventListDiv');
+  })
+  
+  console.log(events)
+  }
 })
 
  // calLink

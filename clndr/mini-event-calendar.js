@@ -19,7 +19,7 @@
 		</div>
 		<div id="calTFooter">
 			<h3 id="eventTitle">No events today.</h3>
-			<a href="javascript:void(0);" id="calLink"  data-toggle="modal" href="#eventListModal">ALL EVENTS</a>
+			<a href="javascript:void(0);" id="calLink" >ALL EVENTS</a>
 		</div>
 	`;
 	var weekDaysFromSunday = '<div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>';
