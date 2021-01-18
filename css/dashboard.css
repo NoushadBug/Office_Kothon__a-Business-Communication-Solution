@@ -537,3 +537,11 @@ $-Styles
   -ms-border-radius: 1em;
   -o-border-radius: 1em;
 }
+
+.feeditem{
+  border-radius: 1em !important;
+  -webkit-border-radius: 1em !important;
+  -moz-border-radius: 1em !important;
+  -ms-border-radius: 1em !important;
+  -o-border-radius: 1em !important;
+}
