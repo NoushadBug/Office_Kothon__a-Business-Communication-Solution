@@ -59,7 +59,53 @@
             </div>
 
             <div class="content col-md-10  row " id="frame">
-                <div class="row col-md-12 mt-auto  mx-auto  ">
+                <div class="row col-md-12 m-auto taskForm2 mx-auto d-inline-block border border-info user_forms-signup">
+                    <h5 class="text-center text-light my-3">Register Members</h5>
+                    <form class="col-md-12  row">
+
+
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputEmail1">Full Name</label>
+                            <input type="text" id="name"
+                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                                placeholder="Profile Name" value="">
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Email</label>
+                            <input type="email" id="email"
+                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                                placeholder="Enter Email" value="">
+                        </div>
+                    </form>
+                    <form class="col-md-12 row">
+                        <div class="form-group col-md-6 ">
+                            <label for="exampleInputPassword1">Designation</label>
+                            <input type="text" id="designation"
+                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                                placeholder="Enter Designation" value="">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" id="password"
+                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
+                                placeholder="Enter Password" value="">
+                        </div>
+
+                    </form>
+                    <form class="col-md-12">
+                        <button type="submit"
+                            class="text-center form-control btn btn-info  rounded-pill border-info shadow-lg mt-2">submit</button>
+
+                    </form>
+
+
+
+
+
+
+                </div>
+                <div class="row col-md-12   m-auto  ">
 
 
                     <div class="col-md-6 unapprove mx-auto shadow-lg border border-info">
@@ -217,52 +263,7 @@
 
                 </div>
 
-                <div class="row col-md-12 m-auto taskForm2  d-inline-block border border-info user_forms-signup">
-                    <h5 class="text-center text-light my-3">Register Members</h5>
-                    <form class="col-md-12  d-flex">
 
-
-                        <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1">Full Name</label>
-                            <input type="text" id="name"
-                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Profile Name" value="">
-
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="exampleInputPassword1">Email</label>
-                            <input type="email" id="email"
-                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Enter Email" value="">
-                        </div>
-                    </form>
-                    <form class="col-md-12 d-flex">
-                        <div class="form-group col-md-6 ">
-                            <label for="exampleInputPassword1">Designation</label>
-                            <input type="text" id="designation"
-                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Enter Designation" value="">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" id="password"
-                                class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
-                                placeholder="Enter Password" value="">
-                        </div>
-
-                    </form>
-                    <form class="col-md-12">
-                        <button type="submit"
-                            class="text-center form-control btn btn-info  rounded-pill border-info shadow-lg mt-2">submit</button>
-
-                    </form>
-
-
-
-
-
-
-                </div>
 
 
 
@@ -317,8 +318,8 @@
             window.location.replace('./index.html');
         }
         else {
-            if (user.displayName != 'admin' &&  user.displayName.indexOf('isNewUser') == -1) {
-               window.location.replace('./dashboard.html');
+            if (user.displayName != 'admin' && user.displayName.indexOf('isNewUser') == -1) {
+                window.location.replace('./dashboard.html');
             }
             else if (user.displayName == 'unknown') {
                 window.location.replace('./userNotVerified.html');

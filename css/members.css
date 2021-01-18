@@ -128,9 +128,7 @@ border-radius: 50% !important;
 {
   background: #2e3035;
   border-radius: 2em;
-  height: 34%;
   width: 29vw;
-  display: -webkit-inline-box;
 }
 
 .taskForm1 label,.taskForm2 label
