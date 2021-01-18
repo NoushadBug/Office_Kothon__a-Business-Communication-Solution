@@ -1,9 +1,38 @@
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    var autoSignOut = false;
+    var adminMail;
+    //make firebase consts
+    const auth = firebase.auth();
+    auth.onAuthStateChanged(function (user) {
+        if (!user && !autoSignOut) {
+            window.location.replace('./index.html');
+        }
+        else {
+            if (user.displayName != 'admin' &&  user.displayName.indexOf('isNewUser') == -1) {
+               window.location.replace('./dashboard.html');
+            }
+            else if (user.displayName == 'unknown') {
+                window.location.replace('./userNotVerified.html');
+            }
+            else{
+                adminMail = auth.currentUser.email;
+            }
+        }
+    });
+    const db = firebase.firestore();
+
+    //update firebase settings
+    db.settings({ timestampsInSnapshots: true });
+
+
 
 $(document).ready(function () {
 
     // $('#approve_form').h6.val("");
 
-
+    $('.uploader').fadeOut('slow');
     db.collection("users").get()
         .then(function (querySnapshot) {
             $('.loader').fadeOut('slow');
@@ -64,7 +93,8 @@ function clearStuffs(){
     $('.taskForm2 #email').val('');
     $('.taskForm2 #designation').val('');
     $('.taskForm2 #password').val('');
-
+    $('#confirmModal').remove();
+    autoSignOut = false;
 }
 
 signUpform.on('submit', function (event) {
@@ -96,6 +126,7 @@ signUpform.on('submit', function (event) {
   $('#submitPass').on( "click",function(e) {
     var adminPass = $('#adminPass').val()
     auth.signInWithEmailAndPassword(auth.currentUser.email, adminPass).then((user) => {
+    $('.uploader').fadeIn('slow');
     $('#confirmModal').modal('hide');
     var name = $('.taskForm2 #name').val();
     var email = $('.taskForm2 #email').val();
@@ -110,25 +141,25 @@ signUpform.on('submit', function (event) {
             displayName: name+'isNewUser', //setting up the user name with account display name
             photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         }).then(data => {
-            console.log(data)
             const userCollection = db.collection("users");
             userCollection.doc(email).set({
                 displayName: name,
                 designation: designation,
                 photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
             }).then(function () {
-                auth.signInWithEmailAndPassword(auth.currentUser.email, adminPass).then(() => {
-                    clearStuffs();
-                    toastr["success"]("Successfully!", "New member created ")
-                })
+                autoSignOut = true;
+                auth.signOut().then(() => {
+                    auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                        clearStuffs();
+                        $('.uploader').fadeOut('slow');
+                        toastr["success"]("Successfully!", "New member created ")
+                    })                })
             }).catch(function (error) {
-                    console.log("Error writing document: ", error);
+                toastr["error"](error.message,error.code)
+
             });
             });
-    });
-
-
-
+    })
     }).catch(error => {
         toastr["error"](error.code, error.message)
      });

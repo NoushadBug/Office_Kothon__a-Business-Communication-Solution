@@ -35,7 +35,38 @@
         <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
     </div>
 
+    <div class="uploader" style="position:fixed;z-index:98;top:0;left:0;width:100%;height:100%;display:flex;background:radial-gradient(circle, rgba(21,51,108,1) 0%, rgba(3,5,50,0.6909138655462185) 86%);;
+    justify-content:center;align-items:center;">
+        <!-- <img src="https://purchase.enigmasoftware.com/Resources/Public/images/core/big_loader.gif" alt="loader"> -->
+        <div class="svgAnimPanel" style="width: 30%; height: 60%;">
+            <svg viewBox="0 0 96 96" class="svg-icon icon-big-data">
+                <polygon id="icon-laptop_touchpad_bg" fill="#12C4E8" points="42 82 39 79 57 79 54 82 " />
+                <rect id="icon-laptop_screen_bg" x="20" y="40" fill="none" stroke="#12C4E8" stroke-width="2" stroke-miterlimit="10" width="56" height="34" />
+                <path id="icon-laptop_screen_border" fill="white" d="M78 36c2.2 0 3 1.9 3 4.1V78H15V40.1c0-2.2 1.9-4.1 4.1-4.1H78M78 34H19.1c-3.3 0-6.1 2.8-6.1 6.1V78v2h2 66 2v-2V40.1C83 36.4 81 34 78 34L78 34z" />
+                <path id="icon-laptop_keyboard_border" fill="white" d="M88 80v3l-5 6H12l-4-6v-3h30l3 4h14l3-4H88M90 78h-2H58h-1l-0.6 0.8L54 82H42l-2.4-3.2L39 78h-1H8 6v2 3 0.6l0.3 0.5 4 6 0.6 0.9H12h71 0.9l0.6-0.7 5-6 0.5-0.6V83v-3V78L90 78z" />
+                <rect id="icon-laptop_line_1_dot" x="36" y="68" fill="#FF550E" width="2" height="2" />
+                <rect id="icon-laptop_line_2_dot" x="41" y="68" fill="#FF550E" width="2" height="2" />
+                <rect id="icon-laptop_line_3_dot" x="46" y="68" fill="#FF550E" width="2" height="2" />
+                <rect id="icon-laptop_line_4_dot" x="51" y="68" fill="#FF550E" width="2" height="2" />
+                <rect id="icon-laptop_line_5_dot" x="56" y="68" fill="#FF550E" width="2" height="2" />
+                <polyline id="icon-laptop_line_1" fill="none" stroke="#FF550E" stroke-width="2" stroke-miterlimit="10" points="25 47 37 47 37 66 " />
+                <line id="icon-laptop_line_2" fill="none" stroke="#FF550E" stroke-width="2" stroke-miterlimit="10" x1="42" y1="22" x2="42" y2="66" />
+                <polyline id="icon-laptop_line_2_top" fill="none" stroke="#FF550E" stroke-width="2" stroke-miterlimit="10" points="42 14 42 10 72 10 " />
+                <polyline id="icon-laptop_line_3" fill="none" stroke="#FF550E" stroke-width="2" stroke-miterlimit="10" points="47 66 47 25 77 25 " />
+                <line id="icon-laptop_line_4" fill="none" stroke="#FF550E" stroke-width="2" stroke-miterlimit="10" x1="52" y1="28" x2="52" y2="66" />
+                <polyline id="icon-laptop_line_4_top" fill="none" stroke="#FF550E" stroke-width="2" stroke-miterlimit="10" points="24 17 53 17 53 22 " />
+                <polyline id="icon-laptop_line_5" fill="none" stroke="#FF550E" stroke-width="2" stroke-miterlimit="10" points="66 48 57 48 57 66 " />
+                <rect id="icon-laptop_line_4_dot_end_1" x="20" y="16" fill="#FF550E" width="2" height="2" />
+                <rect id="icon-laptop_line_4_dot_end_2" x="16" y="16" fill="#FF550E" width="2" height="2" />
+                <rect id="icon-laptop_line_2_dot_end_1" x="74" y="9" fill="#FF550E" width="2" height="2" />
+                <rect id="icon-laptop_line_2_dot_end_2" x="78" y="9" fill="#FF550E" width="2" height="2" />
+                <g>
+                    <circle id="icon-laptop_line_3_circle" fill="#12C4E8" cx="77" cy="25" r="5" />
+                </g>
+            </svg>
+        </div>
 
+    </div>
 
     <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
         <div class="dashboard-container1 row col-md-9 mr-1 " style="height: inherit;">
@@ -306,29 +337,6 @@
         appId: "1:605346039997:web:350fd046addb6f51860fd4",
         measurementId: "G-W822J60VT1"
     };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-
-    //make firebase consts
-    const auth = firebase.auth();
-    auth.onAuthStateChanged(function (user) {
-        if (!user) {
-            window.location.replace('./index.html');
-        }
-        else {
-            if (user.displayName != 'admin' &&  user.displayName.indexOf('isNewUser') == -1) {
-               window.location.replace('./dashboard.html');
-            }
-            else if (user.displayName == 'unknown') {
-                window.location.replace('./userNotVerified.html');
-            }
-        }
-    });
-    const db = firebase.firestore();
-
-    //update firebase settings
-    db.settings({ timestampsInSnapshots: true });
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
