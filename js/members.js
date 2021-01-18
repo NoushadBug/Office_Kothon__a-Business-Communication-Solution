@@ -43,6 +43,25 @@ $(document).ready(function () {
             querySnapshot.forEach(function (doc) {
                 if (doc.id === auth.currentUser.email) {
                     if (doc.data().designation == 'unknown') {
+                        $(`
+                        <h5 class="text-light text-center mt-2 mr-2">Unapproved Members</h5>
+                         <div class="feed-bar bg-dark border-none scrollbar  " id="force-overflow1">
+                        <div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2">
+                            <div class="row my-3">
+                                <div class="col-md-6 pl-2 m-auto  ">
+                                    <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
+                                </div>
+                                <div class="col-md-6  my-auto text-right ">
+                                    <i class="fa fa-check mr-2 text-success "></i>
+                                    <i class="fa fa-times ml-2 text-danger"></i>
+                                </div>
+                            </div>
+                        </div>
+                       
+
+
+                    </div>`).appendTo('.unapprove');
+
                         window.location.replace('./userNotVerified.html');
                     }
                     else {
