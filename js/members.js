@@ -63,7 +63,6 @@ $(document).ready(function () {
 
                              </div>
                              <div class="col-md-6  my-auto text-right ">
-                                 <i class="fa fa-check mr-2 text-success "></i>
                                  <i class="fa fa-times ml-2 text-danger"></i>
                              </div>
                          </div>
