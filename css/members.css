@@ -376,3 +376,28 @@ font-size: 90%;
     opacity: 1;
   }
 }
+
+.fa-address-card{
+  animation: 2s infinite alternate floating;
+}
+
+
+@keyframes floating {
+	0% {
+		transform: translatey(-15%);
+		-webkit-transform: translatey(-15%);
+		-moz-transform: translatey(-15%);
+		-ms-transform: translatey(-15%);
+		-o-transform: translatey(-15%);
+}
+	50% {
+		transform: translatey(-20%);
+}
+	100% {
+		transform: translatey(-15%);
+		-webkit-transform: translatey(-15%);
+		-moz-transform: translatey(-15%);
+		-ms-transform: translatey(-15%);
+		-o-transform: translatey(-15%);
+}
+}

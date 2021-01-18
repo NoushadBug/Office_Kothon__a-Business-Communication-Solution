@@ -31,6 +31,7 @@ return returnedCode;
 
 function eventcalender(docs)
 {
+  events = [];
   docs.forEach(function(doc, index)
   {
     if(doc.data().postType == 'Event')

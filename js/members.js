@@ -1,30 +1,30 @@
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    var autoSignOut = false;
-    var adminMail;
-    //make firebase consts
-    const auth = firebase.auth();
-    auth.onAuthStateChanged(function (user) {
-        if (!user && !autoSignOut) {
-            window.location.replace('./index.html');
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+var autoSignOut = false;
+var adminMail;
+//make firebase consts
+const auth = firebase.auth();
+auth.onAuthStateChanged(function (user) {
+    if (!user && !autoSignOut) {
+        window.location.replace('./index.html');
+    }
+    else {
+        if (user.displayName != 'admin' && user.displayName.indexOf('isNewUser') == -1) {
+            window.location.replace('./dashboard.html');
+        }
+        else if (user.displayName == 'unknown') {
+            window.location.replace('./userNotVerified.html');
         }
         else {
-            if (user.displayName != 'admin' &&  user.displayName.indexOf('isNewUser') == -1) {
-               window.location.replace('./dashboard.html');
-            }
-            else if (user.displayName == 'unknown') {
-                window.location.replace('./userNotVerified.html');
-            }
-            else{
-                adminMail = auth.currentUser.email;
-            }
+            adminMail = auth.currentUser.email;
         }
-    });
-    const db = firebase.firestore();
+    }
+});
+const db = firebase.firestore();
 
-    //update firebase settings
-    db.settings({ timestampsInSnapshots: true });
+//update firebase settings
+db.settings({ timestampsInSnapshots: true });
 
 
 
@@ -36,7 +36,7 @@ $(document).ready(function () {
     db.collection("users").get()
         .then(function (querySnapshot) {
             $('.loader').fadeOut('slow');
-          
+
 
             querySnapshot.forEach(function (doc) {
                 if (doc.id === auth.currentUser.email) {
@@ -51,9 +51,8 @@ $(document).ready(function () {
                 }
                 else {
 
-                     if(doc.data().designation == 'unknown')
-                     {
-                         $(`   <div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="cardbar">
+                    if (doc.data().designation == 'unknown') {
+                        $(`   <div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="${doc.id}">
                         
                          <div class="row my-3 cardbar" >
 
@@ -67,8 +66,8 @@ $(document).ready(function () {
                              </div>
                          </div>
                          </div> `).appendTo('#force-overflow1');
-                         
-                     }
+
+                    }
 
 
 
@@ -91,29 +90,22 @@ $(document).ready(function () {
                 //console.log(doc.id, " => ", doc.data());
             });
             $('#force-overflow1 .card').click(function () {
-                
                 $('.cardDiv').empty();
                 $('#selected_name').text($(this).first('h6').text())
                 $('.fa-address-card').remove();
-               
-               
-            
-     $(`
+                $(`
      <h6 class="text-center text-info mb-5"></h6>
                     <div class="form-group">
-                        <input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" placeholder="Enter Designation" value="">
+                        <input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" id="designationField" placeholder="Enter Designation" value="">
                     </div>
-<button type="submit" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv') 
-                          
-             
-                              
+<button type="submit" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv');
+                $('#designationField').focus();
             });
 
         })
         .catch(function (error) {
             toastr['error']('Error getting documents: ', error);
         });
-         
 
 
     $("#myInput").on("keyup", function () {
@@ -126,7 +118,7 @@ $(document).ready(function () {
 
 const signUpform = $('.user_forms-signup')
 
-function clearStuffs(){
+function clearStuffs() {
     $('#adminPass').val('')
     $('.taskForm2 #name').val('');
     $('.taskForm2 #email').val('');
@@ -160,49 +152,50 @@ signUpform.on('submit', function (event) {
         </div>
         </div>
   </div>`).appendTo('body');
-  $('#confirmModal').modal('show');
+    $('#confirmModal').modal('show');
 
-  $('#submitPass').on( "click",function(e) {
-    var adminPass = $('#adminPass').val()
-    auth.signInWithEmailAndPassword(auth.currentUser.email, adminPass).then((user) => {
-    $('.uploader').fadeIn('slow');
-    $('#confirmModal').modal('hide');
-    var name = $('.taskForm2 #name').val();
-    var email = $('.taskForm2 #email').val();
-    var designation = $('.taskForm2 #designation').val();
-    var password = $('.taskForm2 #password').val();
-    // sign up the user
-    auth.createUserWithEmailAndPassword(email, password).then(cred => {
-        var newUser = auth.currentUser;
-        console.log(newUser)
-        //console.log(cred)
-        newUser.updateProfile({
-            displayName: name+'isNewUser', //setting up the user name with account display name
-            photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-        }).then(data => {
-            const userCollection = db.collection("users");
-            userCollection.doc(email).set({
-                displayName: name,
-                designation: designation,
-                photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-            }).then(function () {
-                autoSignOut = true;
-                auth.signOut().then(() => {
-                    auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                        clearStuffs();
-                        $('.uploader').fadeOut('slow');
-                        toastr["success"]("Successfully!", "New member created ")
-                    })                })
-            }).catch(function (error) {
-                toastr["error"](error.message,error.code)
+    $('#submitPass').on("click", function (e) {
+        var adminPass = $('#adminPass').val()
+        auth.signInWithEmailAndPassword(auth.currentUser.email, adminPass).then((user) => {
+            $('.uploader').fadeIn('slow');
+            $('#confirmModal').modal('hide');
+            var name = $('.taskForm2 #name').val();
+            var email = $('.taskForm2 #email').val();
+            var designation = $('.taskForm2 #designation').val();
+            var password = $('.taskForm2 #password').val();
+            // sign up the user
+            auth.createUserWithEmailAndPassword(email, password).then(cred => {
+                var newUser = auth.currentUser;
+                console.log(newUser)
+                //console.log(cred)
+                newUser.updateProfile({
+                    displayName: name + 'isNewUser', //setting up the user name with account display name
+                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                }).then(data => {
+                    const userCollection = db.collection("users");
+                    userCollection.doc(email).set({
+                        displayName: name,
+                        designation: designation,
+                        photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                    }).then(function () {
+                        autoSignOut = true;
+                        auth.signOut().then(() => {
+                            auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                clearStuffs();
+                                $('.uploader').fadeOut('slow');
+                                toastr["success"]("Successfully!", "New member created ")
+                            })
+                        })
+                    }).catch(function (error) {
+                        toastr["error"](error.message, error.code)
 
-            });
-            });
+                    });
+                });
+            })
+        }).catch(error => {
+            toastr["error"](error.code, error.message)
+        });
     })
-    }).catch(error => {
-        toastr["error"](error.code, error.message)
-     });
-  })
 });
 
 
