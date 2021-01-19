@@ -328,6 +328,11 @@ function renderLoadingSvg(){
             //console.log("change: "+change.doc.data())
             openMessageThread();
         });
+    },
+    error => {
+        if(error.code == 'resource-exhausted'){
+            window.location.replace("../quotaExceeded.html");
+        }
     });
 
 

@@ -207,3 +207,11 @@ document.getElementById('signout').addEventListener('click', () => {
     window.location.replace("./index.html");
 });
 
+db.collection("users").onSnapshot(function(snapshot) {
+    console.log(snapshot)
+  },
+  error => {
+      if(error.code == 'resource-exhausted'){
+          window.location.replace("../quotaExceeded.html");
+      }
+  });

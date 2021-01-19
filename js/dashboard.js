@@ -354,5 +354,12 @@ db.collection("notice").onSnapshot(function(snapshot) {
     console.log(snapshot)
     eventcalender(snapshot.docs);
     renderList(snapshot.docs);
+  },
+  error => {
+      if(error.code == 'resource-exhausted'){
+          window.location.replace("../quotaExceeded.html");
+      }
   });
+
+
 })

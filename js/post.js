@@ -570,6 +570,11 @@ $('.loader').fadeOut('slow');
 db.collection("notice").onSnapshot(function(snapshot) {
   console.log(snapshot)
   renderList(snapshot.docs);
+},
+error => {
+    if(error.code == 'resource-exhausted'){
+        window.location.replace("../quotaExceeded.html");
+    }
 });
 
 })

@@ -984,4 +984,9 @@ db.collection("tasks").onSnapshot(function(snapshot) {
     //alert('sd')
   }
   updationFromDB();
+},
+error => {
+    if(error.code == 'resource-exhausted'){
+        window.location.replace("../quotaExceeded.html");
+    }
 });

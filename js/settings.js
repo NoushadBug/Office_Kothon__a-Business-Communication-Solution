@@ -32,6 +32,11 @@ $(document).ready(function(){
       }
   });
   $('.loader').fadeOut('slow');
+},
+error => {
+    if(error.code == 'resource-exhausted'){
+        window.location.replace("../quotaExceeded.html");
+    }
 })
 
 // drag box js
