@@ -1,8 +1,7 @@
 *:not(.fa) {
   font-family: 'Montserrat', sans-serif !important;
 }
-body{
-}
+
 .typewriter {
   --blue: #5C86FF;
   --blue-dark: #275EFE;
