@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Time Exceeded</title>
+  <link rel="icon" href="https://img.icons8.com/cotton/2x/communication--v1.png" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+
+
+<script>
+    // time js
+function startTime() {
+  var date = new Date();
+  var utcDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000)
+  utcDate.setHours(utcDate.getHours()-8);
+  var pstDate = new Date(utcDate);
+  var pstDateinSeconds = ((pstDate.getHours() * 60) + pstDate.getMinutes()) * 60 + pstDate.getSeconds();
+  var getSecDiff = 86400 - pstDateinSeconds;
+
+   document.getElementById('time').innerHTML = secondsToHms(getSecDiff)
+  setTimeout(startTime, 500);
+}
+
+function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute " : " minutes ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+    return hDisplay + ' : '+ mDisplay + ' : '+ sDisplay;
+}
+
+</script>
+
+<body onload="startTime()">
+    <div class="container m-auto">
+        <h3>We're undergoing a bit of server limitation problem</h3>
+        <h5>Sorry for the inconvenience but it will be back right after a while.</h5>
+    </div>
+
+    <div class="container">
+        <h4>Remaining Time -</h4>
+        <p id="time"></p>
+    </div>
+</body>
+
+</html>
