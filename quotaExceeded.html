@@ -140,6 +140,7 @@
                             error => {
                                 if(error.code == 'resource-exhausted'){
                                     toastr['error']('It may take more time to come back', "The server is Still in processing.");
+                                    clock;
                                 }
                             });
 
