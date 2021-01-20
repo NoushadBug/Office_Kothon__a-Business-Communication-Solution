@@ -34,13 +34,34 @@ function dateDiffInDays(a, b) {
   return diffDays;
 }
 
+function deleteFolderFiles(path){
+  const ref = storage.ref('Tasks/'+path);
+  ref.listAll().then(dir => {
+      dir.items.forEach(fileRef => {
+        deleteFile(ref.fullPath, fileRef.name);
+      });
+      dir.prefixes.forEach(folderRef => {
+        deleteFolderFiles(folderRef.fullPath);
+      })
+    })
+    .catch(error => {
+      //console.log('c: '+error);
+    });
+}
+
+function deleteFile(pathToFile, fileName) {
+  const ref = firebase.storage().ref(pathToFile);
+  const childRef = ref.child(fileName);
+  childRef.delete();
+}
+
 function deleteOldTasks(){
   Object.keys(deletableTasks).forEach(function(doc) {
-   // alert(doc+' => ' +deletableTasks[doc].data.name)
-   db.collection("tasks").doc(doc).delete().then(function() {
-  }).catch(function(error) {
-    console.error("Error removing document: ", error);
-  });
+    db.collection("tasks").doc(doc).delete().then(function() {
+      deleteFolderFiles(doc.split(";")[1])
+    }).catch(function(error) {
+      console.error("Error removing document: ", error);
+    });
   });
 }
 
@@ -203,7 +224,6 @@ console.log(tempInfo)
           toastr['info']( 'see you closer','Welcome to a new month! ');
         })
       })
-
   }
 }
 
@@ -234,7 +254,7 @@ function updationFromDB(){
 
 
           if(doc.id.indexOf('>') !== -1 || doc.id.indexOf('<') !== -1){
-            if(dateDiffInDays(new Date(),time) > 15){ deletableTasks[doc.id]= {data}; }
+            if(dateDiffInDays(new Date(),time) > 15){ deletableTasks[doc.id]= {data};}
           }
            if(doc.id == 'crnt_month'){
              currentMonthInfo = {
@@ -301,7 +321,7 @@ function updationFromDB(){
           }
         });
         db.collection("tasks").doc('crnt_month').set({
-          totalTasks: Object.keys(offlineDB).length-2,
+          totalTasks: taskSnapshot.docChanges().length-2,
           totalIncompleted: totalIncompleted,
           totalCompleted: totalCompleted,
           totalDeadlineCrossed: totalDeadlineCrossed,
@@ -358,8 +378,7 @@ function paintCardUI(refToken, info, sign){
         <small class="text-secondary m-0">Deadline: </small><br>
         <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
       </div>
-      <div class="m-auto"><a href="#0" class="clickToComplete" class="mx-1"> <i class="fa fa-check text-info font-weight-bold" aria-hidden="true"></i></a>
-<a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+<a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="m-auto"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
     </div>
     <!-- Modal -->
 <div class="modal fade" id="task${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -392,7 +411,7 @@ function paintCardUI(refToken, info, sign){
         </div>
     </div>
     <div class="col-md-6 my-auto text-right">
-    <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+info+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
+    <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+info+"'] img")[0].currentSrc}" alt="" class="img-responsive rounded-circle" width="50%"></div>
     <small class="text-info mb-0 container">Assigned by:</small>
       <p style="font-size: 0.9em;" class="container">${$("[data='"+info+"'] h6").text()}</p>
 
@@ -426,17 +445,86 @@ function renderIncompleted(){
   }
 
   else{
-    paintCardUI(myIncompleted, 'assignedBy', ":");
+    Object.keys(myIncompleted).forEach(function(key,index) {
+      var docSplitter = key.split(",");
+      var time = docSplitter[1];
+      var assignedBy = docSplitter[0].split(":")[0];
+      $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+      <div class="row my-auto mx-0">
+        <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+        <div class="col-md-6 pl-0 mx-0 my-auto">
+          <h6 class="text-light d-block m-0">${myIncompleted[key].data.name}</h6>
+          <small class="text-secondary m-0">Deadline: </small><br>
+          <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+        </div>
+        <div class="m-auto"><a href="#0" class="clickToComplete" class="mx-1"> <i class="fa fa-check text-info font-weight-bold" aria-hidden="true"></i></a>
+  <a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+      </div>
+      <!-- Modal -->
+  <div class="modal fade" id="task${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark" style="border-radius: 2em;">
+      <div class="modal-header border-0 shadow-lg text-secondary">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Task Details</h5>
+        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body text-light">
+        <div class="row">
+          <div class="col-md-6 my-auto">
+          <div class="container">
+          <small class="text-info mb-0">Name</small>
+          <p style="font-size: 0.9em;">${myIncompleted[key].data.name}</p>
+          </div>
+          <div class="container">
+          <small class="text-info mb-0">Description</small>
+          <p style="font-size: 0.9em;">${myIncompleted[key].data.description}</p>
+          </div>
+          <div class="container">
+          <small class="text-info mb-0">Priority</small>
+          <p style="font-size: 0.9em;">${myIncompleted[key].data.priority}</p>
+          </div>
+          <div class="container" id="docLinksList">
+          <small class="text-info mb-0">attached files</small>
+          ${showTaskFiles(myIncompleted[key].data.doc)}
+          </div>
+      </div>
+      <div class="col-md-6 my-auto text-right">
+      <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
+      <small class="text-info mb-0 container">Assigned by:</small>
+        <p style="font-size: 0.9em;" class="container">${$("[data='"+assignedBy+"'] h6").text()}</p>
+
+      <div class="container">
+        <small class="text-info mb-0">Start Time</small>
+        <p style="font-size: 0.9em;">${new Date(parseInt(myIncompleted[key].data.start)).toLocaleString()}</p>
+      </div>
+      <div class="container">
+        <small class="text-info mb-0">Deadline</small>
+        <p style="font-size: 0.9em;">${new Date(parseInt(time)).toLocaleString()}</p>
+      </div>
+      </div>
+      </div>
+      <div class="modal-footer border-0 m-0 p-0 shadow-lg rounded-pill">
+        <button type="button" class="shadow-lg btn btn-info container rounded-pill" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </div>
+    </div>`).appendTo('#scrollbar');
+    });
+
+
     $(".clickToComplete").on("click", function(){
         var clickedTaskId =  $(this).closest(".card").attr('data');
         var docSplitter = clickedTaskId.split(",");
-        var time = docSplitter[1];
+        var time = docSplitter[1].split(";")[0];
+        var timeStamp = docSplitter[1].split(";")[1];
         var tempdata = copyToTemp(clickedTaskId);
         var assignedBy = docSplitter[0].split(":")[0];
         var assignedTo = docSplitter[0].split(":")[1];
         //console.log(copyToTemp(clickedTaskId).name) 
         db.collection("tasks").doc(clickedTaskId).delete().then(function() {
-          db.collection("tasks").doc(assignedBy+'|'+assignedTo+','+time).set({
+          db.collection("tasks").doc(assignedBy+'|'+assignedTo+','+time+';'+timeStamp).set({
             description: tempdata.description,
             start: tempdata.start,
             name: tempdata.name,
@@ -453,7 +541,6 @@ function renderIncompleted(){
         });
     });
   }
-
 
 
 }
@@ -509,17 +596,86 @@ function renderTasksApproval(){
     </div>`).appendTo('#scrollbar');
   }
   else{
-    paintCardUI(myUnapproved, 'assignedTo', "|");
+    Object.keys(myUnapproved).forEach(function(key,index) {
+      var docSplitter = key.split(",");
+      var time = docSplitter[1];
+      var assignedTo = docSplitter[0].split("|")[1];
+      $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+      <div class="row mt-auto mb-2 mx-0">
+        <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
+        <div class="col-md-8 pl-0 mx-0 my-auto">
+          <h6 class="text-light d-block m-0">${myUnapproved[key].data.name}</h6>
+          <small class="text-secondary m-0">Deadline: </small><br>
+          <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
+        </div>
+        <div class="my-auto"><a href="#0" data-toggle="modal" data-target="#task${index}" id="viewTaskDetail" class="mx-1"> <i class="fa fa-file-text-o text-secondary " aria-hidden="true"></i></a></div>
+      </div>
+      <div class="container text-center mt-5 px-2 py-1 my-auto btn-secondary shadow-lg rounded-pill clickToApprove" style="font-size: 0.8em;">approve</div>
+      <!-- Modal -->
+  <div class="modal fade" id="task${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark" style="border-radius: 2em;">
+      <div class="modal-header border-0 shadow-lg text-secondary">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Task Details</h5>
+        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body text-light">
+        <div class="row">
+          <div class="col-md-6 my-auto">
+          <div class="container">
+           <small class="text-info mb-0">Name</small>
+           <p style="font-size: 0.9em;">${myUnapproved[key].data.name}</p>
+           </div>
+           <div class="container">
+           <small class="text-info mb-0">Description</small>
+           <p style="font-size: 0.9em;">${myUnapproved[key].data.description}</p>
+           </div>
+           <div class="container">
+           <small class="text-info mb-0">Priority</small>
+           <p style="font-size: 0.9em;">${myUnapproved[key].data.priority}</p>
+           </div>
+           <div class="container" id="docLinksList">
+           <small class="text-info mb-0">attached files</small>
+           ${showTaskFiles(myUnapproved[key].data.doc)}
+           </div>
+      </div>
+      <div class="col-md-6 my-auto text-right">
+      <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
+      <small class="text-info mb-0 container">Assigned To:</small>
+        <p style="font-size: 0.9em;" class="container">${$("[data='"+assignedTo+"'] h6").text()}</p>
+  
+      <div class="container">
+        <small class="text-info mb-0">Start Time</small>
+        <p style="font-size: 0.9em;">${new Date(parseInt(myUnapproved[key].data.start)).toLocaleString()}</p>
+       </div>
+      <div class="container">
+        <small class="text-info mb-0">Deadline</small>
+        <p style="font-size: 0.9em;">${new Date(parseInt(time)).toLocaleString()}</p>
+      </div>
+      </div>
+      </div>
+      <div class="modal-footer border-0 m-0 p-0 shadow-lg rounded-pill">
+        <button type="button" class="shadow-lg btn btn-info container rounded-pill" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    </div>
+    </div>`).appendTo('#scrollbar');
+    });
+  
+  
     $(".clickToApprove").on("click", function(){
       var clickedTaskId =  $(this).closest(".card").attr('data');
       var docSplitter = clickedTaskId.split(",");
-        var time = docSplitter[1];
+        var time = docSplitter[1].split(";")[0];
+        var timeStamp = docSplitter[1].split(";")[1];
         var tempdata = copyToTemp(clickedTaskId);
         var assignedBy = docSplitter[0].split("|")[0];
         var assignedTo = docSplitter[0].split("|")[1];
         //console.log(copyToTemp(clickedTaskId).name) 
         db.collection("tasks").doc(clickedTaskId).delete().then(function() {
-          db.collection("tasks").doc(assignedBy+'>'+assignedTo+','+time).set({
+          db.collection("tasks").doc(assignedBy+'>'+assignedTo+','+time+';'+timeStamp).set({
             description: tempdata.description,
             start: tempdata.start,
             name: tempdata.name,
@@ -892,7 +1048,7 @@ document.getElementById('signout').addEventListener('click', () => {
     if( $("#customFile")[0].files.length == 0 ){
           // Add a new document in collection "tasks"
           $('.uploader').fadeIn('slow');
-          db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate).set({
+          db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate+';'+timestamp).set({
             description: taskDetails,
             start: startDate,
             name: taskName,
@@ -944,7 +1100,7 @@ document.getElementById('signout').addEventListener('click', () => {
                   count++;
                     if(count == $("#customFile")[0].files.length){
                         // Add a new document in collection "tasks"
-                        db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate).set({
+                        db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate+';'+timestamp).set({
                           description: taskDetails,
                           start: startDate,
                           name: taskName,
@@ -953,7 +1109,7 @@ document.getElementById('signout').addEventListener('click', () => {
                         })
                         .then(function() {
                           $('.uploader').fadeOut('slow');
-                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTo);
+                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
                         })
                         .catch(function(error) {
                           console.error("Error writing document: ", error);
