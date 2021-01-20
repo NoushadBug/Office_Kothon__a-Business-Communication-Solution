@@ -74,6 +74,45 @@
 
 </body>
 
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAcNk4KaBv11KxfLtYofUq2zBRDsszM2VE",
+    authDomain: "office-kothon.firebaseapp.com",
+    databaseURL: "https://office-kothon.firebaseio.com",
+    projectId: "office-kothon",
+    storageBucket: "office-kothon.appspot.com",
+    messagingSenderId: "605346039997",
+    appId: "1:605346039997:web:350fd046addb6f51860fd4",
+    measurementId: "G-W822J60VT1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  const auth = firebase.auth();
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (!user) {
+      window.location.replace('./index.html');
+    }
+    else {
+      if (user.displayName.indexOf('isNewUser') !== -1) {
+        auth.currentUser.updateProfile({
+          displayName: user.displayName.split("isNewUser")[0],
+          photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+        })
+      }
+      if (user.displayName == 'admin') {
+        window.location.replace('./admin.html');
+      }
+    }
+  });
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://api.chipware.co.za/js/flipclock-min.js"></script>
 <script>
@@ -86,9 +125,26 @@
 
     var clock = $('#time').FlipClock(getSecDiff, {
         clockFace: 'HourlyCounter',
-        countdown: false,
+        countdown: true,
         showSeconds: true,
+        callbacks: {
+                      stop: function() {
+                            db.collection("tasks").onSnapshot(function(snapshot) {
+                                if(auth.currentUser.displayName == 'admin'){
+                                    window.location.replace("./admin.html");
+                                }
+                                else{
+                                    window.location.replace("./dashboard.html");
+                                }
+                            },
+                            error => {
+                                if(error.code == 'resource-exhausted'){
+                                    toastr['error']('It may take more time to come back', "The server is Still in processing.");
+                                }
+                            });
 
+                      }
+                    }
     });
 </script>
 
