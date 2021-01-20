@@ -35,7 +35,7 @@ function dateDiffInDays(a, b) {
 }
 
 function deleteFolderFiles(path){
-  const ref = storage.ref('Tasks/'+path+'/');
+  const ref = storage.ref('Tasks/'+path);
   ref.listAll().then(dir => {
       dir.items.forEach(fileRef => {
         deleteFile(ref.fullPath, fileRef.name);
