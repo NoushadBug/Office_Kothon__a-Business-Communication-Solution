@@ -1,4 +1,4 @@
-let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width;
+let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width ,totalUsers = 0 ,totalUnknowns=0  , totalNewUser = 0 , approveMembers = 0;
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
@@ -7,6 +7,71 @@ document.getElementById('signout').addEventListener('click', () => {
       });
       window.location.replace("./index.html");
   });
+  
+  // chart js implementation
+var ctx = document.getElementById('myChart').getContext('2d');
+new Chart(ctx, {
+   // The type of chart we want to create
+   type: 'horizontalBar',
+
+   // The data for our dataset
+   data: {
+       labels: ['Approved', 'Unapproved', 'NewUser' ],
+       datasets: [{
+          
+           backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
+          
+           data: [approveMembers, totalUnknowns, totalNewUser],
+         
+       }]
+   },
+
+
+   // Configuration options go here
+   options: {
+     animation: 
+     {
+      duration : 2000,
+        
+     },
+  
+     title: {
+       display: true,
+       text: 'User Stat',
+       fontColor: "cyan",
+       fontSize: 19,
+       
+   },
+     
+     legend: {
+       display : false,
+        
+     },
+     scales: {
+       yAxes: [{
+           ticks: {
+               fontColor: "white",
+               fontSize: 10,
+               
+               beginAtZero: true
+           }
+       }],
+       xAxes: [{
+           ticks: {
+               fontColor: "white",
+               fontSize: 11,
+               
+               beginAtZero: true
+           }
+       }]
+   }
+   
+
+ }
+  
+});
+
+
 
 $(document).ready(function(){
   $('.uploader').fadeOut();
@@ -14,20 +79,51 @@ $(document).ready(function(){
     $('.toggle-checkbox').click();
   }
 
+ 
   db.collection("users").onSnapshot(function(querySnapshot) {
+    totalUnknowns = 0;
+    totalNewUser = 0;
+    totalUsers = querySnapshot.docChanges().length;
+    $(`<h5 class="text-info text-center m-auto ">Total Users: ${totalUsers}</h5>`).appendTo('.totalUser');
+    
+      
     querySnapshot.forEach(function (doc) {
+
       if (doc.id == auth.currentUser.email) {
         $('#userImage').attr("src", `${doc.data().photoURL}`);
         $('.userName').html(`${doc.data().displayName}`);
         $('#settings-name').val(`${doc.data().displayName}`);
         $('.designation').html(`${doc.data().designation}`);
-        $('.bio').text(`${doc.data().bio}`);
-        $('#bioDetails').val(`${doc.data().bio}`);
-        userBio = doc.data().bio;
-        userPhoto = doc.data().photoURL;
-        userDesignation = doc.data().designation;
+
       }
+    if(doc.data().displayName.indexOf('isUnknown') > -1)
+    {
+      totalUnknowns++;
+    
+    }
+    if(doc.data().displayName.indexOf('isNewUser') > -1)
+    {
+      totalNewUser++;
+    }
+    
+  
+    
+
+      
+    
   });
+  $(`<h5 class="text-info text-center m-auto ">Unapprove Members: ${totalUnknowns}</h5>`).appendTo('.unApprove');
+// console.log(totalNewUser);
+approveMembers = totalUsers - totalUnknowns ;
+console.log(approveMembers);
+  
+
+
+
+
+
+
+
   $('.loader').fadeOut('slow');
 },
 error => {

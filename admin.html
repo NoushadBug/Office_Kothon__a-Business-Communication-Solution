@@ -125,7 +125,25 @@
 
             <div class="content col-md-10 my-4" id="frame">
 
+                <div class="row col-md-12 m-auto content p-0 userInfo">
+                    <div class="col-md-6 mx-auto shadow-lg p-0 card  totalUser" style="margin-left: -10px !important;">
 
+                    </div>
+                    <div class="col-md-6 mx-auto shadow-lg p-0 card unApprove" style="margin-right: -10px !important;">
+
+                    </div>
+                </div>
+                <div class="row col-md-12 mx-auto content p-0 my-3 secondRow ">
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card userStat"
+                        style="margin-left: -10px !important;">
+
+                        <canvas id="myChart" style="margin: auto;display: block;width: 430px;height: 221px;" width="562"
+                            height="276" class="chartjs-render-monitor"></canvas>
+                    </div>
+                    <div class="col-md-6 mx-auto shadow-lg p-0 card " style="margin-right: -10px !important;">
+
+                    </div>
+                </div>
 
             </div>
 
@@ -272,4 +290,6 @@
 <script src="https://unpkg.com/dropzone"></script>
 <script src="https://unpkg.com/cropperjs"></script>
 <script src="./toaster/toastr.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="./js/admin.js"></script>
