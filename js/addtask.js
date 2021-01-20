@@ -34,13 +34,34 @@ function dateDiffInDays(a, b) {
   return diffDays;
 }
 
+function deleteFolderFiles(path){
+  const ref = storage.ref('Tasks/'+path+'/');
+  ref.listAll().then(dir => {
+      dir.items.forEach(fileRef => {
+        deleteFile(ref.fullPath, fileRef.name);
+      });
+      dir.prefixes.forEach(folderRef => {
+        deleteFolderFiles(folderRef.fullPath);
+      })
+    })
+    .catch(error => {
+      //console.log('c: '+error);
+    });
+}
+
+function deleteFile(pathToFile, fileName) {
+  const ref = firebase.storage().ref(pathToFile);
+  const childRef = ref.child(fileName);
+  childRef.delete();
+}
+
 function deleteOldTasks(){
   Object.keys(deletableTasks).forEach(function(doc) {
-   // alert(doc+' => ' +deletableTasks[doc].data.name)
-   db.collection("tasks").doc(doc).delete().then(function() {
-  }).catch(function(error) {
-    console.error("Error removing document: ", error);
-  });
+    db.collection("tasks").doc(doc).delete().then(function() {
+      deleteFolderFiles(doc.split(";")[1])
+    }).catch(function(error) {
+      console.error("Error removing document: ", error);
+    });
   });
 }
 
@@ -203,7 +224,6 @@ console.log(tempInfo)
           toastr['info']( 'see you closer','Welcome to a new month! ');
         })
       })
-
   }
 }
 
@@ -234,7 +254,7 @@ function updationFromDB(){
 
 
           if(doc.id.indexOf('>') !== -1 || doc.id.indexOf('<') !== -1){
-            if(dateDiffInDays(new Date(),time) > 15){ deletableTasks[doc.id]= {data}; }
+            if(dateDiffInDays(new Date(),time) > 15){ deletableTasks[doc.id]= {data};}
           }
            if(doc.id == 'crnt_month'){
              currentMonthInfo = {
@@ -1089,7 +1109,7 @@ document.getElementById('signout').addEventListener('click', () => {
                         })
                         .then(function() {
                           $('.uploader').fadeOut('slow');
-                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTo);
+                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
                         })
                         .catch(function(error) {
                           console.error("Error writing document: ", error);
