@@ -497,13 +497,14 @@ function renderIncompleted(){
     $(".clickToComplete").on("click", function(){
         var clickedTaskId =  $(this).closest(".card").attr('data');
         var docSplitter = clickedTaskId.split(",");
-        var time = docSplitter[1];
+        var time = docSplitter[1].split(";")[0];
+        var timeStamp = docSplitter[1].split(";")[1];
         var tempdata = copyToTemp(clickedTaskId);
         var assignedBy = docSplitter[0].split(":")[0];
         var assignedTo = docSplitter[0].split(":")[1];
         //console.log(copyToTemp(clickedTaskId).name) 
         db.collection("tasks").doc(clickedTaskId).delete().then(function() {
-          db.collection("tasks").doc(assignedBy+'|'+assignedTo+','+time).set({
+          db.collection("tasks").doc(assignedBy+'|'+assignedTo+','+time+';'+timeStamp).set({
             description: tempdata.description,
             start: tempdata.start,
             name: tempdata.name,
@@ -647,13 +648,14 @@ function renderTasksApproval(){
     $(".clickToApprove").on("click", function(){
       var clickedTaskId =  $(this).closest(".card").attr('data');
       var docSplitter = clickedTaskId.split(",");
-        var time = docSplitter[1];
+        var time = docSplitter[1].split(";")[0];
+        var timeStamp = docSplitter[1].split(";")[1];
         var tempdata = copyToTemp(clickedTaskId);
         var assignedBy = docSplitter[0].split("|")[0];
         var assignedTo = docSplitter[0].split("|")[1];
         //console.log(copyToTemp(clickedTaskId).name) 
         db.collection("tasks").doc(clickedTaskId).delete().then(function() {
-          db.collection("tasks").doc(assignedBy+'>'+assignedTo+','+time).set({
+          db.collection("tasks").doc(assignedBy+'>'+assignedTo+','+time+';'+timeStamp).set({
             description: tempdata.description,
             start: tempdata.start,
             name: tempdata.name,
@@ -1026,7 +1028,7 @@ document.getElementById('signout').addEventListener('click', () => {
     if( $("#customFile")[0].files.length == 0 ){
           // Add a new document in collection "tasks"
           $('.uploader').fadeIn('slow');
-          db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate).set({
+          db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate+';'+timestamp).set({
             description: taskDetails,
             start: startDate,
             name: taskName,
@@ -1078,7 +1080,7 @@ document.getElementById('signout').addEventListener('click', () => {
                   count++;
                     if(count == $("#customFile")[0].files.length){
                         // Add a new document in collection "tasks"
-                        db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate).set({
+                        db.collection("tasks").doc(auth.currentUser.email+':'+assignedTO+','+endDate+';'+timestamp).set({
                           description: taskDetails,
                           start: startDate,
                           name: taskName,
