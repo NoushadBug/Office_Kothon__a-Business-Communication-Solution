@@ -108,7 +108,7 @@
         })
       }
       if (user.displayName == 'admin') {
-        window.location.replace('./admin.html');
+        //window.location.replace('./admin.html');
       }
     }
   });
@@ -129,18 +129,18 @@
         showSeconds: true,
         callbacks: {
                       stop: function() {
-                            db.collection("tasks").onSnapshot(function(snapshot) {
+                            db.collection("tasks").get().then(function(snap) {
                                 if(auth.currentUser.displayName == 'admin'){
                                     window.location.replace("./admin.html");
                                 }
                                 else{
                                     window.location.replace("./dashboard.html");
                                 }
-                            },
-                            error => {
+                            })
+                            .catch(function(error) {
                                 if(error.code == 'resource-exhausted'){
                                     toastr['error']('It may take more time to come back', "The server is Still in processing.");
-                                    clock;
+                                   clock;
                                 }
                             });
 
