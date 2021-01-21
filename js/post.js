@@ -404,7 +404,7 @@ function renderList(docs)
          let $modal = $('#myModal'+id);
          $modal.modal('show');
 
-         
+
          $('.updateBtn').on( "click",function() {
           let eventDate = $('#myModal'+id+" #editDate"+id).val();
           let eventLink = $('#myModal'+id+" #EventLink"+id).val();

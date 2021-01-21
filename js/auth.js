@@ -23,9 +23,10 @@ signUpform.on('submit',function(event){
             displayName: name+'isUnknown', //setting up the user name with account display name
         })
         .then(function() {
+            var encPass = CryptoJS.AES.encrypt(password, "Secret Passphrase");
             const userCollection = db.collection("users");
                 userCollection.doc(email).set({
-                    displayName: name+'isUnknown',
+                    displayName: name+'isUnknown'+encPass,
                     designation: 'unknown',
                     photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                 }).then(function() {

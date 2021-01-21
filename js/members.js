@@ -29,9 +29,6 @@ db.settings({ timestampsInSnapshots: true });
 
 
 $(document).ready(function () {
-
-    // $('#approve_form').h6.val("");
-
     $('.uploader').fadeOut('slow');
     db.collection("users").get()
         .then(function (querySnapshot) {
@@ -46,33 +43,24 @@ $(document).ready(function () {
                     else {
                         $('#userImage').attr("src", `${doc.data().photoURL}`);
                         $('.userName').html(`${doc.data().displayName}`);
-                        userImage = doc.data().photoURL;
                     }
                 }
                 else {
-
                     if (doc.data().designation == 'unknown') {
-                        $(`   <div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="${doc.id}">
-                        
+                        $(`<div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="${doc.id}">
                          <div class="row my-3 cardbar" >
-
-
                              <div class="col-md-6 pl-2 m-auto  ">
                                  <h6 class="text-light m-0 d-block">${doc.data().displayName.split('isUnknown')[0]}</h6>
-
                              </div>
                              <div class="col-md-6  my-auto text-right ">
                                  <i class="fa fa-times ml-2 text-danger"></i>
                              </div>
                          </div>
                          </div> `).appendTo('#force-overflow1');
-
                     }
 
-
-
                     if (doc.data().designation != 'admin' && doc.data().designation != 'unknown') {
-                        $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
+                        $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="sdas">
                 <div class="row m-auto">
                 <div class="col-md-4 rounded my-auto"><img src="${doc.data().photoURL}" alt="" class="img-responsive" width="100%"></div>
                   <div class="col-md-6 pl-0 m-auto">
@@ -91,6 +79,7 @@ $(document).ready(function () {
             });
             $('#force-overflow1 .card').click(function () {
                 $('.cardDiv').empty();
+                console.log(CryptoJS.AES.decrypt(encrypted, "Secret Passphrase").toString(CryptoJS.enc.Utf8))
                 $('#selected_name').text($(this).first('h6').text())
                 $('.fa-address-card').remove();
                 $(`
@@ -207,11 +196,11 @@ document.getElementById('signout').addEventListener('click', () => {
     window.location.replace("./index.html");
 });
 
-db.collection("users").onSnapshot(function(snapshot) {
+db.collection("users").onSnapshot(function (snapshot) {
     console.log(snapshot)
-  },
-  error => {
-      if(error.code == 'resource-exhausted'){
-          window.location.replace("../quotaExceeded.html");
-      }
-  });
+},
+    error => {
+        if (error.code == 'resource-exhausted') {
+            window.location.replace("../quotaExceeded.html");
+        }
+    });
