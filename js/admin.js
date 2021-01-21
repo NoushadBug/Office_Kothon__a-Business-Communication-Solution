@@ -1,4 +1,4 @@
-let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width ,totalUsers = 0 ,totalUnknowns=0  , totalNewUser = 0 , approveMembers = 0 ,totalCompleted = 0 ,totalDeadlineCrossed = 0,totalIncompleted = 0 ,currentMonth = 0 ,currentyear = 0;
+let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width ,totalUsers = 0 ,totalUnknowns=0  , totalNewUser = 0 , approveMembers = 0 ,totalCompleted = 0 ,totalDeadlineCrossed = 0,totalIncompleted = 0 ,currentMonth = 0 ,currentyear = 0, crntmonTotaltask = 0 ,totalPost = 0 ;
 
 var totalEvent;
 var totalMeeting;
@@ -19,6 +19,8 @@ document.getElementById('signout').addEventListener('click', () => {
   
   // chart js implementation
   function updateCharts(){
+    $(`<h6 class="text-light text-center m-auto ">Total Events: ${totalEvent}</h6>`).appendTo('.UnapproveMembers');
+
     // chart js implementation
   var ctx = document.getElementById('noticeTypes').getContext('2d');
   new Chart(ctx, {
@@ -147,6 +149,10 @@ document.getElementById('signout').addEventListener('click', () => {
 
   function renderList(docs)
   {
+
+    totalPost = docs.length;
+$(`<h6 class="text-light text-center m-auto ">Total Notice: ${totalPost}</h6>`).appendTo('.totalPost');
+
     
       totalEvent = 0;
       totalMeeting = 0;
@@ -232,7 +238,7 @@ $(document).ready(function(){
       
     
   });
-  $(`<h6 class="text-light text-center m-auto ">Unapprove Members: ${totalUnknowns}</h6>`).appendTo('.UnapproveMembers');
+  
 // console.log(totalNewUser);
 approveMembers = totalUsers - totalUnknowns ;
 
@@ -240,10 +246,6 @@ approveMembers = totalUsers - totalUnknowns ;
 // console.log(totalUnknowns);
 // console.log(totalNewUser);
 
-
- 
-
-  Chart.defaults.global.legend.labels.usePointStyle = true; 
   let ctx3 = document.getElementById('myChart2').getContext('2d');
   let labels = ['Approved','Unapproved','New Users'];
   let colorHex = ['#253D5B','#EFCA08','#FB3640'];
@@ -325,7 +327,7 @@ function currentMonth(doc)
   totalCompleted = doc.data().totalCompleted ;
   totalDeadlineCrossed = doc.data().totalDeadlineCrossed;
   totalIncompleted = doc.data().totalIncompleted;
- 
+  crntmonTotaltask = doc.data().totalTasks
 
 currentyear = doc.data().month.year;
 
@@ -334,14 +336,86 @@ console.log(months[doc.data().month.month])
 console.log(currentyear)
 console.log(totalDeadlineCrossed)
 console.log(totalIncompleted)
+console.log(crntmonTotaltask)
+$(`<h6 class="text-light text-center m-auto ">Total Task: ${crntmonTotaltask}</h6>`).appendTo('.totalTask');
+
+var ctx = document.getElementById('currentMonth');
+var myChart = new Chart(ctx, {
+    type: 'line',
+   data : {
+      labels: ["Completed", "Incompleted", "Deadline", "Total"],
+      datasets: [
+          {
+              label: "Current Month Task",
+              backgroundColor :'#04004A',
+              borderCapStyle : 'round',
+              borderJoinStyle : 'miter',
+              borderColor : '#C34A36', 
+              borderWidth : 4,
+              pointHoverRadius : 4,
+              pointStyle : 'rectRounded',
+             
+              pointBackgroundColor : '#4B4453',
+              pointBorderColor : 'white',
+              fill : true,
+              fillColor: "black",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: [ totalCompleted, totalIncompleted,totalDeadlineCrossed,crntmonTotaltask ]
+          },
+         
+      ]
+  },
+    options: {
+       
+    }
+});
+var ctx = document.getElementById('previousMonth');
+var myChart1 = new Chart(ctx, {
+    type: 'line',
+   data : {
+      labels: ["Completed", "Incompleted", "Deadline", "Total"],
+      datasets: [
+          {
+              label: "Previous Month Task",
+              backgroundColor :'#FEFEDF',
+              borderCapStyle : 'round',
+              borderJoinStyle : 'round',
+              borderColor : '#C34A36', 
+              borderWidth : 4,
+              pointHoverRadius : 4,
+              pointStyle : 'rectRounded',
+             
+              pointBackgroundColor : '#4B4453',
+              pointBorderColor : 'white',
+              fill : true,
+              fillColor: "black",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: [ totalCompleted, totalIncompleted,totalDeadlineCrossed,crntmonTotaltask ]
+          },
+         
+      ]
+  },
+    options: {
+       
+    }
+});
+
+
 }
 
 
 
   
-  db.collection("tasks").doc('crnt_month').get().then(function (doc) {
-   
- 
+ db.collection("tasks") .doc('crnt_month').get().then(function (doc) { 
+
   currentMonth(doc);
   
   firstVisited = true;
@@ -368,6 +442,36 @@ console.log(totalIncompleted)
           window.location.replace("../quotaExceeded.html");
       }
   });
+ db.collection("tasks") .doc('prev_month').get().then(function (doc) { 
+
+  currentMonth(doc);
+  
+  firstVisited = true;
+ 
+
+  })
+    
+  db.collection("tasks").doc('prev_month').onSnapshot(function(snapshot) {
+    if(  firstVisited == false)
+    {
+      currentMonth(snapshot);
+
+    }
+    else
+    {
+      firstVisited = false;
+    }
+   
+
+  
+  },
+  error => {
+      if(error.code == 'resource-exhausted'){
+          window.location.replace("../quotaExceeded.html");
+      }
+  });
+ 
+ 
   
   
     
