@@ -1,4 +1,13 @@
-let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width ,totalUsers = 0 ,totalUnknowns=0  , totalNewUser = 0 , approveMembers = 0;
+let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width ,totalUsers = 0 ,totalUnknowns=0  , totalNewUser = 0 , approveMembers = 0 ,totalCompleted = 0 ,totalDeadlineCrossed = 0,totalIncompleted = 0 ,currentMonth = 0 ,currentyear = 0;
+
+var totalEvent;
+var totalMeeting;
+var totalNotice;
+var totalLow;
+var totalHard;
+var totalModerate;
+var months = ['January','February','March','April','May','June','	July','August','September','October','November','December'];
+var firstVisited = false;
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
@@ -9,77 +18,188 @@ document.getElementById('signout').addEventListener('click', () => {
   });
   
   // chart js implementation
-var ctx = document.getElementById('myChart').getContext('2d');
-new Chart(ctx, {
-   // The type of chart we want to create
-   type: 'horizontalBar',
-
-   // The data for our dataset
-   data: {
-       labels: ['Approved', 'Unapproved', 'NewUser' ],
-       datasets: [{
+  function updateCharts(){
+    // chart js implementation
+  var ctx = document.getElementById('noticeTypes').getContext('2d');
+  new Chart(ctx, {
+     // The type of chart we want to create
+     type: 'horizontalBar',
+  
+     // The data for our dataset
+     data: {
+         labels: ['Event', 'Meeting', 'Notice' ],
+         datasets: [{
+            
+             backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
+            
+             data: [totalEvent, totalMeeting, totalNotice],
+           
+         }]
+     },
+  
+  
+     // Configuration options go here
+     options: {
+       animation: 
+       {
+        duration : 2000,
           
-           backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
-          
-           data: [approveMembers, totalUnknowns, totalNewUser],
+       },
+    
+       title: {
+         display: true,
+         text: 'Notice Types',
+         fontColor: "cyan",
+         fontSize: 19,
          
-       }]
-   },
-
-
-   // Configuration options go here
-   options: {
-     animation: 
-     {
-      duration : 2000,
-        
      },
-  
-     title: {
-       display: true,
-       text: 'User Stat',
-       fontColor: "cyan",
-       fontSize: 19,
        
-   },
+       legend: {
+         display : false,
+          
+       },
+       scales: {
+         yAxes: [{
+             ticks: {
+                 fontColor: "white",
+                 fontSize: 10,
+                 
+                 beginAtZero: true
+             }
+         }],
+         xAxes: [{
+         
+             ticks: {
+                 fontColor: "white",
+                 fontSize: 11,
+                 
+                 beginAtZero: true
+             }
+         }]
+     }
      
-     legend: {
-       display : false,
-        
-     },
-     scales: {
-       yAxes: [{
-           ticks: {
-               fontColor: "white",
-               fontSize: 10,
-               
-               beginAtZero: true
-           }
-       }],
-       xAxes: [{
-           ticks: {
-               fontColor: "white",
-               fontSize: 11,
-               
-               beginAtZero: true
-           }
-       }]
-   }
-   
-
- }
   
-});
+   }
+    
+  });
+  // chart js implementation
+  var ctx1 = document.getElementById('noticePriority').getContext('2d');
+  new Chart(ctx1, {
+     // The type of chart we want to create
+     type: 'horizontalBar',
+  
+     // The data for our dataset
+     data: {
+         labels: ['Hard', 'Moderate', 'Low', ],
+         datasets: [{
+             
+             backgroundColor: ['#6252E9','#F74301','#d1da1e'],
+             data: [totalHard, totalModerate, totalLow],
+         }]
+     },
+  
+     options: {
+       
+       animation: 
+       {
+        duration : 2000,
+          
+       },
+       title: {
+         display: true,
+         text: 'Notice Priorities',
+         
+         fontColor: "cyan",
+         fontSize: 19,
+     },
+       
+       legend: {
+         display : false,
+          
+       },
+       scales: {
+         yAxes: [{
+             ticks: {
+              reverse: true,
+                 
+                 fontColor: "white",
+                 fontSize: 10,
+               
+                 beginAtZero: true
+             }
+         }],
+         xAxes: [{
+  
+             ticks: {
+            
+              reverse: true,
+                 fontColor: "white",
+                 fontSize: 11,
+                
+                 beginAtZero: true
+             }
+         }]
+     }
+  
+   }
+  });
+  }
 
-
-
+  function renderList(docs)
+  {
+    
+      totalEvent = 0;
+      totalMeeting = 0;
+      totalNotice = 0;
+      totalLow = 0;
+      totalHard = 0;
+      totalModerate = 0;
+    
+        docs.forEach(function(doc)
+        {
+          switch(doc.data().postType.toLowerCase()){
+            case 'meeting':
+              totalMeeting++;
+            break;
+            case 'notice':
+              totalNotice++;
+            break;
+            case 'event':
+              totalEvent++;
+            break;
+          }
+          switch(doc.data().priority.toLowerCase()){
+            case 'low':
+              totalLow++;
+              
+            break;
+            case 'moderate':
+              totalModerate++;
+             
+            break;
+            case 'hard':
+              totalHard++;
+              
+            break;
+          
+            
+            
+          }
+        
+  
+        });
+  
+      
+  
+        updateCharts();
+  }
+ 
 $(document).ready(function(){
   $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
   }
 
- 
   db.collection("users").onSnapshot(function(querySnapshot) {
     totalUnknowns = 0;
     totalNewUser = 0;
@@ -115,9 +235,67 @@ $(document).ready(function(){
   $(`<h5 class="text-info text-center m-auto ">Unapprove Members: ${totalUnknowns}</h5>`).appendTo('.unApprove');
 // console.log(totalNewUser);
 approveMembers = totalUsers - totalUnknowns ;
-console.log(approveMembers);
-  
 
+// console.log(approveMembers);
+// console.log(totalUnknowns);
+// console.log(totalNewUser);
+
+
+ 
+
+  Chart.defaults.global.legend.labels.usePointStyle = true; 
+  let ctx3 = document.getElementById('myChart2').getContext('2d');
+  let labels = ['Approved','Unapproved','New Users'];
+  let colorHex = ['#253D5B','#EFCA08','#FB3640'];
+
+  new Chart(ctx3,{
+
+    type: 'doughnut',
+    data:{
+      datasets:[
+        {
+          data:[approveMembers,totalUnknowns,totalNewUser],
+          backgroundColor:colorHex,
+          borderColor: '#393c45'
+        }
+      ],
+      labels:labels,
+      
+    },
+    options:{
+      responsive: true,
+      maintainAspectRatio: true,
+      circular: true,
+      legend:{
+        display: true,
+        position: 'bottom',
+        usePointStyle: true,
+        pointStyle: 'd'
+      },
+       plugins:{
+       datalabels:{
+         color : 'white',
+         anchor:'end',
+         align:'start',
+         offset:-10,
+         borderWidth:2,
+         borderColor:'#2e3035',
+         borderRadius:25,
+         backgroundColor:(context)=>{
+           return 'darkslategrey';
+         },
+         font:{
+           weight:'bold',
+           size:'13'
+         },
+         formatter:(value)=>{
+           return Math.round(value / total * 100) + ' %';
+         }
+       }
+     }
+    }
+
+  })
 
 
 
@@ -130,7 +308,84 @@ error => {
     if(error.code == 'resource-exhausted'){
         window.location.replace("../quotaExceeded.html");
     }
-})
+}),
+
+db.collection("notice").onSnapshot(function(snapshot) {
+ 
+  renderList(snapshot.docs);
+},
+error => {
+    if(error.code == 'resource-exhausted'){
+        window.location.replace("../quotaExceeded.html");
+    }
+});
+
+function currentMonth(doc)
+{
+  totalCompleted = doc.data().totalCompleted ;
+  totalDeadlineCrossed = doc.data().totalDeadlineCrossed;
+  totalIncompleted = doc.data().totalIncompleted;
+ 
+
+currentyear = doc.data().month.year;
+
+console.log(totalCompleted)
+console.log(months[doc.data().month.month])
+console.log(currentyear)
+console.log(totalDeadlineCrossed)
+console.log(totalIncompleted)
+}
+
+
+
+  
+  db.collection("tasks").doc('crnt_month').get().then(function (doc) {
+   
+ 
+  currentMonth(doc);
+  
+  firstVisited = true;
+ 
+
+  })
+    
+  db.collection("tasks").doc('crnt_month').onSnapshot(function(snapshot) {
+    if(  firstVisited == false)
+    {
+      currentMonth(snapshot);
+
+    }
+    else
+    {
+      firstVisited = false;
+    }
+   
+
+  
+  },
+  error => {
+      if(error.code == 'resource-exhausted'){
+          window.location.replace("../quotaExceeded.html");
+      }
+  });
+  
+  
+    
+   
+    
+   
+
+      
+
+// console.log( totalCompleted);
+// console.log( totalDeadlineCrossed);
+// console.log( totalIncompleted);
+
+
+
+
+
+
 
 // drag box js
 let $fileInput = $('.file-input');
@@ -412,4 +667,4 @@ $fileInput.on('change', function() {
         });
    });
 
-})
+  })

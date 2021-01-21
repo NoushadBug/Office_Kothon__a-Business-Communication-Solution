@@ -281,9 +281,15 @@ transform-origin: 25% 82%;
 {
 border: 0.2em solid cyan !important;
 }
-.secondRow .card 
-{height: 25vh;background: currentColor;border-radius: 2em;}
-.secondRow .card .border
+.thirdRow .card ,.fourthRow .card
+{background: currentColor;border-radius: 2em;}
+.thirdRow.card .border ,.fourthRow.card .border 
 {
 border: 0.2em solid cyan !important;
 }
+#myChart,#currentMonth, #previousMonth , #noticeTypes, #noticePriority
+{
+  height: 95% !important;
+  width: 95% !important;
+}
+

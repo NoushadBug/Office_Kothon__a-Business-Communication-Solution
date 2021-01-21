@@ -123,26 +123,66 @@
                         class="fa fa-sign-out text-secondary"></i></a>
             </div>
 
-            <div class="content col-md-10 my-4" id="frame">
+            <div class="content col-md-10 my-auto" id="frame">
 
                 <div class="row col-md-12 m-auto content p-0 userInfo">
                     <div class="col-md-6 mx-auto shadow-lg p-0 card  totalUser" style="margin-left: -10px !important;">
 
+
                     </div>
                     <div class="col-md-6 mx-auto shadow-lg p-0 card unApprove" style="margin-right: -10px !important;">
 
+
                     </div>
                 </div>
-                <div class="row col-md-12 mx-auto content p-0 my-3 secondRow ">
-                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card userStat"
+                <div class="row col-md-12 p-0 mt-3 secondRow  ">
+
+                    <div class="col-md-6 mx-auto p-0" style="margin-left: -10px !important;">
+                        <canvas id="myChart2" width="587" height="293"></canvas>
+
+                    </div>
+
+
+
+                    <div class="col-md-6 mx-auto  p-0  " style="margin-right: -10px !important;">
+
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row col-md-12 mx-auto content p-0 mt-3 thirdRow ">
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card currentMonth"
                         style="margin-left: -10px !important;">
 
-                        <canvas id="myChart" style="margin: auto;display: block;width: 430px;height: 221px;" width="562"
-                            height="276" class="chartjs-render-monitor"></canvas>
+                        <canvas id="currentMonth" style="margin: auto;display: block;width: 430px;height: 221px;"
+                            width="562" height="276" class="chartjs-render-monitor"></canvas>
                     </div>
-                    <div class="col-md-6 mx-auto shadow-lg p-0 card " style="margin-right: -10px !important;">
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card previous"
+                        style="margin-right: -10px !important;">
 
+                        <canvas id="previousMonth" style="margin: auto;display: block;width: 430px;height: 221px;"
+                            width="562" height="276" class="chartjs-render-monitor"></canvas>
                     </div>
+
+                </div>
+                <div class="row col-md-12 mx-auto content p-0 mt-3 fourthRow ">
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card noticeTypes"
+                        style="margin-left: -10px !important;">
+
+                        <canvas id="noticeTypes" style="margin: auto;display: block;width: 430px;height: 221px;"
+                            width="562" height="276" class="chartjs-render-monitor"></canvas>
+                    </div>
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card noticePriority"
+                        style="margin-right: -10px !important;">
+
+                        <canvas id="noticePriority" style="margin: auto;display: block;width: 430px;height: 221px;"
+                            width="562" height="276" class="chartjs-render-monitor"></canvas>
+                    </div>
+
+
                 </div>
 
             </div>
