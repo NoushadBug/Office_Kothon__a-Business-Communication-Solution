@@ -298,8 +298,8 @@ function renderList(docs)
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body shadow-lg ">
-                    <div class="row">
+                    <div class="modal-body shadow-lg my-auto">
+                    <div class="row scrollbar bg-transparent" >
                     <div class="col-md-6 my-auto">
                         <div class="form-group">
                         <small class="text-info mb-0 container">Name</small>
@@ -309,39 +309,54 @@ function renderList(docs)
                         <small class="text-info mb-0 container">Description</small>
                         <textarea  rows="4"  class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em; resize: none;">${docResponse[id].description}</textarea>
                         </div>
-                        <div class="container">
+                        <div class="form-group">
                         <small class="text-info mb-0 container">Priority</small>
-                        ${(docResponse[id].priority)}
+                        <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="editPriority${id}" required="">
+                                <option disabled="" class="choose" value="editPriority">Select Priority
+                                </option>
+                                <option value="Low">Low</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="Hard">Hard</option>
+                        </select>
                         </div>
                         <div class="container" id="docLinksList">
-                        <small class="text-info mb-0">attached files</small>
                     </div>
                     </div>
-                    <div class="col-md-6 my-auto">
+                    <div class="col-md-6 my-auto" id='noticeSelect${id}'>
                         <div class="form-group">
-                        <small class="text-info mb-0 container">Name</small>
-                        <input type="text" id="postName" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].title}"/>
+                        <small class="text-info mb-0 container">Notice Type</small>
+                        <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="noticeType${id}" required="">
+                                <option class="choose " value="type" disabled="">Select Type</option>
+                                <option value="Meeting">Meeting</option>
+                                <option value="Notice">Notice</option>
+                                <option value="Event">Event</option>
+                        </select>
                         </div>
-                        <div class="form-group">
-                        <small class="text-info mb-0 container">Description</small>
-                        <textarea  rows="4"  class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em; resize: none;">${docResponse[id].description}</textarea>
-                        </div>
-                        <div class="container">
-                        <small class="text-info mb-0 container">Priority</small>
-                        ${(docResponse[id].priority)}
-                        </div>
-                        <div class="container" id="docLinksList">
-                        <small class="text-info mb-0">attached files</small>
-                    </div>
-                    
+                        
                 </div>
-                <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
+              </div>
+              <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
                 <button type="button" id="updateBtn" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
-                <button type="button" id="cancel"  data-dismiss="modal" class=" ml-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
+                <button type="button" id="cancel"  data-dismiss="modal" class=" mr-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
             </div>
               </div>
-              </div>
          </div>`).appendTo('body');
+         }
+
+         $('#editPriority'+id).val(docResponse[id].priority)
+         $('#noticeType'+id).val(docResponse[id].postType)
+
+         if($('#editDate'+id).length == 0 || $('#EventLink'+id).length == 0){
+          if(docResponse[id].postType == 'Event'){
+            $(`<div class="form-group">
+            <small class="text-info mb-0 container">Event Link</small>
+            <input type="text" id="EventLink${id}" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].EventLink}"/>
+            </div>
+            <div class="form-group">
+            <small class="text-info mb-0 container">Event Date</small>
+            <input id="editDate${id}" name="editDate" type="date" class="datePicker form-control bg-dark shadow-lg text-light mb-2 border border-info" placeholder="select event date" value="${docResponse[id].EventDate}" />
+            </div>`).appendTo('#noticeSelect'+id);
+          }
          }
 
          let $modal = $('#myModal'+id);
@@ -350,6 +365,172 @@ function renderList(docs)
       });
 
       updateCharts();
+}
+
+$(".fileUpload").change(function() {
+  if ($(".fileUpload")[0].files.length > 3) {
+    $(".fileUpload")[0].value = null;
+    toastr['error']("You can select only 3 files");
+  }
+  else {
+    if(this.files[0].name != undefined){
+      for (var i = 0; i < this.files.length; i++)
+      {
+        if(i == 0){
+          $('#fileLabel').text(this.files[i].name);
+        }
+        else{
+          if(i < this.files.length){
+            $('#fileLabel').text($('#fileLabel').text()+", "+this.files[i].name);
+          }
+        }
+      }
+    }
+  }
+});
+
+function datePckr(){
+  
+$('.datePicker').datePicker({
+
+  // use cache
+  useCache: false,
+
+  // the selector for the input fields
+  elements: [],
+
+  // element the picker should be depended on
+  body: document.body,
+
+  // attribute used for internal date transfer
+  pickerAttribute: 'data-picker',
+
+  // class name of the datePicker wrapper
+  datePickerClass: 'date-picker',
+
+  // class name for date representing the value of input field
+  selectedDayClass: 'selected-day',
+
+  // class name for disabled events
+  disabledClass: 'disabled',
+
+  // called right after datePicker is instantiated
+  initCallback: function(elements) {},
+
+  // called every time the picker gets toggled or redrawn
+  renderCallback: function(container, element, toggled) {
+    var bounds = element.getBoundingClientRect();
+
+    container.style.cssText = !this.isOpen ? 'display: none' :
+      'left:' + (window.pageXOffset + bounds.left) + 'px;' +
+      'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
+  },
+
+  // when date is picked, the value needs to be transferred to input
+  renderValue: function(container, element, value) {
+    element.value = value;
+  },
+
+  // when toggling the datePicker, this will pick up the value of the input field
+  readValue: function(element) {
+    return element.value;
+  },
+
+
+  // the HTML rendered before the display of the month. The following strings will be replaced:
+  // {{disable-prev}}, {{prev}}, {{disable-next}}, {{next}}, {{day}}, {{month}}, {{months}}, {{year}}, {{years}}
+  // look at the code (original option HTML) and it's clear what all those placeholders mean
+  header:
+    '<div class="dp-title">' +
+      '<button class="dp-prev" type="button"{{disable-prev}}>{{prev}}</button>' +
+      '<button class="dp-next" type="button"{{disable-next}}>{{next}}</button>' +
+      '<div class="dp-label dp-label-month">{{month}}' +
+        '<select class="dp-select dp-select-month" tabindex="-1">' +
+          '{{months}}' +
+        '</select>' +
+      '</div>' +
+      '<div class="dp-label dp-label-year">{{year}}' +
+        '<select class="dp-select dp-select-year" tabindex="-1">' +
+          '{{years}}' +
+        '</select>' +
+      '</div>' +
+    '</div>',
+
+  // label text for next month
+  nextLabel: 'Next month',
+
+  // label tetx for previous month
+  prevLabel: 'Previous month',
+
+  // min / max dates
+  minDate: '1969-01-01',
+  maxDate: '2050-12-31',
+
+  // data attributes for min/max dates
+  minDateAttribute: 'data-mindate',
+  maxDateAttribute: 'data-maxdate',
+
+  // classes for event listeners
+  nextButtonClass: 'dp-next',
+  prevButtonClass: 'dp-prev',
+  selectYearClass: 'dp-select-year',
+  selectMonthClass: 'dp-select-month',
+
+  // the HTML rendered after the display of the month. The following strings will be replaced:
+  // {{hour}}, {{hours}}, {{minute}}, {{minutes}}, {{second}}, {{seconds}}, {{am-pm}}, {{am-pms}}
+  footer:
+    '<div class="dp-footer">' +
+      '<div class="dp-label">{{hour}}' +
+        '<select class="dp-select dp-select-hour" tabindex="-1">' +
+          '{{hours}}' +
+        '</select>' +
+      '</div>' +
+      '<div class="dp-label">{{minute}}' +
+        '<select class="dp-select dp-select-minute" tabindex="-1">' +
+          '{{minutes}}' +
+        '</select>' +
+      '</div>' +
+      '<div class="dp-label">{{second}}' +
+        '<select class="dp-select dp-select-second" tabindex="-1">' +
+          '{{seconds}}' +
+        '</select>' +
+      '</div>' +
+      '<div class="dp-label">{{am-pm}}' +
+        '<select class="dp-select dp-select-am-pm" tabindex="-1">' +
+          '{{am-pms}}' +
+        '</select>' +
+      '</div>' +
+    '</div>',
+
+  // HH:MM:SS AM, HH:MM AM, HH:MM:SS or HH:MM 
+  timeFormat: '',
+
+  // data attribute for time format
+  timeFormatAttribute:'data-timeformat',
+
+  // switch for standard AM / PM rendering
+  doAMPM: false,
+
+  // steps of minutes displayed as options in
+  minuteSteps: 5,
+
+  // steps of seconds displayed as options in
+  secondSteps: 10,
+
+  // rendered strings in picker options and input fields
+  AMPM: ['AM', 'PM'],
+
+  // classes for event listeners
+  selectHourClass: 'dp-select-hour',
+  selectMinuteClass: 'dp-select-minute',
+  selectSecondClass: 'dp-select-second',
+  selectAMPMClass: 'dp-select-am-pm',
+
+  // data attributes for rangeStart & rangeEnd
+  rangeStartAttribute: 'data-from',
+  rangeEndAttribute: 'data-to'
+  
+});
 }
 
 document.getElementById('signout').addEventListener('click', () => {
@@ -370,6 +551,7 @@ document.getElementById('signout').addEventListener('click', () => {
   }
 
 $(document).ready(function () {
+  datePckr();
   $(".picker").hide(); 
   $('.uploader').fadeOut();
   $('#taskformbar').on('submit',function(e){
@@ -564,147 +746,6 @@ $(".c-link").click(function(){
   $('#taskDetails').val("");
 });
 
-
-$('#startDate').datePicker({
-
-  // use cache
-  useCache: false,
-
-  // the selector for the input fields
-  elements: [],
-
-  // element the picker should be depended on
-  body: document.body,
-
-  // attribute used for internal date transfer
-  pickerAttribute: 'data-picker',
-
-  // class name of the datePicker wrapper
-  datePickerClass: 'date-picker',
-
-  // class name for date representing the value of input field
-  selectedDayClass: 'selected-day',
-
-  // class name for disabled events
-  disabledClass: 'disabled',
-
-  // called right after datePicker is instantiated
-  initCallback: function(elements) {},
-
-  // called every time the picker gets toggled or redrawn
-  renderCallback: function(container, element, toggled) {
-    var bounds = element.getBoundingClientRect();
-
-    container.style.cssText = !this.isOpen ? 'display: none' :
-      'left:' + (window.pageXOffset + bounds.left) + 'px;' +
-      'top:' + (window.pageYOffset + element.offsetHeight + bounds.top) + 'px;';
-  },
-
-  // when date is picked, the value needs to be transferred to input
-  renderValue: function(container, element, value) {
-    element.value = value;
-  },
-
-  // when toggling the datePicker, this will pick up the value of the input field
-  readValue: function(element) {
-    return element.value;
-  },
-
-
-  // the HTML rendered before the display of the month. The following strings will be replaced:
-  // {{disable-prev}}, {{prev}}, {{disable-next}}, {{next}}, {{day}}, {{month}}, {{months}}, {{year}}, {{years}}
-  // look at the code (original option HTML) and it's clear what all those placeholders mean
-  header:
-    '<div class="dp-title">' +
-      '<button class="dp-prev" type="button"{{disable-prev}}>{{prev}}</button>' +
-      '<button class="dp-next" type="button"{{disable-next}}>{{next}}</button>' +
-      '<div class="dp-label dp-label-month">{{month}}' +
-        '<select class="dp-select dp-select-month" tabindex="-1">' +
-          '{{months}}' +
-        '</select>' +
-      '</div>' +
-      '<div class="dp-label dp-label-year">{{year}}' +
-        '<select class="dp-select dp-select-year" tabindex="-1">' +
-          '{{years}}' +
-        '</select>' +
-      '</div>' +
-    '</div>',
-
-  // label text for next month
-  nextLabel: 'Next month',
-
-  // label tetx for previous month
-  prevLabel: 'Previous month',
-
-  // min / max dates
-  minDate: '1969-01-01',
-  maxDate: '2050-12-31',
-
-  // data attributes for min/max dates
-  minDateAttribute: 'data-mindate',
-  maxDateAttribute: 'data-maxdate',
-
-  // classes for event listeners
-  nextButtonClass: 'dp-next',
-  prevButtonClass: 'dp-prev',
-  selectYearClass: 'dp-select-year',
-  selectMonthClass: 'dp-select-month',
-
-  // the HTML rendered after the display of the month. The following strings will be replaced:
-  // {{hour}}, {{hours}}, {{minute}}, {{minutes}}, {{second}}, {{seconds}}, {{am-pm}}, {{am-pms}}
-  footer:
-    '<div class="dp-footer">' +
-      '<div class="dp-label">{{hour}}' +
-        '<select class="dp-select dp-select-hour" tabindex="-1">' +
-          '{{hours}}' +
-        '</select>' +
-      '</div>' +
-      '<div class="dp-label">{{minute}}' +
-        '<select class="dp-select dp-select-minute" tabindex="-1">' +
-          '{{minutes}}' +
-        '</select>' +
-      '</div>' +
-      '<div class="dp-label">{{second}}' +
-        '<select class="dp-select dp-select-second" tabindex="-1">' +
-          '{{seconds}}' +
-        '</select>' +
-      '</div>' +
-      '<div class="dp-label">{{am-pm}}' +
-        '<select class="dp-select dp-select-am-pm" tabindex="-1">' +
-          '{{am-pms}}' +
-        '</select>' +
-      '</div>' +
-    '</div>',
-
-  // HH:MM:SS AM, HH:MM AM, HH:MM:SS or HH:MM 
-  timeFormat: '',
-
-  // data attribute for time format
-  timeFormatAttribute:'data-timeformat',
-
-  // switch for standard AM / PM rendering
-  doAMPM: false,
-
-  // steps of minutes displayed as options in
-  minuteSteps: 5,
-
-  // steps of seconds displayed as options in
-  secondSteps: 10,
-
-  // rendered strings in picker options and input fields
-  AMPM: ['AM', 'PM'],
-
-  // classes for event listeners
-  selectHourClass: 'dp-select-hour',
-  selectMinuteClass: 'dp-select-minute',
-  selectSecondClass: 'dp-select-second',
-  selectAMPMClass: 'dp-select-am-pm',
-
-  // data attributes for rangeStart & rangeEnd
-  rangeStartAttribute: 'data-from',
-  rangeEndAttribute: 'data-to'
-  
-});
 
 db.collection("users").get()
 .then(function (querySnapshot) {
