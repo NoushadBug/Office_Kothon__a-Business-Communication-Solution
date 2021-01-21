@@ -276,7 +276,7 @@ transform-origin: 30% 82%;
 transform-origin: 25% 82%;
 }
 .userInfo .card 
-{height: 6vh;background: currentColor;border-radius: 2em;}
+{height: 13vh;border-radius: 2em;}
 .userInfo .card .border
 {
 border: 0.2em solid cyan !important;

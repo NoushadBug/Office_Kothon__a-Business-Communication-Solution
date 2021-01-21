@@ -204,7 +204,7 @@ $(document).ready(function(){
     totalUnknowns = 0;
     totalNewUser = 0;
     totalUsers = querySnapshot.docChanges().length;
-    $(`<h5 class="text-info text-center m-auto ">Total Users: ${totalUsers}</h5>`).appendTo('.totalUser');
+    $(`<h6 class="text-light text-center m-auto ">Total Users: ${totalUsers}</h6>`).appendTo('.totalUser');
     
       
     querySnapshot.forEach(function (doc) {
@@ -232,7 +232,7 @@ $(document).ready(function(){
       
     
   });
-  $(`<h5 class="text-info text-center m-auto ">Unapprove Members: ${totalUnknowns}</h5>`).appendTo('.unApprove');
+  $(`<h6 class="text-light text-center m-auto ">Unapprove Members: ${totalUnknowns}</h6>`).appendTo('.UnapproveMembers');
 // console.log(totalNewUser);
 approveMembers = totalUsers - totalUnknowns ;
 
