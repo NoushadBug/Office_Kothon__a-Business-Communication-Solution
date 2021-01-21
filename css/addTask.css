@@ -106,6 +106,10 @@
   background: linear-gradient(135deg, var(--blue), var(--blue-dark));
   transform: perspective(10px) rotateX(2deg);
   transform-origin: 50% 100%;
+  -webkit-transform: perspective(10px) rotateX(2deg);
+  -moz-transform: perspective(10px) rotateX(2deg);
+  -ms-transform: perspective(10px) rotateX(2deg);
+  -o-transform: perspective(10px) rotateX(2deg);
 }
 .typewriter .keyboard:after {
   left: 2px;

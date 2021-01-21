@@ -6,6 +6,29 @@ var totalHard;
 var totalModerate;
 var docResponse = [];
 
+function deleteFolderFiles(path){
+  const ref = storage.ref('Notice/'+path);
+  ref.listAll().then(dir => {
+      dir.items.forEach(fileRef => {
+        deleteFile(ref.fullPath, fileRef.name);
+      });
+      dir.prefixes.forEach(folderRef => {
+        deleteFolderFiles(folderRef.fullPath);
+      })
+    })
+    .catch(error => {
+      //console.log('c: '+error);
+    });
+}
+
+function deleteFile(pathToFile, fileName) {
+  const ref = firebase.storage().ref(pathToFile);
+  const childRef = ref.child(fileName);
+  childRef.delete();
+}
+
+
+
 function updateCharts(){
   // chart js implementation
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -155,6 +178,7 @@ return returnedCode;
 
 function renderList(docs)
 {
+  console.log(docs[0].data().date)
     docResponse = [];
     totalEvent = 0;
     totalMeeting = 0;
@@ -190,7 +214,7 @@ function renderList(docs)
               <span aria-label="${doc.data().priority}"
                   data-microtip-position="left" role="tooltip">${renderPriorities(doc.data().priority.toLowerCase())}</span>
               <a data-id="${index}" class="editNotice"><i class="fa fa-pencil text-secondary "></i></a>
-              <a id="${doc.id}" class="deleteNotice"><i class="fa fa-trash text-secondary mr-0"></i></a>
+              <a id="${index}" class="deleteNotice"><i class="fa fa-trash text-secondary mr-0"></i></a>
             </div>
           </div>
         </div>
@@ -242,14 +266,15 @@ function renderList(docs)
               </div>
         </div>`).appendTo('body');
         }
-        console.log($(this).attr('id'));
-        let $modal = $('#myModal'), id = $(this).attr('id');
+        let ref = $(this).attr('id');
+        let $modal = $('#myModal'), id = docs[parseInt($(this).attr('id'))].id;
         $modal.modal('show');
 
         $('#deleteBtn').on( "click",function() {
           db.collection("notice").doc(id).delete().then(function() {
             $modal.modal('hide');
             toastr['success']('Notice deleted successfully');
+            deleteFolderFiles(docs[ref].data().date);
           }).catch((error) => {
             $modal.modal('hide');
             toastr['error'](error, "Notice deletion interrupted");
@@ -268,7 +293,7 @@ function renderList(docs)
             <div class="modal-dialog modal-dialog-centered " role="document">
                 <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
                     <div class="modal-header shadow-lg" style="border: 0;">
-                        <h6 class="modal-title" id="exampleModalLongTitle">Confirm Deletion</h6>
+                        <h6 class="modal-title" id="exampleModalLongTitle">Edit Notice</h6>
                         <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -282,22 +307,38 @@ function renderList(docs)
                         </div>
                         <div class="form-group">
                         <small class="text-info mb-0 container">Description</small>
-                        <textarea class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em;">${docResponse[id].description}</textarea>
+                        <textarea  rows="4"  class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em; resize: none;">${docResponse[id].description}</textarea>
                         </div>
                         <div class="container">
                         <small class="text-info mb-0 container">Priority</small>
-                        
+                        ${(docResponse[id].priority)}
                         </div>
                         <div class="container" id="docLinksList">
                         <small class="text-info mb-0">attached files</small>
-                       
                     </div>
                     </div>
-                    <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
-                        <button type="button" id="updateBtn" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
-                        <button type="button" id="cancel"  data-dismiss="modal" class=" ml-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
+                    <div class="col-md-6 my-auto">
+                        <div class="form-group">
+                        <small class="text-info mb-0 container">Name</small>
+                        <input type="text" id="postName" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].title}"/>
+                        </div>
+                        <div class="form-group">
+                        <small class="text-info mb-0 container">Description</small>
+                        <textarea  rows="4"  class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em; resize: none;">${docResponse[id].description}</textarea>
+                        </div>
+                        <div class="container">
+                        <small class="text-info mb-0 container">Priority</small>
+                        ${(docResponse[id].priority)}
+                        </div>
+                        <div class="container" id="docLinksList">
+                        <small class="text-info mb-0">attached files</small>
                     </div>
+                    
                 </div>
+                <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
+                <button type="button" id="updateBtn" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
+                <button type="button" id="cancel"  data-dismiss="modal" class=" ml-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
+            </div>
               </div>
               </div>
          </div>`).appendTo('body');
@@ -306,15 +347,6 @@ function renderList(docs)
          let $modal = $('#myModal'+id);
          $modal.modal('show');
 
-        // $('#deleteBtn').on( "click",function() {
-        //   db.collection("notice").doc(id).delete().then(function() {
-        //     $modal.modal('hide');
-        //     toastr['success']('Notice deleted successfully');
-        //   }).catch((error) => {
-        //     $modal.modal('hide');
-        //     toastr['error'](error, "Notice deletion interrupted");
-        //   });
-        // })
       });
 
       updateCharts();
@@ -339,6 +371,7 @@ document.getElementById('signout').addEventListener('click', () => {
 
 $(document).ready(function () {
   $(".picker").hide(); 
+  $('.uploader').fadeOut();
   $('#taskformbar').on('submit',function(e){
     e.preventDefault();
     let tasktitle = $('#taskName').val();
@@ -347,42 +380,163 @@ $(document).ready(function () {
     let selectedPriority = $('#selectedPriority').val();
     let EventDate = $('#startDate').val();
     let EventLink =     $('#eventLink').val();
+    let myDate = new Date().getTime();
     // let FileUpload = $('.fileUpload').val();
     var docRef = db.collection("notice").doc();
     if(posttype == 'Event'){
-      docRef.set({
-        title: tasktitle,
-        description: taskdetails,
-        postType: posttype,
-        priority: selectedPriority,
-        file: 'null',
-        EventDate: EventDate,
-        EventLink: EventLink,
-        date : new Date().getTime()
-      }) .then(function() {
-        cleanValues()
-        toastr['success']('Post created sucessfully');
-      }).catch(function(error) {
-        cleanValues()
-        toastr['error']('Fail to create post', error.code);
-      });
+      if( $(".fileUpload")[0].files.length == 0 ){
+        $('.uploader').fadeIn();
+        docRef.set({
+          title: tasktitle,
+          description: taskdetails,
+          postType: posttype,
+          priority: selectedPriority,
+          file: 'null',
+          EventDate: EventDate,
+          EventLink: EventLink,
+          date : myDate
+        }) .then(function() {
+          cleanValues()
+          $('.uploader').fadeOut();
+          toastr['success']('Post created sucessfully');
+        }).catch(function(error) {
+          $('.uploader').fadeOut();
+          cleanValues()
+          toastr['error']('Fail to create post', error.code);
+        });
+      }
+      else{
+        var count = 0;
+        var docLinks;
+
+        for (var i = 0; i < $(".fileUpload")[0].files.length; i++)
+        {
+          let file = $(".fileUpload")[0].files[i];
+          let storageRef = storage.ref("Notice/"+myDate+"/"+file.name);
+          let uploadProgress = storageRef.put(file);
+
+          uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
+                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  if(progress == 0){
+                    $('.uploader').fadeIn('slow');
+                  }
+                  console.log('Upload is ' + progress + '% done');
+                  switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                          toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
+                          uploadProgress.resume();  
+                          break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                          //toastr['info']('Your file is uploading', 'upload running');
+                          break;
+                  }
+                }, function(error) {
+                    toastr['error']('Error uploading files', error.code);
+              }, function() {
+                uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                  docLinks == undefined? docLinks = "`"+file.name+"`"+downloadURL : docLinks += "`"+file.name+"`"+downloadURL;
+                  count++;
+                    if(count == $(".fileUpload")[0].files.length){
+                      docRef.set({
+                          title: tasktitle,
+                          description: taskdetails,
+                          postType: posttype,
+                          priority: selectedPriority,
+                          file: docLinks,
+                          EventDate: EventDate,
+                          EventLink: EventLink,
+                          date : myDate
+                        })
+                        .then(function() {
+                          $('.uploader').fadeOut('slow');
+                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
+                        })
+                        .catch(function(error) {
+                          console.error("Error writing document: ", error);
+                        });
+                    }
+                });
+              });
+        }
+      }
+
     }
     else{
       $('#startDate').val('');
-      docRef.set({
-        title: tasktitle,
-        description: taskdetails,
-        postType: posttype,
-        priority: selectedPriority,
-        file: 'null',
-        date : new Date().getTime()
-      }) .then(function() {
-        cleanValues()
-        toastr['success']('Post created sucessfully');
-      }).catch(function(error) {
-        cleanValues()
-        toastr['error']('Fail to create post', error.code);
-      });
+      if( $(".fileUpload")[0].files.length > 0 ){ 
+        var counter = 0;
+        var docLink;
+
+        for (var j = 0; j < $(".fileUpload")[0].files.length; j++)
+        {
+          let file = $(".fileUpload")[0].files[j];
+          let storageRef = storage.ref("Notice/"+myDate+"/"+file.name);
+          let uploadProgress = storageRef.put(file);
+
+          uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
+                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  if(progress == 0){
+                    $('.uploader').fadeIn('slow');
+                  }
+                  console.log('Upload is ' + progress + '% done');
+                  switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                          toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
+                          uploadProgress.resume();  
+                          break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                          //toastr['info']('Your file is uploading', 'upload running');
+                          break;
+                  }
+                }, function(error) {
+                    toastr['error']('Error uploading files', error.code);
+              }, function() {
+                uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                  docLink == undefined? docLink = "`"+file.name+"`"+downloadURL : docLink += "`"+file.name+"`"+downloadURL;
+                  counter++;
+                    if(counter == $(".fileUpload")[0].files.length){
+                      docRef.set({
+                          file: docLink,
+                          title: tasktitle,
+                          description: taskdetails,
+                          postType: posttype,
+                          priority: selectedPriority,
+                          date : myDate
+                        })
+                        .then(function() {
+                          $('.uploader').fadeOut('slow');
+                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
+                        })
+                        .catch(function(error) {
+                          console.error("Error writing document: ", error);
+                        });
+                    }
+                });
+              });
+        }
+      }
+      else{
+        $('.uploader').fadeIn();
+        docRef.set({
+          title: tasktitle,
+          description: taskdetails,
+          postType: posttype,
+          priority: selectedPriority,
+          file: 'null',
+          date : myDate
+        }) .then(function() {
+          $('.uploader').fadeOut();
+          cleanValues()
+          toastr['success']('Post created sucessfully');
+        }).catch(function(error) {
+          $('.uploader').fadeOut();
+          cleanValues()
+          toastr['error']('Fail to create post', error.code);
+        });
+      }
+      
     }
 
   })
