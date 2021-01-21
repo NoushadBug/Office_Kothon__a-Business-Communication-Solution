@@ -11,10 +11,9 @@ function renderFiles(fileString){
     res = fileString.split("`");
     for (let index = 1; index < res.length; index++) {
       if(index%2 != 0){
-        if(index == 1){returnedElement = `<br><small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 125%;"></i></a>`;}
-      else{returnedElement = returnedElement + `<small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 125%;"></i></a>`;}
+        if(index == 1){returnedElement = `<br><small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 115%;"></i></a>`;}
+      else{returnedElement = returnedElement + `<small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 115%;"></i></a>`;}
       }
-         //console.log(index + " => "+ returnedElement)
     }
     return returnedElement;
 }
@@ -39,8 +38,6 @@ function deleteFile(pathToFile, fileName) {
   const childRef = ref.child(fileName);
   childRef.delete();
 }
-
-
 
 function updateCharts(){
   // chart js implementation
@@ -199,7 +196,7 @@ function renderList(docs)
     totalLow = 0;
     totalHard = 0;
     totalModerate = 0;
-    
+
     $('#accordion').empty();
       docs.forEach(function(doc, index)
       {
@@ -348,7 +345,7 @@ function renderList(docs)
                     <div class="col-md-6 my-auto">
                         <div class="form-group">
                         <small class="text-info mb-0 container">Name</small>
-                        <input type="text" id="postName" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].title}"/>
+                        <input type="text" id="postName" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].title}" required/>
                         </div>
                         <div class="form-group">
                         <small class="text-info mb-0 container">Description</small>
@@ -361,7 +358,7 @@ function renderList(docs)
                     <div class="form-group">
                         <small class="text-info mb-0 container">Priority</small>
                         <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="editPriority${id}" required="">
-                                <option disabled="" class="choose" value="editPriority">Select Priority
+                                <option disabled="" class="choose" value="editPriority" required>Select Priority
                                 </option>
                                 <option value="Low">Low</option>
                                 <option value="Moderate">Moderate</option>
@@ -371,7 +368,7 @@ function renderList(docs)
                         <div class="form-group">
                         <small class="text-info mb-0 container">Notice Type</small>
                         <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="noticeType${id}" required="">
-                                <option class="choose " value="type" disabled="">Select Type</option>
+                                <option class="choose " value="type" disabled="" required>Select Type</option>
                                 <option value="Meeting">Meeting</option>
                                 <option value="Notice">Notice</option>
                                 <option value="Event">Event</option>
@@ -381,7 +378,7 @@ function renderList(docs)
                 </div>
               </div>
               <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
-                <button type="button" id="updateBtn" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
+                <button type="button" id="${id}" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
                 <button type="button" id="cancel"  data-dismiss="modal" class=" mr-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
             </div>
               </div>
@@ -395,17 +392,64 @@ function renderList(docs)
           if(docResponse[id].postType == 'Event'){
             $(`<div class="form-group">
             <small class="text-info mb-0 container">Event Link</small>
-            <input type="text" id="EventLink${id}" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].EventLink}"/>
+            <input type="text" id="EventLink${id}" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].EventLink}" required />
             </div>
             <div class="form-group">
             <small class="text-info mb-0 container">Event Date</small>
-            <input id="editDate${id}" name="editDate" type="date" class="datePicker form-control bg-dark shadow-lg text-light mb-2 border border-info" placeholder="select event date" value="${docResponse[id].EventDate}" />
+            <input id="editDate${id}" name="editDate" type="date" class="datePicker form-control bg-dark shadow-lg text-light mb-2 border border-info" placeholder="select event date" value="${docResponse[id].EventDate}" required />
             </div>`).appendTo('#noticeSelect'+id);
           }
          }
 
          let $modal = $('#myModal'+id);
          $modal.modal('show');
+
+         
+         $('.updateBtn').on( "click",function() {
+          let eventDate = $('#myModal'+id+" #editDate"+id).val();
+          let eventLink = $('#myModal'+id+" #EventLink"+id).val();
+          let noticeType = $('#myModal'+id+" #noticeType"+id).val();
+          let editPriority = $('#myModal'+id+" #editPriority"+id).val();
+          let desc = $('#myModal'+id+" textarea").val();
+          let title = $('#myModal'+id+" #postName").val();
+          $('#myModal'+id).modal('hide');
+          if(docResponse[id].postType == 'Event'){
+            $('.uploader').fadeIn();
+            db.collection("notice").doc().set({
+                  title: title,
+                  description: desc,
+                  postType: noticeType,
+                  priority: editPriority,
+                  EventDate: eventDate,
+                  EventLink: eventLink,
+                },{merge: true}) .then(function() {
+                  cleanValues()
+                  $('.uploader').fadeOut();
+                  toastr['success']('Post created sucessfully');
+                }).catch(function(error) {
+                  $('.uploader').fadeOut();
+                  cleanValues()
+                  toastr['error']('Fail to create post', error.code);
+                });
+          }
+          else{
+            $('.uploader').fadeIn();
+            db.collection("notice").doc().set({
+              title: title,
+              description: desc,
+              postType: noticeType,
+              priority: editPriority,
+            },{merge: true}) .then(function() {
+              cleanValues()
+              $('.uploader').fadeOut();
+              toastr['success']('Post created sucessfully');
+            }).catch(function(error) {
+              $('.uploader').fadeOut();
+              cleanValues()
+              toastr['error']('Fail to create post', error.code);
+            });
+          }
+       })
 
       });
 
