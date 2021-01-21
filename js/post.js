@@ -5,6 +5,7 @@ var totalLow;
 var totalHard;
 var totalModerate;
 var docResponse = [];
+var docIds = [];
 
 function renderFiles(fileString){
   var returnedElement,
@@ -190,6 +191,7 @@ function renderList(docs)
 {
   console.log(docs[0].data().date)
     docResponse = [];
+    docIds = [];
     totalEvent = 0;
     totalMeeting = 0;
     totalNotice = 0;
@@ -213,6 +215,7 @@ function renderList(docs)
           break;
         }
         docResponse.push(doc.data());
+        docIds.push(doc.id);
         $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" style="">
         <div class="panel-heading p-3 row p-3 collapsed" href="#panel${doc.id}" data-toggle="collapse"
           data-parent="#accordion" aria-expanded="false">
@@ -378,7 +381,7 @@ function renderList(docs)
                 </div>
               </div>
               <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
-                <button type="button" id="${id}" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
+                <button type="button" id="${id}" data="${id}" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
                 <button type="button" id="cancel"  data-dismiss="modal" class=" mr-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
             </div>
               </div>
@@ -415,7 +418,7 @@ function renderList(docs)
           $('#myModal'+id).modal('hide');
           if(docResponse[id].postType == 'Event'){
             $('.uploader').fadeIn();
-            db.collection("notice").doc().set({
+            db.collection("notice").doc(docIds[id]).set({
                   title: title,
                   description: desc,
                   postType: noticeType,
@@ -425,7 +428,7 @@ function renderList(docs)
                 },{merge: true}) .then(function() {
                   cleanValues()
                   $('.uploader').fadeOut();
-                  toastr['success']('Post created sucessfully');
+                  toastr['success']('Post updated sucessfully');
                 }).catch(function(error) {
                   $('.uploader').fadeOut();
                   cleanValues()
@@ -434,7 +437,7 @@ function renderList(docs)
           }
           else{
             $('.uploader').fadeIn();
-            db.collection("notice").doc().set({
+            db.collection("notice").doc(docIds[id]).set({
               title: title,
               description: desc,
               postType: noticeType,
@@ -442,7 +445,7 @@ function renderList(docs)
             },{merge: true}) .then(function() {
               cleanValues()
               $('.uploader').fadeOut();
-              toastr['success']('Post created sucessfully');
+              toastr['success']('Post updated sucessfully');
             }).catch(function(error) {
               $('.uploader').fadeOut();
               cleanValues()
