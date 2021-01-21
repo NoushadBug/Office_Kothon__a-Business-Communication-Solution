@@ -127,11 +127,25 @@ $('#calendar #calLink').on("click", function(){
 // })
 }
 
+function renderFiles(fileString){
+  var returnedElement,
+    res = fileString.split("`");
+    for (let index = 1; index < res.length; index++) {
+      if(index%2 != 0){
+        if(index == 1){returnedElement = `<br><small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 115%;"></i></a>`;}
+      else{returnedElement = returnedElement + `<small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 115%;"></i></a>`;}
+      }
+         //console.log(index + " => "+ returnedElement)
+    }
+    return returnedElement;
+}
+
 function renderList(docs)
 {
   $('#accordion').empty();
       docs.forEach(function(doc, index)
       {
+        var fileElement = doc.data().file == 'null'? `<a href="#0" class="btn btn-primary disabled btn-sm viewFile" role="button" aria-pressed="true" id="${index}">View File</a>` : `<a href="#0" class="btn btn-primary btn-sm viewFile" role="button" aria-pressed="true" id="${index}">View File</a>`;
         $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${doc.id}" style="">
         <div class="panel-heading p-3 row p-3 collapsed" href="#collapse${index}" data-toggle="collapse"
           data-parent="#accordion" aria-expanded="false">
@@ -159,8 +173,7 @@ function renderList(docs)
               <p class="d-inline"> ${doc.data().postType}</p>
             </div>
             <div class="view-button col-4">
-              <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
-            </div>
+            ${fileElement}</div>
           </div>
           <div class="panel-body row mx-3 pb-3">
           ${doc.data().description}
@@ -171,6 +184,37 @@ function renderList(docs)
       </div>`).appendTo('#accordion');
       });
       $('.loader').fadeOut('slow');
+
+      $('.viewFile').on( "click",function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let id = $(this).attr('id');
+        let str = docs[id].data().file;
+        if($('#fileModal'+id).length == 0){
+          $(`<!-- Modal -->
+          <div class="modal fade" id="fileModal${id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                    <div class="modal-header shadow-lg" style="border: 0;">
+                        <h6 class="modal-title" id="exampleModalLongTitle">View Files</h6>
+                        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body shadow-lg ">
+                        <p class="text-center text-light m-auto">${renderFiles(str)}</p>
+                    </div>
+                    <div class="modal-footer shadow-lg" style="border: 0;">
+                        <button type="button" data-dismiss="modal" class="mx-auto btn px-5 btn-secondary rounded-pill shadow-lg">close</button>
+                    </div>
+                </div>
+              </div>
+              </div>
+        </div>`).appendTo('body');
+        }
+        let $modal = $('#fileModal'+id);
+        $modal.modal('show');
+      })
 
 }
 

@@ -6,6 +6,18 @@ var totalHard;
 var totalModerate;
 var docResponse = [];
 
+function renderFiles(fileString){
+  var returnedElement,
+    res = fileString.split("`");
+    for (let index = 1; index < res.length; index++) {
+      if(index%2 != 0){
+        if(index == 1){returnedElement = `<br><small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 115%;"></i></a>`;}
+      else{returnedElement = returnedElement + `<small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 115%;"></i></a>`;}
+      }
+    }
+    return returnedElement;
+}
+
 function deleteFolderFiles(path){
   const ref = storage.ref('Notice/'+path);
   ref.listAll().then(dir => {
@@ -26,8 +38,6 @@ function deleteFile(pathToFile, fileName) {
   const childRef = ref.child(fileName);
   childRef.delete();
 }
-
-
 
 function updateCharts(){
   // chart js implementation
@@ -186,9 +196,11 @@ function renderList(docs)
     totalLow = 0;
     totalHard = 0;
     totalModerate = 0;
+
     $('#accordion').empty();
       docs.forEach(function(doc, index)
       {
+        var fileElement = doc.data().file == 'null'? `<a href="#0" class="btn btn-primary disabled btn-sm viewFile" role="button" aria-pressed="true" id="${index}">View File</a>` : `<a href="#0" class="btn btn-primary btn-sm viewFile" role="button" aria-pressed="true" id="${index}">View File</a>`;
         switch(doc.data().postType.toLowerCase()){
           case 'meeting':
             totalMeeting++;
@@ -227,8 +239,7 @@ function renderList(docs)
               <i class="fa fa-circle"></i>
               <p class="d-inline"> ${doc.data().postType}</p>
             </div>
-            <div class="view-button col-4">
-              <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
+            <div class="view-button col-4">${fileElement}
             </div>
           </div>
           <div class="panel-body row mx-3 pb-3">
@@ -239,6 +250,37 @@ function renderList(docs)
       `).appendTo('#accordion');
 
       });
+
+      $('.viewFile').on( "click",function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let id = $(this).attr('id');
+        let str = docs[id].data().file;
+        if($('#fileModal'+id).length == 0){
+          $(`<!-- Modal -->
+          <div class="modal fade" id="fileModal${id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                    <div class="modal-header shadow-lg" style="border: 0;">
+                        <h6 class="modal-title" id="exampleModalLongTitle">View Files</h6>
+                        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body shadow-lg ">
+                        <p class="text-center text-light m-auto">${renderFiles(str)}</p>
+                    </div>
+                    <div class="modal-footer shadow-lg" style="border: 0;">
+                        <button type="button" data-dismiss="modal" class="mx-auto btn px-5 btn-secondary rounded-pill shadow-lg">close</button>
+                    </div>
+                </div>
+              </div>
+              </div>
+        </div>`).appendTo('body');
+        }
+        let $modal = $('#fileModal'+id);
+        $modal.modal('show');
+      })
 
       $('.deleteNotice').on( "click",function(e) {
         e.preventDefault();
@@ -303,30 +345,30 @@ function renderList(docs)
                     <div class="col-md-6 my-auto">
                         <div class="form-group">
                         <small class="text-info mb-0 container">Name</small>
-                        <input type="text" id="postName" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].title}"/>
+                        <input type="text" id="postName" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].title}" required/>
                         </div>
                         <div class="form-group">
                         <small class="text-info mb-0 container">Description</small>
                         <textarea  rows="4"  class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em; resize: none;">${docResponse[id].description}</textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="container" id="docLinksList">
+                    </div>
+                    </div>
+                    <div class="col-md-6 my-auto" id='noticeSelect${id}'>
+                    <div class="form-group">
                         <small class="text-info mb-0 container">Priority</small>
                         <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="editPriority${id}" required="">
-                                <option disabled="" class="choose" value="editPriority">Select Priority
+                                <option disabled="" class="choose" value="editPriority" required>Select Priority
                                 </option>
                                 <option value="Low">Low</option>
                                 <option value="Moderate">Moderate</option>
                                 <option value="Hard">Hard</option>
                         </select>
                         </div>
-                        <div class="container" id="docLinksList">
-                    </div>
-                    </div>
-                    <div class="col-md-6 my-auto" id='noticeSelect${id}'>
                         <div class="form-group">
                         <small class="text-info mb-0 container">Notice Type</small>
                         <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="noticeType${id}" required="">
-                                <option class="choose " value="type" disabled="">Select Type</option>
+                                <option class="choose " value="type" disabled="" required>Select Type</option>
                                 <option value="Meeting">Meeting</option>
                                 <option value="Notice">Notice</option>
                                 <option value="Event">Event</option>
@@ -336,7 +378,7 @@ function renderList(docs)
                 </div>
               </div>
               <div class="modal-footer shadow-lg mx-auto rounded-pill" style="border: 0;">
-                <button type="button" id="updateBtn" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
+                <button type="button" id="${id}" class="updateBtn ml-auto btn px-5 btn-info rounded-pill shadow-lg" >update</button>
                 <button type="button" id="cancel"  data-dismiss="modal" class=" mr-auto btn px-5 btn-secondary rounded-pill shadow-lg" >cancel</button>
             </div>
               </div>
@@ -350,11 +392,11 @@ function renderList(docs)
           if(docResponse[id].postType == 'Event'){
             $(`<div class="form-group">
             <small class="text-info mb-0 container">Event Link</small>
-            <input type="text" id="EventLink${id}" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].EventLink}"/>
+            <input type="text" id="EventLink${id}" class="form-control text-light bg-dark rounded-pill border border-info" style="font-size: 0.9em;" value="${docResponse[id].EventLink}" required />
             </div>
             <div class="form-group">
             <small class="text-info mb-0 container">Event Date</small>
-            <input id="editDate${id}" name="editDate" type="date" class="datePicker form-control bg-dark shadow-lg text-light mb-2 border border-info" placeholder="select event date" value="${docResponse[id].EventDate}" />
+            <input id="editDate${id}" name="editDate" type="date" class="datePicker form-control bg-dark shadow-lg text-light mb-2 border border-info" placeholder="select event date" value="${docResponse[id].EventDate}" required />
             </div>`).appendTo('#noticeSelect'+id);
           }
          }
@@ -362,15 +404,62 @@ function renderList(docs)
          let $modal = $('#myModal'+id);
          $modal.modal('show');
 
+         
+         $('.updateBtn').on( "click",function() {
+          let eventDate = $('#myModal'+id+" #editDate"+id).val();
+          let eventLink = $('#myModal'+id+" #EventLink"+id).val();
+          let noticeType = $('#myModal'+id+" #noticeType"+id).val();
+          let editPriority = $('#myModal'+id+" #editPriority"+id).val();
+          let desc = $('#myModal'+id+" textarea").val();
+          let title = $('#myModal'+id+" #postName").val();
+          $('#myModal'+id).modal('hide');
+          if(docResponse[id].postType == 'Event'){
+            $('.uploader').fadeIn();
+            db.collection("notice").doc().set({
+                  title: title,
+                  description: desc,
+                  postType: noticeType,
+                  priority: editPriority,
+                  EventDate: eventDate,
+                  EventLink: eventLink,
+                },{merge: true}) .then(function() {
+                  cleanValues()
+                  $('.uploader').fadeOut();
+                  toastr['success']('Post created sucessfully');
+                }).catch(function(error) {
+                  $('.uploader').fadeOut();
+                  cleanValues()
+                  toastr['error']('Fail to create post', error.code);
+                });
+          }
+          else{
+            $('.uploader').fadeIn();
+            db.collection("notice").doc().set({
+              title: title,
+              description: desc,
+              postType: noticeType,
+              priority: editPriority,
+            },{merge: true}) .then(function() {
+              cleanValues()
+              $('.uploader').fadeOut();
+              toastr['success']('Post created sucessfully');
+            }).catch(function(error) {
+              $('.uploader').fadeOut();
+              cleanValues()
+              toastr['error']('Fail to create post', error.code);
+            });
+          }
+       })
+
       });
 
       updateCharts();
 }
 
 $(".fileUpload").change(function() {
-  if ($(".fileUpload")[0].files.length > 3) {
+  if ($(".fileUpload")[0].files.length > 5) {
     $(".fileUpload")[0].value = null;
-    toastr['error']("You can select only 3 files");
+    toastr['error']("You can select maximum 5 files");
   }
   else {
     if(this.files[0].name != undefined){
@@ -551,6 +640,7 @@ document.getElementById('signout').addEventListener('click', () => {
   }
 
 $(document).ready(function () {
+  $('[data-toggle="popover"]').popover();
   datePckr();
   $(".picker").hide(); 
   $('.uploader').fadeOut();
