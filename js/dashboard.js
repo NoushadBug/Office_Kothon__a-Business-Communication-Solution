@@ -229,6 +229,11 @@ $(document).ready(function () {
 
       querySnapshot.forEach(function (doc) {
           if (doc.id == auth.currentUser.email) {
+            if(doc.data().displayName.indexOf('isNewUser') !== -1){
+              db.collection("users").doc(doc.id).set({
+                displayName: doc.data().displayName.split('isNewUser')[0],
+            },{merge:true})
+          }
             if(doc.data().designation == 'unknown'){
               window.location.replace('./userNotVerified.html');
             }else{

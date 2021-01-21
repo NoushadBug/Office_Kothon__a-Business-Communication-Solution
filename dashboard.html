@@ -225,8 +225,18 @@
 
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-      $('#userName').text('Hi ' + user.displayName + '!');
-    } else {
+      if(auth.currentUser.displayName ){
+        auth.currentUser.updateProfile({
+            displayName: auth.currentUser.displayName.split('isNewUser')[0]
+        }).then(function() {
+        $('#userName').text('Hi ' + user.displayName + '!');
+      })
+      }
+      else {
+        $('#userName').text('Hi ' + user.displayName + '!');
+      }
+    }
+    else {
       $('#userName').text('No user is signed in.');
     }
   });

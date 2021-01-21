@@ -10,7 +10,7 @@ auth.onAuthStateChanged(function (user) {
         window.location.replace('./index.html');
     }
     else {
-        if (user.displayName != 'admin' && user.displayName.indexOf('isNewUser') == -1) {
+        if (user.displayName != 'admin' && user.displayName.indexOf('isNewUser') == -1 && user.displayName.indexOf('isUnknown') == -1) {
             window.location.replace('./dashboard.html');
         }
         else if (user.displayName == 'unknown') {
@@ -47,7 +47,7 @@ $(document).ready(function () {
                 }
                 else {
                     if (doc.data().designation == 'unknown') {
-                        $(`<div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="${doc.id}">
+                        $(`<div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="${doc.id}" data-value="${doc.data().displayName}">
                          <div class="row my-3 cardbar" >
                              <div class="col-md-6 pl-2 m-auto  ">
                                  <h6 class="text-light m-0 d-block">${doc.data().displayName.split('isUnknown')[0]}</h6>
@@ -60,7 +60,7 @@ $(document).ready(function () {
                     }
 
                     if (doc.data().designation != 'admin' && doc.data().designation != 'unknown') {
-                        $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="sdas">
+                        $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
                 <div class="row m-auto">
                 <div class="col-md-4 rounded my-auto"><img src="${doc.data().photoURL}" alt="" class="img-responsive" width="100%"></div>
                   <div class="col-md-6 pl-0 m-auto">
@@ -79,17 +79,92 @@ $(document).ready(function () {
             });
             $('#force-overflow1 .card').click(function () {
                 $('.cardDiv').empty();
-                console.log(CryptoJS.AES.decrypt(encrypted, "Secret Passphrase").toString(CryptoJS.enc.Utf8))
+                $('#selected_name').removeClass('my-5');
+                $('#selected_name').addClass('mt-5');
                 $('#selected_name').text($(this).first('h6').text())
                 $('.fa-address-card').remove();
-                $(`
-     <h6 class="text-center text-info mb-5"></h6>
-                    <div class="form-group">
-                        <input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" id="designationField" placeholder="Enter Designation" value="">
-                    </div>
-<button type="submit" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv');
+                $('#confirmModal').modal('show');
+                $(`<p class="text-center text-info">${$(this).attr('id')}</p>
+                <div class="form-group"><input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" id="designationField" placeholder="Enter Designation" value="" required />
+                </div><button type="submit" id="designationConfirm" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv');
                 $('#designationField').focus();
+                var thisId = $(this).attr('id');
+                var thisValue = $(this).data('value');
+                console.log(thisId, thisValue)
+                $('.approvalBar').on('submit', function (event) {
+                    event.preventDefault();
+                    if($('#confirmModal2').length == 0){
+                        $(`<!-- Modal -->
+                        <div class="modal fade" id="confirmModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+                        <div class="modal-dialog modal-dialog-centered " role="document">
+                            <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                                <div class="modal-header shadow-lg" style="border: 0;">
+                                    <h6 class="modal-title" id="exampleModalLongTitle">Enter Admin Password</h6>
+                                    <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body shadow-lg " style="background:#2e3035">
+                                    <p class="text-info">Enter your password to continue:</p>
+                                    <input id="adminPass" placeholder="enter your password" class="text-light bg-dark border-info rounded-pill form-control" type="password" required />
+                                </div>
+                                <div class="modal-footer shadow-lg" style="border: 0;">
+                                    <button type="button" id="submitPass" class="submitPass ml-auto btn px-5 btn-info rounded-pill shadow-lg" >Continue</button>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                    </div>`).appendTo('body');
+                    }
+                    $('#confirmModal2').modal('show');
+                    $('#confirmModal2 #submitPass').on("click", function (e) {
+                        var adminPass = $('#confirmModal2 #adminPass').val()
+                        auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
+                            $('.uploader').fadeIn('slow');
+                            $('#confirmModal2').modal('hide');
+                            var email = thisId;
+                            var designation = $('#designationField').val();
+                            var oldDisplay = thisValue.split('isUnknown')[1];
+                            var newDisplay = thisValue.split('isUnknown')[0];
+                            autoSignOut = false;
+                            var password = CryptoJS.AES.decrypt(oldDisplay, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
+                            // sign up the user
+                            auth.signInWithEmailAndPassword(email, password).then(cred => {
+                                auth.currentUser.updateProfile({
+                                    displayName: thisValue.split('isUnknown')[0]+ 'isNewUser', //setting up the user name with account display name
+                                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                }).then(data => {
+                                    const userCollection = db.collection("users");
+                                    userCollection.doc(email).set({
+                                        displayName: newDisplay.split('isUnknown')[0]+ 'isNewUser',
+                                        designation: designation,
+                                        photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                    }).then(function () {
+                                        autoSignOut = true;
+                                        auth.signOut().then(() => {
+                                            auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                                clearStuffs();
+                                                $('.uploader').fadeOut('slow');
+                                                toastr["success"]("Successfully!", "New member created ")
+                                            })
+                                        })
+                                    }).catch(function (error) {
+                                        $('.uploader').fadeOut('slow');
+                                        toastr["error"](error.message, error.code)
+                                    });
+                                });
+                            })
+                        }).catch(error => {
+                            $('.uploader').fadeOut('slow');
+                            $('#confirmModal2').modal('hide');
+                            toastr["error"](error.code, error.message+'sdfsfsdf')
+                        });
+                });
+                });
             });
+
+
+
 
         })
         .catch(function (error) {
@@ -113,6 +188,7 @@ function clearStuffs() {
     $('.taskForm2 #email').val('');
     $('.taskForm2 #designation').val('');
     $('.taskForm2 #password').val('');
+    $('#designationField').val('');
     $('#confirmModal').remove();
     autoSignOut = false;
 }
@@ -120,6 +196,7 @@ function clearStuffs() {
 signUpform.on('submit', function (event) {
 
     event.preventDefault();
+    if($('#confirmModal').length == 0){
     $(`<!-- Modal -->
     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
       <div class="modal-dialog modal-dialog-centered " role="document">
@@ -132,7 +209,7 @@ signUpform.on('submit', function (event) {
               </div>
               <div class="modal-body shadow-lg " style="background:#2e3035">
                   <p class="text-info">Enter your password to continue:</p>
-                  <input id="adminPass" placeholder="enter your password" class="text-light bg-dark border-info rounded-pill form-control" type="password" >
+                  <input id="adminPass" placeholder="enter your password" class="text-light bg-dark border-info rounded-pill form-control" type="password" required />
               </div>
               <div class="modal-footer shadow-lg" style="border: 0;">
                   <button type="button" id="submitPass" class="submitPass ml-auto btn px-5 btn-info rounded-pill shadow-lg" >Continue</button>
@@ -140,7 +217,7 @@ signUpform.on('submit', function (event) {
           </div>
         </div>
         </div>
-  </div>`).appendTo('body');
+  </div>`).appendTo('body');}
     $('#confirmModal').modal('show');
 
     $('#submitPass').on("click", function (e) {
@@ -182,6 +259,7 @@ signUpform.on('submit', function (event) {
                 });
             })
         }).catch(error => {
+            $('#confirmModal').modal('hide');
             toastr["error"](error.code, error.message)
         });
     })
