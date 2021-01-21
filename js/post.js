@@ -6,6 +6,19 @@ var totalHard;
 var totalModerate;
 var docResponse = [];
 
+function renderFiles(fileString){
+  var returnedElement,
+    res = fileString.split("`");
+    for (let index = 1; index < res.length; index++) {
+      if(index%2 != 0){
+        if(index == 1){returnedElement = `<br><small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 125%;"></i></a>`;}
+      else{returnedElement = returnedElement + `<small class="text-center mx-2">${res[index]}</small><a style="font-size:0.75em !important;" class="text-light m-0 font-italic" href="${res[index+1]}" target="_blank" ><i class="fa fa-external-link mr-1 text-info" style="font-size: 125%;"></i></a>`;}
+      }
+         //console.log(index + " => "+ returnedElement)
+    }
+    return returnedElement;
+}
+
 function deleteFolderFiles(path){
   const ref = storage.ref('Notice/'+path);
   ref.listAll().then(dir => {
@@ -186,9 +199,11 @@ function renderList(docs)
     totalLow = 0;
     totalHard = 0;
     totalModerate = 0;
+    
     $('#accordion').empty();
       docs.forEach(function(doc, index)
       {
+        var fileElement = doc.data().file == 'null'? `<a href="#0" class="btn btn-primary disabled btn-sm viewFile" role="button" aria-pressed="true" id="${index}">View File</a>` : `<a href="#0" class="btn btn-primary btn-sm viewFile" role="button" aria-pressed="true" id="${index}">View File</a>`;
         switch(doc.data().postType.toLowerCase()){
           case 'meeting':
             totalMeeting++;
@@ -227,8 +242,7 @@ function renderList(docs)
               <i class="fa fa-circle"></i>
               <p class="d-inline"> ${doc.data().postType}</p>
             </div>
-            <div class="view-button col-4">
-              <a href="#" class="btn btn-primary btn-sm disabled" role="button" aria-pressed="true">View File</a>
+            <div class="view-button col-4">${fileElement}
             </div>
           </div>
           <div class="panel-body row mx-3 pb-3">
@@ -239,6 +253,37 @@ function renderList(docs)
       `).appendTo('#accordion');
 
       });
+
+      $('.viewFile').on( "click",function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let id = $(this).attr('id');
+        let str = docs[id].data().file;
+        if($('#fileModal'+id).length == 0){
+          $(`<!-- Modal -->
+          <div class="modal fade" id="fileModal${id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+            <div class="modal-dialog modal-dialog-centered " role="document">
+                <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                    <div class="modal-header shadow-lg" style="border: 0;">
+                        <h6 class="modal-title" id="exampleModalLongTitle">View Files</h6>
+                        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body shadow-lg ">
+                        <p class="text-center text-light m-auto">${renderFiles(str)}</p>
+                    </div>
+                    <div class="modal-footer shadow-lg" style="border: 0;">
+                        <button type="button" data-dismiss="modal" class="mx-auto btn px-5 btn-secondary rounded-pill shadow-lg">close</button>
+                    </div>
+                </div>
+              </div>
+              </div>
+        </div>`).appendTo('body');
+        }
+        let $modal = $('#fileModal'+id);
+        $modal.modal('show');
+      })
 
       $('.deleteNotice').on( "click",function(e) {
         e.preventDefault();
@@ -309,7 +354,11 @@ function renderList(docs)
                         <small class="text-info mb-0 container">Description</small>
                         <textarea  rows="4"  class="form-control text-light bg-dark border border-info scrollbar"  style="font-size: 0.9em; border-radius:1em; resize: none;">${docResponse[id].description}</textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="container" id="docLinksList">
+                    </div>
+                    </div>
+                    <div class="col-md-6 my-auto" id='noticeSelect${id}'>
+                    <div class="form-group">
                         <small class="text-info mb-0 container">Priority</small>
                         <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="editPriority${id}" required="">
                                 <option disabled="" class="choose" value="editPriority">Select Priority
@@ -319,10 +368,6 @@ function renderList(docs)
                                 <option value="Hard">Hard</option>
                         </select>
                         </div>
-                        <div class="container" id="docLinksList">
-                    </div>
-                    </div>
-                    <div class="col-md-6 my-auto" id='noticeSelect${id}'>
                         <div class="form-group">
                         <small class="text-info mb-0 container">Notice Type</small>
                         <select class="custom-select mr-sm-2 bg-dark shadow-lg text-light  border-info rounded-pill" id="noticeType${id}" required="">
@@ -368,9 +413,9 @@ function renderList(docs)
 }
 
 $(".fileUpload").change(function() {
-  if ($(".fileUpload")[0].files.length > 3) {
+  if ($(".fileUpload")[0].files.length > 5) {
     $(".fileUpload")[0].value = null;
-    toastr['error']("You can select only 3 files");
+    toastr['error']("You can select maximum 5 files");
   }
   else {
     if(this.files[0].name != undefined){
@@ -551,6 +596,7 @@ document.getElementById('signout').addEventListener('click', () => {
   }
 
 $(document).ready(function () {
+  $('[data-toggle="popover"]').popover();
   datePckr();
   $(".picker").hide(); 
   $('.uploader').fadeOut();
