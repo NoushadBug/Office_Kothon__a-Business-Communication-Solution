@@ -21,6 +21,7 @@ signUpform.on('submit',function(event){
         var currentUser = auth.currentUser;
         currentUser.updateProfile({
             displayName: name+'isUnknown', //setting up the user name with account display name
+            photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         })
         .then(function() {
             var encPass = CryptoJS.AES.encrypt(password, "Secret Passphrase");
