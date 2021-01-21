@@ -123,9 +123,111 @@
                         class="fa fa-sign-out text-secondary"></i></a>
             </div>
 
-            <div class="content col-md-10 my-4" id="frame">
+            <div class="content col-md-10 my-auto" id="frame">
 
 
+                <div class="row col-md-12 mx-auto content p-0 userInfo">
+                    <div class="col-md-6 row mr-auto  ">
+
+                        <div class=" col-md-6 mx-auto bg-info totalUser card border border-info" style="
+    margin-left: -10px !important;
+">
+                        </div>
+                        <div class=" col-md-6 mx-auto bg-success UnapproveMembers card border border-info" style="
+    margin-right: -10px !important;
+">
+                        </div>
+
+
+                        <div class="col-md-6 bg-secondary border border-dark card mx-auto" style="
+    margin-left: -10px !important;
+">
+                            <h6 class="text-light text-center m-auto"> Total user2: 6</h6>
+                        </div>
+                        <div class="col-md-6 bg-warning mx-auto border border-info card" style="
+    margin-right: -10px !important;
+">
+                            <h6 class="text-light text-center m-auto">
+                                Unapprove clone: 50
+                            </h6>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-6 mx-auto p-0" style="margin-left: -10px !important;">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <canvas id="myChart2" width="565" height="280"
+                            style="display: block; height: 224px; width: 452px;"
+                            class="chartjs-render-monitor"></canvas>
+
+                    </div>
+
+                </div>
+
+                <div class="row col-md-12 mx-auto content p-0 mt-3 thirdRow ">
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card currentMonth"
+                        style="margin-left: -10px !important;">
+
+                        <canvas id="currentMonth" style="margin: auto;display: block;width: 430px;height: 221px;"
+                            width="562" height="276" class="chartjs-render-monitor"></canvas>
+                    </div>
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card previous"
+                        style="margin-right: -10px !important;">
+
+                        <canvas id="previousMonth" style="margin: auto;display: block;width: 430px;height: 221px;"
+                            width="562" height="276" class="chartjs-render-monitor"></canvas>
+                    </div>
+
+                </div>
+                <div class="row col-md-12 mx-auto content p-0 mt-3 fourthRow ">
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card noticeTypes"
+                        style="margin-left: -10px !important;">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+
+                        <canvas id="noticeTypes" style="margin: auto; display: block; width: 450px; height: 220px;"
+                            width="562" height="275" class="chartjs-render-monitor"></canvas>
+                    </div>
+                    <div class="chart col-md-6 mx-auto shadow-lg p-0 card noticePriority"
+                        style="margin-right: -10px !important;">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+
+                        <canvas id="noticePriority" style="margin: auto; display: block; width: 451px; height: 221px;"
+                            width="563" height="276" class="chartjs-render-monitor"></canvas>
+                    </div>
+
+
+                </div>
 
             </div>
 
@@ -272,4 +374,6 @@
 <script src="https://unpkg.com/dropzone"></script>
 <script src="https://unpkg.com/cropperjs"></script>
 <script src="./toaster/toastr.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="./js/admin.js"></script>
