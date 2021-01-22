@@ -58,6 +58,18 @@ border-radius: 50% !important;
 .dfeed-bar .card
 {
   border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+.feed-bar .card
+{
+  border-radius: 2em;
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  -ms-border-radius: 2em;
+  -o-border-radius: 2em;
 }
 
 
@@ -154,11 +166,9 @@ border-radius: 50% !important;
 }
 #myselect
 {
-  will-change: transform !important;
-    transform: translate3d(67px, 41px, 0px) !important;
-    top: 0px !important;
-    left: 0px !important;
-    border-radius: 1em;
+  border-radius: 1em;
+  top: -5.8vh !important;
+  left: 0.8vh !important;
 }
 #myselect li
 {

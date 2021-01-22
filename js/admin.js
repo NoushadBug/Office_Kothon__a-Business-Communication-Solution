@@ -310,7 +310,7 @@ error => {
     if(error.code == 'resource-exhausted'){
         window.location.replace("../quotaExceeded.html");
     }
-}),
+})
 
 db.collection("notice").onSnapshot(function(snapshot) {
  
