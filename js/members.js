@@ -1,3 +1,7 @@
+var firstTime = false;
+var entryText = 'Click on any card to give a designation and approve';
+var addressCard = $('.fa-address-card').clone();
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
@@ -16,8 +20,8 @@ auth.onAuthStateChanged(function (user) {
         else if (user.displayName == 'unknown') {
             window.location.replace('./userNotVerified.html');
         }
-        else {
-            adminMail = auth.currentUser.email;
+        else if (user.displayName == 'admin'){
+            adminMail = user.email;
         }
     }
 });
@@ -27,6 +31,7 @@ const db = firebase.firestore();
 db.settings({ timestampsInSnapshots: true });
 
 function update(){
+    $('#force-overflow1').empty();
     db.collection("users").get()
     .then(function (querySnapshot) {
         $('.loader').fadeOut('slow');
@@ -50,7 +55,7 @@ function update(){
                              <h6 class="text-light m-0 d-block">${doc.data().displayName.split('isUnknown')[0]}</h6>
                          </div>
                          <div class="col-md-6  my-auto text-right ">
-                             <i class="fa fa-times ml-2 text-danger"></i>
+                             <i class="fa btn deleteApproval fa-times ml-2 text-danger"></i>
                          </div>
                      </div>
                      </div> `).appendTo('#force-overflow1');
@@ -74,6 +79,79 @@ function update(){
             }
             //console.log(doc.id, " => ", doc.data());
         });
+
+        $('.deleteApproval').click(function () {
+            var selectedMail = $(this).closest(".card").attr('id')
+            var encPass = $(this).closest(".card").attr('data-value').split('isUnknown')[1];
+            var selectPass = CryptoJS.AES.decrypt(encPass, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
+
+            if($('#confirmModal3').length == 0){
+                $(`<!-- Modal -->
+                <div class="modal fade" id="confirmModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+                <div class="modal-dialog modal-dialog-centered " role="document">
+                    <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                        <div class="modal-header shadow-lg" style="border: 0;">
+                            <h6 class="modal-title" id="exampleModalLongTitle">Enter Admin Password</h6>
+                            <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body shadow-lg " style="background:#2e3035">
+                            <p class="text-info">Enter your password to continue:</p>
+                            <input id="adminPass" placeholder="enter your password" class="text-light bg-dark border-info rounded-pill form-control" type="password" required />
+                        </div>
+                        <div class="modal-footer shadow-lg" style="border: 0;">
+                            <button type="button" id="submitPass" class="submitPass ml-auto btn px-5 btn-info rounded-pill shadow-lg" >Continue</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+            </div>`).appendTo('body');
+            }
+            $('#confirmModal3').modal('show');
+            $('#confirmModal3 #submitPass').on("click", function (e) {
+                var adminPass = $('#confirmModal3 #adminPass').val()
+                auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
+                    $('.uploader').fadeIn('slow');
+                    $('#confirmModal3').modal('hide');
+                    autoSignOut = false;
+                    // sign up the user
+                    auth.signInWithEmailAndPassword(selectedMail, selectPass).then(cred => {
+                        const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', selectedMail);
+                        userCollection.get().then(function(querySnap) {
+                            querySnap.forEach(function(doc) {
+                                doc.ref.delete();
+                              });
+                        }).then(function () {
+                            auth.currentUser.delete().then(data => {
+                                autoSignOut = true;
+                                auth.signOut().then(() => {
+                                    auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                        clearStuffs();
+                                        $('.uploader').fadeOut('slow');
+                                        $('#selected_name').text(entryText);
+                                        $('.cardDiv').empty();
+                                        $('.approvalBar p').text('')
+                                        $(addressCard).appendTo('.approvalBar');
+                                        toastr["success"]("Successfully!", "Member approval deleted")
+                                    })
+                                })
+                            });
+                        }).catch(function (error) {
+                            $('.uploader').fadeOut('slow');
+                            $('#confirmModal3').modal('hide');
+                            toastr["error"](error.message, error.code)
+                        });
+                    })
+                }).catch(error => {
+                    $('.uploader').fadeOut('slow');
+                    $('#confirmModal3').modal('hide');
+                    toastr["error"](error.code, error.message)
+                });
+            })
+        
+        })
+
         $('#force-overflow1 .card').click(function () {
             $('.cardDiv').empty();
             $('#selected_name').removeClass('my-5');
@@ -81,7 +159,8 @@ function update(){
             $('#selected_name').text($(this).first('h6').text())
             $('.fa-address-card').remove();
             $('#confirmModal').modal('show');
-            $(`<p class="text-center text-info">${$(this).attr('id')}</p>
+            $('.approvalBar p').text($(this).attr('id'))
+            $(`
             <div class="form-group"><input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" id="designationField" placeholder="Enter Designation" value="" required />
             </div><button type="submit" id="designationConfirm" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv');
             $('#designationField').focus();
@@ -154,7 +233,7 @@ function update(){
                     }).catch(error => {
                         $('.uploader').fadeOut('slow');
                         $('#confirmModal2').modal('hide');
-                        toastr["error"](error.code, error.message+'sdfsfsdf')
+                        toastr["error"](error.code, error.message)
                     });
             });
             });
@@ -182,6 +261,7 @@ $(document).ready(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+    firstTime = true;
 });
 
 const signUpform = $('.user_forms-signup')
@@ -244,6 +324,7 @@ signUpform.on('submit', function (event) {
                 }).then(data => {
                     const userCollection = db.collection("users");
                     userCollection.doc(email).set({
+                        bio: 'Bio is not updated yet',
                         displayName: name,
                         designation: designation,
                         photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
@@ -280,7 +361,12 @@ document.getElementById('signout').addEventListener('click', () => {
 
 db.collection("users").onSnapshot(function (snapshot) {
     console.log(snapshot)
-    update();
+    if(firstTime){
+        firstTime = false;
+    }
+    else{
+        update();
+    }
 },
     error => {
         if (error.code == 'resource-exhausted') {
