@@ -347,11 +347,11 @@ var myChart = new Chart(ctx, {
       datasets: [
           {
               label: "Current Month Task",
-              backgroundColor :'#04004A',
+              backgroundColor :'#2C6975',
               borderCapStyle : 'round',
               borderJoinStyle : 'miter',
-              borderColor : '#C34A36', 
-              borderWidth : 4,
+              borderColor : '#5874DC', 
+              borderWidth : 3,
               pointHoverRadius : 4,
               pointStyle : 'rectRounded',
              
@@ -369,10 +369,69 @@ var myChart = new Chart(ctx, {
          
       ]
   },
-    options: {
+  options: {
+    animation: 
+    {
+     duration : 2000,
        
-    }
+    },
+ 
+    title: {
+      display: true,
+      text: 'Current Month Tasks',
+      fontColor: "cyan",
+      fontSize: 19,
+      
+  },
+    
+    legend: {
+      display : false,
+       
+    },
+    scales: {
+      yAxes: [{
+          ticks: {
+              fontColor: "white",
+              fontSize: 10,
+              
+              beginAtZero: true
+          }
+      }],
+      xAxes: [{
+      
+          ticks: {
+              fontColor: "white",
+              fontSize: 11,
+              
+              beginAtZero: true
+          }
+      }]
+  }
+  
+
+}
 });
+
+
+
+}
+
+
+function  previousMonth (doc)
+{
+  totalCompleted = doc.data().totalCompleted ;
+  totalDeadlineCrossed = doc.data().totalDeadlineCrossed;
+  totalIncompleted = doc.data().totalIncompleted;
+  prevmonTotaltask = doc.data().totalTasks
+
+currentyear = doc.data().month.year;
+
+console.log(totalCompleted)
+console.log(months[doc.data().month.month])
+console.log(currentyear)
+console.log(totalDeadlineCrossed)
+console.log(totalIncompleted)
+console.log( prevmonTotaltask)
 var ctx = document.getElementById('previousMonth');
 var myChart1 = new Chart(ctx, {
     type: 'line',
@@ -381,11 +440,11 @@ var myChart1 = new Chart(ctx, {
       datasets: [
           {
               label: "Previous Month Task",
-              backgroundColor :'#FEFEDF',
+              backgroundColor :'#7FACD6',
               borderCapStyle : 'round',
               borderJoinStyle : 'round',
               borderColor : '#C34A36', 
-              borderWidth : 4,
+              borderWidth : 3,
               pointHoverRadius : 4,
               pointStyle : 'rectRounded',
              
@@ -398,21 +457,55 @@ var myChart1 = new Chart(ctx, {
               pointStrokeColor: "#fff",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(220,220,220,1)",
-              data: [ totalCompleted, totalIncompleted,totalDeadlineCrossed,crntmonTotaltask ]
+              data: [ totalCompleted, totalIncompleted,totalDeadlineCrossed, prevmonTotaltask ]
           },
          
       ]
   },
-    options: {
+  options: {
+    animation: 
+    {
+     duration : 2000,
        
-    }
-});
-
+    },
+ 
+    title: {
+      display: true,
+      text: 'Previous Month Tasks',
+      fontColor: "cyan",
+      fontSize: 19,
+      
+  },
+    
+    legend: {
+      display : false,
+       
+    },
+    scales: {
+      yAxes: [{
+          ticks: {
+              fontColor: "white",
+              fontSize: 10,
+              
+              beginAtZero: true
+          }
+      }],
+      xAxes: [{
+      
+          ticks: {
+              fontColor: "white",
+              fontSize: 11,
+              
+              beginAtZero: true
+          }
+      }]
+  }
+  
 
 }
+});
 
-
-
+}
   
  db.collection("tasks") .doc('crnt_month').get().then(function (doc) { 
 
@@ -444,7 +537,7 @@ var myChart1 = new Chart(ctx, {
   });
  db.collection("tasks") .doc('prev_month').get().then(function (doc) { 
 
-  currentMonth(doc);
+  previousMonth(doc);
   
   firstVisited = true;
  
@@ -454,7 +547,7 @@ var myChart1 = new Chart(ctx, {
   db.collection("tasks").doc('prev_month').onSnapshot(function(snapshot) {
     if(  firstVisited == false)
     {
-      currentMonth(snapshot);
+      previousMonth(snapshot);
 
     }
     else

@@ -287,7 +287,7 @@ border: 0.2em solid cyan !important;
 {
 border: 0.2em solid cyan !important;
 }
-#myChart, #noticeTypes, #noticePriority
+#myChart, #noticeTypes, #noticePriority ,#currentMonth , #previousMonth
 {
   height: 95% !important;
   width: 95% !important;
