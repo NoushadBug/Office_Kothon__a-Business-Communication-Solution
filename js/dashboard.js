@@ -403,6 +403,11 @@ db.collection("notice").onSnapshot(function(snapshot) {
     console.log(snapshot)
     eventcalender(snapshot.docs);
     renderList(snapshot.docs);
+   console.log(snapshot.type);
+
+   
+
+
   },
   error => {
       if(error.code == 'resource-exhausted'){

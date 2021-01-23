@@ -14,6 +14,21 @@ $(document).ready(function(){
     $('.toggle-checkbox').click();
   }
 
+  $(".toggle-checkbox").click(function(){
+    if(localStorage.getItem('theme') == 'dark')
+    {
+        localStorage.setItem("theme","light");
+    }
+    if(localStorage.getItem('theme') == 'light')
+    {
+        localStorage.setItem("theme","dark"); 
+    }
+    
+  
+  });
+
+
+
   db.collection("users").onSnapshot(function(querySnapshot) {
     querySnapshot.forEach(function (doc) {
       if (doc.id == auth.currentUser.email) {
