@@ -850,6 +850,8 @@ $("#myInput").on("keyup", function() {
 
 
 $(".c-link").click(function(){
+  $('#add_fields_placeholder').val('');
+  $('#selectedPriority').val('');
   $('#taskName').val("");
   $('#taskDetails').val("");
 });

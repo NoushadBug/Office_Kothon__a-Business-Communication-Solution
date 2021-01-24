@@ -37,7 +37,7 @@ function update(){
     db.collection("users").get()
     .then(function (querySnapshot) {
         $('.loader').fadeOut('slow');
-        querySnapshot.forEach(function (doc) {
+        querySnapshot.forEach(function (doc, index) {
             var dName = doc.data().displayName;
             var dispName = dName.split('isNewUser')[0];
             if (doc.id === auth.currentUser.email) {
@@ -51,12 +51,12 @@ function update(){
                     <div class="col-md-6 pl-0 m-auto">
                         <h6 class="text-light m-0 d-block">${dispName}</h6>
                         <small class="text-info m-0">${doc.data().designation}</small>
-                        <div class="px-2 dropdown-menu bg-dark shadow-lg" aria-labelledby="dropdownMenuButton" id="myselect">
+                        <div class="px-2 dropdown-menu bg-dark shadow-lg" aria-labelledby="dropdownMenuButton${index}" id="myselect">
                         <li class="text-light edit " ><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
                         <li class="text-light delete" ><i class="fa fa-trash text-info mr-2 " ></i> Delete</li>
                     </div>
                     </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton${index}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                     </div>`).appendTo('#force-overflow');
                 }
             }
