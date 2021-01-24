@@ -51,12 +51,11 @@ function update(){
                     <div class="col-md-6 pl-0 m-auto">
                         <h6 class="text-light m-0 d-block">${dispName}</h6>
                         <small class="text-info m-0">${doc.data().designation}</small>
-                        <div class="px-2 dropdown-menu bg-dark shadow-lg" aria-labelledby="dropdownMenuButton${index}" id="myselect">
-                        <li class="text-light edit " ><i class="fa fa-pencil text-info mr-2  "></i> Edit</li>
-                        <li class="text-light delete" ><i class="fa fa-trash text-info mr-2 " ></i> Delete</li>
-                    </div>
-                    </div>
-                        <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton${index}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                        </div>
+                        <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
+                            <i class="py-1 fa fa-pencil text-secondary"></i>
+                            <i class="fa py-1 fa-trash text-secondary"></i>
+                        </div>
                     </div>`).appendTo('#force-overflow');
                 }
             }
@@ -81,12 +80,12 @@ function update(){
                         <div class="col-md-6 pl-0 m-auto">
                             <h6 class="text-light m-0 d-block">${dispName}</h6>
                             <small class="text-info m-0">${doc.data().designation}</small>
-                            <div class="px-2 dropdown-menu bg-info shadow-lg" aria-labelledby="dropdownMenuButton" id="myselect">
-                            <i class="fa fa-pencil text-dark px-1  "></i>
-                            <i class="fa fa-trash text-dark  px-1" ></i>
+
                         </div>
+                        <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
+                            <i class="py-1 fa fa-pencil text-secondary"></i>
+                            <i class="fa py-1 fa-trash text-secondary"></i>
                         </div>
-                            <i class="fa fa-ellipsis-v text-secondary col-md-2 my-auto  " id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                         </div>`).appendTo('#force-overflow');
                 }
             }
