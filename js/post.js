@@ -649,6 +649,7 @@ $(document).ready(function () {
   $('.uploader').fadeOut();
   $('#taskformbar').on('submit',function(e){
     e.preventDefault();
+    let validated = 0;
     let tasktitle = $('#taskName').val();
     let taskdetails = $('#taskDetails').val();
     let posttype = $('#add_fields_placeholder').val();
@@ -657,162 +658,176 @@ $(document).ready(function () {
     let EventLink =     $('#eventLink').val();
     let myDate = new Date().getTime();
     // let FileUpload = $('.fileUpload').val();
-    var docRef = db.collection("notice").doc();
-    if(posttype == 'Event'){
-      if( $(".fileUpload")[0].files.length == 0 ){
-        $('.uploader').fadeIn();
-        docRef.set({
-          title: tasktitle,
-          description: taskdetails,
-          postType: posttype,
-          priority: selectedPriority,
-          file: 'null',
-          EventDate: EventDate,
-          EventLink: EventLink,
-          date : myDate
-        }) .then(function() {
-          cleanValues()
-          $('.uploader').fadeOut();
-          toastr['success']('Post created sucessfully');
-        }).catch(function(error) {
-          $('.uploader').fadeOut();
-          cleanValues()
-          toastr['error']('Fail to create post', error.code);
-        });
+
+    if(posttype == undefined){
+      toastr["error"]("Post type is not selected", "Select a Post Type")
+    }else{
+      validated++;
+    }
+    if(selectedPriority ==  undefined){
+      toastr["error"]("Post Priority is not selected", "Select a Post Priority")
+    }else{
+      validated++;
+    }
+    if(validated == 2){
+      var docRef = db.collection("notice").doc();
+      if(posttype == 'Event'){
+        if( $(".fileUpload")[0].files.length == 0 ){
+          $('.uploader').fadeIn();
+          docRef.set({
+            title: tasktitle,
+            description: taskdetails,
+            postType: posttype,
+            priority: selectedPriority,
+            file: 'null',
+            EventDate: EventDate,
+            EventLink: EventLink,
+            date : myDate
+          }) .then(function() {
+            cleanValues()
+            $('.uploader').fadeOut();
+            toastr['success']('Post created sucessfully');
+          }).catch(function(error) {
+            $('.uploader').fadeOut();
+            cleanValues()
+            toastr['error']('Fail to create post', error.code);
+          });
+        }
+        else{
+          var count = 0;
+          var docLinks;
+  
+          for (var i = 0; i < $(".fileUpload")[0].files.length; i++)
+          {
+            let file = $(".fileUpload")[0].files[i];
+            let storageRef = storage.ref("Notice/"+myDate+"/"+file.name);
+            let uploadProgress = storageRef.put(file);
+  
+            uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    if(progress == 0){
+                      $('.uploader').fadeIn('slow');
+                    }
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                      case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
+                            uploadProgress.resume();  
+                            break;
+                      case firebase.storage.TaskState.RUNNING: // or 'running'
+                            //toastr['info']('Your file is uploading', 'upload running');
+                            break;
+                    }
+                  }, function(error) {
+                      toastr['error']('Error uploading files', error.code);
+                }, function() {
+                  uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    docLinks == undefined? docLinks = "`"+file.name+"`"+downloadURL : docLinks += "`"+file.name+"`"+downloadURL;
+                    count++;
+                      if(count == $(".fileUpload")[0].files.length){
+                        docRef.set({
+                            title: tasktitle,
+                            description: taskdetails,
+                            postType: posttype,
+                            priority: selectedPriority,
+                            file: docLinks,
+                            EventDate: EventDate,
+                            EventLink: EventLink,
+                            date : myDate
+                          })
+                          .then(function() {
+                            $('.uploader').fadeOut('slow');
+                            toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
+                          })
+                          .catch(function(error) {
+                            console.error("Error writing document: ", error);
+                          });
+                      }
+                  });
+                });
+          }
+        }
+  
       }
       else{
-        var count = 0;
-        var docLinks;
-
-        for (var i = 0; i < $(".fileUpload")[0].files.length; i++)
-        {
-          let file = $(".fileUpload")[0].files[i];
-          let storageRef = storage.ref("Notice/"+myDate+"/"+file.name);
-          let uploadProgress = storageRef.put(file);
-
-          uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
-                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  if(progress == 0){
-                    $('.uploader').fadeIn('slow');
-                  }
-                  console.log('Upload is ' + progress + '% done');
-                  switch (snapshot.state) {
-                    case firebase.storage.TaskState.PAUSED: // or 'paused'
-                          toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
-                          uploadProgress.resume();  
-                          break;
-                    case firebase.storage.TaskState.RUNNING: // or 'running'
-                          //toastr['info']('Your file is uploading', 'upload running');
-                          break;
-                  }
-                }, function(error) {
-                    toastr['error']('Error uploading files', error.code);
-              }, function() {
-                uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                  docLinks == undefined? docLinks = "`"+file.name+"`"+downloadURL : docLinks += "`"+file.name+"`"+downloadURL;
-                  count++;
-                    if(count == $(".fileUpload")[0].files.length){
-                      docRef.set({
-                          title: tasktitle,
-                          description: taskdetails,
-                          postType: posttype,
-                          priority: selectedPriority,
-                          file: docLinks,
-                          EventDate: EventDate,
-                          EventLink: EventLink,
-                          date : myDate
-                        })
-                        .then(function() {
-                          $('.uploader').fadeOut('slow');
-                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
-                        })
-                        .catch(function(error) {
-                          console.error("Error writing document: ", error);
-                        });
+        $('#startDate').val('');
+        if( $(".fileUpload")[0].files.length > 0 ){ 
+          var counter = 0;
+          var docLink;
+  
+          for (var j = 0; j < $(".fileUpload")[0].files.length; j++)
+          {
+            let file = $(".fileUpload")[0].files[j];
+            let storageRef = storage.ref("Notice/"+myDate+"/"+file.name);
+            let uploadProgress = storageRef.put(file);
+  
+            uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    if(progress == 0){
+                      $('.uploader').fadeIn('slow');
                     }
-                });
-              });
-        }
-      }
-
-    }
-    else{
-      $('#startDate').val('');
-      if( $(".fileUpload")[0].files.length > 0 ){ 
-        var counter = 0;
-        var docLink;
-
-        for (var j = 0; j < $(".fileUpload")[0].files.length; j++)
-        {
-          let file = $(".fileUpload")[0].files[j];
-          let storageRef = storage.ref("Notice/"+myDate+"/"+file.name);
-          let uploadProgress = storageRef.put(file);
-
-          uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
-                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  if(progress == 0){
-                    $('.uploader').fadeIn('slow');
-                  }
-                  console.log('Upload is ' + progress + '% done');
-                  switch (snapshot.state) {
-                    case firebase.storage.TaskState.PAUSED: // or 'paused'
-                          toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
-                          uploadProgress.resume();  
-                          break;
-                    case firebase.storage.TaskState.RUNNING: // or 'running'
-                          //toastr['info']('Your file is uploading', 'upload running');
-                          break;
-                  }
-                }, function(error) {
-                    toastr['error']('Error uploading files', error.code);
-              }, function() {
-                uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                  docLink == undefined? docLink = "`"+file.name+"`"+downloadURL : docLink += "`"+file.name+"`"+downloadURL;
-                  counter++;
-                    if(counter == $(".fileUpload")[0].files.length){
-                      docRef.set({
-                          file: docLink,
-                          title: tasktitle,
-                          description: taskdetails,
-                          postType: posttype,
-                          priority: selectedPriority,
-                          date : myDate
-                        })
-                        .then(function() {
-                          $('.uploader').fadeOut('slow');
-                          toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
-                        })
-                        .catch(function(error) {
-                          console.error("Error writing document: ", error);
-                        });
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                      case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
+                            uploadProgress.resume();  
+                            break;
+                      case firebase.storage.TaskState.RUNNING: // or 'running'
+                            //toastr['info']('Your file is uploading', 'upload running');
+                            break;
                     }
+                  }, function(error) {
+                      toastr['error']('Error uploading files', error.code);
+                }, function() {
+                  uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    docLink == undefined? docLink = "`"+file.name+"`"+downloadURL : docLink += "`"+file.name+"`"+downloadURL;
+                    counter++;
+                      if(counter == $(".fileUpload")[0].files.length){
+                        docRef.set({
+                            file: docLink,
+                            title: tasktitle,
+                            description: taskdetails,
+                            postType: posttype,
+                            priority: selectedPriority,
+                            date : myDate
+                          })
+                          .then(function() {
+                            $('.uploader').fadeOut('slow');
+                            toastr['success']('Document successfully written!', 'Task successfully assigned to '+assignedTO);
+                          })
+                          .catch(function(error) {
+                            console.error("Error writing document: ", error);
+                          });
+                      }
+                  });
                 });
-              });
+          }
         }
+        else{
+          $('.uploader').fadeIn();
+          docRef.set({
+            title: tasktitle,
+            description: taskdetails,
+            postType: posttype,
+            priority: selectedPriority,
+            file: 'null',
+            date : myDate
+          }) .then(function() {
+            $('.uploader').fadeOut();
+            cleanValues()
+            toastr['success']('Post created sucessfully');
+          }).catch(function(error) {
+            $('.uploader').fadeOut();
+            cleanValues()
+            toastr['error']('Fail to create post', error.code);
+          });
+        }
+        
       }
-      else{
-        $('.uploader').fadeIn();
-        docRef.set({
-          title: tasktitle,
-          description: taskdetails,
-          postType: posttype,
-          priority: selectedPriority,
-          file: 'null',
-          date : myDate
-        }) .then(function() {
-          $('.uploader').fadeOut();
-          cleanValues()
-          toastr['success']('Post created sucessfully');
-        }).catch(function(error) {
-          $('.uploader').fadeOut();
-          cleanValues()
-          toastr['error']('Fail to create post', error.code);
-        });
-      }
-      
     }
+
 
   })
 
