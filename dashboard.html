@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="./toaster/toastr.min.css" />
   <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
   <link rel="stylesheet" href="./css/dashboard.css" />
+  <script src="./js/theme.js"></script>
 </head>
 
 
@@ -114,7 +115,7 @@
               style="border-radius: 50%;">
           </div>
         </div>
-        <div class="row container m-auto hello-bar shadow-lg border border-info">
+        <div class="row container m-auto hello-bar shadow-lg border border-info" id="main-bar">
           <div class="row col-md-6">
             <h5 id="userName" class="col-md-12 text-left my-auto">Loading...</h5>
           </div>
@@ -225,12 +226,12 @@
 
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-      if(auth.currentUser.displayName ){
+      if (auth.currentUser.displayName) {
         auth.currentUser.updateProfile({
-            displayName: auth.currentUser.displayName.split('isNewUser')[0]
-        }).then(function() {
-        $('#userName').text('Hi ' + user.displayName + '!');
-      })
+          displayName: auth.currentUser.displayName.split('isNewUser')[0]
+        }).then(function () {
+          $('#userName').text('Hi ' + user.displayName + '!');
+        })
       }
       else {
         $('#userName').text('Hi ' + user.displayName + '!');
@@ -244,6 +245,7 @@
 
   document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
+      localStorage.setItem("theme", "dark")
 
       toastr['info']('You are signed out! ', 'see you soon');
     });
@@ -274,6 +276,8 @@
     $('#signup-form').hide('slow');
   });
 </script>
+<script src="./js/theme.js"></script>
 <script src="./js/dashboard.js"></script>
+
 
 </html>

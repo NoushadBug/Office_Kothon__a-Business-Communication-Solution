@@ -2,7 +2,7 @@ let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width;
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
-      localStorage.clear();
+    localStorage.setItem("theme","dark") 
       toastr['info']('You are signed out! ', 'see you soon');
       });
       window.location.replace("./index.html");
@@ -15,16 +15,19 @@ $(document).ready(function(){
   }
 
   $(".toggle-checkbox").click(function(){
-    if(localStorage.getItem('theme') == 'dark')
+   var temp;
+    if(localStorage.getItem("theme") == "dark")
     {
-        localStorage.setItem("theme","light");
+      temp = "light";
+      console.log(localStorage.getItem("temp"))
     }
-    if(localStorage.getItem('theme') == 'light')
+    if(localStorage.getItem("theme") == "light")
     {
-        localStorage.setItem("theme","dark"); 
+      temp ="dark"
+      
     }
-    
-  
+ 
+    localStorage.setItem("theme",temp) 
   });
 
 
