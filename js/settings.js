@@ -208,8 +208,12 @@ $fileInput.on('change', function() {
       let profilePic = $('#profilePic')[0].files;
 
       //console.log(auth);
-      // alert(profilePic[0].name);
-      auth.signInWithEmailAndPassword(auth.currentUser.email, currentPass)
+      if(displayName.toLowerCase() == 'admin'){
+        $('#settings-name').val('');
+        toastr['error'](`Provide a different display name instead 'admin'`, 'Invalid display name');
+      }
+      else{
+        auth.signInWithEmailAndPassword(auth.currentUser.email, currentPass)
         .then((user) => {
           $('.uploader').fadeIn('slow');
           // profile pic change
@@ -327,6 +331,8 @@ $fileInput.on('change', function() {
           $('.uploader').fadeOut()
           toastr['error']('Your provided current password may not matched', "Profile updation irterrupted");
         });
+      }
+
    });
 
    
