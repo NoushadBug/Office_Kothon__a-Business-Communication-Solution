@@ -11,7 +11,7 @@ var firstVisited = false;
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
-      localStorage.clear();
+  
       toastr['info']('You are signed out! ', 'see you soon');
       });
       window.location.replace("./index.html");

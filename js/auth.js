@@ -110,7 +110,7 @@ loginForm.on('submit', function(e) {
     const password = loginForm.find('#password')[0].value;
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
-        localStorage.setItem("theme","dark") ;
+      
             
          
         console.log(cred);
@@ -128,7 +128,7 @@ loginSmallForm.on('submit', function(e) {
     const password = loginSmallForm.find('#password')[0].value;
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
-        localStorage.setItem("theme","dark") ;
+ 
         console.log(cred);
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
          window.location.replace("./dashboard.html");
