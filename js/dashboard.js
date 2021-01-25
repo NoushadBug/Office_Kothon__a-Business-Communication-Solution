@@ -1,22 +1,6 @@
 var eventsInfo = [];
 var events = [];
 
-function noticeColor(color)
-{
-  switch(color)
-  {
-    var reply;
-    case 'Meeting':
-      reply = ``
-  }
-
-}
-
-
-
-
-
-
 function checkFileAvailability(str,dec){
   if(str === 'null'){
   return `<i class="fa fa-paperclip text-secondary${dec}"></i>`;
@@ -47,7 +31,6 @@ return returnedCode;
 
 function eventcalender(docs)
 {
-
   events = [];
   docs.forEach(function(doc, index)
   {
@@ -172,7 +155,7 @@ function renderList(docs)
             </h6>
           </div>
           <div class="header-side col-6 m-auto">
-            <div class=" shadow-lg border infoButton border-info d-inline  px-3 py-1" style="border-radius: 2em;">
+            <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
             ${checkFileAvailability(doc.data().file,'')}
               <span aria-label="${doc.data().priority}"
                   data-microtip-position="left" role="tooltip">${renderPriorities(doc.data().priority.toLowerCase())}</span>
@@ -200,6 +183,8 @@ function renderList(docs)
 
       </div>`).appendTo('#accordion');
       });
+      $('.loader').fadeOut('slow');
+
       $('.viewFile').on( "click",function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -230,10 +215,6 @@ function renderList(docs)
         let $modal = $('#fileModal'+id);
         $modal.modal('show');
       })
-      changeTheme();
-      $('.loader').fadeOut('slow');
-
-     
 
 }
 
@@ -242,7 +223,6 @@ function renderList(docs)
 
 
 $(document).ready(function () {
-
 
   db.collection("users").get()
   .then(function (querySnapshot) {
@@ -423,7 +403,10 @@ db.collection("notice").onSnapshot(function(snapshot) {
     console.log(snapshot)
     eventcalender(snapshot.docs);
     renderList(snapshot.docs);
-    noticeColor(snapshot.docs)
+   console.log(snapshot.type);
+
+   
+
 
   },
   error => {
@@ -432,5 +415,5 @@ db.collection("notice").onSnapshot(function(snapshot) {
       }
   });
 
-console.log(localStorage.getItem('theme'))
+
 })
