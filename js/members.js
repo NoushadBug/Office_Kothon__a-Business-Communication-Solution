@@ -1,6 +1,8 @@
 var firstTime = false;
 var entryText = 'Click on any card to give a designation and approve';
 var addressCard = $('.fa-address-card').clone();
+var docIds = [];
+var docDatas = [];
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -30,14 +32,90 @@ const db = firebase.firestore();
 //update firebase settings
 db.settings({ timestampsInSnapshots: true });
 
+function validateDesignation(element){
+    var decision;
+    if(element.val().toLowerCase() == ''){
+        toastr['error'](`Provide a designation`, 'Invalid designation');
+        decision = false;
+    }
+    if(element.val().toLowerCase() == 'admin'){
+        toastr['error'](`Provide a different designation instead 'admin'`, 'Invalid designation');
+        decision = false;
+    }
+    else{
+        decision = true;
+    }
+    return decision;
+}
+
+function showModalDialog(param){
+    var text,id,placeholder,title,dsgntn,uId, modalId,type, modalName,submitId;
+    if(typeof(param) == 'string'){
+        uId = param.split('edit')[1];
+        dsgntn = docDatas[parseInt(uId)].designation
+        text = 'Enter new designation to update:';
+        placeholder = 'enter designation';
+        type='text'
+        title = 'Edit '+docDatas[parseInt(uId)].displayName
+        modalId = 'editDesignation'
+        id = 'Edit';
+        modalName = 'editModal'
+        submitId = 'confirmDesignation'+uId;
+        $('#'+modalName+uId).find("input[type=text], textarea").val(dsgntn);
+    }
+    else{
+        title = 'Enter Admin Password';
+        text = 'Enter your password to continue:'
+        placeholder = 'enter your password'
+        modalId = 'adminPass'
+        type = 'password'
+        dsgntn = '';
+        modalName = 'confirmModal'
+        id = param == undefined? '': param.toString();
+        uId = id;
+        submitId = 'submitPass';
+        $('#'+modalName+uId).find("input[type=password], textarea").val("");
+    }
+
+    if($('#'+modalName+uId).length == 0){
+        $(`<!-- Modal -->
+        <div class="modal fade" id="${modalName+uId}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
+                <div class="modal-header shadow-lg" style="border: 0;">
+                <h6 class="modal-title" id="exampleModalLongTitle">${title}</h6>
+                <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body shadow-lg " style="background:#2e3035">
+                <p class="text-info">${text}</p>
+                <input id="${modalId+uId}" placeholder="${placeholder}" class="text-light bg-dark border-info rounded-pill form-control" type="${type}" value="${dsgntn}" required >
+            </div>
+            <div class="modal-footer shadow-lg" style="border: 0;">
+                <button type="button" id="${submitId}" class="submitPass ml-auto btn px-5 btn-info rounded-pill shadow-lg" >Continue</button>
+            </div>
+        </div>
+        </div>
+        </div>
+    </div>`).appendTo('body');}
+    $('#'+modalName+uId).modal('show');
+}
+
 function update(){
     $('#force-overflow1').empty();
     $('#force-overflow').empty();
-
+    docIds = [];
+    docDatas = [];
+    var index = -1;
     db.collection("users").get()
     .then(function (querySnapshot) {
+        console.log('updated')
         $('.loader').fadeOut('slow');
-        querySnapshot.forEach(function (doc, index) {
+        querySnapshot.forEach(function (doc) {
+            index++;
+            docIds.push(doc.id);
+            docDatas.push(doc.data());
             var dName = doc.data().displayName;
             var dispName = dName.split('isNewUser')[0];
             if (doc.id === auth.currentUser.email) {
@@ -53,8 +131,8 @@ function update(){
                         <small class="text-info m-0">${doc.data().designation}</small>
                         </div>
                         <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
-                            <i class="py-1 fa fa-pencil text-secondary"></i>
-                            <i class="fa py-1 fa-trash text-secondary"></i>
+                            <button class="py-1 fa fa-pencil text-secondary" id="editMember${doc.id}"  data-id="${doc.data().designation}"></button>
+                            <button class="fa py-1 fa-trash text-secondary" id="deleteMember${doc.id}"></button>
                         </div>
                     </div>`).appendTo('#force-overflow');
                 }
@@ -83,8 +161,8 @@ function update(){
 
                         </div>
                         <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
-                            <i class="py-1 fa fa-pencil text-secondary"></i>
-                            <i class="fa py-1 fa-trash text-secondary"></i>
+                            <button class="py-1 btn fa fa-pencil text-secondary" id="editMember${index}" data-id="${doc.data().designation}"></button>
+                            <button class="fa py-1 btn fa-trash text-secondary" id="deleteMember${index}"></button>
                         </div>
                         </div>`).appendTo('#force-overflow');
                 }
@@ -92,35 +170,35 @@ function update(){
             //console.log(doc.id, " => ", doc.data());
         });
 
+        $('#force-overflow .fa-pencil').click(function () {
+            var clickedIndex = $(this).attr('id').split("editMember")[1];
+            console.log(clickedIndex)
+            showModalDialog('edit'+clickedIndex);
+            $('#confirmDesignation'+clickedIndex).on("click", function (e) {
+                if(validateDesignation($('#editDesignation'+clickedIndex)) && $('#editDesignation'+clickedIndex).val()!=''){
+                    $('#editModal'+clickedIndex).modal('hide')
+                    var desVal = $('#editDesignation'+clickedIndex).val();
+                    db.collection("users").doc(docIds[clickedIndex]).set({
+                        designation : desVal
+                    }, { merge: true })
+                    .then(() => {
+                        $('#editModal'+clickedIndex).remove();
+                        toastr['info']('updated designation successfully! ', 'updated '+docDatas[clickedIndex].displayName);
+                    });
+                }
+            })
+        })
+
+        $('#force-overflow .fa-trash').click(function () {
+            var userID = $(this).attr('id').split("deleteMember")[1];
+            showModalDialog(4)
+        })
+
         $('.deleteApproval').click(function () {
             var selectedMail = $(this).closest(".card").attr('id')
             var encPass = $(this).closest(".card").attr('data-value').split('isUnknown')[1];
             var selectPass = CryptoJS.AES.decrypt(encPass, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
-
-            if($('#confirmModal3').length == 0){
-                $(`<!-- Modal -->
-                <div class="modal fade" id="confirmModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
-                <div class="modal-dialog modal-dialog-centered " role="document">
-                    <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
-                        <div class="modal-header shadow-lg" style="border: 0;">
-                            <h6 class="modal-title" id="exampleModalLongTitle">Enter Admin Password</h6>
-                            <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body shadow-lg " style="background:#2e3035">
-                            <p class="text-info">Enter your password to continue:</p>
-                            <input id="adminPass" placeholder="enter your password" class="text-light bg-dark border-info rounded-pill form-control" type="password" required />
-                        </div>
-                        <div class="modal-footer shadow-lg" style="border: 0;">
-                            <button type="button" id="submitPass" class="submitPass ml-auto btn px-5 btn-info rounded-pill shadow-lg" >Continue</button>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-            </div>`).appendTo('body');
-            }
-            $('#confirmModal3').modal('show');
+            showModalDialog(3);
             $('#confirmModal3 #submitPass').on("click", function (e) {
                 var adminPass = $('#confirmModal3 #adminPass').val()
                 auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
@@ -163,6 +241,7 @@ function update(){
             })
         })
 
+        // member approval section
         $('#force-overflow1 .card').click(function () {
             $('.cardDiv').empty();
             $('#selected_name').removeClass('my-5');
@@ -180,79 +259,59 @@ function update(){
             console.log(thisId, thisValue)
             $('.approvalBar').on('submit', function (event) {
                 event.preventDefault();
-                if($('#confirmModal2').length == 0){
-                    $(`<!-- Modal -->
-                    <div class="modal fade" id="confirmModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
-                    <div class="modal-dialog modal-dialog-centered " role="document">
-                        <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
-                            <div class="modal-header shadow-lg" style="border: 0;">
-                                <h6 class="modal-title" id="exampleModalLongTitle">Enter Admin Password</h6>
-                                <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body shadow-lg " style="background:#2e3035">
-                                <p class="text-info">Enter your password to continue:</p>
-                                <input id="adminPass" placeholder="enter your password" class="text-light bg-dark border-info rounded-pill form-control" type="password" required />
-                            </div>
-                            <div class="modal-footer shadow-lg" style="border: 0;">
-                                <button type="button" id="submitPass" class="submitPass ml-auto btn px-5 btn-info rounded-pill shadow-lg" >Continue</button>
-                            </div>
-                        </div>
-                        </div>
-                        </div>
-                </div>`).appendTo('body');
-                }
-                $('#confirmModal2').modal('show');
+                showModalDialog(2);
                 $('#confirmModal2 #submitPass').on("click", function (e) {
                     var adminPass = $('#confirmModal2 #adminPass').val()
                     auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
-                        $('.uploader').fadeIn('slow');
                         $('#confirmModal2').modal('hide');
                         var email = thisId;
                         var designation = $('#designationField').val();
-                        var oldDisplay = thisValue.split('isUnknown')[1];
+                        var encrPass = thisValue.split('isUnknown')[1];
                         var newDisplay = thisValue.split('isUnknown')[0];
                         autoSignOut = false;
-                        var password = CryptoJS.AES.decrypt(oldDisplay, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
+                        var password = CryptoJS.AES.decrypt(encrPass, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
                         // sign up the user
-                        auth.signInWithEmailAndPassword(email, password).then(cred => {
-                            auth.currentUser.updateProfile({
-                                displayName: thisValue.split('isUnknown')[0]+ 'isNewUser', //setting up the user name with account display name
-                                photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                            }).then(data => {
-                                const userCollection = db.collection("users");
-                                userCollection.doc(email).set({
-                                    displayName: newDisplay.split('isUnknown')[0]+ 'isNewUser',
-                                    designation: designation,
+
+                        if(validateDesignation($('#designationField'))){
+                            $('.uploader').fadeIn('slow');
+                            auth.signInWithEmailAndPassword(email, password).then(cred => {
+                                auth.currentUser.updateProfile({
+                                    displayName: thisValue.split('isUnknown')[0]+ 'isNewUser', //setting up the user name with account display name
                                     photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                                }).then(function () {
-                                    autoSignOut = true;
-                                    auth.signOut().then(() => {
-                                        auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                                            clearStuffs();
-                                            $('.uploader').fadeOut('slow');
-                                            toastr["success"]("Successfully!", "New member created ")
+                                }).then(data => {
+                                    const userCollection = db.collection("users");
+                                    userCollection.doc(email).set({
+                                        displayName: newDisplay.split('isUnknown')[0]+ 'isNewUser',
+                                        designation: designation,
+                                        photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                    }).then(function () {
+                                        autoSignOut = true;
+                                        auth.signOut().then(() => {
+                                            auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                                db.collection("pass").doc(email).set({
+                                                    pass: encrPass
+                                                }).then(function () {
+                                                    clearStuffs();
+                                                    $('.uploader').fadeOut('slow');
+                                                    toastr["success"]("Successfully!", "New member created ")
+                                                 })
+                                            })
                                         })
-                                    })
-                                }).catch(function (error) {
-                                    $('.uploader').fadeOut('slow');
-                                    toastr["error"](error.message, error.code)
+                                    }).catch(function (error) {
+                                        $('.uploader').fadeOut('slow');
+                                        toastr["error"](error.message, error.code)
+                                    });
                                 });
-                            });
-                        })
+                            })
+                        }
                     }).catch(error => {
-                        $('.uploader').fadeOut('slow');
-                        $('#confirmModal2').modal('hide');
-                        toastr["error"](error.code, error.message)
-                    });
+                            $('.uploader').fadeOut('slow');
+                            $('#confirmModal2').modal('hide');
+                            toastr["error"](error.code, error.message)
+                        });
             });
             });
         });
-
-
-
-
     })
     .catch(function (error) {
         toastr['error']('Error getting documents: ', error);
@@ -262,10 +321,7 @@ function update(){
 
 $(document).ready(function () {
     $('.uploader').fadeOut('slow');
-
-
     update();
-
     $("#myInput").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $(".dfeed-bar .card").filter(function () {
@@ -273,6 +329,16 @@ $(document).ready(function () {
         });
     });
     firstTime = true;
+
+    db.collection("users").onSnapshot(function (snapshot) {
+        if(firstTime){firstTime = false;}else{update();}
+    },
+    error => {
+        if (error.code == 'resource-exhausted') {
+            window.location.replace("../quotaExceeded.html");
+        }
+    });
+
 });
 
 const signUpform = $('.user_forms-signup')
@@ -296,68 +362,53 @@ function clearStuffs() {
 signUpform.on('submit', function (event) {
 
     event.preventDefault();
-    if($('#confirmModal').length == 0){
-    $(`<!-- Modal -->
-    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
-      <div class="modal-dialog modal-dialog-centered " role="document">
-          <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
-              <div class="modal-header shadow-lg" style="border: 0;">
-                  <h6 class="modal-title" id="exampleModalLongTitle">Enter Admin Password</h6>
-                  <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                  </button>
-              </div>
-              <div class="modal-body shadow-lg " style="background:#2e3035">
-                  <p class="text-info">Enter your password to continue:</p>
-                  <input id="adminPass" placeholder="enter your password" class="text-light bg-dark border-info rounded-pill form-control" type="password" required />
-              </div>
-              <div class="modal-footer shadow-lg" style="border: 0;">
-                  <button type="button" id="submitPass" class="submitPass ml-auto btn px-5 btn-info rounded-pill shadow-lg" >Continue</button>
-              </div>
-          </div>
-        </div>
-        </div>
-  </div>`).appendTo('body');}
-    $('#confirmModal').modal('show');
-
-    $('#submitPass').on("click", function (e) {
+    showModalDialog();
+    $('#confirmModal #submitPass').on("click", function (e) {
         var adminPass = $('#adminPass').val()
         auth.signInWithEmailAndPassword(auth.currentUser.email, adminPass).then((user) => {
-            $('.uploader').fadeIn('slow');
             $('#confirmModal').modal('hide');
             var name = $('.taskForm2 #name').val();
             var email = $('.taskForm2 #email').val();
             var designation = $('.taskForm2 #designation').val();
             var password = $('.taskForm2 #password').val();
             // sign up the user
-            auth.createUserWithEmailAndPassword(email, password).then(cred => {
-                var newUser = auth.currentUser;
-                console.log(newUser)
-                //console.log(cred)
-                newUser.updateProfile({
-                    displayName: name + 'isNewUser', //setting up the user name with account display name
-                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                }).then(data => {
-                    const userCollection = db.collection("users");
-                    userCollection.doc(email).set({
-                        bio: 'Bio is not updated yet',
-                        displayName: name,
-                        designation: designation,
+            if(validateDesignation($('.taskForm2 #designation'))){
+                $('.uploader').fadeIn('slow');
+                auth.createUserWithEmailAndPassword(email, password).then(cred => {
+                    var newUser = auth.currentUser;
+                    console.log(newUser)
+                    //console.log(cred)
+                    newUser.updateProfile({
+                        displayName: name + 'isNewUser', //setting up the user name with account display name
                         photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                    }).then(function () {
-                        autoSignOut = true;
-                        auth.signOut().then(() => {
-                            auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                                clearStuffs();
-                                toastr["success"]("Successfully!", "New member created ")
+                    }).then(data => {
+                        const userCollection = db.collection("users");
+                        userCollection.doc(email).set({
+                            bio: 'Bio is not updated yet',
+                            displayName: name,
+                            designation: designation,
+                            photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                        }).then(function () {
+                            autoSignOut = true;
+                            auth.signOut().then(() => {
+                                auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                    db.collection("pass").doc(email).set({
+                                        pass: password
+                                    }).then(function () {
+                                        clearStuffs();
+                                        $('.uploader').fadeOut('slow');
+                                        toastr["success"]("Successfully!", "New member created ")
+                                     })
+                                })
                             })
-                        })
-                    }).catch(function (error) {
-                        toastr["error"](error.message, error.code)
-
+                        }).catch(function (error) {
+                            toastr["error"](error.message, error.code)
+    
+                        });
                     });
-                });
-            })
+                })
+            }
+
         }).catch(error => {
             $('#confirmModal').modal('hide');
             toastr["error"](error.code, error.message)
@@ -373,18 +424,3 @@ document.getElementById('signout').addEventListener('click', () => {
     });
     window.location.replace("./index.html");
 });
-
-db.collection("users").onSnapshot(function (snapshot) {
-    console.log(snapshot)
-    if(firstTime){
-        firstTime = false;
-    }
-    else{
-        update();
-    }
-},
-    error => {
-        if (error.code == 'resource-exhausted') {
-            window.location.replace("../quotaExceeded.html");
-        }
-    });
