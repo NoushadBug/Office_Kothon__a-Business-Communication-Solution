@@ -745,6 +745,7 @@ $(document).ready(function(){
           }
           //console.log(doc.id, " => ", doc.data());
       });
+      changeTheme()
       $('.loader').fadeOut('slow');
 
       $("#filterTask").change(function () {

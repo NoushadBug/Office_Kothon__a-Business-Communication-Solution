@@ -3,14 +3,17 @@ function changeTheme()
 {
     if(localStorage.getItem('theme') == 'light')
     {
+        // if (window.location.pathname == "/dashboard.html") {
+          
+        // dashboard css 
         $('.dashboard-main').css("background"," #cad1d8")
         $('.dashboard-container').css("background"," #ffffff")
-        $('.hello-bar').css("background","#ccdcff")
+        $('.hello-bar').css("background","rgb(204, 220, 255)")
         $('#myInput').css('color' , 'black')
         $('.scrollbar').css("background","#ccdcff")
         $('.leftbar').css('background','rgb(29 59 88)')
         $('.feeditem').removeClass('bg-dark')
-        $('.feeditem').addClass('bg-light')
+        $('.feeditem').addClass('panelColor')
         $('.infoButton').css('background' , 'rgb(29 59 88)')
         $('.date-section').removeClass('text-light')
         $('#date').css('color','darkblue')
@@ -39,23 +42,83 @@ function changeTheme()
         $('.weather-container').css('border-radius', '2em')
         $('.feeditem ').removeClass('text-light')
         $('.panel-title').css('font-weight', 'bold')
-        $('#userName').css('color', 'darkblue')
+        $('#userName').css('color', 'darkBlue')
         $('.search-btn').css('color', 'darkred')
         $('.panel-title').css('color', 'darkblue')
         $('#force-overflow').css('color', '#70B8DE')
-        // $('.modal-content').removeClass('bg-dark')
-        // $('.modal-content').css('background-color', '#f1f8ff')
-        // $('.modal-title').css('color', 'black')
-        // $('.modal-header button').removeClass('text-light')
-        // $('.modal-body').css('background', '#c9d9ff')
-        // $('.modal-body .feeditem').removeClass('bg-dark')
-        // $('.modal-body .feeditem').addClass('bg-light')
+        $('.hello-bar').removeClass('borderDark')
+        $('.hello-bar').addClass('borderLight')
+        $('.scrollbar').css('color',' rgb(29 59 88)')
+        $('.scrollbar').removeClass('thumbDark')
+        $('.scrollbar').addClass('thumbLight')
 
-
-
+       
 
     }
+
+     
+        // if (window.location.pathname == "/chat.html") {
+          
+        // // dashboard css 
+        // $('.dashboard-main').css("background"," #cad1d8")
+        // $('.dashboard-container').css("background"," #ECF0F3")
+        // $('.hello-bar').css("background","rgb(204, 220, 255)")
+       
+        // $('.leftbar').css('background','rgb(29 59 88)')
+        
+            if (localStorage.getItem('theme') == 'dark'){
+                $('.dashboard-main').css("background"," #212529")
+                $('.dashboard-container').css("background"," #393c45")
+                $('.hello-bar').css("background","#2d3346")
+                $('#myInput').css('color' , 'white')
+                $('.scrollbar').css("background","#576075")
+                $('.leftbar').css('background','#2e3035')
+                $('.feeditem').addClass('bg-dark')
+                $('.infoButton').css('background' , '#2b3035')
+                $('.date-section').addClass('text-light')
+                $('#date').css('color','white')
+                $('#date').css('font-weight','bold')
+                $('#time').css('color','white')
+                $('#signout i').addClass('text-secondary')
+                // $('.panel-collapse').css('color' , 'black')
+                $('#calTitle button ').css('background','white')
+                $('#calTitle').css('color','white')
+                $('#calTitle').css('font-weight','bold')
+                $('#calendar').css("background","#22252e")
+                $('#calThead').css('color', 'white')
+                $('#calTbody').css('color', 'white')
+                $('#calTbody .a-date.current').css('background-color', '#5d646b')     
+                $('#calTbody .a-date.current').css('color', '#d2d2d2')    
+                $('#eventTitle').css('color', 'white')
+                $('#calLink').css('color', '#67aff8')
+                $('.temperature-value').css('color', 'white')
+                $('.temperature-description').removeClass('text-secondary')
+                $('.location').css('color', '#060a0a')
+                $('.location').css('font-weight', 'bold')
+                $('.location').removeClass('text-info')
+                $('.location').addClass('text-light')
+                $('.weather-container').css('background', 'rgb(29 59 88)')
+                $('.weather-container').css('border-radius', '2em')
+                $('.feeditem ').removeClass('text-light')
+                $('.panel-title').css('font-weight', 'bold')
+                $('#userName').css('color', 'darkBlue')
+                $('.search-btn').css('color', 'darkred')
+                $('.panel-title').css('color', 'darkblue')
+                $('#force-overflow').css('color', '#70B8DE')
+                $('.hello-bar').removeClass('borderDark')
+                $('.hello-bar').addClass('borderLight')
+                $('.scrollbar').css('color',' rgb(29 59 88)')
+                $('.scrollbar').removeClass('thumbDark')
+                $('.scrollbar').addClass('thumbLight')
+
+            }
+       
+
+    
+     
+   
 }
+
 
 
   
