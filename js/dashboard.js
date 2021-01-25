@@ -3,12 +3,21 @@ var events = [];
 
 function noticeColor(color)
 {
+  var reply;
   switch(color)
   {
-    var reply;
-    case 'Meeting':
-      reply = ``
+     case 'Meeting':
+      reply = `<i class="fa fa-circle text-info"></i>`
+      break;
+      case 'Notice':
+        reply = `<i class="fa fa-circle text-warning"></i>`
+        break;
+      case 'Event':
+        reply = `<i class="fa fa-circle text-danger"></i>`
+        break;
+
   }
+  return reply ;
 
 }
 
@@ -186,7 +195,7 @@ function renderList(docs)
               <p> ${new Date(parseInt(doc.data().date)).toLocaleString()}</p>
             </div>
             <div class="status col-4">
-              <i class="fa fa-circle"></i>
+           ${noticeColor(doc.data().postType)}
               <p class="d-inline"> ${doc.data().postType}</p>
             </div>
             <div class="view-button col-4">
@@ -423,7 +432,7 @@ db.collection("notice").onSnapshot(function(snapshot) {
     console.log(snapshot)
     eventcalender(snapshot.docs);
     renderList(snapshot.docs);
-    noticeColor(snapshot.docs)
+ 
 
   },
   error => {

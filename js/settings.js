@@ -15,6 +15,7 @@ $(document).ready(function(){
   }
 
   $(".toggle-checkbox").click(function(){
+
    var temp;
     if(localStorage.getItem("theme") == "dark")
     {
@@ -28,6 +29,7 @@ $(document).ready(function(){
     }
  
     localStorage.setItem("theme",temp) 
+    changeTheme();
   });
 
 
@@ -49,6 +51,7 @@ $(document).ready(function(){
         userDesignation = doc.data().designation;}
       }
   });
+  changeTheme();
   $('.loader').fadeOut('slow');
 },
 error => {

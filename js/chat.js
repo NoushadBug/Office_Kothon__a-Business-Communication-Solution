@@ -21,6 +21,7 @@ $(document).ready(function(){
 
     db.collection("users").get()
     .then(function(querySnapshot) {
+        changeTheme();
         $('.loader').fadeOut('slow');
         $('#frame').hide();
         $('#welcome').slideDown("slow");
@@ -391,3 +392,4 @@ function renderLoadingSvg(){
      function notifyMessages(messageInfos){
         unreadMessage = 0;
     }
+ 
