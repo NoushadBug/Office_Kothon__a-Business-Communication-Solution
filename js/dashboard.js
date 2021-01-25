@@ -56,7 +56,6 @@ return returnedCode;
 
 function eventcalender(docs)
 {
-
   events = [];
   docs.forEach(function(doc, index)
   {
@@ -76,8 +75,10 @@ $("#calendar").MEC({
 });
 
 
-$('#calendar #calLink').on("click", function(){
+$('#calendar #calLink').on("click", function(e){
   if($('#calendar #calLink').text() != 'VIEW EVENT'){
+    e.preventDefault();
+    e.stopPropagation();
     if($('#eventListModal').length == 0){
       $(`<!-- Modal -->
       <div class="modal fade" id="eventListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
@@ -181,7 +182,7 @@ function renderList(docs)
             </h6>
           </div>
           <div class="header-side col-6 m-auto">
-            <div class=" shadow-lg border infoButton border-info d-inline  px-3 py-1" style="border-radius: 2em;">
+            <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
             ${checkFileAvailability(doc.data().file,'')}
               <span aria-label="${doc.data().priority}"
                   data-microtip-position="left" role="tooltip">${renderPriorities(doc.data().priority.toLowerCase())}</span>
@@ -209,6 +210,8 @@ function renderList(docs)
 
       </div>`).appendTo('#accordion');
       });
+      $('.loader').fadeOut('slow');
+
       $('.viewFile').on( "click",function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -239,10 +242,6 @@ function renderList(docs)
         let $modal = $('#fileModal'+id);
         $modal.modal('show');
       })
-      changeTheme();
-      $('.loader').fadeOut('slow');
-
-     
 
 }
 
@@ -251,7 +250,6 @@ function renderList(docs)
 
 
 $(document).ready(function () {
-
 
   db.collection("users").get()
   .then(function (querySnapshot) {
@@ -433,6 +431,10 @@ db.collection("notice").onSnapshot(function(snapshot) {
     eventcalender(snapshot.docs);
     renderList(snapshot.docs);
  
+   console.log(snapshot.type);
+
+   
+
 
   },
   error => {
@@ -441,5 +443,5 @@ db.collection("notice").onSnapshot(function(snapshot) {
       }
   });
 
-console.log(localStorage.getItem('theme'))
+
 })
