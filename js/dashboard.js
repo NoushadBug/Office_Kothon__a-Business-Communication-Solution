@@ -50,8 +50,10 @@ $("#calendar").MEC({
 });
 
 
-$('#calendar #calLink').on("click", function(){
+$('#calendar #calLink').on("click", function(e){
   if($('#calendar #calLink').text() != 'VIEW EVENT'){
+    e.preventDefault();
+    e.stopPropagation();
     if($('#eventListModal').length == 0){
       $(`<!-- Modal -->
       <div class="modal fade" id="eventListModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: block;">
