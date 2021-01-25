@@ -21,7 +21,7 @@ $(document).ready(function(){
 
     db.collection("users").get()
     .then(function(querySnapshot) {
-        changeTheme();
+      
         $('.loader').fadeOut('slow');
         $('#frame').hide();
         $('#welcome').slideDown("slow");
@@ -58,7 +58,9 @@ $(document).ready(function(){
             selectedUserId = $(this).attr('data')
             openMessageThread();
           });
+          changeTheme();
     })
+    
     .catch(function(error) {
         toastr['error']('Error getting documents: ', error);
     });

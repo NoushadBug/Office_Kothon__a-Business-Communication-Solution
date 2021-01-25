@@ -3,7 +3,7 @@ function changeTheme()
 {
     if(localStorage.getItem('theme') == 'light')
     {
-        // if (window.location.pathname == "/dashboard.html") {
+         if (window.location.pathname == "/dashboard.html") {
           
         // dashboard css 
         $('.dashboard-main').css("background"," #cad1d8")
@@ -55,9 +55,47 @@ function changeTheme()
        
 
     }
+    if (window.location.pathname == "/chat.html") 
+    {
+        $('.dashboard-main').css("background"," rgb(202, 209, 216)")
+        $('.leftbar').css('background','rgb(29 59 88)')
+        $('.dashboard-container').css("background","#BCC2D0")
+        $('.member').removeClass('text-light')
+        $('.member').css('color','darkblue')
+        $('.userName ').removeClass('text-light')
+        $('.userName ').css('color','darkblue')
+        $('.click').removeClass('text-info')
+        $('.dfeed-bar .card').removeClass('bg-dark')
+        $('.dfeed-bar .card').css('background-color','#415871')
+        $('.scrollbar').addClass('thumbLight')
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
      
-        // if (window.location.pathname == "/chat.html") {
+        
           
         // // dashboard css 
         // $('.dashboard-main').css("background"," #cad1d8")
@@ -67,54 +105,59 @@ function changeTheme()
         // $('.leftbar').css('background','rgb(29 59 88)')
         
             if (localStorage.getItem('theme') == 'dark'){
-                $('.dashboard-main').css("background"," #212529")
-                $('.dashboard-container').css("background"," #393c45")
-                $('.hello-bar').css("background","#2d3346")
-                $('#myInput').css('color' , 'white')
-                $('.scrollbar').css("background","#576075")
-                $('.leftbar').css('background','#2e3035')
-                $('.feeditem').addClass('bg-dark')
-                $('.infoButton').css('background' , '#2b3035')
-                $('.date-section').addClass('text-light')
-                $('#date').css('color','white')
-                $('#date').css('font-weight','bold')
-                $('#time').css('color','white')
-                $('#signout i').addClass('text-secondary')
-                // $('.panel-collapse').css('color' , 'black')
-                $('#calTitle button ').css('background','white')
-                $('#calTitle').css('color','white')
-                $('#calTitle').css('font-weight','bold')
-                $('#calendar').css("background","#22252e")
-                $('#calThead').css('color', 'white')
-                $('#calTbody').css('color', 'white')
-                $('#calTbody .a-date.current').css('background-color', '#5d646b')     
-                $('#calTbody .a-date.current').css('color', '#d2d2d2')    
-                $('#eventTitle').css('color', 'white')
-                $('#calLink').css('color', '#67aff8')
-                $('.temperature-value').css('color', 'white')
-                $('.temperature-description').addClass('text-secondary')
-                $('.location').css('font-weight', 'bold')
-                $('.location').addClass('text-info')
-                // $('.weather-container').css('background', 'rgb(29 59 88)')
-                // $('.weather-container').css('border-radius', '2em')
-                $('.feeditem ').addClass('text-light')
-                $('.panel-title').css('font-weight', 'bold')
-                $('#userName').css('color', 'white')
-                $('.search-btn').addClass('text-info')
-                $('.panel-title').css('color', 'white')
-                $('#force-overflow').css('color', '#212529')
-                $('.hello-bar').removeClass('borderLight')
-                $('.hello-bar').addClass('borderDark')
-                $('.scrollbar').css('color',' #212529')
-                $('.scrollbar').removeClass('thumbLight')
-                $('.scrollbar').addClass('thumbDark')
-
-            }
-       
+                if (window.location.pathname == "/dashboard.html") 
+                {
+                    $('.dashboard-main').css("background"," #212529")
+                    $('.dashboard-container').css("background"," #393c45")
+                    $('.hello-bar').css("background","#2d3346")
+                    $('#myInput').css('color' , 'white')
+                    $('.scrollbar').css("background","#576075")
+                    $('.leftbar').css('background','#2e3035')
+                    $('.feeditem').addClass('bg-dark')
+                    $('.infoButton').css('background' , '#2b3035')
+                    $('.date-section').addClass('text-light')
+                    $('#date').css('color','white')
+                    $('#date').css('font-weight','bold')
+                    $('#time').css('color','white')
+                    $('#signout i').addClass('text-secondary')
+                    // $('.panel-collapse').css('color' , 'black')
+                    $('#calTitle button ').css('background','rgba(0, 0, 0, 0.1)')
+                    $('#calTitle').css('color','white')
+                    $('#calTitle').css('font-weight','bold')
+                    $('#calendar').css("background","#22252e")
+                    $('#calThead').css('color', 'white')
+                    $('#calTbody').css('color', 'white')
+                    $('#calTbody .a-date.current').css('background-color', '#5d646b')     
+                    $('#calTbody .a-date.current').css('color', '#d2d2d2')    
+                    $('#eventTitle').css('color', 'white')
+                    $('#calLink').css('color', '#67aff8')
+                    $('.temperature-value').css('color', 'white')
+                    $('.temperature-description').addClass('text-secondary')
+                    $('.location').css('font-weight', 'bold')
+                    $('.location').addClass('text-info')
+                    // $('.weather-container').css('background', 'rgb(29 59 88)')
+                    // $('.weather-container').css('border-radius', '2em')
+                    $('.feeditem ').addClass('text-light')
+                    
+                    $('#userName').css('color', 'white')
+                    $('.search-btn').addClass('text-info')
+                    $('.panel-title').css('color', 'white')
+                    $('#force-overflow').css('color', '#212529')
+                    $('.hello-bar').removeClass('borderLight')
+                    $('.hello-bar').addClass('borderDark')
+                    $('.scrollbar').css('color',' #212529')
+                    $('.scrollbar').removeClass('thumbLight')
+                    $('.scrollbar').addClass('thumbDark')
+    
+                
+           
+                }
+              
 
     
      
    
+}
 }
 
 
