@@ -1,21 +1,5 @@
 var dbPhrase;
-firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-      window.location.replace('./index.html');
-    }
-    else {
-        
-      if (user.displayName.indexOf('isNewUser') !== -1) {
-        auth.currentUser.updateProfile({
-          displayName: user.displayName.split("isNewUser")[0],
-          photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-        })
-      }
-      if (user.displayName == 'admin') {
-        window.location.replace('./admin.html');
-      }
-    }
-  });
+
 $(document).ready(function(){
     toastr.options = {
         "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
