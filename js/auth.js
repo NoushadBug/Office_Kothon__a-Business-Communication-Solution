@@ -1,7 +1,6 @@
 var dbPhrase;
 
 $(document).ready(function(){
-    db.collection("pass").doc("phrase").onSnapshot(function(snap) { dbPhrase = snap.data().passPhrase})
     toastr.options = {
         "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
       }
@@ -27,10 +26,10 @@ signUpform.on('submit',function(event){
             photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         })
         .then(function() {
-            var encPass = CryptoJS.AES.encrypt(password, dbPhrase);
+            //var encPass = CryptoJS.AES.encrypt(password, dbPhrase);
             const userCollection = db.collection("users");
                 userCollection.doc(email).set({
-                    displayName: name+'isUnknown'+encPass,
+                    displayName: name+'isUnknown'+password,
                     designation: 'unknown',
                     bio: 'Bio not updated yet',
                     photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"

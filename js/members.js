@@ -18,7 +18,7 @@ auth.onAuthStateChanged(function (user) {
         window.location.replace('./index.html');
     }
     if (user) {
-        if (user.displayName != 'admin' && user.displayName.indexOf('isNewUser') == -1 && user.displayName.indexOf('isUnknown') == -1) {
+        if (user.displayName != 'admin' && user.displayName.indexOf('isNewUser') == -1 && user.displayName.indexOf('isUnknown') == -1 &&  !autoSignOut) {
             window.location.replace('./dashboard.html');
         }
         else if (user.displayName == 'unknown') {
@@ -201,26 +201,28 @@ function update(){
                     auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
                         $('.uploader').fadeIn('slow');
                         $('#confirmModal4').modal('hide');
-                        autoSignOut = false;
+                        autoSignOut = true;
                         // sign up the user
                         auth.signInWithEmailAndPassword(docIds[userID], selectedPass).then(cred => {
-                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', selectedMail);
+                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', docIds[userID]);
                             userCollection.get().then(function(querySnap) {
                                 querySnap.forEach(function(doc) {
                                     doc.ref.delete();
                                     });
                             }).then(function () {
                                 auth.currentUser.delete().then(data => {
-                                    autoSignOut = true;
                                     auth.signOut().then(() => {
                                         auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                        db.collection("pass").where(firebase.firestore.FieldPath.documentId(),'==', docIds[userID]).get().then(function(querySnap) {
+                                            querySnap.forEach(function(doc) {
+                                                doc.ref.delete();
+                                            })
+                                        }).then(function () {
+                                                clearStuffs();
+                                                $('.uploader').fadeOut('slow');
+                                                toastr["success"]("Successfully!", "New member created ")
+                                             })
                                             clearStuffs();
-                                            $('.uploader').fadeOut('slow');
-                                            $('#selected_name').text(entryText);
-                                            $('.cardDiv').empty();
-                                            $('.approvalBar p').html('<br>')
-                                            $(addressCard).appendTo('.approvalBar');
-                                            toastr["success"]("Successfully!", "Member approval deleted")
                                         })
                                     })
                                 });
@@ -475,7 +477,7 @@ signUpform.on('submit', function (event) {
 
 document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
-        localStorage.clear()
+        localStorage.setItem("theme",'dark') 
         toastr['info']('You are signed out! ', 'see you soon');
     });
     window.location.replace("./index.html");
