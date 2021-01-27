@@ -3,6 +3,8 @@ var entryText = 'Click on any card to give a designation and approve';
 var addressCard = $('.fa-address-card').clone();
 var docIds = [];
 var docDatas = [];
+var dbPhrase;
+var passRecord = new Map();
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -47,6 +49,7 @@ function validateDesignation(element){
     }
     return decision;
 }
+
 
 function showModalDialog(param){
     var text,id,placeholder,title,dsgntn,uId, modalId,type, modalName,submitId;
@@ -191,13 +194,55 @@ function update(){
 
         $('#force-overflow .fa-trash').click(function () {
             var userID = $(this).attr('id').split("deleteMember")[1];
-            showModalDialog(4)
+            var selectedPass = CryptoJS.AES.decrypt(passRecord.get(docIds[userID]), dbPhrase).toString(CryptoJS.enc.Utf8);
+            showModalDialog(4);
+            $('#confirmModal4 #submitPass').on("click", function (e) {
+                var adminPass = $('#confirmModal4 #adminPass4').val()
+                    auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
+                        $('.uploader').fadeIn('slow');
+                        $('#confirmModal4').modal('hide');
+                        autoSignOut = false;
+                        // sign up the user
+                        auth.signInWithEmailAndPassword(docIds[userID], selectedPass).then(cred => {
+                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', selectedMail);
+                            userCollection.get().then(function(querySnap) {
+                                querySnap.forEach(function(doc) {
+                                    doc.ref.delete();
+                                    });
+                            }).then(function () {
+                                auth.currentUser.delete().then(data => {
+                                    autoSignOut = true;
+                                    auth.signOut().then(() => {
+                                        auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                            clearStuffs();
+                                            $('.uploader').fadeOut('slow');
+                                            $('#selected_name').text(entryText);
+                                            $('.cardDiv').empty();
+                                            $('.approvalBar p').html('<br>')
+                                            $(addressCard).appendTo('.approvalBar');
+                                            toastr["success"]("Successfully!", "Member approval deleted")
+                                        })
+                                    })
+                                });
+                            }).catch(function (error) {
+                                $('.uploader').fadeOut('slow');
+                                $('#confirmModal4').modal('hide');
+                                toastr["error"](error.message, error.code)
+                            });
+                        })
+                    }).catch(error => {
+                        $('.uploader').fadeOut('slow');
+                        $('#confirmModal4').modal('hide');
+                        toastr["error"](error.code, error.message)
+                    });
+        });
+
         })
 
         $('.deleteApproval').click(function () {
             var selectedMail = $(this).closest(".card").attr('id')
             var encPass = $(this).closest(".card").attr('data-value').split('isUnknown')[1];
-            var selectPass = CryptoJS.AES.decrypt(encPass, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
+            var selectPass = CryptoJS.AES.decrypt(encPass, dbPhrase).toString(CryptoJS.enc.Utf8);
             showModalDialog(3);
             $('#confirmModal3 #submitPass').on("click", function (e) {
                 var adminPass = $('#confirmModal3 #adminPass').val()
@@ -269,7 +314,7 @@ function update(){
                         var encrPass = thisValue.split('isUnknown')[1];
                         var newDisplay = thisValue.split('isUnknown')[0];
                         autoSignOut = false;
-                        var password = CryptoJS.AES.decrypt(encrPass, "Secret Passphrase").toString(CryptoJS.enc.Utf8);
+                        var password = CryptoJS.AES.decrypt(encrPass, dbPhrase).toString(CryptoJS.enc.Utf8);
                         // sign up the user
 
                         if(validateDesignation($('#designationField'))){
@@ -320,6 +365,17 @@ function update(){
 }
 
 $(document).ready(function () {
+    db.collection("pass").onSnapshot(function(snap) {
+         passRecord = new Map();
+         snap.forEach(function (doc) {
+            if (doc.id == 'phrase') {
+                dbPhrase = doc.data().passPhrase
+            }
+            else{
+                passRecord.set(doc.id, doc.data().pass);
+            }
+        });
+    })
     $('.uploader').fadeOut('slow');
     update();
     $("#myInput").on("keyup", function () {

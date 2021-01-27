@@ -1,4 +1,7 @@
+var dbPhrase;
+
 $(document).ready(function(){
+    db.collection("pass").doc("phrase").onSnapshot(function(snap) { dbPhrase = snap.data().passPhrase})
     toastr.options = {
         "closeButton": true,"debug": false,"newestOnTop": false,"progressBar": true,"positionClass": "toast-top-right","preventDuplicates": false,"onclick": null,"showDuration": "300","hideDuration": "1000","timeOut": "5000","extendedTimeOut": "1000","showEasing": "swing","hideEasing": "linear","showMethod": "fadeIn","hideMethod": "fadeOut"
       }
@@ -24,7 +27,7 @@ signUpform.on('submit',function(event){
             photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         })
         .then(function() {
-            var encPass = CryptoJS.AES.encrypt(password, "Secret Passphrase");
+            var encPass = CryptoJS.AES.encrypt(password, dbPhrase);
             const userCollection = db.collection("users");
                 userCollection.doc(email).set({
                     displayName: name+'isUnknown'+encPass,
@@ -78,8 +81,6 @@ signUpformSmall.on('submit',function(event){
          toastr["success"]("you are good to go!", "Successfully signed up")
          firebase.firestore().collection("users").doc(email).set({
             displayName: name+'isUnknown',
-            // state: "CA",
-            // country: "USA"
         }).then(function() {
             console.log("Document successfully written!");
         })
@@ -91,7 +92,6 @@ signUpformSmall.on('submit',function(event){
              console.log('user has been logged out');
          })
         toggleLogin();
-          
     }).catch( error => {
         toastr["error"](error.code, error.message)
  });
@@ -110,9 +110,6 @@ loginForm.on('submit', function(e) {
     const password = loginForm.find('#password')[0].value;
 
     auth.signInWithEmailAndPassword(email, password).then( cred => {
-      
-            
-         
         console.log(cred);
          toastr["info"]("you are logged in!", "hello "+auth.currentUser.displayName);
          window.location.replace("./dashboard.html");

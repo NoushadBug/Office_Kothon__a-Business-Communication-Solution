@@ -1,4 +1,4 @@
-let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width;
+let userBio,userPhoto,userDesignation, myBlob, convertedImage, height, width,dbPhrase;
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
@@ -51,7 +51,10 @@ $(document).ready(function(){
         userDesignation = doc.data().designation;}
       }
   });
+
+  db.collection("pass").doc("phrase").onSnapshot(function(snap) { dbPhrase = snap.data().passPhrase})
   changeTheme();
+
   $('.loader').fadeOut('slow');
 },
 error => {
@@ -263,8 +266,11 @@ $fileInput.on('change', function() {
                                     displayName: displayName,
                                     photoURL: downloadURL,
                                   }).then(function() {
-                                    $('.uploader').fadeOut('slow');
-                                    toastr['success']('updated user information sucessfully', 'updated information');
+                                    db.collection("pass").doc(auth.currentUser.email).set({pass: CryptoJS.AES.encrypt(newPass, dbPhrase)})
+                                    .then(function() {
+                                      $('.uploader').fadeOut('slow');
+                                      toastr['success']('updated user information sucessfully', 'updated information');
+                                    })
                                   }).catch(function(error) {
                                     toastr['error']('Error updating info', error.code);
                                   });
@@ -304,8 +310,11 @@ $fileInput.on('change', function() {
                     displayName: displayName,
                     photoURL: userPhoto,
                   }).then(function() {
-                    $('.uploader').fadeOut('slow');
-                    toastr['success']('updated user information sucessfully', 'updated information');
+                    db.collection("pass").doc(auth.currentUser.email).set({pass: CryptoJS.AES.encrypt(newPass, dbPhrase)})
+                    .then(function() {
+                      $('.uploader').fadeOut('slow');
+                      toastr['success']('updated user information sucessfully', 'updated information');
+                    })
                   }).catch(function(error) {
                     toastr['error']('Error updating info', error.code);
                   });
