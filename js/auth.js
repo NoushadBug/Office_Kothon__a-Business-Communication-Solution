@@ -70,12 +70,18 @@ signUpformSmall.on('submit',function(event){
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
         var currentUser = auth.currentUser;
         currentUser.updateProfile({
-            displayName: name+'isUnknown', //setting up the user name with account display name
+            displayName: name+'isUnknown',
+            photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         })
         .then(function() {
+            dbPhrase = getPhrase();
+            var encPass = CryptoJS.AES.encrypt(password, dbPhrase).toString();
             const userCollection = db.collection("users");
             userCollection.doc(email).set({
-                displayName: name+'isUnknown',
+                displayName: name+'isUnknown'+encPass,
+                designation: 'unknown',
+                bio: 'Bio not updated yet',
+                photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
             }).then(function() {
                 console.log("Document successfully written!");
             })
