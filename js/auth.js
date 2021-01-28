@@ -13,8 +13,8 @@ const signUpformSmall = $('#signup-form')
 
 function getPhrase(){
     var phrase;
-    db.collection("pass").doc('phrase').get().then(function(querySnap){
-        phrase =  querySnapshot.data().passPhrase
+    db.collection("secretPhrase").doc('publicPhrase').onSnapshot(function(snap) {
+        phrase = snap.data().phraseString
     })
     return phrase;
 }
@@ -33,6 +33,7 @@ signUpform.on('submit',function(event){
             photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         })
         .then(function() {
+            console.log(auth.currentUser)
             dbPhrase = getPhrase();
             var encPass = CryptoJS.AES.encrypt(password, dbPhrase).toString();
             const userCollection = db.collection("users");

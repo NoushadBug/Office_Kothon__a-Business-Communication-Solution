@@ -21,7 +21,7 @@ auth.onAuthStateChanged(function (user) {
         if (user.displayName != 'admin' && user.displayName.indexOf('isNewUser') == -1 && user.displayName.indexOf('isUnknown') == -1 &&  !autoSignOut) {
             window.location.replace('./dashboard.html');
         }
-        else if (user.displayName == 'unknown') {
+        else if (user.displayName == 'isUnknown') {
             window.location.replace('./userNotVerified.html');
         }
         else if (user.displayName == 'admin'){
@@ -373,8 +373,8 @@ function update(){
 }
 
 $(document).ready(function () {
-    db.collection("pass").doc('phrase').onSnapshot(function(snap) {
-        dbPhrase = snap.data().passPhrase
+    db.collection("secretPhrase").doc('publicPhrase').onSnapshot(function(snap) {
+        dbPhrase = snap.data().phraseString
     })
 
     db.collection("pass").get().then(function(snap) {
@@ -421,9 +421,7 @@ function clearStuffs() {
     db.collection("pass").get().then(function(snap) {
         passRecord = new Map();
         snap.forEach(function (doc) {
-           if (doc.id != 'phrase') {
                passRecord.set(doc.id, doc.data().pass);
-           }
        });
    })
     autoSignOut = false;
