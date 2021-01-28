@@ -745,7 +745,9 @@ $(document).ready(function(){
           }
           //console.log(doc.id, " => ", doc.data());
       });
-      changeTheme()
+      window.addEventListener('storage', function(e) {  
+        changeTheme();
+       });
       $('.loader').fadeOut('slow');
 
       $("#filterTask").change(function () {

@@ -58,7 +58,9 @@ $(document).ready(function(){
             selectedUserId = $(this).attr('data')
             openMessageThread();
           });
-          changeTheme();
+          window.addEventListener('storage', function(e) {  
+            changeTheme();
+           });
     })
     
     .catch(function(error) {
