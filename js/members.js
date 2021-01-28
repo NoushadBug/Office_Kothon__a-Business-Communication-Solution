@@ -105,277 +105,290 @@ function showModalDialog(param){
     $('#'+modalName+uId).modal('show');
 }
 
-function update(){
-    docIds = [];
-    docDatas = [];
-    var index = -1;
-    db.collection("users").get()
-    .then(function (querySnapshot) {
-        $('#force-overflow1').empty();
-        $('#force-overflow').empty();
-        console.log('updated')
-        $('.loader').fadeOut('slow');
-        querySnapshot.forEach(function (doc) {
-            index++;
-            docIds.push(doc.id);
-            docDatas.push(doc.data());
-            var dName = doc.data().displayName;
-            var dispName = dName.split('isNewUser')[0];
-            if (doc.id === auth.currentUser.email) {
-                if (doc.data().designation == 'unknown') {
-                    window.location.replace('./userNotVerified.html');
-                }
-                if (doc.data().displayName.indexOf('isNewUser') != -1) {
-                    $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
-                    <div class="row mx-0 my-auto">
-                    <div class="col-md-4 rounded my-auto"><img src="${doc.data().photoURL}" alt="" class="img-responsive" width="100%"></div>
-                    <div class="col-md-6 pl-0 m-auto">
-                        <h6 class="text-light m-0 d-block">${dispName}</h6>
-                        <small class="text-info m-0">${doc.data().designation}</small>
-                        </div>
-                        <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
-                            <button class="py-1 fa fa-pencil text-secondary" id="editMember${doc.id}"  data-id="${doc.data().designation}"></button>
-                            <button class="fa py-1 fa-trash text-secondary" id="deleteMember${doc.id}"></button>
-                        </div>
-                    </div>`).appendTo('#force-overflow');
-                }
-            }
-            else {
-                if (doc.data().designation == 'unknown') {
-                    $(`<div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="${doc.id}" data-value="${doc.data().displayName}">
-                     <div class="row my-3 cardbar" >
-                         <div class="col-md-6 pl-2 m-auto  ">
-                             <h6 class="text-light m-0 d-block">${dispName.split('isUnknown')[0]}</h6>
-                         </div>
-                         <div class="col-md-6  my-auto text-right ">
-                             <i class="fa btn deleteApproval fa-times ml-2 text-danger"></i>
-                         </div>
-                     </div>
-                     </div> `).appendTo('#force-overflow1');
-                }
+$(document).ready(function () {
 
-                if (doc.data().designation != 'admin' && doc.data().designation != 'unknown'){
-                    $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
+    function update(){
+        docIds = [];
+        docDatas = [];
+        var index = -1;
+        db.collection("users").get()
+        .then(function (querySnapshot) {
+            $('#force-overflow1').empty();
+            $('#force-overflow').empty();
+            console.log('updated')
+            $('.loader').fadeOut('slow');
+            querySnapshot.forEach(function (doc) {
+                index++;
+                docIds.push(doc.id);
+                docDatas.push(doc.data());
+                var dName = doc.data().displayName;
+                var dispName = dName.split('isNewUser')[0];
+                if (doc.id === auth.currentUser.email) {
+                    if (doc.data().designation == 'unknown') {
+                        window.location.replace('./userNotVerified.html');
+                    }
+                    if (doc.data().displayName.indexOf('isNewUser') != -1) {
+                        $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
                         <div class="row mx-0 my-auto">
                         <div class="col-md-4 rounded my-auto"><img src="${doc.data().photoURL}" alt="" class="img-responsive" width="100%"></div>
                         <div class="col-md-6 pl-0 m-auto">
                             <h6 class="text-light m-0 d-block">${dispName}</h6>
                             <small class="text-info m-0">${doc.data().designation}</small>
-
-                        </div>
-                        <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
-                            <button class="py-1 btn fa fa-pencil text-secondary" id="editMember${index}" data-id="${doc.data().designation}"></button>
-                            <button class="fa py-1 btn fa-trash text-secondary" id="deleteMember${index}"></button>
-                        </div>
+                            </div>
+                            <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
+                                <button class="btn py-1 fa fa-pencil text-secondary" id="editMember${index}"  data-id="${doc.data().designation}"></button>
+                                <button class="btn fa py-1 fa-trash text-secondary" id="deleteMember${index}"></button>
+                            </div>
                         </div>`).appendTo('#force-overflow');
+                    }
                 }
-            }
-            //console.log(doc.id, " => ", doc.data());
-        });
+                else {
+                    if (doc.data().designation == 'unknown') {
+                        $(`<div class="text-left m-3 px-4 btn card shadow-lg bg-dark py-3 mb-2" id="${doc.id}" data-value="${doc.data().displayName}">
+                        <div class="row my-3 cardbar" >
+                            <div class="col-md-6 pl-2 m-auto  ">
+                                <h6 class="text-light m-0 d-block">${dispName.split('isUnknown')[0]}</h6>
+                            </div>
+                            <div class="col-md-6  my-auto text-right ">
+                                <i class="fa btn deleteApproval fa-times ml-2 text-danger"></i>
+                            </div>
+                        </div>
+                        </div> `).appendTo('#force-overflow1');
+                    }
 
-        $('#force-overflow .fa-pencil').click(function () {
-            var clickedIndex = $(this).attr('id').split("editMember")[1];
-            console.log(clickedIndex)
-            showModalDialog('edit'+clickedIndex);
-            $('#confirmDesignation'+clickedIndex).on("click", function (e) {
-                if(validateDesignation($('#editDesignation'+clickedIndex)) && $('#editDesignation'+clickedIndex).val()!=''){
-                    $('#editModal'+clickedIndex).modal('hide')
-                    var desVal = $('#editDesignation'+clickedIndex).val();
-                    db.collection("users").doc(docIds[clickedIndex]).set({
-                        designation : desVal
-                    }, { merge: true })
-                    .then(() => {
-                        $('#editModal'+clickedIndex).remove();
-                        toastr['info']('updated designation successfully! ', 'updated '+docDatas[clickedIndex].displayName);
-                    });
+                    if (doc.data().designation != 'admin' && doc.data().designation != 'unknown'){
+                        $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" id="${doc.id}">
+                            <div class="row mx-0 my-auto">
+                            <div class="col-md-4 rounded my-auto"><img src="${doc.data().photoURL}" alt="" class="img-responsive" width="100%"></div>
+                            <div class="col-md-6 pl-0 m-auto">
+                                <h6 class="text-light m-0 d-block">${dispName}</h6>
+                                <small class="text-info m-0">${doc.data().designation}</small>
+
+                            </div>
+                            <div class="py-2 col-md-2 bg-dark m-auto border border-dark">
+                                <button class="py-1 btn fa fa-pencil text-secondary" id="editMember${index}" data-id="${doc.data().designation}"></button>
+                                <button class="fa py-1 btn fa-trash text-secondary" id="deleteMember${index}"></button>
+                            </div>
+                            </div>`).appendTo('#force-overflow');
+                    }
                 }
-            })
-        })
+                //console.log(doc.id, " => ", doc.data());
+            });
 
-        $('#force-overflow .fa-trash').click(function () {
-            var userID = $(this).attr('id').split("deleteMember")[1];
-            var userMail = docIds[userID]
-            console.log(dbPhrase)
-            var selectedPass = CryptoJS.AES.decrypt(passRecord.get(userMail), dbPhrase).toString(CryptoJS.enc.Utf8);
-            showModalDialog(4);
-            $('#confirmModal4 #submitPass').on("click", function (e) {
-                var adminPass = $('#confirmModal4 #adminPass4').val()
-                    auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
-                        $('.uploader').fadeIn('slow');
-                        $('#confirmModal4').modal('hide');
-                        autoSignOut = true;
-                        // sign up the user
-                        auth.signInWithEmailAndPassword(userMail, selectedPass).then(cred => {
-                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', userMail);
-                            userCollection.get().then(function(querySnap) {
-                                querySnap.forEach(function(doc) {
-                                    doc.ref.delete()
-                                    .then(function () {
-                                        update();
-                                        auth.currentUser.delete().then(data => {
-                                            auth.signOut().then(() => {
-                                                auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                                                db.collection("pass").where(firebase.firestore.FieldPath.documentId(),'==', userMail).get().then(function(querySnap) {
-                                                    querySnap.forEach(function(document) {
-                                                        document.ref.delete();
-                                                    })
-                                                }).then(function () {
-                                                        //update();
-                                                        clearStuffs();
-                                                        $('.uploader').fadeOut('slow');
-                                                        toastr["success"]("Successfully!", userMail+" deleted")
-                                                     })
-                                                    clearStuffs();
-                                                })
-                                            })
-                                        });
-                                    }).catch(function (error) {
-                                        $('.uploader').fadeOut('slow');
-                                        $('#confirmModal4').modal('hide');
-                                        toastr["error"](error.message, error.code)
-                                    });
-                                    });
-                            })
-                        })
-                    }).catch(error => {
-                        $('.uploader').fadeOut('slow');
-                        $('#confirmModal4').modal('hide');
-                        toastr["error"](error.code, error.message)
-                    });
-        });
-
-        })
-
-        $('.deleteApproval').click(function () {
-            var selectedMail = $(this).closest(".card").attr('id')
-            var encPass = $(this).closest(".card").attr('data-value').split('isUnknown')[1];
-            var selectPass = CryptoJS.AES.decrypt(encPass, dbPhrase).toString(CryptoJS.enc.Utf8);
-            showModalDialog(3);
-            $('#confirmModal3 #submitPass').on("click", function (e) {
-                var adminPass = $('#confirmModal3 #adminPass').val()
-                auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
-                    $('.uploader').fadeIn('slow');
-                    $('#confirmModal3').modal('hide');
-                    autoSignOut = false;
-                    // sign up the user
-                    auth.signInWithEmailAndPassword(selectedMail, selectPass).then(cred => {
-                        const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', selectedMail);
-                        userCollection.get().then(function(querySnap) {
-                            querySnap.forEach(function(doc) {
-                                doc.ref.delete();
-                              });
-                        }).then(function () {
-                            auth.currentUser.delete().then(data => {
-                                autoSignOut = true;
-                                auth.signOut().then(() => {
-                                    auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                                        clearStuffs();
-                                        $('.uploader').fadeOut('slow');
-                                        $('#selected_name').text(entryText);
-                                        $('.cardDiv').empty();
-                                        $('.approvalBar p').html('<br>')
-                                        $(addressCard).appendTo('.approvalBar');
-                                        toastr["success"]("Successfully!", "Member approval deleted")
-                                    })
-                                })
-                            });
-                        }).catch(function (error) {
-                            $('.uploader').fadeOut('slow');
-                            $('#confirmModal3').modal('hide');
-                            toastr["error"](error.message, error.code)
+            $('#force-overflow .fa-pencil').click(function () {
+                var clickedIndex = $(this).attr('id').split("editMember")[1];
+                console.log(clickedIndex)
+                showModalDialog('edit'+clickedIndex);
+                $('#confirmDesignation'+clickedIndex).on("click", function (e) {
+                    if(validateDesignation($('#editDesignation'+clickedIndex)) && $('#editDesignation'+clickedIndex).val()!=''){
+                        $('#editModal'+clickedIndex).modal('hide')
+                        var desVal = $('#editDesignation'+clickedIndex).val();
+                        db.collection("users").doc(docIds[clickedIndex]).set({
+                            designation : desVal
+                        }, { merge: true })
+                        .then(() => {
+                            update()
+                            $('#editModal'+clickedIndex).remove();
+                            toastr['success']('updated designation successfully! ', 'updated '+docDatas[clickedIndex].displayName.split('isNewUser')[0]);
                         });
-                    })
-                }).catch(error => {
-                    $('.uploader').fadeOut('slow');
-                    $('#confirmModal3').modal('hide');
-                    toastr["error"](error.code, error.message)
-                });
+                    }
+                })
             })
-        })
 
-        // member approval section
-        $('#force-overflow1 .card').click(function () {
-            cardClicked = true;
-            $('.cardDiv').empty();
-            $('#selected_name').removeClass('my-5');
-            $('#selected_name').addClass('mt-5');
-            $('#selected_name').text($(this).first('h6').text())
-            $('.fa-address-card').remove();
-            $('#confirmModal').modal('show');
-            $('.approvalBar p').text($(this).attr('id'))
-            $(`
-            <div class="form-group"><input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" id="designationField" placeholder="Enter Designation" value="" required />
-            </div><button type="submit" id="designationConfirm" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv');
-            $('#designationField').focus();
-            var thisId = $(this).attr('id');
-            var thisValue = $(this).data('value');
-            console.log(thisId, thisValue)
-            $('.approvalBar').on('submit', function (event) {
-                event.preventDefault();
-                showModalDialog(2);
-                $('#confirmModal2 #submitPass').on("click", function (e) {
-                    var adminPass = $('#confirmModal2 #adminPass').val()
-                    auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
-                        $('#confirmModal2').modal('hide');
-                        var email = thisId;
-                        var designation = $('#designationField').val();
-                        var encrPass = thisValue.split('isUnknown')[1];
-                        var newDisplay = thisValue.split('isUnknown')[0];
-                        autoSignOut = false;
-                        var password = CryptoJS.AES.decrypt(encrPass, dbPhrase).toString(CryptoJS.enc.Utf8);
-                        // sign up the user
-
-                        if(validateDesignation($('#designationField'))){
+            $('#force-overflow .fa-trash').click(function () {
+                var userID = $(this).attr('id').split("deleteMember")[1];
+                var userMail = docIds[userID]
+                console.log(dbPhrase)
+                var selectedPass = CryptoJS.AES.decrypt(passRecord.get(userMail), dbPhrase).toString(CryptoJS.enc.Utf8);
+                showModalDialog(4);
+                $('#confirmModal4 #submitPass').on("click", function (e) {
+                    var adminPass = $('#confirmModal4 #adminPass4').val()
+                        auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
                             $('.uploader').fadeIn('slow');
-                            auth.signInWithEmailAndPassword(email, password).then(cred => {
-                                auth.currentUser.updateProfile({
-                                    displayName: thisValue.split('isUnknown')[0]+ 'isNewUser', //setting up the user name with account display name
-                                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                                }).then(data => {
-                                    const userCollection = db.collection("users");
-                                    userCollection.doc(email).set({
-                                        displayName: newDisplay.split('isUnknown')[0]+ 'isNewUser',
-                                        designation: designation,
-                                        photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                                    }).then(function () {
-                                        autoSignOut = true;
-                                        auth.signOut().then(() => {
-                                            auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                                                db.collection("pass").doc(email).set({
-                                                    pass: encrPass
-                                                }).then(function () {
-                                                    clearStuffs();
-                                                    //update();
-                                                    $('.uploader').fadeOut('slow');
-                                                    toastr["success"]("Successfully!", "New member created ")
-                                                 })
-                                            })
-                                        })
-                                    }).catch(function (error) {
-                                        $('.uploader').fadeOut('slow');
-                                        toastr["error"](error.message, error.code)
-                                    });
-                                });
+                            $('#confirmModal4').modal('hide');
+                            autoSignOut = true;
+                            // sign up the user
+                            auth.signInWithEmailAndPassword(userMail, selectedPass).then(cred => {
+                                const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', userMail);
+                                userCollection.get().then(function(querySnap) {
+                                    querySnap.forEach(function(doc) {
+                                        doc.ref.delete()
+                                        .then(function () {
+                                            update();
+                                            auth.currentUser.delete().then(data => {
+                                                auth.signOut().then(() => {
+                                                    auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                                    db.collection("pass").where(firebase.firestore.FieldPath.documentId(),'==', userMail).get().then(function(querySnap) {
+                                                        querySnap.forEach(function(document) {
+                                                            document.ref.delete();
+                                                        })
+                                                    }).then(function () {
+                                                            clearStuffs();
+                                                            $('.uploader').fadeOut('slow');
+                                                            toastr["success"]("Successfully!", userMail+" deleted")
+                                                        })
+                                                        clearStuffs();
+                                                    })
+                                                })
+                                            });
+                                        }).catch(function (error) {
+                                            $('.uploader').fadeOut('slow');
+                                            $('#confirmModal4').modal('hide');
+                                            toastr["error"](error.message, error.code)
+                                        });
+                                        });
+                                })
                             })
-                        }
-                    }).catch(error => {
+                        }).catch(error => {
                             $('.uploader').fadeOut('slow');
-                            $('#confirmModal2').modal('hide');
+                            $('#confirmModal4').modal('hide');
                             toastr["error"](error.code, error.message)
                         });
             });
-            });
-        });
-    })
-    .catch(function (error) {
-        toastr['error']('Error getting documents: ', error);
-    });
-}
 
-$(document).ready(function () {
-    db.collection("secretPhrase").doc('publicPhrase').onSnapshot(function(snap) {
-        dbPhrase = snap.data().phraseString
+            })
+
+            $('.deleteApproval').click(function () {
+                var selectedMail = $(this).closest(".card").attr('id')
+                var encPass = $(this).closest(".card").attr('data-value').split('isUnknown')[1];
+                var selectPass = CryptoJS.AES.decrypt(encPass, dbPhrase).toString(CryptoJS.enc.Utf8);
+                showModalDialog(3);
+                $('#confirmModal3 #submitPass').on("click", function (e) {
+                    var adminPass = $('#confirmModal3 #adminPass').val()
+                    auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
+                        $('.uploader').fadeIn('slow');
+                        $('#confirmModal3').modal('hide');
+                        autoSignOut = false;
+                        // sign up the user
+                        auth.signInWithEmailAndPassword(selectedMail, selectPass).then(cred => {
+                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', selectedMail);
+                            userCollection.get().then(function(querySnap) {
+                                querySnap.forEach(function(doc) {
+                                    doc.ref.delete();
+                                });
+                            }).then(function () {
+                                auth.currentUser.delete().then(data => {
+                                    autoSignOut = true;
+                                    auth.signOut().then(() => {
+                                        auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                            clearStuffs();
+                                            $('.uploader').fadeOut('slow');
+                                            $('#selected_name').text(entryText);
+                                            $('.cardDiv').empty();
+                                            $('.approvalBar p').html('<br>')
+                                            $(addressCard).appendTo('.approvalBar');
+                                            toastr["success"]("Successfully!", "Member approval deleted")
+                                        })
+                                    })
+                                });
+                            }).catch(function (error) {
+                                $('.uploader').fadeOut('slow');
+                                $('#confirmModal3').modal('hide');
+                                toastr["error"](error.message, error.code)
+                            });
+                        })
+                    }).catch(error => {
+                        $('.uploader').fadeOut('slow');
+                        $('#confirmModal3').modal('hide');
+                        toastr["error"](error.code, error.message)
+                    });
+                })
+            })
+
+            // member approval section
+            $('#force-overflow1 .card').click(function () {
+                cardClicked = true;
+                $('.cardDiv').empty();
+                $('#selected_name').removeClass('my-5');
+                $('#selected_name').addClass('mt-5');
+                $('#selected_name').text($(this).first('h6').text())
+                $('.fa-address-card').remove();
+                $('#confirmModal').modal('show');
+                $('.approvalBar p').text($(this).attr('id'))
+                $(`
+                <div class="form-group"><input type="text" class="form-control bg-dark shadow-lg text-light  border-info is-disabled" id="designationField" placeholder="Enter Designation" value="" required />
+                </div><button type="submit" id="designationConfirm" class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button></div>`).appendTo('.cardDiv');
+                $('#designationField').focus();
+                var thisId = $(this).attr('id');
+                var thisValue = $(this).data('value');
+                console.log(thisId, thisValue)
+                $('.approvalBar').on('submit', function (event) {
+                    event.preventDefault();
+                    showModalDialog(2);
+                    $('#confirmModal2 #submitPass').on("click", function (e) {
+                        var adminPass = $('#confirmModal2 #adminPass2').val()
+                        auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
+                            $('#confirmModal2').modal('hide');
+                            var email = thisId;
+                            var designation = $('#designationField').val();
+                            var encrPass = thisValue.split('isUnknown')[1];
+                            var newDisplay = thisValue.split('isUnknown')[0];
+                            autoSignOut = false;
+                            var password = CryptoJS.AES.decrypt(encrPass, dbPhrase).toString(CryptoJS.enc.Utf8);
+                            // sign up the user
+
+                            if(validateDesignation($('#designationField'))){
+                                $('.uploader').fadeIn('slow');
+                                auth.signInWithEmailAndPassword(email, password).then(cred => {
+                                    auth.currentUser.updateProfile({
+                                        displayName: thisValue.split('isUnknown')[0]+ 'isNewUser', //setting up the user name with account display name
+                                        photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                    }).then(data => {
+                                            autoSignOut = true;
+                                            auth.signOut().then(() => {
+                                                auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                                    const userCollection = db.collection("users");
+                                                    userCollection.doc(email).set({
+                                                        displayName: newDisplay.split('isUnknown')[0]+ 'isNewUser',
+                                                        designation: designation,
+                                                        bio: 'Bio not updated yet',
+                                                        photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                                                    }).then(function () {
+                                                        db.collection("pass").doc(email).set({
+                                                            pass: encrPass
+                                                        }).then(function () {
+                                                            clearStuffs();
+                                                            update();
+                                                            $('.uploader').fadeOut('slow');
+                                                            toastr["success"]("Successfully!", "New member created ")
+                                                        })
+                                                })
+                                            })
+                                        }).catch(function (error) {
+                                            $('.uploader').fadeOut('slow');
+                                            toastr["error"](error.message, error.code)
+                                        });
+                                    });
+                                })
+                            }
+                        }).catch(error => {
+                                $('.uploader').fadeOut('slow');
+                                $('#confirmModal2').modal('hide');
+                                toastr["error"](error.code, error.message)
+                                console.log(error.code, error.message)
+                        });
+                });
+                });
+            });
+        })
+        .catch(function (error) {
+            toastr['error']('Error getting documents: ', error);
+        });
+    }
+
+    db.collection("pass").doc('phrase').onSnapshot(function(snap) {
+        dbPhrase = snap.data().passPhrase
     })
+    update();
+
+    db.collection("users").onSnapshot(function (snapshot) {
+        if(firstTime){update();}else{firstTime = true;}
+    },
+    error => {
+        if (error.code == 'resource-exhausted') {
+            window.location.replace("../quotaExceeded.html");
+        }
+    });
 
     db.collection("pass").get().then(function(snap) {
          passRecord = new Map();
@@ -387,7 +400,6 @@ $(document).ready(function () {
     })
 
     $('.uploader').fadeOut('slow');
-    update();
     $("#myInput").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $(".dfeed-bar .card").filter(function () {
@@ -395,7 +407,7 @@ $(document).ready(function () {
         });
     });
 
-});
+
 
 
 const signUpform = $('.user_forms-signup')
@@ -421,7 +433,9 @@ function clearStuffs() {
     db.collection("pass").get().then(function(snap) {
         passRecord = new Map();
         snap.forEach(function (doc) {
-               passRecord.set(doc.id, doc.data().pass);
+            if(doc.id != 'phrase'){
+                passRecord.set(doc.id, doc.data().pass);
+            }
        });
    })
     autoSignOut = false;
@@ -465,7 +479,7 @@ signUpform.on('submit', function (event) {
                                     db.collection("pass").doc(email).set({
                                         pass: encryptedPass
                                     }).then(function () {
-                                        update()
+                                        update();
                                         clearStuffs();
                                         $('.uploader').fadeOut('slow');
                                         toastr["success"]("Successfully!", "New member created ")
@@ -489,14 +503,7 @@ signUpform.on('submit', function (event) {
     })
 });
 
-db.collection("users").onSnapshot(function (snapshot) {
-    if(firstTime){update();}else{firstTime = true;}
-},
-error => {
-    if (error.code == 'resource-exhausted') {
-        window.location.replace("../quotaExceeded.html");
-    }
-});
+
 
 document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
@@ -504,4 +511,6 @@ document.getElementById('signout').addEventListener('click', () => {
         toastr['info']('You are signed out! ', 'see you soon');
     });
     window.location.replace("./index.html");
+});
+
 });
