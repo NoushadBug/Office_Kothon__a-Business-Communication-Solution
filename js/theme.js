@@ -36,8 +36,8 @@ function changeTheme()
         $('.temperature-description').removeClass('text-secondary')
         $('.location').css('color', '#060a0a')
         $('.location').css('font-weight', 'bold')
-        $('.location').removeClass('text-info')
-        $('.location').addClass('text-light')
+        $('.location').removeClass('text-light')
+        $('.location').addClass('text-dark')
         $('.weather-container').css('background', 'rgb(29 59 88)')
         $('.weather-container').css('border-radius', '2em')
         $('.feeditem ').removeClass('text-light')
@@ -66,31 +66,27 @@ function changeTheme()
         $('.userName ').css('color','darkblue')
         $('.click').removeClass('text-info')
         $('.dfeed-bar .card').removeClass('bg-dark')
-        $('.dfeed-bar .card').css('background-color','#415871')
+        $('.dfeed-bar .card').css('background-color','rgb(29 59 88)')
+        $('.scrollbar').removeClass('thumbDark')
         $('.scrollbar').addClass('thumbLight')
+        $('.messages ').removeClass('bg-dark')
+        $('.content .messages ').css('background','lavender');
+        $('.userName ').removeClass('text-light')
+        $('.contact-profile').removeClass('bg-info')
+        $('.contact-profile').css('background','rgb(29, 59, 88)')
+        $('#sendInput').css('background','rgb(29, 59, 88)')
+
+    $('#signout i').removeClass('text-secondary')
+        $('#signout i').addClass('text-light')
+        // $('.designation ').removeClass('text-info')
+        // $('.designation').css('color','darkblue')
+        $('.submit').removeClass('bg-info')
+        $('.submit').css('background','#5f0f0f')
+       
 
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -110,15 +106,18 @@ function changeTheme()
                     $('.dashboard-main').css("background"," #212529")
                     $('.dashboard-container').css("background"," #393c45")
                     $('.hello-bar').css("background","#2d3346")
+                    $('.feeditem').removeClass('panelColor')
                     $('#myInput').css('color' , 'white')
                     $('.scrollbar').css("background","#576075")
                     $('.leftbar').css('background','#2e3035')
                     $('.feeditem').addClass('bg-dark')
+                    $('.panel-title').css('font-weight', '100')
                     $('.infoButton').css('background' , '#2b3035')
                     $('.date-section').addClass('text-light')
                     $('#date').css('color','white')
-                    $('#date').css('font-weight','bold')
                     $('#time').css('color','white')
+                    $('#date').css('font-weight','100')
+                    $('#signout i').removeClass('text-light')
                     $('#signout i').addClass('text-secondary')
                     // $('.panel-collapse').css('color' , 'black')
                     $('#calTitle button ').css('background','rgba(0, 0, 0, 0.1)')

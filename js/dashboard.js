@@ -210,7 +210,10 @@ function renderList(docs)
 
       </div>`).appendTo('#accordion');
       });
-      changeTheme();
+      window.addEventListener('storage', function(e) {  
+        changeTheme();
+       });
+   
       $('.loader').fadeOut('slow');
 
       $('.viewFile').on( "click",function(e) {

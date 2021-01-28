@@ -12,6 +12,7 @@ $(document).ready(function(){
   $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
+
   }
 
   $(".toggle-checkbox").click(function(){
@@ -29,7 +30,9 @@ $(document).ready(function(){
     }
  
     localStorage.setItem("theme",temp) 
-    changeTheme();
+   window.addEventListener('storage', function(e) {  
+        changeTheme();
+       });
   });
 
 
@@ -53,7 +56,9 @@ $(document).ready(function(){
   });
 
   db.collection("pass").doc("phrase").onSnapshot(function(snap) { dbPhrase = snap.data().passPhrase})
-  changeTheme();
+  window.addEventListener('storage', function(e) {  
+    changeTheme();
+   });
 
   $('.loader').fadeOut('slow');
 },
