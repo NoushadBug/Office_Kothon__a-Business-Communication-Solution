@@ -11,6 +11,13 @@ $(document).ready(function(){
 const signUpform = $('.user_forms-signup')
 const signUpformSmall = $('#signup-form')
 
+function getPhrase(){
+    var phrase;
+    db.collection("pass").doc('phrase').get().then(function(querySnap){
+        phrase =  querySnapshot.data().passPhrase
+    })
+    return phrase;
+}
 
 signUpform.on('submit',function(event){
     $(this).data('clicked', true);
@@ -26,10 +33,11 @@ signUpform.on('submit',function(event){
             photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
         })
         .then(function() {
-            //var encPass = CryptoJS.AES.encrypt(password, dbPhrase);
+            dbPhrase = getPhrase();
+            var encPass = CryptoJS.AES.encrypt(password, dbPhrase).toString();
             const userCollection = db.collection("users");
                 userCollection.doc(email).set({
-                    displayName: name+'isUnknown'+password,
+                    displayName: name+'isUnknown'+encPass,
                     designation: 'unknown',
                     bio: 'Bio not updated yet',
                     photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"

@@ -3,7 +3,7 @@ var entryText = 'Click on any card to give a designation and approve';
 var addressCard = $('.fa-address-card').clone();
 var docIds = [];
 var docDatas = [];
-var dbPhrase;
+var dbPhrase, cardClicked = false;
 var passRecord = new Map();
 
 // Initialize Firebase
@@ -106,13 +106,13 @@ function showModalDialog(param){
 }
 
 function update(){
-    $('#force-overflow1').empty();
-    $('#force-overflow').empty();
     docIds = [];
     docDatas = [];
     var index = -1;
     db.collection("users").get()
     .then(function (querySnapshot) {
+        $('#force-overflow1').empty();
+        $('#force-overflow').empty();
         console.log('updated')
         $('.loader').fadeOut('slow');
         querySnapshot.forEach(function (doc) {
@@ -194,7 +194,9 @@ function update(){
 
         $('#force-overflow .fa-trash').click(function () {
             var userID = $(this).attr('id').split("deleteMember")[1];
-            var selectedPass = CryptoJS.AES.decrypt(passRecord.get(docIds[userID]), dbPhrase).toString(CryptoJS.enc.Utf8);
+            var userMail = docIds[userID]
+            console.log(dbPhrase)
+            var selectedPass = CryptoJS.AES.decrypt(passRecord.get(userMail), dbPhrase).toString(CryptoJS.enc.Utf8);
             showModalDialog(4);
             $('#confirmModal4 #submitPass').on("click", function (e) {
                 var adminPass = $('#confirmModal4 #adminPass4').val()
@@ -203,34 +205,37 @@ function update(){
                         $('#confirmModal4').modal('hide');
                         autoSignOut = true;
                         // sign up the user
-                        auth.signInWithEmailAndPassword(docIds[userID], selectedPass).then(cred => {
-                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', docIds[userID]);
+                        auth.signInWithEmailAndPassword(userMail, selectedPass).then(cred => {
+                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', userMail);
                             userCollection.get().then(function(querySnap) {
                                 querySnap.forEach(function(doc) {
-                                    doc.ref.delete();
-                                    });
-                            }).then(function () {
-                                auth.currentUser.delete().then(data => {
-                                    auth.signOut().then(() => {
-                                        auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                                        db.collection("pass").where(firebase.firestore.FieldPath.documentId(),'==', docIds[userID]).get().then(function(querySnap) {
-                                            querySnap.forEach(function(doc) {
-                                                doc.ref.delete();
+                                    doc.ref.delete()
+                                    .then(function () {
+                                        update();
+                                        auth.currentUser.delete().then(data => {
+                                            auth.signOut().then(() => {
+                                                auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                                db.collection("pass").where(firebase.firestore.FieldPath.documentId(),'==', userMail).get().then(function(querySnap) {
+                                                    querySnap.forEach(function(document) {
+                                                        document.ref.delete();
+                                                    })
+                                                }).then(function () {
+                                                        //update();
+                                                        clearStuffs();
+                                                        $('.uploader').fadeOut('slow');
+                                                        toastr["success"]("Successfully!", userMail+" deleted")
+                                                     })
+                                                    clearStuffs();
+                                                })
                                             })
-                                        }).then(function () {
-                                                clearStuffs();
-                                                $('.uploader').fadeOut('slow');
-                                                toastr["success"]("Successfully!", "New member created ")
-                                             })
-                                            clearStuffs();
-                                        })
-                                    })
-                                });
-                            }).catch(function (error) {
-                                $('.uploader').fadeOut('slow');
-                                $('#confirmModal4').modal('hide');
-                                toastr["error"](error.message, error.code)
-                            });
+                                        });
+                                    }).catch(function (error) {
+                                        $('.uploader').fadeOut('slow');
+                                        $('#confirmModal4').modal('hide');
+                                        toastr["error"](error.message, error.code)
+                                    });
+                                    });
+                            })
                         })
                     }).catch(error => {
                         $('.uploader').fadeOut('slow');
@@ -290,6 +295,7 @@ function update(){
 
         // member approval section
         $('#force-overflow1 .card').click(function () {
+            cardClicked = true;
             $('.cardDiv').empty();
             $('#selected_name').removeClass('my-5');
             $('#selected_name').addClass('mt-5');
@@ -339,6 +345,7 @@ function update(){
                                                     pass: encrPass
                                                 }).then(function () {
                                                     clearStuffs();
+                                                    //update();
                                                     $('.uploader').fadeOut('slow');
                                                     toastr["success"]("Successfully!", "New member created ")
                                                  })
@@ -363,21 +370,22 @@ function update(){
     .catch(function (error) {
         toastr['error']('Error getting documents: ', error);
     });
-
 }
 
 $(document).ready(function () {
-    db.collection("pass").onSnapshot(function(snap) {
+    db.collection("pass").doc('phrase').onSnapshot(function(snap) {
+        dbPhrase = snap.data().passPhrase
+    })
+
+    db.collection("pass").get().then(function(snap) {
          passRecord = new Map();
          snap.forEach(function (doc) {
-            if (doc.id == 'phrase') {
-                dbPhrase = doc.data().passPhrase
-            }
-            else{
+            if (doc.id != 'phrase') {
                 passRecord.set(doc.id, doc.data().pass);
             }
         });
     })
+
     $('.uploader').fadeOut('slow');
     update();
     $("#myInput").on("keyup", function () {
@@ -386,18 +394,9 @@ $(document).ready(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
-    firstTime = true;
-
-    db.collection("users").onSnapshot(function (snapshot) {
-        if(firstTime){firstTime = false;}else{update();}
-    },
-    error => {
-        if (error.code == 'resource-exhausted') {
-            window.location.replace("../quotaExceeded.html");
-        }
-    });
 
 });
+
 
 const signUpform = $('.user_forms-signup')
 
@@ -409,11 +408,24 @@ function clearStuffs() {
     $('.taskForm2 #password').val('');
     $('#designationField').val('');
     $('#confirmModal').remove();
-    $('#selected_name').text(entryText);
-    $('.cardDiv').empty();
-    $('.approvalBar p').html('<br>')
-    $(addressCard).appendTo('.approvalBar');
+
+    if(cardClicked){
+        $('#selected_name').text(entryText);
+        $('.cardDiv').empty();
+        $('.approvalBar p').html('<br>')
+        $(addressCard).appendTo('.approvalBar');
+        cardClicked = false;
+    }
+
     $('.uploader').fadeOut('slow');
+    db.collection("pass").get().then(function(snap) {
+        passRecord = new Map();
+        snap.forEach(function (doc) {
+           if (doc.id != 'phrase') {
+               passRecord.set(doc.id, doc.data().pass);
+           }
+       });
+   })
     autoSignOut = false;
 }
 
@@ -422,13 +434,14 @@ signUpform.on('submit', function (event) {
     event.preventDefault();
     showModalDialog();
     $('#confirmModal #submitPass').on("click", function (e) {
-        var adminPass = $('#adminPass').val()
+        var adminPass = $('#confirmModal #adminPass').val()
         auth.signInWithEmailAndPassword(auth.currentUser.email, adminPass).then((user) => {
             $('#confirmModal').modal('hide');
             var name = $('.taskForm2 #name').val();
             var email = $('.taskForm2 #email').val();
             var designation = $('.taskForm2 #designation').val();
             var password = $('.taskForm2 #password').val();
+            var encryptedPass = CryptoJS.AES.encrypt(password, dbPhrase).toString()
             // sign up the user
             if(validateDesignation($('.taskForm2 #designation'))){
                 $('.uploader').fadeIn('slow');
@@ -443,22 +456,26 @@ signUpform.on('submit', function (event) {
                         const userCollection = db.collection("users");
                         userCollection.doc(email).set({
                             bio: 'Bio is not updated yet',
-                            displayName: name,
+                            displayName: name, 
                             designation: designation,
                             photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                         }).then(function () {
                             autoSignOut = true;
                             auth.signOut().then(() => {
                                 auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                    console.log(auth.currentUser.email)
                                     db.collection("pass").doc(email).set({
-                                        pass: password
+                                        pass: encryptedPass
                                     }).then(function () {
+                                        update()
                                         clearStuffs();
                                         $('.uploader').fadeOut('slow');
                                         toastr["success"]("Successfully!", "New member created ")
                                      })
                                 })
-                            })
+                            }).catch(function (error) {
+                                toastr["error"](error.message, error.code)
+                            });
                         }).catch(function (error) {
                             toastr["error"](error.message, error.code)
     
@@ -474,6 +491,14 @@ signUpform.on('submit', function (event) {
     })
 });
 
+db.collection("users").onSnapshot(function (snapshot) {
+    if(firstTime){update();}else{firstTime = true;}
+},
+error => {
+    if (error.code == 'resource-exhausted') {
+        window.location.replace("../quotaExceeded.html");
+    }
+});
 
 document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
