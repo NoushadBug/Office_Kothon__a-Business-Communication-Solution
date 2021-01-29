@@ -10,6 +10,7 @@ var passRecord = new Map();
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 var autoSignOut = false;
+var updateTime = false;
 var adminMail;
 //make firebase consts
 const auth = firebase.auth();
@@ -29,10 +30,11 @@ auth.onAuthStateChanged(function (user) {
         }
     }
 });
-const db = firebase.firestore();
 
+const db = firebase.firestore();
 //update firebase settings
 db.settings({ timestampsInSnapshots: true });
+
 
 function validateDesignation(element){
     var decision;
@@ -108,6 +110,7 @@ function showModalDialog(param){
 $(document).ready(function () {
 
     function update(){
+        updateTime = false;
         docIds = [];
         docDatas = [];
         var index = -1;
@@ -209,26 +212,29 @@ $(document).ready(function () {
                             autoSignOut = true;
                             // sign up the user
                             auth.signInWithEmailAndPassword(userMail, selectedPass).then(cred => {
-                                const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', userMail);
-                                userCollection.get().then(function(querySnap) {
-                                    querySnap.forEach(function(doc) {
-                                        doc.ref.delete()
-                                        .then(function () {
-                                            update();
                                             auth.currentUser.delete().then(data => {
                                                 auth.signOut().then(() => {
                                                     auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
-                                                    db.collection("pass").where(firebase.firestore.FieldPath.documentId(),'==', userMail).get().then(function(querySnap) {
-                                                        querySnap.forEach(function(document) {
-                                                            document.ref.delete();
-                                                        })
-                                                    }).then(function () {
-                                                            clearStuffs();
-                                                            $('.uploader').fadeOut('slow');
-                                                            toastr["success"]("Successfully!", userMail+" deleted")
-                                                        })
-                                                        clearStuffs();
-                                                    })
+                                                        const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', userMail);
+                                                        userCollection.get().then(function(querySnap) {
+                                                            querySnap.forEach(function(doc) {
+                                                                doc.ref.delete()
+                                                                .then(function () {
+                                                                    update();
+                                                                    db.collection("users").onSnapshot(function (snapshot) {
+                                                                        update();
+                                                                    });
+                                                                    db.collection("pass").where(firebase.firestore.FieldPath.documentId(),'==', userMail).get().then(function(querySnap) {
+                                                                        querySnap.forEach(function(document) {
+                                                                            document.ref.delete();
+                                                                        })
+                                                                    }).then(function () {
+                                                                            clearStuffs();
+                                                                            $('.uploader').fadeOut('slow');
+                                                                            toastr["success"]("Successfully!", userMail+" deleted")
+                                                                        })
+                                                                        clearStuffs();
+                                                                    })
                                                 })
                                             });
                                         }).catch(function (error) {
@@ -349,6 +355,9 @@ $(document).ready(function () {
                                                         }).then(function () {
                                                             clearStuffs();
                                                             update();
+                                                            db.collection("users").onSnapshot(function (snapshot) {
+                                                                update();
+                                                            });
                                                             $('.uploader').fadeOut('slow');
                                                             toastr["success"]("Successfully!", "New member created ")
                                                         })
@@ -480,6 +489,9 @@ signUpform.on('submit', function (event) {
                                         pass: encryptedPass
                                     }).then(function () {
                                         update();
+                                        db.collection("users").onSnapshot(function (snapshot) {
+                                            update();
+                                        });
                                         clearStuffs();
                                         $('.uploader').fadeOut('slow');
                                         toastr["success"]("Successfully!", "New member created ")
