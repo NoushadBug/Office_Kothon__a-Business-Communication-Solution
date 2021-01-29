@@ -12,6 +12,7 @@ $(document).ready(function(){
   $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
+    
 
   }
 
@@ -33,6 +34,7 @@ $(document).ready(function(){
    window.addEventListener('storage', function(e) {  
         changeTheme();
        });
+       changeTheme();
   });
 
 
@@ -349,6 +351,7 @@ $fileInput.on('change', function() {
           toastr['error']('Your provided current password may not matched', "Profile updation irterrupted");
         });
       }
+
 
    });
 

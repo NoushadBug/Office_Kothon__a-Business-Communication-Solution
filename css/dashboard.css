@@ -291,7 +291,9 @@ $-Styles
 .weather-container{
     /* width: 300px; */
     height: auto;
-    border-radius: 1em;
+    background: rgb(29 59 88);
+    border-radius: 2em;
+    border-radius: 3em;
 }
 
 

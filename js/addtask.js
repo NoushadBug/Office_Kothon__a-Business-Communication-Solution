@@ -370,7 +370,7 @@ function paintCardUI(refToken, info, sign){
     var time = docSplitter[1];
     if(info == 'assignedBy'){info = docSplitter[0].split(sign)[0];}
     if(info == 'assignedTo'){info = docSplitter[0].split(sign)[1];}
-    $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+    $(` <div class="text-left btn card cardTile bg-dark shadow-lg  p-2 mb-2" data="${key}">
     <div class="row my-auto mx-0">
       <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+info+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
       <div class="col-md-6 pl-0 mx-0 my-auto">
@@ -386,40 +386,40 @@ function paintCardUI(refToken, info, sign){
   <div class="modal-content bg-dark" style="border-radius: 2em;">
     <div class="modal-header border-0 shadow-lg text-secondary">
       <h5 class="modal-title" id="exampleModalCenterTitle">Task Details</h5>
-      <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+      <button type="button" class="close btn text-light shadow-none btnClose" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">×</span>
       </button>
     </div>
     <div class="modal-body text-light">
       <div class="row">
         <div class="col-md-6 my-auto">
-        <div class="container">
+        <div class="container smallP">
         <small class="text-info mb-0">Name</small>
         <p style="font-size: 0.9em;">${refToken[key].data.name}</p>
         </div>
-        <div class="container">
+        <div class="container smallP">
         <small class="text-info mb-0">Description</small>
         <p style="font-size: 0.9em;">${refToken[key].data.description}</p>
         </div>
-        <div class="container">
+        <div class="container smallP">
         <small class="text-info mb-0">Priority</small>
         <p style="font-size: 0.9em;">${refToken[key].data.priority}</p>
         </div>
-        <div class="container" id="docLinksList">
+        <div class="container smallP" id="docLinksList">
         <small class="text-info mb-0">attached files</small>
         ${showTaskFiles(refToken[key].data.doc)}
         </div>
     </div>
     <div class="col-md-6 my-auto text-right">
     <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+info+"'] img")[0].currentSrc}" alt="" class="img-responsive rounded-circle" width="50%"></div>
-    <small class="text-info mb-0 container">Assigned by:</small>
-      <p style="font-size: 0.9em;" class="container">${$("[data='"+info+"'] h6").text()}</p>
+    <small class="text-info mb-0 container mainS">Assigned by:</small>
+      <p style="font-size: 0.9em;" class="container mainP">${$("[data='"+info+"'] h6").text()}</p>
 
-    <div class="container">
+    <div class="container secondSp">
       <small class="text-info mb-0">Start Time</small>
       <p style="font-size: 0.9em;">${new Date(parseInt(refToken[key].data.start)).toLocaleString()}</p>
     </div>
-    <div class="container">
+    <div class="container secondSp">
       <small class="text-info mb-0">Deadline</small>
       <p style="font-size: 0.9em;">${new Date(parseInt(time)).toLocaleString()}</p>
     </div>
@@ -433,6 +433,7 @@ function paintCardUI(refToken, info, sign){
   </div>`).appendTo('#scrollbar');
   });
   return renderedUI;
+
 }
 
 function renderIncompleted(){
@@ -449,12 +450,12 @@ function renderIncompleted(){
       var docSplitter = key.split(",");
       var time = docSplitter[1];
       var assignedBy = docSplitter[0].split(":")[0];
-      $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+      $(` <div class="text-left btn card cardTile bg-dark shadow-lg  p-2 mb-2" data="${key}">
       <div class="row my-auto mx-0">
         <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
         <div class="col-md-6 pl-0 mx-0 my-auto">
           <h6 class="text-light d-block m-0">${myIncompleted[key].data.name}</h6>
-          <small class="text-secondary m-0">Deadline: </small><br>
+          <small class="text-secondary incomdead m-0">Deadline: </small><br>
           <small class="text-info m-0">${new Date(parseInt(time)).toLocaleString()}</small>
         </div>
         <div class="m-auto"><a href="#0" class="clickToComplete" class="mx-1"> <i class="fa fa-check text-info font-weight-bold" aria-hidden="true"></i></a>
@@ -466,7 +467,7 @@ function renderIncompleted(){
     <div class="modal-content bg-dark" style="border-radius: 2em;">
       <div class="modal-header border-0 shadow-lg text-secondary">
         <h5 class="modal-title" id="exampleModalCenterTitle">Task Details</h5>
-        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close btn text-light shadow-none btnClose" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -491,15 +492,15 @@ function renderIncompleted(){
           </div>
       </div>
       <div class="col-md-6 my-auto text-right">
-      <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
-      <small class="text-info mb-0 container">Assigned by:</small>
-        <p style="font-size: 0.9em;" class="container">${$("[data='"+assignedBy+"'] h6").text()}</p>
+      <div class="col-md-12 rounded ml-auto container "><img src="${$("[data='"+assignedBy+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
+      <small class="text-info mb-0 container mainS">Assigned by:</small>
+        <p style="font-size: 0.9em;" class="container mainP">${$("[data='"+assignedBy+"'] h6").text()}</p>
 
-      <div class="container">
+      <div class="container secondSp">
         <small class="text-info mb-0">Start Time</small>
         <p style="font-size: 0.9em;">${new Date(parseInt(myIncompleted[key].data.start)).toLocaleString()}</p>
       </div>
-      <div class="container">
+      <div class="container secondSp">
         <small class="text-info mb-0">Deadline</small>
         <p style="font-size: 0.9em;">${new Date(parseInt(time)).toLocaleString()}</p>
       </div>
@@ -540,6 +541,7 @@ function renderIncompleted(){
           console.error("Error removing document: ", error);
         });
     });
+    changeTheme();
   }
 
 
@@ -557,6 +559,7 @@ function renderCompleted(){
   else{
     paintCardUI(myCompleted, 'assignedBy', ">");
   }
+  changeTheme();
 }
 
 function renderDeadlineCrossed(){
@@ -570,6 +573,7 @@ function renderDeadlineCrossed(){
   else{
     paintCardUI(myDeadlineCrossed, 'assignedBy', ">");
   }
+  changeTheme();
 
 }
 
@@ -584,6 +588,7 @@ function renderUnapproved(){
   else{
     paintCardUI(myClicked, 'assignedBy', "|");
   }
+  changeTheme();
 
 }
 
@@ -600,7 +605,7 @@ function renderTasksApproval(){
       var docSplitter = key.split(",");
       var time = docSplitter[1];
       var assignedTo = docSplitter[0].split("|")[1];
-      $(` <div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${key}">
+      $(` <div class="text-left btn card cardTile  bg-dark shadow-lg p-2 mb-2" data="${key}">
       <div class="row mt-auto mb-2 mx-0">
         <div class="col-md-3 rounded my-auto"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="100%"></div>
         <div class="col-md-8 pl-0 mx-0 my-auto">
@@ -617,7 +622,7 @@ function renderTasksApproval(){
     <div class="modal-content bg-dark" style="border-radius: 2em;">
       <div class="modal-header border-0 shadow-lg text-secondary">
         <h5 class="modal-title" id="exampleModalCenterTitle">Task Details</h5>
-        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close btn text-light shadow-none btnClose" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -643,14 +648,14 @@ function renderTasksApproval(){
       </div>
       <div class="col-md-6 my-auto text-right">
       <div class="col-md-12 rounded ml-auto container"><img src="${$("[data='"+assignedTo+"'] img")[0].currentSrc}" alt="" class="img-responsive" width="50%"></div>
-      <small class="text-info mb-0 container">Assigned To:</small>
-        <p style="font-size: 0.9em;" class="container">${$("[data='"+assignedTo+"'] h6").text()}</p>
+      <small class="text-info mb-0 container  mainS">Assigned To:</small>
+        <p style="font-size: 0.9em;" class="container mainP">${$("[data='"+assignedTo+"'] h6").text()}</p>
   
-      <div class="container">
+      <div class="container  secondSp">
         <small class="text-info mb-0">Start Time</small>
         <p style="font-size: 0.9em;">${new Date(parseInt(myUnapproved[key].data.start)).toLocaleString()}</p>
        </div>
-      <div class="container">
+      <div class="container  secondSp">
         <small class="text-info mb-0">Deadline</small>
         <p style="font-size: 0.9em;">${new Date(parseInt(time)).toLocaleString()}</p>
       </div>
@@ -695,7 +700,7 @@ function renderTasksApproval(){
         });
     });
   }
-
+  changeTheme();
 }
 
 function renderAssignedTasks(){
@@ -709,8 +714,10 @@ function renderAssignedTasks(){
   else{
     paintCardUI(myAssigned, 'assignedTo', ":");
   }
+  changeTheme();
 
 }
+
 $(document).ready(function(){
   $('.taskListDiv').hide();
   $('.uploader').fadeOut();
@@ -723,7 +730,7 @@ $(document).ready(function(){
       querySnapshot.forEach(function (doc) {
           if (doc.id != auth.currentUser.email) {
             if(doc.data().designation != 'admin' && doc.data().designation != 'unknown'){
-                  $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
+                  $(`<div class="text-left btn card  shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
                   <div class="row m-auto">
                     <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
                     <div class="col-md-8 pl-0 m-auto">
@@ -748,6 +755,7 @@ $(document).ready(function(){
       window.addEventListener('storage', function(e) {  
         changeTheme();
        });
+       changeTheme();
       $('.loader').fadeOut('slow');
 
       $("#filterTask").change(function () {
@@ -755,21 +763,27 @@ $(document).ready(function(){
         switch($('#filterTask').val()) {
           case 'incompleted':
             renderIncompleted();
+            changeTheme();
               break;
             case 'completed':
               renderCompleted();
+              changeTheme();
               break;
             case 'deadlineCrossed':
               renderDeadlineCrossed();
+              changeTheme();
               break;
             case 'unapproved':
               renderUnapproved();
+              changeTheme();
               break;
             case 'assignedTasks':
               renderAssignedTasks();
+              changeTheme();
               break;
             case 'tasksApproval':
               renderTasksApproval();
+              changeTheme();
               break;
             default:
               // code block
@@ -805,6 +819,7 @@ $(document).ready(function(){
 
 })
 
+
 $('#closeForm').on("click", function(event){
   event.preventDefault();
   $('#taskformbar').hide();
@@ -814,6 +829,7 @@ $('#closeForm').on("click", function(event){
       $('.svg-div').remove();
       $('.taskListDiv').show();
       renderIncompleted();
+ 
     });
   });
 });

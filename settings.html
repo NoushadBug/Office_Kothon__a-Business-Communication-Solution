@@ -166,7 +166,7 @@
                 </div>
                 <div class=" col-md-12 mx-auto mt-5 pb-0 ">
 
-                    <div class="justify-content-center text-center   text-secondary d-flex mx-auto">
+                    <div class="justify-content-center text-center favQuta text-secondary d-flex mx-auto">
 
                         <h6 class="font-weight-bold pb-0">📝 Favourite Quotes 📝</h6>
 
@@ -179,33 +179,33 @@
                 </div>
 
             </div>
-            <div class="vl my-auto ml-4"></div>
+            <div class="vl my-auto ml-4 verticalalign"></div>
             <!-- form -->
             <div class="taskForm container my-auto col-md-5 shadow-lg ">
                 <form class="px-3 py-1 my-auto">
-                    <h5 class="text-center text-light mb-2">Update Your Info</h5>
+                    <h5 class="text-center text-light mb-2 infoUpdate">Update Your Info</h5>
 
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Change Profile Name</label>
+                    <div class="form-group  ">
+                        <label for="exampleInputEmail1" class="labelcol text-info">Change Profile Name</label>
                         <input id="settings-name" type="text"
                             class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
                             placeholder="Update Profile Name" value="">
 
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Change Password</label>
+                    <div class="form-group ">
+                        <label for="exampleInputPassword1" class="labelcol text-info">Change Password</label>
                         <input id="settings-pass" type="password"
                             class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
                             placeholder="Change Password" value="">
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Update Your Bio</label>
+                    <div class="form-group ">
+                        <label for="exampleInputPassword1" class="labelcol text-info">Update Your Bio</label>
                         <textarea id="bioDetails" class="form-control mb-3 bg-dark shadow-lg text-light  border-info"
                             rows="2" val="" placeholder="whats on your mind?"></textarea>
                     </div>
 
                     <!-- drag box -->
-                    <label for="file-input" class="text-info m-0">Update your profile picture</label>
+                    <label for="file-input" class="text-info m-0 profileLabel">Update your profile picture</label>
                     <button class="btn" id="closeForm"
                         onclick="$('#profilePic')[0].value = null; $('.file-msg').text('0 files selected')"><i
                             class="fa fa-times-circle text-secondary" aria-hidden="true"></i></button>
@@ -215,13 +215,13 @@
                         <input class="file-input" id="profilePic" type="file" accept="image/*" />
                     </div>
                     <div class="form-group">
-                        <label for="userPass" class="text-info">Current password</label>
+                        <label for="userPass" class="text-info currentPassword">Current password</label>
                         <input id="userPass" type="password"
                             class="form-control bg-dark shadow-lg text-light  border-info is-disabled"
                             placeholder="Your Current Password" value="" required="">
                     </div>
                     <button type="submit"
-                        class="text-center form-control btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button>
+                        class="text-center form-control formSubmit  btn btn-secondary  rounded-pill border-info shadow-lg mt-2">submit</button>
 
                 </form>
             </div>
@@ -240,7 +240,7 @@
                 </div>
             </div>
             <div class="dark-mode-section text-center mx-auto my-5">
-                <h5 class="text-info">Toggle theme</h5>
+                <h5 class="text-info toogle">Toggle theme</h5>
                 <label>
                     <input class='toggle-checkbox' type='checkbox'></input>
                     <div class='toggle-slot'>

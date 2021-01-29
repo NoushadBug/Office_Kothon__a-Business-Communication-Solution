@@ -61,6 +61,7 @@ $(document).ready(function(){
           window.addEventListener('storage', function(e) {  
             changeTheme();
            });
+           changeTheme();
     })
     
     .catch(function(error) {

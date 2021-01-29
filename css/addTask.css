@@ -308,10 +308,35 @@ html {
   margin: auto;
   text-align: center;
 }
-.svg-div h6 {
-color: cyan;
-margin-top: 4vh;
+
+.darkH6
+{
+  color: cyan;
+  /* margin-top: 4vh !important; */
 }
+.LightH6
+{
+  color:black;
+  /* margin-top: 4vh !important; */
+}
+.iconDark
+{
+  -webkit-text-stroke: 1px #5bc0de;
+ -webkit-text-fill-color: transparent;  
+}
+.iconLight
+{
+  -webkit-text-stroke: 1px #010030;
+ -webkit-text-fill-color: transparent;  
+}
+
+.designcardLight
+{
+  background: transparent;
+  border : 3px solid darkblue !important
+
+}
+
 
 
 
@@ -1564,10 +1589,30 @@ margin-top: 4vh;
     opacity: 0;
   }
 }
+/* .cardLight
+{
+background: ;
+
+} */
 
 
-input[type=time],input[type=time]:focus ,input[type=time]:active {
+
+
+
+
+
+.dateDark
+{
   background: #2e3035 !important;
+
+}
+.dateLight
+{
+  background: transparent !important;
+
+}
+input[type=time],input[type=time]:focus ,input[type=time]:active {
+  /* background: ; */
   outline: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -1589,7 +1634,7 @@ input[type=time]::-webkit-datetime-edit-hour-field {
   border-radius: 1em;
 }
 input[type=time]::-webkit-datetime-edit-minute-field {
-  border: 1px solid #17a2b8!important;
+  border: 1px solid #00ddff!important;
   background: #343a40!important;
   padding-left: 15px;
   padding-right: 15px;

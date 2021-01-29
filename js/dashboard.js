@@ -86,7 +86,7 @@ $('#calendar #calLink').on("click", function(e){
             <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
                 <div class="modal-header shadow-lg" style="border: 0;">
                     <h6 class="modal-title" id="exampleModalLongTitle">All Events</h6>
-                    <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" onclick="${$('#eventListModal').modal('hide')}" aria-label="Close">
+                    <button type="button" class="close btn text-light shadow-none btnClose" data-dismiss="modal" onclick="${$('#eventListModal').modal('hide')}" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -105,7 +105,7 @@ $('#calendar #calLink').on("click", function(e){
   $('#eventListDiv').empty()
   events.forEach(function(doc, index)
   {
-    $(` <div class="panel panel-default feeditem shadow-lg bg-dark text-light mb-2 rounded shadow-lg" id="${events.id}" style="">
+    $(` <div class="panel panel-default feeditem shadow-lg bg-dark modalPanel text-light mb-2 rounded shadow-lg" id="${events.id}" style="">
           <div class="panel-heading p-3 row p-3 collapsed" href="#collapseModal${index}" data-toggle="collapse"
             data-parent="#accordion" aria-expanded="false">
             <div class="title-header col-6">
@@ -144,6 +144,7 @@ $('#calendar #calLink').on("click", function(e){
   })
   
   console.log(events)
+  changeTheme();
   }
 })
 
@@ -165,6 +166,7 @@ function renderFiles(fileString){
          //console.log(index + " => "+ returnedElement)
     }
     return returnedElement;
+
 }
 
 function renderList(docs)
@@ -182,7 +184,7 @@ function renderList(docs)
             </h6>
           </div>
           <div class="header-side col-6 m-auto">
-            <div class=" shadow-lg border  border-info d-inline  px-3 py-1" style="border-radius: 2em;">
+            <div class=" shadow-lg border  border-info d-inline  px-3 py-1 panelFile" style="border-radius: 2em;">
             ${checkFileAvailability(doc.data().file,'')}
               <span aria-label="${doc.data().priority}"
                   data-microtip-position="left" role="tooltip">${renderPriorities(doc.data().priority.toLowerCase())}</span>
@@ -213,7 +215,7 @@ function renderList(docs)
       window.addEventListener('storage', function(e) {  
         changeTheme();
        });
-   
+       changeTheme();
       $('.loader').fadeOut('slow');
 
       $('.viewFile').on( "click",function(e) {
@@ -228,7 +230,7 @@ function renderList(docs)
                 <div class="modal-content shadow-lg text-light bg-dark" style="border-radius: 2em; box-shadow: 0px 2px 15px #041f4b !important;">
                     <div class="modal-header shadow-lg" style="border: 0;">
                         <h6 class="modal-title" id="exampleModalLongTitle">View Files</h6>
-                        <button type="button" class="close btn text-light shadow-none" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close btn text-light shadow-none btnClose" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
@@ -275,6 +277,7 @@ $(document).ready(function () {
           }
       });
       console.log('loader fadeout start')
+      
       $('.loader').fadeOut('slow');
 
       toastr.options = {
@@ -428,14 +431,28 @@ tempElement.addEventListener("click", function(){
     }
 });
 
-
+var firstTime = false;
 
 db.collection("notice").onSnapshot(function(snapshot) {
+
     console.log(snapshot)
     eventcalender(snapshot.docs);
     renderList(snapshot.docs);
- 
-   console.log(snapshot.type);
+  
+  if(firstTime)
+  {
+    snapshot.docChanges().forEach(function(change)
+    {
+      toastr['info']('Notice ' + change.type + ' on notice list' , 'Notice Update');
+
+    })
+
+   
+  }
+  else{
+    firstTime = true;
+  }
+  
 
    
 

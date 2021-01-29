@@ -85,7 +85,7 @@
             </div>
 
             <div class="rightbar-div col-md-4">
-                <h2 class="text-light text-center pt-5 pb-2 mr-2"> Assign Task</h2>
+                <h2 class="text-light text-center pt-5 pb-2 mr-2 taskAssign"> Assign Task</h2>
                 <div class="input-group mb-3">
                     <input type="text" id="myInput" class="form-control bg-dark shadow-lg border-info text-light"
                         placeholder="find somebody..." style="border-radius: 2em;">
@@ -97,7 +97,7 @@
                 <form id="taskForm" style="margin: auto;align-items: center;">
                     <button class="btn d-block float-right" id="closeForm"><i class="fa fa-arrow-left text-secondary"
                             aria-hidden="true"></i></button>
-                    <h4 class="text-light text-center">loading..</h4>
+                    <h4 class="text-light text-center taskCap">loading..</h4>
                     <input class="form-control mb-3 mt-3 bg-dark shadow-lg text-light border-info" type="text"
                         placeholder="add task title" id="taskName" required />
                     <div class="form-group ">
@@ -106,7 +106,7 @@
                                 class="form-control bg-dark shadow-lg text-light datePicker border-info"
                                 placeholder="select start date" required />
                             <input id="startTime" name="startTime" type="time" value="09:00"
-                                class="form-control text-light border-0" placeholder="select end time" required />
+                                class="form-control text-light border-0 " placeholder="select end time" required />
                         </div>
                         &nbsp;
                         <div class="d-flex">
@@ -139,7 +139,7 @@
                         </select>
                     </div>
                     <button type="submit"
-                        class="btn btn-secondary rounded-pill border-dark shadow-lg mt-3 button">submit</button>
+                        class="btn btn-secondary submitBtn rounded-pill  border-dark shadow-lg mt-3 button">submit</button>
 
                 </form>
             </div>
@@ -149,7 +149,7 @@
                     <div class="paper shadow-lg"></div>
                     <div class="keyboard shadow-lg"></div>
                 </div>
-                <h6>click anyone to assign task</h6>
+                <h6 class="clickMsg darkH6" style=" margin-top: 4vh ">click anyone to assign task</h6>
                 <button id="viewTasksBtn"
                     class="shadow-lg font-weight-bold rounded-pill btn btn-outline-secondary btn-sm">view tasks</button>
             </div>
@@ -161,8 +161,7 @@
                     <div class="d-flex justify-content-between">
                         <h6 id="taskHeading" class="my-auto text-light d-inline">Your incompleted tasks</h6>
                         <div class="selection-div row">
-                            <i class="text-right my-auto mr-1 fa fa-filter text-info" aria-hidden="true"
-                                style="-webkit-text-stroke: 1px #5bc0de;-webkit-text-fill-color: transparent;"></i>
+                            <i class="text-right my-auto mr-1 fa fa-filter text-info" aria-hidden="true"></i>
                             <select
                                 class="my-auto col-md-10 form-control bg-dark d-inline text-light border-0 custom-select-sm"
                                 id="filterTask">
@@ -179,7 +178,7 @@
                     </div>
 
                 </div>
-                <div class="mx-3 dfeed-bar bg-transparent border-none scrollbar" id="scrollbar"
+                <div class="mx-3  cardTile bg-transparent border-none scrollbar" id="scrollbar"
                     style="min-height: 73.6vh;"></div>
             </div>
         </div>
@@ -191,14 +190,14 @@
                 <h6 class="text-center mt-1 text-info designation mb-0 mx-auto">Loading...</h6>
             </div>
             <div class="container row mx-auto mb-3">
-                <div class=" text-light mx-auto text-center"><small>Completed: </small><small id="completedTask"
-                        class="text-info font-weight-bold">6</small> </div>
-                <div class="text-light mx-auto  text-center"><small>In-completed: </small><small id="incompletedTask"
-                        class="text-info font-weight-bold">30</small> </div>
+                <div class=" text-light mx-auto text-center completedTask"><small>Completed: </small><small
+                        id="completedTask" class="text-info font-weight-bold">6</small> </div>
+                <div class="text-light mx-auto  text-center incompletedTask"><small>In-completed: </small><small
+                        id="incompletedTask" class="text-info font-weight-bold">30</small> </div>
                 <div class="col-md-12"></div>
-                <div class=" text-light mx-auto  text-center"><small>Deadline Crossed: </small><small
+                <div class=" text-light mx-auto  text-center deadlineCrossed"><small>Deadline Crossed: </small><small
                         id="deadlineCrossed" class="text-info font-weight-bold">10</small> </div>
-                <div class=" text-light mx-auto  text-center"><small>User Status: </small><small id="status"
+                <div class=" text-light mx-auto status text-center"><small>User Status: </small><small id="status"
                         class="text-info font-weight-bold">good</small> </div>
             </div>
 

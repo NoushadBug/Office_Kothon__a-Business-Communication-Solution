@@ -1,3 +1,5 @@
+
+
 var dbPhrase;
 
 $(document).ready(function(){
