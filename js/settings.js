@@ -268,12 +268,13 @@ $fileInput.on('change', function() {
                         })
                         .then(function() {
                             if(newPass != 'oldPass'){
+                                var encPass = CryptoJS.AES.encrypt(newPass, dbPhrase).toString();
                                 auth.currentUser.updatePassword(newPass).then(function() {
                                   auth.currentUser.updateProfile({
                                     displayName: displayName,
                                     photoURL: downloadURL,
                                   }).then(function() {
-                                    db.collection("pass").doc(auth.currentUser.email).set({pass: CryptoJS.AES.encrypt(newPass, dbPhrase)})
+                                    db.collection("pass").doc(auth.currentUser.email).set({pass: encPass},{merge:true})
                                     .then(function() {
                                       $('.uploader').fadeOut('slow');
                                       toastr['success']('updated user information sucessfully', 'updated information');
@@ -312,12 +313,13 @@ $fileInput.on('change', function() {
             })
             .then(function() {
               if(newPass != 'oldPass'){
+                var encPass = CryptoJS.AES.encrypt(newPass, dbPhrase).toString();
                 auth.currentUser.updatePassword(newPass).then(function() {
                   auth.currentUser.updateProfile({
                     displayName: displayName,
                     photoURL: userPhoto,
                   }).then(function() {
-                    db.collection("pass").doc(auth.currentUser.email).set({pass: CryptoJS.AES.encrypt(newPass, dbPhrase)})
+                    db.collection("pass").doc(auth.currentUser.email).set({pass: encPass},{merge:true})
                     .then(function() {
                       $('.uploader').fadeOut('slow');
                       toastr['success']('updated user information sucessfully', 'updated information');

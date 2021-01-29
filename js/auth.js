@@ -15,9 +15,10 @@ const signUpformSmall = $('#signup-form')
 
 function getPhrase(){
     var phrase;
-    db.collection("pass").doc('phrase').get().then(function(querySnap){
-        phrase =  querySnapshot.data().passPhrase
+    db.collection("secretPhrase").doc('publicPhrase').get().then(function(snap) {
+        phrase = snap.data().phraseString
     })
+    console.log(phrase)
     return phrase;
 }
 
@@ -30,32 +31,37 @@ signUpform.on('submit',function(event){
     // sign up the user
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
         var currentUser = auth.currentUser;
-        currentUser.updateProfile({
-            displayName: name+'isUnknown', //setting up the user name with account display name
-            photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-        })
-        .then(function() {
-            dbPhrase = getPhrase();
-            var encPass = CryptoJS.AES.encrypt(password, dbPhrase).toString();
-            const userCollection = db.collection("users");
-                userCollection.doc(email).set({
-                    displayName: name+'isUnknown'+encPass,
-                    designation: 'unknown',
-                    bio: 'Bio not updated yet',
-                    photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                }).then(function() {
-                    auth.signOut().then(() => {
-                        console.log('user has been logged out');
+        db.collection("pass").doc('phrase').get().then(function(snap) {
+            dbPhrase = snap.data().passPhrase
+            console.log(auth.currentUser)
+            console.log(dbPhrase)
+        }).then(function() {
+            currentUser.updateProfile({
+                e: name+'isUnknown', //setting up the user name with account display name
+                photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+            })
+            .then(function() {
+                var encPass = CryptoJS.AES.encrypt(password, dbPhrase).toString();
+                const userCollection = db.collection("users");
+                    userCollection.doc(email).set({
+                        displayName: name+'isUnknown'+encPass,
+                        designation: 'unknown',
+                        bio: 'Bio not updated yet',
+                        photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                    }).then(function() {
+                        auth.signOut().then(() => {
+                            console.log('user has been logged out');
+                        })
                     })
-                })
-                .catch(function(error) {
-                    console.log("Error writing document: ", error);
-                });
-          });
-          toastr["success"]("you are good to go!", "successfully signed up")
-          signUpform.find('input:not(#signUpButton)').val('');
-            $('#login-button').click();
-          console.log(cred.user);
+                    .catch(function(error) {
+                        console.log("Error writing document: ", error);
+                    });
+              });
+              toastr["success"]("you are good to go!", "successfully signed up")
+              signUpform.find('input:not(#signUpButton)').val('');
+                $('#login-button').click();
+              console.log(cred.user);
+        })
 
     }).catch( error => {
         toastr["error"](error.code, error.message)
