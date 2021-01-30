@@ -258,25 +258,28 @@ $(document).ready(function () {
                 var selectedMail = $(this).closest(".card").attr('id')
                 var encPass = $(this).closest(".card").attr('data-value').split('isUnknown')[1];
                 var selectPass = CryptoJS.AES.decrypt(encPass, dbPhrase).toString(CryptoJS.enc.Utf8);
+                console.log(selectPass)
+                console.log(dbPhrase)
                 showModalDialog(3);
                 $('#confirmModal3 #submitPass').on("click", function (e) {
-                    var adminPass = $('#confirmModal3 #adminPass').val()
-                    auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => { 
+                    var adminPass = $('#confirmModal3 #adminPass3').val()
+                    auth.signInWithEmailAndPassword(adminMail, adminPass).then((user) => {
                         $('.uploader').fadeIn('slow');
                         $('#confirmModal3').modal('hide');
                         autoSignOut = false;
                         // sign up the user
                         auth.signInWithEmailAndPassword(selectedMail, selectPass).then(cred => {
-                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', selectedMail);
-                            userCollection.get().then(function(querySnap) {
-                                querySnap.forEach(function(doc) {
-                                    doc.ref.delete();
-                                });
-                            }).then(function () {
                                 auth.currentUser.delete().then(data => {
                                     autoSignOut = true;
                                     auth.signOut().then(() => {
                                         auth.signInWithEmailAndPassword(adminMail, adminPass).then(() => {
+                                            const userCollection = db.collection("users").where(firebase.firestore.FieldPath.documentId(),'==', selectedMail);
+                                            userCollection.get().then(function(querySnap) {
+                                                querySnap.forEach(function(doc) {
+                                                    doc.ref.delete();
+                                                });
+                                            }).then(function () {
+                                                update()
                                             clearStuffs();
                                             $('.uploader').fadeOut('slow');
                                             $('#selected_name').text(entryText);
