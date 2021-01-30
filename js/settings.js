@@ -9,11 +9,10 @@ document.getElementById('signout').addEventListener('click', () => {
   });
 
 $(document).ready(function(){
+  changeTheme();
   $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
-    
-
   }
 
   $(".toggle-checkbox").click(function(){
