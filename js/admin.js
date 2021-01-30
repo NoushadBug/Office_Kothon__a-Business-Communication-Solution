@@ -8,6 +8,10 @@ var totalHard;
 var totalModerate;
 var months = ['January','February','March','April','May','June','	July','August','September','October','November','December'];
 var firstVisited = false;
+var random;
+var  dbPhrase;
+var userIds= [];
+var userPass =[];
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
@@ -16,7 +20,24 @@ document.getElementById('signout').addEventListener('click', () => {
       });
       window.location.replace("./index.html");
   });
-  
+
+  function makeid() {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i <5; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+ 
+ console.log(makeid());
+
+
+
+ 
+     
+
   // chart js implementation
   function updateCharts(){
     $(`<h6 class="text-light text-center m-auto ">Total Events: ${totalEvent}</h6>`).appendTo('.UnapproveMembers');
@@ -199,8 +220,59 @@ $(`<h6 class="text-light text-center m-auto ">Total Notice: ${totalPost}</h6>`).
   
         updateCharts();
   }
- 
+  function dbSetup(pass)
+  {
+    var oldPhrase = dbPhrase;
+    console.log(oldPhrase);
+    var encPhrase = makeid()
+    var encryptedPass = CryptoJS.AES.encrypt(pass, encPhrase).toString()
+   
+    db.collection("pass").doc(auth.currentUser.email).set(
+      {
+        pass: encryptedPass +"```"+encPhrase+"```"
+      }
+    
+
+    ).then(function () {
+     
+      db.collection("pass").doc("phrase").set(
+        {
+          passPhrase:"abc"
+          
+        }
+      ).then(function()
+      {
+        console.log(oldPhrase)
+        console.log(dbPhrase)
+
+      })
+       
+     
+    
+      })
+
+    
+
+  }
+
+
 $(document).ready(function(){
+  db.collection("pass").onSnapshot(function(snap) {
+    userIds = [];
+    userPass =[];
+
+    snap.docs.forEach(function(doc) {
+      if (doc.id !=auth.currentUser.email && doc.id != "phrase")
+      {
+             userIds.push(doc.id);
+             userPass.push(doc.data().pass)
+      }
+    })
+    console.log(userIds);
+    console.log(userPass);
+
+    
+})
   $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
     $('.toggle-checkbox').click();
@@ -730,6 +802,7 @@ $fileInput.on('change', function() {
     $('#settings-pass').val('');
     $("#profilePic")[0].value = null;
   }
+  
 
     $('.taskForm form').on('submit',function(e){
       e.preventDefault();
@@ -737,6 +810,7 @@ $fileInput.on('change', function() {
       let newPass = $('#settings-pass').val() == ''? 'oldPass' : $('#settings-pass').val();
       let displayName = $('#settings-name').val() == ''? $('.userName').text() : $('#settings-name').val();
       let profilePic = $('#profilePic')[0].files;
+      
 
       //console.log(auth);
       // alert(profilePic[0].name);
@@ -784,6 +858,7 @@ $fileInput.on('change', function() {
                         .then(function() {
                             if(newPass != 'oldPass'){
                                 auth.currentUser.updatePassword(newPass).then(function() {
+                                  dbSetup(newPass)
                                   auth.currentUser.updateProfile({
                                     photoURL: downloadURL,
                                   }).then(function() {
@@ -827,9 +902,11 @@ $fileInput.on('change', function() {
             .then(function() {
               if(newPass != 'oldPass'){
                 auth.currentUser.updatePassword(newPass).then(function() {
+                  dbSetup(newPass)
                   auth.currentUser.updateProfile({
                     photoURL: userPhoto,
                   }).then(function() {
+
                     $('.uploader').fadeOut('slow');
                     clearInputs();
                     toastr['success']('updated user information sucessfully', 'updated information');
