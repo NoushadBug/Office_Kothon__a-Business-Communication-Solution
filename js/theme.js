@@ -248,18 +248,12 @@ function changeTheme()
 
 
 }
-
-     
-        
-          
         // // dashboard css 
         // $('.dashboard-main').css("background"," #cad1d8")
         // $('.dashboard-container').css("background"," #ECF0F3")
         // $('.hello-bar').css("background","rgb(204, 220, 255)")
-       
         // $('.leftbar').css('background','rgb(29 59 88)')
-        
-            if (localStorage.getItem('theme') == 'dark'){
+if (localStorage.getItem('theme') == 'dark'){
                 if (window.location.pathname == "/dashboard.html") 
                 {
                     $('.dashboard-main').css("background"," #212529")
@@ -270,7 +264,6 @@ function changeTheme()
                     $('.scrollbar').css("background","#576075")
                     $('.leftbar').css('background','#2e3035')
                     $('.feeditem').addClass('bg-dark')
-                    $('.panel-title').css('font-weight', '100')
                     $('.infoButton').css('background' , '#2b3035')
                     $('.date-section').addClass('text-light')
                     $('#date').css('color','white')
@@ -316,9 +309,6 @@ function changeTheme()
                     // $('.modalPanel').css('background','azure')
                     $('.panel-title').css('color', 'white')
                     // $('.panel-title').css('font-weight', 'bold')
-    
-                
-           
                 }
 
                 if (window.location.pathname == "/chat.html") 
@@ -336,17 +326,12 @@ function changeTheme()
                     $('.userName ').addClass('text-light')
                     $('.contact-profile').addClass('bg-info')
                      $('#sendInput').css('background','darkslategray')
-            
                 $('#signout i').addClass('text-secondary')
                     // $('#signout i').addClass('text-light')
                     // $('.designation ').removeClass('text-info')
                     // $('.designation').css('color','darkblue')
                     $('.submit').addClass('bg-info')
                     $('.submit').css('background','darkslategray')
-                   
-            
-            
-            
                 }
 
                 if (window.location.pathname == "/addTask.html") 
@@ -403,14 +388,13 @@ function changeTheme()
                     $('.contact-profile').addClass('bg-info')
                     // $('.contact-profile').css('background','rgb(29, 59, 88)')
                     // $('#sendInput').css('background','rgb(29, 59, 88)')
-            
+
                 $('#signout i').addClass('text-secondary')
                     // $('#signout i').addClass('text-light')
                     // $('.designation ').removeClass('text-info')
                     // $('.designation').css('color','darkblue')
                     $('.submit').addClass('bg-info')
                     // $('.submit').css('background','#5f0f0f')
-                   
             // modal
  $('.modal-content').addClass('bg-dark') 
  $('.modal-body').css('background','#2e3035')
@@ -418,7 +402,6 @@ function changeTheme()
  $('.btnClose').addClass('text-light') 
  $('.modalPanel').addClass('bg-dark') 
  $('.panel-title').css('color', 'white')
- $('.panel-title').css('font-weight', '100')
  $('.panelFile').css('background', '#2b3035')
  $('.smallP small').addClass('text-info')
  $('.smallP p').removeClass('text-dark')
@@ -427,8 +410,6 @@ function changeTheme()
  $('.mainS').addClass('text-info')
  $('.mainP').removeClass('text-dark')
 
-            
-            
                 }
 
                 if (window.location.pathname == "/settings.html") 
@@ -454,7 +435,7 @@ function changeTheme()
                     $('#bioDetails').addClass('bg-dark')
                     $('#bioDetails').addClass('text-light')
                     $('#userPass').addClass('bg-dark')
-                    
+
                     $('.taskForm   ').css('background' ,'rgb(46, 48, 53)')
                     $('.fake-btn').css('background-color' ,'rgba(255, 255, 255, 0.04)')
                     $('.file-drop-area ').css('background', '#2e3035')
@@ -467,25 +448,10 @@ function changeTheme()
                     // $('.currentPassword').css('color','black')
                     $('.toogle').addClass('text-info')
                     // $('.toogle').css('color','black')
-                 
-            
-             
+
                 $('.formSubmit').addClass('btn btn-secondary')
                 $('.formSubmit').removeClass('btn btn-info')
-            
-                   
-                  
-            
-            
-            
+
                 }
-
-    
-     
-   
+    }
 }
-}
-
-
-
-  
