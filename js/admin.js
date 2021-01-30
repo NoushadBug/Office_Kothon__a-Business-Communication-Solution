@@ -15,7 +15,7 @@ var userPass =[];
 
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
-  
+
       toastr['info']('You are signed out! ', 'see you soon');
       });
       window.location.replace("./index.html");
@@ -30,13 +30,11 @@ document.getElementById('signout').addEventListener('click', () => {
     }
     return result;
  }
- 
+
  console.log(makeid());
 
 
 
- 
-     
 
   // chart js implementation
   function updateCharts(){
@@ -47,123 +45,117 @@ document.getElementById('signout').addEventListener('click', () => {
   new Chart(ctx, {
      // The type of chart we want to create
      type: 'horizontalBar',
-  
      // The data for our dataset
      data: {
          labels: ['Event', 'Meeting', 'Notice' ],
          datasets: [{
-            
              backgroundColor: ['#68a5dc','#bf2d44','#d4ab5b'],
-            
              data: [totalEvent, totalMeeting, totalNotice],
-           
          }]
      },
-  
-  
      // Configuration options go here
      options: {
-       animation: 
+       animation:
        {
         duration : 2000,
-          
+
        },
-    
+
        title: {
          display: true,
          text: 'Notice Types',
          fontColor: "cyan",
          fontSize: 19,
-         
+
      },
-       
+
        legend: {
          display : false,
-          
+
        },
        scales: {
          yAxes: [{
              ticks: {
                  fontColor: "white",
                  fontSize: 10,
-                 
+
                  beginAtZero: true
              }
          }],
          xAxes: [{
-         
+
              ticks: {
                  fontColor: "white",
                  fontSize: 11,
-                 
+
                  beginAtZero: true
              }
          }]
      }
-     
-  
+
+
    }
-    
+
   });
   // chart js implementation
   var ctx1 = document.getElementById('noticePriority').getContext('2d');
   new Chart(ctx1, {
      // The type of chart we want to create
      type: 'horizontalBar',
-  
+
      // The data for our dataset
      data: {
          labels: ['Hard', 'Moderate', 'Low', ],
          datasets: [{
-             
+
              backgroundColor: ['#6252E9','#F74301','#d1da1e'],
              data: [totalHard, totalModerate, totalLow],
          }]
      },
-  
+
      options: {
-       
-       animation: 
+
+       animation:
        {
         duration : 2000,
-          
+
        },
        title: {
          display: true,
          text: 'Notice Priorities',
-         
+
          fontColor: "cyan",
          fontSize: 19,
      },
-       
+
        legend: {
          display : false,
-          
+
        },
        scales: {
          yAxes: [{
              ticks: {
               reverse: true,
-                 
+
                  fontColor: "white",
                  fontSize: 10,
-               
+
                  beginAtZero: true
              }
          }],
          xAxes: [{
-  
+
              ticks: {
-            
+
               reverse: true,
                  fontColor: "white",
                  fontSize: 11,
-                
+
                  beginAtZero: true
              }
          }]
      }
-  
+
    }
   });
   }
@@ -174,14 +166,12 @@ document.getElementById('signout').addEventListener('click', () => {
     totalPost = docs.length;
 $(`<h6 class="text-light text-center m-auto ">Total Notice: ${totalPost}</h6>`).appendTo('.totalPost');
 
-    
       totalEvent = 0;
       totalMeeting = 0;
       totalNotice = 0;
       totalLow = 0;
       totalHard = 0;
       totalModerate = 0;
-    
         docs.forEach(function(doc)
         {
           switch(doc.data().postType.toLowerCase()){
@@ -198,61 +188,50 @@ $(`<h6 class="text-light text-center m-auto ">Total Notice: ${totalPost}</h6>`).
           switch(doc.data().priority.toLowerCase()){
             case 'low':
               totalLow++;
-              
             break;
             case 'moderate':
               totalModerate++;
-             
             break;
             case 'hard':
               totalHard++;
-              
             break;
-          
-            
-            
           }
-        
-  
         });
-  
-      
-  
         updateCharts();
   }
+
+
   function dbSetup(pass)
   {
+    var counter = 0;
     var oldPhrase = dbPhrase;
-    console.log(oldPhrase);
     var encPhrase = makeid()
     var encryptedPass = CryptoJS.AES.encrypt(pass, encPhrase).toString()
-   
+
+
     db.collection("pass").doc(auth.currentUser.email).set(
       {
         pass: encryptedPass +"```"+encPhrase+"```"
-      }
-    
 
-    ).then(function () {
-     
-      db.collection("pass").doc("phrase").set(
-        {
-          passPhrase:"abc"
-          
-        }
-      ).then(function()
-      {
-        console.log(oldPhrase)
-        console.log(dbPhrase)
+      }).then(function () {
+            userPass.forEach(function(doc,index) {
+              var oldPass = CryptoJS.AES.decrypt(userPass[index], oldPhrase).toString(CryptoJS.enc.Utf8);
+              userPass[index] = CryptoJS.AES.encrypt(oldPass, encryptedPass).toString();
+              db.collection("pass").doc(userIds[index]).set({
+                  pass : userPass[index]
+              }).then(function(){
+                counter++;
+                if(counter == userPass.length){
+                  db.collection("pass").doc("phrase").set({
+                    passPhrase: encryptedPass
+                  }).then(function(){
+                    toastr['success']('password updation completed', 'updation successfull');
+                  })
+                }
+              })
+            })
 
-      })
-       
-     
-    
-      })
-
-    
-
+        })
   }
 
 
@@ -267,11 +246,13 @@ $(document).ready(function(){
              userIds.push(doc.id);
              userPass.push(doc.data().pass)
       }
+      if (doc.id == "phrase")
+      {
+            dbPhrase = doc.data().passPhrase;
+      }
     })
     console.log(userIds);
     console.log(userPass);
-
-    
 })
   $('.uploader').fadeOut();
   if(localStorage.getItem("theme") == "dark"){
@@ -283,12 +264,15 @@ $(document).ready(function(){
     totalNewUser = 0;
     totalUsers = querySnapshot.docChanges().length;
     $(`<h6 class="text-light text-center m-auto ">Total Users: ${totalUsers}</h6>`).appendTo('.totalUser');
-    
-      
+
+
     querySnapshot.forEach(function (doc) {
 
       if (doc.id == auth.currentUser.email) {
         $('#userImage').attr("src", `${doc.data().photoURL}`);
+        userPhoto = doc.data().photoURL;
+        userBio = doc.data().bio;
+        userDesignation = doc.data().designation;
         $('.userName').html(`${doc.data().displayName}`);
         $('#settings-name').val(`${doc.data().displayName}`);
         $('.designation').html(`${doc.data().designation}`);
@@ -297,20 +281,20 @@ $(document).ready(function(){
     if(doc.data().displayName.indexOf('isUnknown') > -1)
     {
       totalUnknowns++;
-    
+
     }
     if(doc.data().displayName.indexOf('isNewUser') > -1)
     {
       totalNewUser++;
     }
-    
-  
-    
 
-      
-    
+
+
+
+
+
   });
-  
+
 // console.log(totalNewUser);
 approveMembers = totalUsers - totalUnknowns ;
 
@@ -334,7 +318,7 @@ approveMembers = totalUsers - totalUnknowns ;
         }
       ],
       labels:labels,
-      
+
     },
     options:{
       responsive: true,
@@ -385,7 +369,7 @@ error => {
 })
 
 db.collection("notice").onSnapshot(function(snapshot) {
- 
+
   renderList(snapshot.docs);
 },
 error => {
@@ -422,11 +406,11 @@ var myChart = new Chart(ctx, {
               backgroundColor :'#2C6975',
               borderCapStyle : 'round',
               borderJoinStyle : 'miter',
-              borderColor : '#5874DC', 
+              borderColor : '#5874DC',
               borderWidth : 3,
               pointHoverRadius : 4,
               pointStyle : 'rectRounded',
-             
+
               pointBackgroundColor : '#4B4453',
               pointBorderColor : 'white',
               fill : true,
@@ -438,48 +422,48 @@ var myChart = new Chart(ctx, {
               pointHighlightStroke: "rgba(220,220,220,1)",
               data: [ totalCompleted, totalIncompleted,totalDeadlineCrossed,crntmonTotaltask ]
           },
-         
+
       ]
   },
   options: {
-    animation: 
+    animation:
     {
      duration : 2000,
-       
+
     },
- 
+
     title: {
       display: true,
       text: 'Current Month Tasks',
       fontColor: "cyan",
       fontSize: 19,
-      
+
   },
-    
+
     legend: {
       display : false,
-       
+
     },
     scales: {
       yAxes: [{
           ticks: {
               fontColor: "white",
               fontSize: 10,
-              
+
               beginAtZero: true
           }
       }],
       xAxes: [{
-      
+
           ticks: {
               fontColor: "white",
               fontSize: 11,
-              
+
               beginAtZero: true
           }
       }]
   }
-  
+
 
 }
 });
@@ -515,11 +499,11 @@ var myChart1 = new Chart(ctx, {
               backgroundColor :'#7FACD6',
               borderCapStyle : 'round',
               borderJoinStyle : 'round',
-              borderColor : '#C34A36', 
+              borderColor : '#C34A36',
               borderWidth : 3,
               pointHoverRadius : 4,
               pointStyle : 'rectRounded',
-             
+
               pointBackgroundColor : '#4B4453',
               pointBorderColor : 'white',
               fill : true,
@@ -531,63 +515,63 @@ var myChart1 = new Chart(ctx, {
               pointHighlightStroke: "rgba(220,220,220,1)",
               data: [ totalCompleted, totalIncompleted,totalDeadlineCrossed, prevmonTotaltask ]
           },
-         
+
       ]
   },
   options: {
-    animation: 
+    animation:
     {
      duration : 2000,
-       
+
     },
- 
+
     title: {
       display: true,
       text: 'Previous Month Tasks',
       fontColor: "cyan",
       fontSize: 19,
-      
+
   },
-    
+
     legend: {
       display : false,
-       
+
     },
     scales: {
       yAxes: [{
           ticks: {
               fontColor: "white",
               fontSize: 10,
-              
+
               beginAtZero: true
           }
       }],
       xAxes: [{
-      
+
           ticks: {
               fontColor: "white",
               fontSize: 11,
-              
+
               beginAtZero: true
           }
       }]
   }
-  
+
 
 }
 });
 
 }
-  
- db.collection("tasks") .doc('crnt_month').get().then(function (doc) { 
+
+ db.collection("tasks") .doc('crnt_month').get().then(function (doc) {
 
   currentMonth(doc);
-  
+
   firstVisited = true;
- 
+
 
   })
-    
+
   db.collection("tasks").doc('crnt_month').onSnapshot(function(snapshot) {
     if(  firstVisited == false)
     {
@@ -598,24 +582,24 @@ var myChart1 = new Chart(ctx, {
     {
       firstVisited = false;
     }
-   
 
-  
+
+
   },
   error => {
       if(error.code == 'resource-exhausted'){
           window.location.replace("../quotaExceeded.html");
       }
   });
- db.collection("tasks") .doc('prev_month').get().then(function (doc) { 
+ db.collection("tasks") .doc('prev_month').get().then(function (doc) {
 
   previousMonth(doc);
-  
+
   firstVisited = true;
- 
+
 
   })
-    
+
   db.collection("tasks").doc('prev_month').onSnapshot(function(snapshot) {
     if(  firstVisited == false)
     {
@@ -626,25 +610,25 @@ var myChart1 = new Chart(ctx, {
     {
       firstVisited = false;
     }
-   
 
-  
+
+
   },
   error => {
       if(error.code == 'resource-exhausted'){
           window.location.replace("../quotaExceeded.html");
       }
   });
- 
- 
-  
-  
-    
-   
-    
-   
 
-      
+
+
+
+
+
+
+
+
+
 
 // console.log( totalCompleted);
 // console.log( totalDeadlineCrossed);
@@ -802,7 +786,7 @@ $fileInput.on('change', function() {
     $('#settings-pass').val('');
     $("#profilePic")[0].value = null;
   }
-  
+
 
     $('.taskForm form').on('submit',function(e){
       e.preventDefault();
@@ -810,7 +794,7 @@ $fileInput.on('change', function() {
       let newPass = $('#settings-pass').val() == ''? 'oldPass' : $('#settings-pass').val();
       let displayName = $('#settings-name').val() == ''? $('.userName').text() : $('#settings-name').val();
       let profilePic = $('#profilePic')[0].files;
-      
+
 
       //console.log(auth);
       // alert(profilePic[0].name);
@@ -838,7 +822,7 @@ $fileInput.on('change', function() {
                   switch (snapshot.state) {
                     case firebase.storage.TaskState.PAUSED: // or 'paused'
                           toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
-                          uploadProgress.resume();  
+                          uploadProgress.resume();
                           break;
                     case firebase.storage.TaskState.RUNNING: // or 'running'
                           //toastr['info']('Your file is uploading', 'upload running');
@@ -894,6 +878,7 @@ $fileInput.on('change', function() {
               });
           }
           else{
+            console.log(userPhoto)
             db.collection("users").doc(auth.currentUser.email).set({
               displayName: displayName,
               photoURL: userPhoto,
@@ -937,7 +922,7 @@ $fileInput.on('change', function() {
         .catch((error) => {
           clearInputs();
           $('.uploader').fadeOut()
-          toastr['error']('Your provided current password may not matched', "Profile updation irterrupted");
+          toastr['error'](error, "Profile updation irterrupted");
         });
    });
 
