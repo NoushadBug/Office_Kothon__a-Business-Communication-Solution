@@ -855,6 +855,7 @@ $('#viewTasksBtn').on("click", function(){
 document.getElementById('signout').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
     localStorage.setItem("theme","dark") 
+    localStorage.setItem("firsttime" , "false") ;
     toastr['info']('You are signed out! ', 'see you soon');
       });
       window.location.replace("./index.html");

@@ -26,6 +26,7 @@ function noticeColor(color)
 
 
 
+
 function checkFileAvailability(str,dec){
   if(str === 'null'){
   return `<i class="fa fa-paperclip text-secondary${dec}"></i>`;
@@ -67,6 +68,28 @@ function eventcalender(docs)
         date: new Date(doc.data().EventDate) ,
         link:doc.data().EventLink,
         });
+        console.log( new Date(doc.data().EventDate).toISOString().substring(0, 10))
+        console.log( new Date().toISOString().substring(0, 10))
+  
+     
+          if (new Date(doc.data().EventDate).toISOString().substring(0, 10) == new Date().toISOString().substring(0, 10))
+          {  
+            if(localStorage.getItem("firsttime")!="true")  
+            {
+              toastr['success']( "Today's Event: "+doc.data().title, 'On this day');
+              localStorage.setItem("firesttime" ,"true")
+                
+            } 
+    
+          }
+          else{
+            localStorage.setItem("firesttime" ,"false")
+          }
+
+     
+      
+    
+     
     }
   })
 
@@ -290,7 +313,7 @@ $(document).ready(function () {
         onclick: null,
         showDuration: '300',
         hideDuration: '1000',
-        timeOut: '5000',
+        timeOut: '10000',
         extendedTimeOut: '1000',
         showEasing: 'swing',
         hideEasing: 'linear',
