@@ -80,7 +80,8 @@ $(document).ready(function(){
     document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
         localStorage.setItem("firsttime" , "false") ;
-        localStorage.setItem("theme","dark") 
+        localStorage.setItem("theme","dark")
+        localStorage.setItem("hasEventToday" ,"false")
         toastr['info']('You are signed out! ', 'see you soon');
         });
         window.location.replace("./index.html");

@@ -137,6 +137,7 @@
     firebase.auth().signOut().then(() => {
       localStorage.setItem("theme", 'dark')
       localStorage.setItem("firsttime", "false");
+      localStorage.setItem("hasEventToday" ,"false")
       toastr['info']('You are signed out! ', 'see you soon');
     });
     window.location.replace("./index.html");

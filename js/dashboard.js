@@ -58,6 +58,7 @@ return returnedCode;
 function eventcalender(docs)
 {
   events = [];
+  var dhukse = false;
   docs.forEach(function(doc, index)
   {
     if(doc.data().postType == 'Event')
@@ -70,26 +71,24 @@ function eventcalender(docs)
         });
         console.log( new Date(doc.data().EventDate).toISOString().substring(0, 10))
         console.log( new Date().toISOString().substring(0, 10))
-  
-     
+
           if (new Date(doc.data().EventDate).toISOString().substring(0, 10) == new Date().toISOString().substring(0, 10))
-          {  
-            if(localStorage.getItem("firsttime")!="true")  
+          {
+            if(localStorage.getItem("firsttime")!="true" && localStorage.getItem("hasEventToday") == 'false')
             {
               toastr['success']( "Today's Event: "+doc.data().title, 'On this day');
               localStorage.setItem("firesttime" ,"true")
-                
-            } 
-    
+            }
+            dhukse = true;
           }
           else{
-            localStorage.setItem("firesttime" ,"false")
+            if(localStorage.getItem("hasEventToday") == 'false'){
+              localStorage.setItem("firesttime" ,"false")
+            }
           }
-
-     
-      
-    
-     
+    }
+    if((index+1) == docs.length && dhukse){
+      localStorage.setItem("hasEventToday" ,"true")
     }
   })
 
@@ -300,7 +299,6 @@ $(document).ready(function () {
           }
       });
       console.log('loader fadeout start')
-      
       $('.loader').fadeOut('slow');
 
       toastr.options = {
@@ -461,7 +459,7 @@ db.collection("notice").onSnapshot(function(snapshot) {
     console.log(snapshot)
     eventcalender(snapshot.docs);
     renderList(snapshot.docs);
-  
+
   if(firstTime)
   {
     snapshot.docChanges().forEach(function(change)
