@@ -58,7 +58,7 @@ return returnedCode;
 function eventcalender(docs)
 {
   events = [];
-  var dhukse = false;
+  var renderedToastrs = false;
   docs.forEach(function(doc, index)
   {
     if(doc.data().postType == 'Event')
@@ -79,7 +79,7 @@ function eventcalender(docs)
               toastr['success']( "Today's Event: "+doc.data().title, 'On this day');
               localStorage.setItem("firesttime" ,"true")
             }
-            dhukse = true;
+            renderedToastrs = true;
           }
           else{
             if(localStorage.getItem("hasEventToday") == 'false'){
@@ -87,7 +87,7 @@ function eventcalender(docs)
             }
           }
     }
-    if((index+1) == docs.length && dhukse){
+    if((index+1) == docs.length && renderedToastrs){
       localStorage.setItem("hasEventToday" ,"true")
     }
   })
