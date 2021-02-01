@@ -1,81 +1,83 @@
-let userImage;
-let docAvailable;
-let selectedUserName;
-let selectedUserImage;
-let selectedUserDesignation;
-let selectedUserId;
-let animationTriggered = false;
-let selectedReplies= [];
-let loadSvg = true;
-let unreadMessage = 0;
-let unreadThread;
-let serverUpdated = false;
-let docLists = [];
-let selectedDocInfo = [];
-var queryExists;
-var queriedInfo;
-var renderedChats = [];
-// TODO:global variables
+    let userImage;
+    let docAvailable;
+    let selectedUserName;
+    let selectedUserImage;
+    let selectedUserDesignation;
+    let selectedUserId;
+    let animationTriggered = false;
+    let selectedReplies= [];
+    let loadSvg = true;
+    let unreadMessage = 0;
+    let unreadThread;
+    let serverUpdated = false;
+    let docLists = [];
+    let selectedDocInfo = [];
+    var queryExists;
+    var queriedInfo;
+    var renderedChats = [];
 
-$(document).ready(function(){
+    // TODO:global variables
 
-    db.collection("users").get()
-    .then(function(querySnapshot) {
-      
-        $('.loader').fadeOut('slow');
-        $('#frame').hide();
-        $('#welcome').slideDown("slow");
-        querySnapshot.forEach(function(doc) {
-            if(doc.id === auth.currentUser.email){
-                if(doc.data().designation == 'unknown'){
-                    window.location.replace('./userNotVerified.html');
+
+    $(document).ready(function(){
+
+            db.collection("users").get()
+            .then(function(querySnapshot) {
+
+                $('.loader').fadeOut('slow');
+                $('#frame').hide();
+                $('#welcome').slideDown("slow");
+                querySnapshot.forEach(function(doc) {
+                    if(doc.id === auth.currentUser.email){
+                        if(doc.data().designation == 'unknown'){
+                            window.location.replace('./userNotVerified.html');
+                        }
+                        else{
+                        $('#userImage').attr("src", `${doc.data().photoURL}`);
+                        $('.userName').html(`${doc.data().displayName}`);
+                        userImage = doc.data().photoURL;}
+                    }
+                    else{
+                        if(doc.data().designation != 'admin' && doc.data().designation != 'unknown'){
+                        $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
+                        <div class="row m-auto">
+                        <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
+                        <div class="col-md-8 pl-0 m-auto">
+                            <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
+                            <small class="text-info m-0">${doc.data().designation}</small>
+                        </div>
+                        </div>
+                    </div>`).appendTo('#force-overflow');
+                    }
                 }
-                else{
-                $('#userImage').attr("src", `${doc.data().photoURL}`);
-                $('.userName').html(`${doc.data().displayName}`);
-                userImage = doc.data().photoURL;}
-            }
-            else{
-                if(doc.data().designation != 'admin' && doc.data().designation != 'unknown'){
-                $(`<div class="text-left btn card shadow-lg bg-dark p-2 mb-2" data="${doc.id}">
-                <div class="row m-auto">
-                  <img src="${doc.data().photoURL}" class="col-md-4 rounded" alt="">
-                  <div class="col-md-8 pl-0 m-auto">
-                    <h6 class="text-light m-0 d-block">${doc.data().displayName}</h6>
-                    <small class="text-info m-0">${doc.data().designation}</small>
-                  </div>
-                </div>
-            </div>`).appendTo('#force-overflow');
-            }
-        }
-            //console.log(doc.id, " => ", doc.data());
-        });
-        $(".card").on( "click", function() {
-            $('#frame').show(500);
-            $('#welcome').remove();
-            selectedReplies= [];
-            $(".social-media .fa-check").remove();
-            selectedUserId = $(this).attr('data')
-            openMessageThread();
-          });
-          window.addEventListener('storage', function(e) {  
-            changeTheme();
-           });
-           changeTheme();
-    })
-    
-    .catch(function(error) {
-        toastr['error']('Error getting documents: ', error);
-    });
+                    //console.log(doc.id, " => ", doc.data());
+                });
+                $(".card").on( "click", function() {
+                    $('#frame').show(500);
+                    $('#welcome').remove();
+                    selectedReplies= [];
+                    $(".social-media .fa-check").remove();
+                    selectedUserId = $(this).attr('data')
+                    openMessageThread();
+                });
+                window.addEventListener('storage', function(e) {  
+                    changeTheme();
+                });
+                changeTheme();
+            })
 
-    $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $(".dfeed-bar .card").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-    });
+            .catch(function(error) {
+                toastr['error']('Error getting documents: ', error);
+            });
 
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".dfeed-bar .card").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+    });
 
     document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
@@ -94,25 +96,25 @@ $(document).ready(function(){
         return queryDoc;
     }
 
-function renderLoadingSvg(){
-    if ($(".messages ul").children().length == 0 ){
-        $(".messages ul").append( `<svg style="margin: auto;position: absolute;bottom: 48%;left: 30%;" version="1.1" xmlns="http://www.w3.org/2000/svg"
-        width="60px" height="10px" viewBox="0 0 80 20">
-        <circle cx="10" cy="10" r="10" fill="#666" >
-          <animate attributeName="cx" from="10" to="40" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
-        </circle>
-        <circle cx="10" cy="10" r="0" fill="#555">
-          <animate attributeName="r" from="0" to="10" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
-        </circle>
-        <circle cx="40" cy="10" r="10" fill="#777">
-          <animate attributeName="cx" from="40" to="70" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
-        </circle>
-        <circle cx="70" cy="10" r="10" fill="#666">
-          <animate attributeName="r" from="10" to="0" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
-        </circle>
-      </svg>`);
-     }
-}
+    function renderLoadingSvg(){
+        if ($(".messages ul").children().length == 0 ){
+            $(".messages ul").append( `<svg style="margin: auto;position: absolute;bottom: 48%;left: 30%;" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            width="60px" height="10px" viewBox="0 0 80 20">
+            <circle cx="10" cy="10" r="10" fill="#666" >
+            <animate attributeName="cx" from="10" to="40" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+            </circle>
+            <circle cx="10" cy="10" r="0" fill="#555">
+            <animate attributeName="r" from="0" to="10" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+            </circle>
+            <circle cx="40" cy="10" r="10" fill="#777">
+            <animate attributeName="cx" from="40" to="70" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+            </circle>
+            <circle cx="70" cy="10" r="10" fill="#666">
+            <animate attributeName="r" from="10" to="0" dur="0.5s" calcMode="spline" keySplines="0.42 0 0.58 1" keyTimes="0;1" repeatCount="indefinite" />
+            </circle>
+        </svg>`);
+        }
+    }
 
 // function of opening message threads
     function openMessageThread(){
@@ -124,7 +126,8 @@ function renderLoadingSvg(){
         selectedUserImage = $("[data='"+selectedUserId+"'] img")[0].currentSrc;
         selectedUserDesignation = $("[data='"+selectedUserId+"'] small").text();
         let clickedUserName = $("[data='"+selectedUserId+"'] h6").text();
-
+        console.log(selectedUserId)
+        console.log(selectedUserId)
         if(serverUpdated){
             // TODO: query snap
             db.collection('chats').get().then((querySnapshot) => {
@@ -153,7 +156,7 @@ function renderLoadingSvg(){
                     $('.replies img').attr("src", userImage );
                 }
                 if(queryExists){
-                   // renderLoadingSvg();
+                    // renderLoadingSvg();
                     if(!Object.getOwnPropertyNames(queriedInfo).length){
                         $(".messages ul").append( `<div id="newThread"><img id="userImage" class="col-md-2 mt-3 text-right" alt="" src="${selectedUserImage}" style="align-items: end;border-radius: 50em;display: block;float: right;">
                         <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${clickedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
@@ -218,18 +221,61 @@ function renderLoadingSvg(){
 
 // render the messages inside HTML
     function renderMessages(messageInfos){
-        console.log('messageInfo: ' + Object.keys(messageInfos))
+       // console.log('oomessageInfo: ' + Object.keys(messageInfos))
+        console.log('messageInfo: ' + messageInfos)
         // clearing docs
-        if(messageInfos != null) {
+        if(messageInfos != null && messageInfos != undefined) {
             var numberOfKeys = Object.values(messageInfos).length;
             if (numberOfKeys > 300) {
                 db.collection('chats').doc(createDocQuery()).delete();
                 serverUpdated = true;
                 openMessageThread();
             }
+            $('.messages ul').empty();
+            for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
+                // console.log(typeof(Object.values(messageInfos)[i]) == 'object')
+                // TODO: render chat array 
+                 if(Object.keys(messageInfos)[i] != 'lastSeen'){
+                    if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                        var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                         <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                         <img src='${userImage}' alt="">
+                         <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
+                       </li>`;
+                       animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
+                     }
+                     else{
+                        renderedChats.push(Object.keys(messageInfos)[i]);
+                        var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
+                         <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
+                         <img src='${selectedUserImage}' alt="">
+                         <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
+                       </li>`;
+                       animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
+                     }
+                    }
+                    else{
+                        // TODO: implement notification
+                        unreadThread = Object.keys(messageInfos)[i];
+                        //alert(unreadThread)
+                        if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
+                            if( typeof(Object.values(messageInfos)[i]) == 'number'){
+                                unreadMessage++;
+                                //alert(unreadMessage)
+                            }
+                          }
+                    }
+                if(i>0){
+                    $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
+                        return ($(b).data('position')) < ($(a).data('position')) ? 1 : -1;
+                    }));
+                }
+            }
         }
         else{
-            db.collection('chats').doc(createDocQuery()).delete();
+            db.collection('chats').doc(createDocQuery()).delete().then(function(querySnapshot) {
+                console.log(querySnapshot)
+            })
             //serverUpdated = true;
             //openMessageThread();
             $('.messages ul').empty();
@@ -237,47 +283,6 @@ function renderLoadingSvg(){
                 <div class="container" style="display:unset;"><h4 class="text-right text-light userName mb-0 mx-auto">${selectedUserName}</h4><h6 class="text-right text-secondary userName mb-0 mx-auto">${selectedUserDesignation}</h6><small class="text-info text-right d-block">Start a new conversation</small></ul></div></div>`).hide().fadeIn(500);
                 docAvailable = false;
         }
-        // clearing docs
-        $('.messages ul').empty();
-        for (let i = 0; i < Object.getOwnPropertyNames(messageInfos).length; i++) {
-           // console.log(typeof(Object.values(messageInfos)[i]) == 'object')
-           // TODO: render chat array 
-            if(Object.keys(messageInfos)[i] != 'lastSeen'){
-               if(auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                   var renderReplyList =  `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                    <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                    <img src='${userImage}' alt="">
-                    <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
-                  </li>`;
-                  animationTriggered? $(renderReplyList).appendTo('.messages ul'): $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
-                }
-                else{
-                   renderedChats.push(Object.keys(messageInfos)[i]);
-                   var renderSentList = `<li class="sent" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
-                    <small class="messageTime text-left text-secondary ml-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                    <img src='${selectedUserImage}' alt="">
-                    <p class="text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
-                  </li>`;
-                  animationTriggered?  $(renderSentList).appendTo('.messages ul'):  $(renderSentList).appendTo('.messages ul').hide().fadeIn(300);
-                }
-               }
-               else{
-                   // TODO: implement notification
-                   unreadThread = Object.keys(messageInfos)[i];
-                   //alert(unreadThread)
-                   if(!auth.currentUser.email === Object.values(messageInfos)[i].senderID){
-                       if( typeof(Object.values(messageInfos)[i]) == 'number'){
-                           unreadMessage++;
-                           //alert(unreadMessage)
-                       }
-                     }
-               }
-           if(i>0){
-               $(".messages ul").html($('.messages ul').children('li').sort(function(a, b){
-                   return ($(b).data('position')) < ($(a).data('position')) ? 1 : -1;
-               }));
-           }
-       }
     }
 
 
@@ -328,7 +333,7 @@ function renderLoadingSvg(){
                 // notifyMessages(change.doc.data());
             }
             // if (change.type === "removed") {
-                
+
             // }
             //
             //change.type === "modified"? loadSvg = false : loadSvg = true;
