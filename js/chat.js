@@ -22,6 +22,9 @@
     $(document).ready(function(){
     
 
+        $("#sendInput").emojioneArea();
+
+
             db.collection("users").get()
             .then(function(querySnapshot) {
 

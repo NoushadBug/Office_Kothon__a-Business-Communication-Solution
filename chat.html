@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="./clndr/mini-event-calendar.css">
   <link rel="stylesheet" href="./css/dashboard.css" />
   <link rel="stylesheet" href="./css/chat.css" />
-  <script src="./js/theme.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
+  <script type="module" src="./js/theme.js"></script>
 </head>
 
 <body>
@@ -68,10 +69,12 @@
         </div>
         <div class="message-input">
           <div class="wrap">
-            <input type="text" id="sendInput" class="text-light " placeholder="Write your message...">
+            <input type="text" id="sendInput" class="text-light " placeholder="Write your message..." />
             <div style="position: absolute;right: 2vw;top: 0.1351vh;">
               <input type="file" id="iconUpload" aria-hidden="true" hidden />
-              <i class="fa fa-paperclip attachment text-light"></i>
+              <i class="fa fa-paperclip p-0 attachment text-light"></i>
+
+              <i class="fa fa-smile-o attachment text-light p-0 mr-4" id="emoji-trigger" aria-hidden="true"></i>
               <button class="submit bg-info" id="submitMessageBtn" style="border-radius: 90em;"><i
                   class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </div>
@@ -195,6 +198,8 @@
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="./toaster/toastr.min.js"></script>
 <script src="./js/chat.js"></script>
