@@ -1031,8 +1031,7 @@ document.getElementById('signout').addEventListener('click', () => {
     
   });
 
-// TODO: file size not more than 10mb
-  // File validation
+//  TODO: File validation
   $("#customFile").change(function() {
     if ($("#customFile")[0].files.length > 3) {
       $("#customFile")[0].value = null;
@@ -1054,6 +1053,7 @@ document.getElementById('signout').addEventListener('click', () => {
       }
     }
   });
+
   // assign a task
   $('#taskForm').on('submit',function(e){
     e.preventDefault();
@@ -1093,10 +1093,12 @@ document.getElementById('signout').addEventListener('click', () => {
         var count = 0;
         for (var i = 0; i < $("#customFile")[0].files.length; i++)
         {
-          let file = $("#customFile")[0].files[i];
+
+          // TODO: uploading code
+
+          let file = $("#customFile")[0].files[0];
           let storageRef = storage.ref("Tasks/"+timestamp+"/"+file.name);
           let uploadProgress = storageRef.put(file);
-
           uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
                   // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                   var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -1107,7 +1109,7 @@ document.getElementById('signout').addEventListener('click', () => {
                   switch (snapshot.state) {
                     case firebase.storage.TaskState.PAUSED: // or 'paused'
                           toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
-                          uploadProgress.resume();  
+                          uploadProgress.resume();
                           break;
                     case firebase.storage.TaskState.RUNNING: // or 'running'
                           //toastr['info']('Your file is uploading', 'upload running');

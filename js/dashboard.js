@@ -468,15 +468,10 @@ db.collection("notice").onSnapshot(function(snapshot) {
 
     })
 
-   
   }
   else{
     firstTime = true;
   }
-  
-
-   
-
 
   },
   error => {
