@@ -21,10 +21,7 @@
 
     $(document).ready(function(){
 
-        $("#sendInput").emojioneArea();
-
-
-            db.collection("users").get()
+    db.collection("users").get()
             .then(function(querySnapshot) {
 
                 $('.loader').fadeOut('slow');
