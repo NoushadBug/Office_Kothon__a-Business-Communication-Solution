@@ -31,6 +31,8 @@
     <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
   </div>
 
+
+
   <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
     <div class="dashboard-container row col-md-9 mr-2" style="height: inherit;">
       <!-- leftbar container -->
@@ -68,7 +70,8 @@
           <div class="wrap">
             <input type="text" id="sendInput" class="text-light " placeholder="Write your message...">
             <div style="position: absolute;right: 2vw;top: 0.1351vh;">
-              <i class="fa fa-paperclip attachment text-light" aria-hidden="true"></i>
+              <input type="file" id="iconUpload" aria-hidden="true" hidden />
+              <i class="fa fa-paperclip attachment text-light"></i>
               <button class="submit bg-info" id="submitMessageBtn" style="border-radius: 90em;"><i
                   class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </div>
@@ -149,6 +152,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
 
 <script>
   var firebaseConfig = {
@@ -164,6 +168,7 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+  const storage = firebase.storage();
 
   //make firebase consts
   const auth = firebase.auth();

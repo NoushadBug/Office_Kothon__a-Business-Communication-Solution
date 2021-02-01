@@ -60,6 +60,7 @@
   text-align: right;
 }
 
+
 .card img{
 border-radius: 50% !important;
 -webkit-border-radius: 50% !important;
@@ -397,7 +398,8 @@ line-height: 130%;
 outline: none;
 }
 
-.content .message-input .wrap .attachment {position: absolute;right: 74px;z-index: 4;margin-top: 10px;font-size: 1.1em;color: cornsilk;opacity: .5;cursor: pointer;}
+.content .message-input .wrap .attachment {position: absolute;right: 74px;z-index: 4;margin-top:0.7em;font-size: 1.1em;color: cornsilk;opacity: .5;cursor: pointer;}
+
 
 @media screen and (max-width: 735px) {
 #frame .content .message-input .wrap .attachment {
