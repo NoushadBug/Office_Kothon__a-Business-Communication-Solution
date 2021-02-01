@@ -20,6 +20,23 @@ var renderedChats = [];
 
 
 $(document).ready(function () {
+
+
+    var picker = new EmojiButton({
+        position: 'auto-end'
+    })
+
+
+    var trigger = document.querySelector('#emoji-trigger');
+    picker.on('emoji', function(emoji) {
+        $("#sendInput").val($("#sendInput").val()+emoji)
+        $("#sendInput").focus();
+    });
+    trigger.addEventListener('click', () => {
+        picker.pickerVisible? picker.hidePicker(): picker.showPicker($("#sendInput"))
+    });
+
+
     db.collection("users").get()
         .then(function (querySnapshot) {
 
