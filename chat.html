@@ -32,6 +32,8 @@
     <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
   </div>
 
+
+
   <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
     <div class="dashboard-container row col-md-9 mr-2" style="height: inherit;">
       <!-- leftbar container -->
@@ -69,7 +71,9 @@
           <div class="wrap">
             <input type="text" id="sendInput" class="text-light " placeholder="Write your message..." />
             <div style="position: absolute;right: 2vw;top: 0.1351vh;">
-              <i class="fa fa-paperclip attachment text-light p-0" aria-hidden="true"></i>
+              <input type="file" id="iconUpload" aria-hidden="true" hidden />
+              <i class="fa fa-paperclip p-0 attachment text-light"></i>
+
               <i class="fa fa-smile-o attachment text-light p-0 mr-4" id="emoji-trigger" aria-hidden="true"></i>
               <button class="submit bg-info" id="submitMessageBtn" style="border-radius: 90em;"><i
                   class="fa fa-paper-plane" aria-hidden="true"></i></button>
@@ -151,6 +155,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-storage.js"></script>
 
 <script>
   var firebaseConfig = {
@@ -166,6 +171,7 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+  const storage = firebase.storage();
 
   //make firebase consts
   const auth = firebase.auth();
@@ -191,6 +197,7 @@
   db.settings({ timestampsInSnapshots: true });
 
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="./toaster/toastr.min.js"></script>
 <script src="./js/chat.js"></script>

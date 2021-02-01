@@ -20,6 +20,7 @@
 
 
     $(document).ready(function(){
+    
 
     db.collection("users").get()
             .then(function(querySnapshot) {
@@ -77,7 +78,64 @@
                 });
             });
 
+            $(".attachment").click(function(){
+                $('#iconUpload').click();
+               
+              });
+
     });
+ function  uploadFile()
+ {
+    let file = $("#iconUpload")[0].files[0];
+    console.log(file);
+    let storageRef = storage.ref("Chats/"+new Date().getTime()+"/"+file.name);
+    let uploadProgress = storageRef.put(file);
+    uploadProgress.on(firebase.storage.TaskEvent.STATE_CHANGED, function(snapshot) {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+       
+            toastr['info']( 'Upload is ' + progress + '% done' , file.name +' Started uploading');
+        
+       
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+                toastr['warning']('Your file uploading is paused', 'uploading paused, retrying');
+                uploadProgress.resume();
+                break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+                //toastr['info']('Your file is uploading', 'upload running');
+                break;
+        }
+      },function(error) {
+        toastr['error']('Error uploading files', error.code);
+  },function() {
+    uploadProgress.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        console.log(downloadURL);
+     
+      
+      
+    });
+  });
+
+ }
+
+
+
+
+    $("#iconUpload").change(function() {
+        if ($("#iconUpload")[0].files.length > 3) {
+          $("#iconUpload")[0].value = null;
+        //   $('#sendInput').text("You can select only 3 files");
+        }
+        else {
+          if(this.files[0].name != undefined){
+            uploadFile();
+           
+          }
+          
+        }
+      });
 
     document.getElementById('signout').addEventListener('click', () => {
     firebase.auth().signOut().then(() => {
