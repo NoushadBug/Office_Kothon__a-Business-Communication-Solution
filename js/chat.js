@@ -296,7 +296,7 @@ function renderMessages(messageInfos) {
                 if (auth.currentUser.email === Object.values(messageInfos)[i].senderID) {
                     var renderReplyList = `<li class="replies" data-position="${parseInt(Object.getOwnPropertyNames(messageInfos)[i])}">
                          <small class="messageTime text-right text-secondary mr-5"> ${new Date(parseInt(Object.getOwnPropertyNames(messageInfos)[i])).toLocaleString()}</small>
-                         <img src='${userImage}' alt="">
+                   <img src='${userImage}' alt="">
                          <p class="bg-secondary text-light shadow-lg">${chunk(Object.values(messageInfos)[i].message).join('-\n')}</p>
                        </li>`;
                     animationTriggered ? $(renderReplyList).appendTo('.messages ul') : $(renderReplyList).appendTo('.messages ul').hide().fadeIn(300);
