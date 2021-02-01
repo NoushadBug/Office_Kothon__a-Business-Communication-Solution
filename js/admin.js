@@ -309,19 +309,29 @@ approveMembers = totalUsers - totalUnknowns ;
 
   new Chart(ctx3,{
 
-    type: 'doughnut',
+    type: 'polarArea',
     data:{
       datasets:[
         {
+       
           data:[approveMembers,totalUnknowns,totalNewUser],
           backgroundColor:colorHex,
-          borderColor: '#393c45'
+          borderColor: '#212529',
+         
         }
       ],
       labels:labels,
 
     },
     options:{
+      scale: {
+        gridLines: {
+          color: ['white','white','white','white','white','white','white',]
+        }
+      },
+      
+
+      backgroundColor : "white",
       responsive: true,
       maintainAspectRatio: true,
       circular: true,
@@ -338,11 +348,9 @@ approveMembers = totalUsers - totalUnknowns ;
          align:'start',
          offset:-10,
          borderWidth:2,
-         borderColor:'#2e3035',
+         borderColor:'white',
          borderRadius:25,
-         backgroundColor:(context)=>{
-           return 'darkslategrey';
-         },
+       
          font:{
            weight:'bold',
            size:'13'

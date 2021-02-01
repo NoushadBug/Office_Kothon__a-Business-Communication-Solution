@@ -74,6 +74,7 @@
     <img src="https://i.giphy.com/media/fYqaFLAWq7v2oRy4vh/giphy.webp" alt="loader" width="180px" height="180px" />
   </div>
 
+
   <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available">
     <div class="dashboard-container row col-md-9 mr-2">
       <!-- leftbar container -->
@@ -94,7 +95,12 @@
         <a href="#0" id="signout" aria-label="Sign out" data-microtip-position="right" role="tooltip"><i
             class="fa fa-sign-out text-secondary"></i></a>
       </div>
+
       <!-- leftbar container ends-->
+
+
+
+
       <div class="container col-md-10 my-auto" style="
       max-height: 100%;
   ">
@@ -247,7 +253,7 @@
     firebase.auth().signOut().then(() => {
       localStorage.setItem("firsttime", "false");
       localStorage.setItem("theme", "dark")
-      localStorage.setItem("hasEventToday" ,"false")
+      localStorage.setItem("hasEventToday", "false")
 
       toastr['info']('You are signed out! ', 'see you soon');
     });
