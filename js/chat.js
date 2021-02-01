@@ -141,12 +141,11 @@ function uploadFile() {
 $("#iconUpload").change(function () {
     if ($("#iconUpload")[0].files.length > 3) {
         $("#iconUpload")[0].value = null;
-        //   $('#sendInput').text("You can select only 3 files");
+        toastr['error']('You can select only 3 files! ', 'Uploading Cancelled');
     }
     else {
         if (this.files[0].name != undefined) {
             uploadFile();
-
         }
 
     }
