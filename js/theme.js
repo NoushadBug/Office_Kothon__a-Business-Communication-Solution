@@ -17,7 +17,8 @@ function changeEmoji(){
             emojiBar[i].classList.add('thumb'+theme.charAt(0).toUpperCase()+theme.slice(1));
             emojiBar[i].classList.add('bg-transparent');
          }
-
+         $('.emoji-picker__search').css('border-radius', '2em')
+         $('.emoji-picker').css('border-radius', '1.5em')
         emojiDiv.classList.add('bg-'+theme);
         emojiSearchBar.classList.add('bg-'+theme);
         emojiSearchBar.classList.add('form-control');
