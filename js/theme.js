@@ -1,10 +1,11 @@
 
 function changeTheme()
 {
+
+
     if(localStorage.getItem('theme') == 'light')
     {
          if (window.location.pathname == "/dashboard.html") {
-          
         // dashboard css 
         $('.dashboard-main').css("background"," #cad1d8")
         $('.dashboard-container').css("background"," #ffffff")
@@ -73,6 +74,35 @@ function changeTheme()
     }
     if (window.location.pathname == "/chat.html") 
     {
+        if(document.querySelector('.emoji-picker') != null){
+            let emojiDiv = document.querySelector('.emoji-picker');
+            let emojiPickerDiv = document.querySelector('.emoji-picker__tabs');
+            let emojiPickedName = document.querySelector('.emoji-picker__preview-name');
+            let emojiPickedEmo = document.querySelector('.emoji-picker__preview-emoji ');
+            let emojiSearchBar = document.querySelector('.emoji-picker__search');
+            let emojiSearchBarIcon = document.querySelector('.emoji-picker__search-icon');
+            let theme = localStorage.getItem('theme')
+            let revTheme = theme=='light'? 'dark':'light';
+            let emojiBar = document.querySelector('.active .emoji-picker__emojis');
+            emojiDiv.classList.remove('bg-'+revTheme);
+            emojiSearchBar.classList.remove('bg-'+revTheme);
+            emojiBar.classList.add('scrollbar');
+            emojiBar.classList.add('thumb'+theme.charAt(0).toUpperCase()+theme.slice(1));
+            emojiBar.classList.add('bg-transparent');
+            emojiDiv.classList.add('bg-'+theme);
+            emojiSearchBar.classList.add('bg-'+theme);
+            emojiSearchBar.classList.add('form-control');
+            emojiSearchBarIcon.style.top = 'calc(50% - 0.4em)';
+            emojiPickerDiv.classList.remove('text-'+theme);
+            emojiPickedName.classList.remove('text-'+theme);
+            emojiPickedName.innerHTML = 'click on any emoji';
+            emojiPickerDiv.classList.add('text-'+revTheme);
+            emojiPickerDiv.classList.add('my-auto');
+            emojiPickedName.classList.add('my-auto');
+            emojiPickedEmo.classList.add('my-auto');
+            emojiPickedName.classList.add('text-'+revTheme);
+        }
+
         $('.dashboard-main').css("background"," rgb(202, 209, 216)")
         $('.leftbar').css('background','rgb(29 59 88)')
         $('.dashboard-container').css("background","#BCC2D0")
@@ -313,6 +343,36 @@ if (localStorage.getItem('theme') == 'dark'){
 
                 if (window.location.pathname == "/chat.html") 
                 {
+
+                    if(document.querySelector('.emoji-picker') != null){
+                        let emojiDiv = document.querySelector('.emoji-picker');
+                        let emojiPickerDiv = document.querySelector('.emoji-picker__tabs');
+                        let emojiPickedName = document.querySelector('.emoji-picker__preview-name');
+                        let emojiPickedEmo = document.querySelector('.emoji-picker__preview-emoji ');
+                        let emojiSearchBar = document.querySelector('.emoji-picker__search');
+                        let emojiSearchBarIcon = document.querySelector('.emoji-picker__search-icon');
+                        let theme = localStorage.getItem('theme')
+                        let revTheme = theme=='light'? 'dark':'light';
+                        let emojiBar = document.querySelector('.active .emoji-picker__emojis');
+                        emojiDiv.classList.remove('bg-'+revTheme);
+                        emojiSearchBar.classList.remove('bg-'+revTheme);
+                        emojiBar.classList.add('scrollbar');
+                        emojiBar.classList.add('thumb'+theme.charAt(0).toUpperCase()+theme.slice(1));
+                        emojiBar.classList.add('bg-transparent');
+                        emojiDiv.classList.add('bg-'+theme);
+                        emojiSearchBar.classList.add('bg-'+theme);
+                        emojiSearchBar.classList.add('form-control');
+                        emojiSearchBarIcon.style.top = 'calc(50% - 0.4em)';
+                        emojiPickerDiv.classList.remove('text-'+theme);
+                        emojiPickedName.classList.remove('text-'+theme);
+                        emojiPickedName.innerHTML = 'click on any emoji';
+                        emojiPickerDiv.classList.add('text-'+revTheme);
+                        emojiPickerDiv.classList.add('my-auto');
+                        emojiPickedName.classList.add('my-auto');
+                        emojiPickedEmo.classList.add('my-auto');
+                        emojiPickedName.classList.add('text-'+revTheme);
+                    }
+
                     $('.dashboard-main').css("background"," #212529")
                     $('.dashboard-container').css("background"," #393c45")
                     $('.leftbar').css('background','#2e3035')

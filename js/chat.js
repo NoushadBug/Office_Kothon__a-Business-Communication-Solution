@@ -37,24 +37,7 @@ $(document).ready(function () {
             picker.hidePicker() 
         }else{
             picker.showPicker($("#sendInput"))
-            let emojiDiv = document.querySelector('.emoji-picker');
-            let emojiPickerDiv = document.querySelector('.emoji-picker__tabs');
-            let emojiPickedName = document.querySelector('.emoji-picker__preview-name');
-            let emojiSearchBar = document.querySelector('.emoji-picker__search');
-            let emojiSearchBarIcon = document.querySelector('.emoji-picker__search-icon');
-            var theme = localStorage.getItem('theme')
-            let emojiBar = document.querySelector('.emoji-picker__emojis');
-            emojiBar.classList.add('scrollbar');
-            emojiBar.classList.add('thumb'+theme.charAt(0).toUpperCase()+theme.slice(1));
-            emojiBar.classList.add('bg-transparent');
-            var revTheme = theme=='light'? 'dark':'light';
-            emojiDiv.classList.add('bg-'+theme);
-            emojiSearchBar.classList.add('bg-'+theme);
-            emojiSearchBar.classList.add('form-control');
-            emojiSearchBarIcon.style.top = 'calc(50% - 0.4em)';
-            emojiPickerDiv.classList.add('text-'+revTheme);
-            emojiPickedName.classList.add('text-'+revTheme);
-
+            changeTheme()
         }
     });
 
