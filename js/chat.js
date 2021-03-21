@@ -105,6 +105,7 @@ $(document).ready(function () {
     });
 
 });
+
 function uploadFile() {
     let file = $("#iconUpload")[0].files[0];
     console.log(file);

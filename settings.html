@@ -106,7 +106,7 @@
 
     </div>
 
-    <div class="dashboard-main row m-0 p-0">
+    <div class="dashboard-main row m-0 p-0" style="height: -webkit-fill-available;">
         <div class="dashboard-container row col-md-9 ">
             <!-- leftbar container -->
             <div class="leftbar py-5">
@@ -209,7 +209,7 @@
                     <button class="btn" id="closeForm"
                         onclick="$('#profilePic')[0].value = null; $('.file-msg').text('0 files selected')"><i
                             class="fa fa-times-circle text-secondary" aria-hidden="true"></i></button>
-                    <div class="file-drop-area mt-1 mb-3" id="drag">
+                    <div class="file-drop-area mx-auto mt-1 mb-3" id="drag">
                         <span class="fake-btn">Choose files</span>
                         <span class="file-msg">or drag and drop files here</span>
                         <input class="file-input" id="profilePic" type="file" accept="image/*" />
