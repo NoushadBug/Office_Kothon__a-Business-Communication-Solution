@@ -74,7 +74,8 @@ var updateChart = function (completed, incompleted, deadlineCrossed) {
   let labels = ['completed', 'incompleted', 'deadline cross'];
   let colorHex = ['#253D5B', '#EFCA08', '#FB3640'];
   let total = parseInt($('#completedTask').text()) + parseInt($('#incompletedTask').text()) + parseInt($('#deadlineCrossed').text())
-  let completedTask = Math.round(parseInt($('#completedTask').text()) / total * 100);
+  let completedTask = parseInt($('#completedTask').text()) / total * 100;
+
   if (completedTask > 50) {
     $('#status').text('good')
   }
@@ -125,7 +126,7 @@ var updateChart = function (completed, incompleted, deadlineCrossed) {
             size: '13'
           },
           formatter: (value) => {
-            return Math.round(value / total * 100) + ' %';
+            return isNaN(completedTask) ? 'No task available' : completedTask;
           }
         }
       }
