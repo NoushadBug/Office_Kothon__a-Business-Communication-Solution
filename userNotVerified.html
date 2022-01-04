@@ -124,7 +124,7 @@
       if (user.displayName == 'admin') {
         window.location.replace('./admin.html');
       }
-      if ((user.displayName.indexOf('isUnknown') == -1) && user.displayName != 'admin') {
+      if ((user.displayName?.indexOf('isUnknown') == -1) && user.displayName != 'admin') {
         window.location.replace('./dashboard.html');
       }
       else {
